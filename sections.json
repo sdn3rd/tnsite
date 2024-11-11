@@ -15,8 +15,8 @@
         "it": "Poesia"
       },
       "content": {
-        "en": "Explore My Poems\nComing soon...",
-        "it": "Esplora le mie poesie\nProssimamente..."
+        "en": "<a href='https://spectraltapestry.com'>Spectral Tapestry, a collection of poems, released daily about ghosting.</a>",
+        "it": "<a href='https://spectraltapestry.com'>Spectral Tapestry, una raccolta di poesie, pubblicata quotidianamente su ghosting.</a>"
       }
     },
     {
@@ -35,8 +35,8 @@
         "it": "Libro in arrivo"
       },
       "content": {
-        "en": "<a href='https://spectraltapestry.com'>Spectral Tapestry, a collection of poems, released daily about ghosting.</a>",
-        "it": "<a href='https://spectraltapestry.com'>Spectral Tapestry, una raccolta di poesie, pubblicata quotidianamente su ghosting.</a>"
+        "en": "Spectral Tapestry is currently in talks to get published, stay tuned for more info!</a>",
+        "it": "Spectral Tapestry è attualmente in trattative per la pubblicazione, restate sintonizzati per ulteriori informazioni!</a>"
       }
     },
     {
@@ -55,8 +55,8 @@
         "it": "Social Media"
       },
       "content": {
-        "en": "[Patreon](https://www.patreon.com/tristannuvola)\n[Facebook](#)\n[LinkedIn](#)",
-        "it": "[Patreon](https://www.patreon.com/tristannuvola)\n[Facebook](#)\n[LinkedIn](#)"
+        "en": "[Patreon](https://www.patreon.com/tristannuvola)\n[Twitter](https://x.com/tristannuvola)\n",
+        "it": "[Patreon](https://www.patreon.com/tristannuvola)\n[Twitter](https://x.com/tristannuvola)\n"
       }
     }
 ]
