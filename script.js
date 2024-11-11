@@ -2,6 +2,9 @@
 
 // Global Variables
 let currentLanguage = 'en'; // Default language
+let currentPoemSet = 'main'; // 'main', 'lupa', 'caliope', 'experiment'
+let isMobileDevice = false; // Flag to track if the user is on a mobile device
+let currentPlayingPoem = null; // Tracks the currently playing poem
 
 // Function to initialize the page
 function initializePage() {
@@ -11,14 +14,37 @@ function initializePage() {
     // Initialize language settings
     initializeLanguage();
 
+    // Initialize volume control
+    initializeVolume();
+
+    // Initialize audio controls
+    initializeAudioControls();
+
+    // Detect if the user is on a mobile device
+    detectMobileDevice();
+
     // Add event listeners
     addEventListeners();
 
-    // Load sections
-    loadSections();
+    // Update day count if on index.html
+    if (document.getElementById('day-count')) {
+        updateDayCount();
+    }
+
+    // Load main poems initially
+    if (document.getElementById('poems-container')) {
+        loadPoemsFromSet('poetry.json'); // Ensure 'poetry.json' exists in the root folder
+    }
 
     // Update the year in the footer
     updateYear();
+}
+
+// Function to detect if the user is on a mobile device
+function detectMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    // Simple mobile detection
+    isMobileDevice = /android|iphone|ipad|iPod|blackberry|windows phone/i.test(userAgent);
 }
 
 // Function to initialize theme
@@ -53,9 +79,15 @@ function detectOSTheme() {
 
 // Toggle theme
 function toggleTheme() {
+    console.log('Theme toggle activated'); // Debugging
     const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        console.error('Theme toggle element not found');
+        return;
+    }
     const newTheme = themeToggle.checked ? 'dark' : 'light';
     applyTheme(newTheme);
+    console.log(`Theme applied: ${newTheme}`); // Debugging
 }
 
 // Initialize language settings
@@ -84,7 +116,7 @@ function setLanguage() {
     // Update toggle button text to show the language it will switch to
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
-        langToggleBtn.innerText = currentLanguage === 'en' ? 'atI' : 'Eng';
+        langToggleBtn.innerText = currentLanguage === 'en' ? 'Ati' : 'Eng';
     }
 
     // Load sections with the selected language
@@ -194,20 +226,25 @@ function markdownToHTML(text) {
 
 // Function to reverse the displayed text while preserving HTML tags
 function reverseDisplayedText(html) {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
+    try {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
 
-    // Function to recursively traverse and reverse text nodes
-    function traverse(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            node.textContent = node.textContent.split('').reverse().join('');
-        } else {
-            node.childNodes.forEach(child => traverse(child));
+        // Function to recursively traverse and reverse text nodes
+        function traverse(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                node.textContent = node.textContent.split('').reverse().join('');
+            } else {
+                node.childNodes.forEach(child => traverse(child));
+            }
         }
-    }
 
-    traverse(tempDiv);
-    return tempDiv.innerHTML;
+        traverse(tempDiv);
+        return tempDiv.innerHTML;
+    } catch (error) {
+        console.error('Error reversing displayed text:', error);
+        return html; // Return original HTML in case of error
+    }
 }
 
 // Update the year in the footer
