@@ -62,6 +62,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 0;
+            transition: background-color 0.5s, color 0.5s; /* Smooth transition */
         }
 
         /* Include other critical styles needed for the initial render */
@@ -75,8 +76,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Defer Non-Critical CSS -->
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
 <body>
     <!-- Main content container -->
@@ -90,7 +91,7 @@
                         <h1 id="page-title">Tristan Nuvola - Author</h1>
                     </div>
                     <div class="language-toggle">
-                        <button id="lang-toggle" class="lang-btn">atI</button>
+                        <button id="lang-toggle" class="lang-btn">Ati</button>
                     </div>
                 </div>
             </div>
@@ -102,6 +103,11 @@
         <!-- Footer -->
         <footer>
             <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
+            <!-- Theme Switch -->
+            <label class="theme-switch" aria-label="Toggle Dark/Light Theme">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
         </footer>
     </div>
 
