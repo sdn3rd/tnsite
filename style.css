@@ -178,8 +178,8 @@ footer .theme-switch {
     --background-color: #ffffff;
     --text-color: #000000;
     --line-color: #000000;
-    --toggle-bg: #ffffff;
-    --toggle-bg-checked: #dddddd;
+    --toggle-bg: #dddddd;
+    --toggle-bg-checked: #bbbbbb;
     --toggle-knob: #000000;
     --toggle-knob-checked: #ffffff;
     --highlight-color: #f0f0f0;
@@ -190,8 +190,8 @@ footer .theme-switch {
     --background-color: #000000;
     --text-color: #ffffff;
     --line-color: #ffffff;
-    --toggle-bg: #000000;
-    --toggle-bg-checked: #444444;
+    --toggle-bg: #444444;
+    --toggle-bg-checked: #666666;
     --toggle-knob: #ffffff;
     --toggle-knob-checked: #000000;
     --highlight-color: #333333;

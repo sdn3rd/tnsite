@@ -48,7 +48,7 @@ function initializeTheme() {
     // Update the theme toggle position
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        themeToggle.checked = (theme === 'dark');
+        themeToggle.checked = (theme === 'light');
     }
 }
 
@@ -60,15 +60,9 @@ function applyTheme(theme) {
 
 // Toggle theme
 function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-
-    // Update the theme toggle position
     const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.checked = (newTheme === 'dark');
-    }
+    const newTheme = themeToggle.checked ? 'light' : 'dark';
+    applyTheme(newTheme);
 }
 
 // Initialize language settings
