@@ -21,34 +21,20 @@ function initializePage() {
     updateYear();
 }
 
-// Initialize theme settings
+// Function to initialize theme
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
-    let theme;
 
     if (savedTheme) {
-        theme = savedTheme;
+        applyTheme(savedTheme);
     } else {
-        // Detect OS theme preference
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
-
-        if (prefersDarkScheme.matches) {
-            theme = 'dark';
-        } else if (prefersLightScheme.matches) {
-            theme = 'light';
-        } else {
-            // Default to 'dark' if detection fails
-            theme = 'dark';
-        }
+        detectOSTheme();
     }
-
-    applyTheme(theme);
 
     // Update the theme toggle position
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        themeToggle.checked = (theme === 'light');
+        themeToggle.checked = (document.documentElement.getAttribute('data-theme') === 'dark');
     }
 }
 
@@ -58,35 +44,36 @@ function applyTheme(theme) {
     localStorage.setItem('theme', theme);
 }
 
+// Detect OS theme preference
+function detectOSTheme() {
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = prefersDarkScheme ? 'dark' : 'light';
+    applyTheme(theme);
+}
+
 // Toggle theme
 function toggleTheme() {
     const themeToggle = document.getElementById('theme-toggle');
-    const newTheme = themeToggle.checked ? 'light' : 'dark';
+    const newTheme = themeToggle.checked ? 'dark' : 'light';
     applyTheme(newTheme);
 }
 
 // Initialize language settings
 function initializeLanguage() {
-    const storedLanguage = localStorage.getItem('language');
-    let lang;
+    let storedLanguage = localStorage.getItem('language');
 
-    if (storedLanguage) {
-        lang = storedLanguage;
-    } else {
-        // Detect browser language
-        const langCode = navigator.language || navigator.userLanguage;
-        if (langCode.startsWith('it')) {
-            lang = 'it';
-        } else if (langCode.startsWith('en')) {
-            lang = 'en';
+    if (!storedLanguage) {
+        const lang = navigator.language || navigator.userLanguage;
+        if (lang.startsWith('it')) {
+            currentLanguage = 'it';
         } else {
-            // Default to English if detection fails
-            lang = 'en';
+            currentLanguage = 'en';
         }
-        localStorage.setItem('language', lang);
+        localStorage.setItem('language', currentLanguage);
+    } else {
+        currentLanguage = storedLanguage;
     }
 
-    currentLanguage = lang;
     setLanguage();
 }
 
