@@ -34,58 +34,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spectral Tapestry</title>
-
-    <!-- Inline Critical CSS -->
-    <style>
-        /* Critical CSS */
-        :root {
-            --background-color: #000000;
-            --text-color: #ffffff;
-            --line-color: #ffffff;
-            --toggle-bg: #000000;
-            --toggle-bg-checked: #444444;
-            --toggle-knob: #ffffff;
-            --toggle-knob-checked: #000000;
-            --highlight-color: #333333;
-        }
-
-        [data-theme="light"] {
-            --background-color: #ffffff;
-            --text-color: #000000;
-            --line-color: #000000;
-            --toggle-bg: #ffffff;
-            --toggle-bg-checked: #dddddd;
-            --toggle-knob: #000000;
-            --toggle-knob-checked: #ffffff;
-            --highlight-color: #f0f0f0;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Include other critical styles needed for the initial render */
-    </style>
-
-    <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- Load Google Font with display=swap -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-
-    <!-- Defer Non-Critical CSS -->
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
-</head>
 <body>
     <!-- Main content container -->
     <div id="content">
@@ -101,11 +49,6 @@
                         <button id="lang-toggle" class="lang-btn">Ita</button>
                     </div>
                 </div>
-                <!-- Theme Switch -->
-                <label class="theme-switch">
-                    <input type="checkbox" id="theme-toggle">
-                    <span class="slider"></span>
-                </label>
             </div>
         </header>
 
@@ -115,6 +58,11 @@
         <!-- Footer -->
         <footer>
             <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
+            <!-- Theme Switch moved here -->
+            <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
         </footer>
     </div>
 

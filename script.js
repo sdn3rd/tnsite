@@ -2,7 +2,6 @@
 
 // Global Variables
 let currentLanguage = 'en'; // Default language
-let isDarkMode = false;     // Dark mode flag
 
 // Function to initialize the page
 function initializePage() {
@@ -25,18 +24,31 @@ function initializePage() {
 // Initialize theme settings
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
+    let theme;
 
     if (savedTheme) {
-        applyTheme(savedTheme);
+        theme = savedTheme;
     } else {
-        // Default to dark mode if not detected
-        applyTheme('dark');
+        // Detect OS theme preference
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
+
+        if (prefersDarkScheme.matches) {
+            theme = 'dark';
+        } else if (prefersLightScheme.matches) {
+            theme = 'light';
+        } else {
+            // Default to 'dark' if detection fails
+            theme = 'dark';
+        }
     }
+
+    applyTheme(theme);
 
     // Update the theme toggle position
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        themeToggle.checked = (document.documentElement.getAttribute('data-theme') === 'dark');
+        themeToggle.checked = (theme === 'dark');
     }
 }
 
@@ -62,15 +74,25 @@ function toggleTheme() {
 // Initialize language settings
 function initializeLanguage() {
     const storedLanguage = localStorage.getItem('language');
+    let lang;
 
     if (storedLanguage) {
-        currentLanguage = storedLanguage;
+        lang = storedLanguage;
     } else {
-        const lang = navigator.language || navigator.userLanguage;
-        currentLanguage = lang.startsWith('it') ? 'it' : 'en';
-        localStorage.setItem('language', currentLanguage);
+        // Detect browser language
+        const langCode = navigator.language || navigator.userLanguage;
+        if (langCode.startsWith('it')) {
+            lang = 'it';
+        } else if (langCode.startsWith('en')) {
+            lang = 'en';
+        } else {
+            // Default to English if detection fails
+            lang = 'en';
+        }
+        localStorage.setItem('language', lang);
     }
 
+    currentLanguage = lang;
     setLanguage();
 }
 

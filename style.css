@@ -169,6 +169,10 @@ footer p {
     margin: 0;
 }
 
+footer .theme-switch {
+    margin-top: 1em;
+}
+
 /* Light theme variables */
 [data-theme="light"] {
     --background-color: #ffffff;
