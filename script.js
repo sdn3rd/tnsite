@@ -147,13 +147,12 @@ function displaySections(sections) {
 
         // Section Text
         const sectionText = document.createElement('div');
-        const rawHTML = markdownToHTML(section.content[currentLanguage]);
+        const processedContent = markdownToHTML(section.content[currentLanguage]);
 
-        // Conditionally reverse text if language is Italian
         if (currentLanguage === 'it') {
-            sectionText.innerHTML = reverseDisplayedText(rawHTML);
+            sectionText.innerHTML = reverseDisplayedText(processedContent);
         } else {
-            sectionText.innerHTML = rawHTML;
+            sectionText.innerHTML = processedContent;
         }
 
         sectionContent.appendChild(sectionText);
