@@ -1,4 +1,4 @@
-/* styles.css */
+/* style.css */
 
 /* Base styles */
 html, body {
@@ -11,7 +11,6 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    transition: background-color 0.5s, color 0.5s; /* Smooth transition */
 }
 
 a {
@@ -90,7 +89,7 @@ header {
     position: absolute;
     cursor: pointer;
     background-color: var(--toggle-bg);
-    transition: 0.4s;
+    transition: .4s;
     border-radius: 34px;
     top: 0;
     bottom: 0;
@@ -106,7 +105,7 @@ header {
     left: 4px;
     bottom: 4px;
     background-color: var(--toggle-knob);
-    transition: 0.4s;
+    transition: .4s;
     border-radius: 50%;
 }
 
