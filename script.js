@@ -84,7 +84,7 @@ function setLanguage() {
     // Update toggle button text to show the language it will switch to
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
-        langToggleBtn.innerText = currentLanguage === 'en' ? 'Ita' : 'Eng';
+        langToggleBtn.innerText = currentLanguage === 'en' ? 'Ati' : 'Eng';
     }
 
     // Load sections with the selected language
@@ -147,7 +147,14 @@ function displaySections(sections) {
 
         // Section Text
         const sectionText = document.createElement('div');
-        sectionText.innerHTML = markdownToHTML(section.content[currentLanguage]);
+        const rawHTML = markdownToHTML(section.content[currentLanguage]);
+
+        // Conditionally reverse text if language is Italian
+        if (currentLanguage === 'it') {
+            sectionText.innerHTML = reverseDisplayedText(rawHTML);
+        } else {
+            sectionText.innerHTML = rawHTML;
+        }
 
         sectionContent.appendChild(sectionText);
         sectionWrapper.appendChild(sectionHeader);
@@ -168,6 +175,24 @@ function displaySections(sections) {
 function markdownToHTML(text) {
     // Convert markdown links to HTML links
     return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\n/g, '<br>');
+}
+
+// Function to reverse the displayed text while preserving HTML tags
+function reverseDisplayedText(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Function to recursively traverse and reverse text nodes
+    function traverse(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent.split('').reverse().join('');
+        } else {
+            node.childNodes.forEach(child => traverse(child));
+        }
+    }
+
+    traverse(tempDiv);
+    return tempDiv.innerHTML;
 }
 
 // Update the year in the footer
