@@ -138,7 +138,14 @@ function displaySections(sections) {
         // Section Header
         const sectionHeader = document.createElement('div');
         sectionHeader.classList.add('section-header');
-        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title[currentLanguage]}`;
+
+        // Process section title
+        let processedTitle = section.title[currentLanguage];
+        if (currentLanguage === 'it') {
+            processedTitle = reverseDisplayedText(processedTitle);
+        }
+
+        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${processedTitle}`;
 
         // Section Content
         const sectionContent = document.createElement('div');
@@ -177,21 +184,9 @@ function markdownToHTML(text) {
 }
 
 // Function to reverse the displayed text while preserving HTML tags
-function reverseDisplayedText(html) {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-
-    // Function to recursively traverse and reverse text nodes
-    function traverse(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            node.textContent = node.textContent.split('').reverse().join('');
-        } else {
-            node.childNodes.forEach(child => traverse(child));
-        }
-    }
-
-    traverse(tempDiv);
-    return tempDiv.innerHTML;
+function reverseDisplayedText(text) {
+    // Reverse the entire string
+    return text.split('').reverse().join('');
 }
 
 // Update the year in the footer
