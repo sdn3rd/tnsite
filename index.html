@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags for SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tristan Nuvola - Poetry & Reflections</title>
+    <meta name="description" content="Explore the profound and introspective poetry of Tristan Nuvola, weaving words like silk into a universe of emotion and depth.">
+    <meta name="keywords" content="Tristan Nuvola, Poetry, Introspection, Emotion, Creative Writing, Autistic Poet, Cloud-Inspired, Literary Art">
+    <meta name="author" content="Tristan Nuvola (Tim Nelson)">
+
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Tristan Nuvola - Poetry & Reflections">
+    <meta property="og:description" content="Dive into the intricate and heartfelt poetry of Tristan Nuvola. Each verse is a delicate bow of words, spinning silk-like and shimmering with care.">
+    <meta property="og:image" content="/preview.jpg">
+    <meta property="og:url" content="https://tristannuvola.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tristan Nuvola - Poetry & Reflections">
+    <meta name="twitter:description" content="Immerse yourself in the deep and mysterious poetry of Tristan Nuvola, where words pulse and worlds unfold.">
+    <meta name="twitter:image" content="/preview.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Google Fonts (Optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectral Tapestry</title>
+
+    <!-- Inline Critical CSS -->
+    <style>
+        /* Critical CSS */
+        :root {
+            --background-color: #000000;
+            --text-color: #ffffff;
+            --line-color: #ffffff;
+            --toggle-bg: #000000;
+            --toggle-bg-checked: #444444;
+            --toggle-knob: #ffffff;
+            --toggle-knob-checked: #000000;
+            --highlight-color: #333333;
+        }
+
+        [data-theme="light"] {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --line-color: #000000;
+            --toggle-bg: #ffffff;
+            --toggle-bg-checked: #dddddd;
+            --toggle-knob: #000000;
+            --toggle-knob-checked: #ffffff;
+            --highlight-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Include other critical styles needed for the initial render */
+    </style>
+
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Load Google Font with display=swap -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Defer Non-Critical CSS -->
+    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.css"></noscript>
+</head>
+<body>
+    <!-- Main content container -->
+    <div id="content">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <!-- Top Row -->
+                <div class="top-row">
+                    <div id="header-left">
+                        <h1 id="page-title">Spectral Tapestry</h1>
+                    </div>
+                    <div class="language-toggle">
+                        <button id="lang-toggle" class="lang-btn">Ita</button>
+                    </div>
+                </div>
+                <!-- Theme Switch -->
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </header>
+
+        <!-- Collapsible Sections Container -->
+        <div id="sections-container"></div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Defer JavaScript -->
+    <script defer src="script.js"></script>
+</body>
+</html>
