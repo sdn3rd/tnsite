@@ -84,7 +84,7 @@ function setLanguage() {
     // Update toggle button text to show the language it will switch to
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
-        langToggleBtn.innerText = currentLanguage === 'en' ? 'Ati' : 'Eng';
+        langToggleBtn.innerText = currentLanguage === 'en' ? 'atI' : 'Eng';
     }
 
     // Load sections with the selected language
