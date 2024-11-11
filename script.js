@@ -84,7 +84,7 @@ function setLanguage() {
     // Update toggle button text to show the language it will switch to
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
-        langToggleBtn.innerText = currentLanguage === 'en' ? 'atI' : 'Eng';
+        langToggleBtn.innerText = currentLanguage === 'en' ? 'Ati' : 'Eng';
     }
 
     // Load sections with the selected language
@@ -122,6 +122,7 @@ function loadSections() {
         })
         .catch(error => {
             console.error('Error loading sections:', error);
+            displayError('Failed to load sections.');
         });
 }
 
@@ -177,16 +178,36 @@ function displaySections(sections) {
     });
 }
 
+// Display error message
+function displayError(message) {
+    const container = document.getElementById('sections-container');
+    container.innerHTML = `<p>${message}</p>`;
+}
+
 // Simple markdown parser for links
 function markdownToHTML(text) {
     // Convert markdown links to HTML links
-    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\n/g, '<br>');
+    return text
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\n/g, '<br>');
 }
 
 // Function to reverse the displayed text while preserving HTML tags
-function reverseDisplayedText(text) {
-    // Reverse the entire string
-    return text.split('').reverse().join('');
+function reverseDisplayedText(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Function to recursively traverse and reverse text nodes
+    function traverse(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent.split('').reverse().join('');
+        } else {
+            node.childNodes.forEach(child => traverse(child));
+        }
+    }
+
+    traverse(tempDiv);
+    return tempDiv.innerHTML;
 }
 
 // Update the year in the footer
