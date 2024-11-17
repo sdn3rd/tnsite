@@ -92,10 +92,7 @@ function displaySections(sections) {
         const sectionHeader = document.createElement('div');
         sectionHeader.classList.add('section-header');
 
-        // Get the language preference
-        const lang = navigator.language.startsWith('it') ? 'it' : 'en';
-
-        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title[lang]}`;
+        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title}`;
 
         // Section Content
         const sectionContent = document.createElement('div');
@@ -106,10 +103,10 @@ function displaySections(sections) {
         const sectionText = document.createElement('div');
 
         // Special handling for the Poetry section
-        if (section.title.en === "Poetry") {
+        if (section.title === "Poetry") {
             loadPoetrySections(sectionContent);
         } else {
-            const processedContent = markdownToHTML(section.content[lang]);
+            const processedContent = markdownToHTML(section.content);
             sectionText.innerHTML = processedContent;
             sectionContent.appendChild(sectionText);
         }
@@ -128,30 +125,22 @@ function displaySections(sections) {
     });
 }
 
-// Load Poetry sections from the worker endpoint
+// Load Poetry sections from JSON data
 function loadPoetrySections(parentElement) {
-    // Fetch poetry data from the worker endpoint
-    fetch('/patreon-poetry')
-        .then(response => response.json())
-        .then(data => {
-            displayPoetrySections(data, parentElement);
-        })
-        .catch(error => {
-            console.error('Error loading poetry sections:', error);
-            parentElement.innerHTML = '<p>Failed to load poetry collections.</p>';
-        });
-}
+    // The JSON data of your Patreon posts
+    const poetryPosts = getPoetryPosts();
 
-// Display the Poetry sections
-function displayPoetrySections(posts, parentElement) {
-    // Get the language preference
-    const lang = navigator.language.startsWith('it') ? 'it' : 'en';
+    // If no poetry posts are found, display a message
+    if (poetryPosts.length === 0) {
+        parentElement.innerHTML = '<p>No poetry posts found.</p>';
+        return;
+    }
 
     // Create a container for the poems
     const poemsContainer = document.createElement('div');
     poemsContainer.classList.add('poems-container');
 
-    posts.forEach(post => {
+    poetryPosts.forEach(post => {
         // Poem Wrapper
         const poemWrapper = document.createElement('div');
         poemWrapper.classList.add('poem');
@@ -184,6 +173,31 @@ function displayPoetrySections(posts, parentElement) {
     });
 
     parentElement.appendChild(poemsContainer);
+}
+
+// Function to get poetry posts from the JSON data
+function getPoetryPosts() {
+    // Replace this with your actual JSON data
+    const patreonPosts = [/* Your Patreon posts JSON data goes here */];
+
+    // Filter posts to include only poetry
+    const poetryPosts = patreonPosts.filter(post => {
+        const title = post.title ? post.title.toLowerCase() : '';
+        const content = post.content ? post.content.toLowerCase() : '';
+
+        // Simple keyword-based filtering
+        const poetryKeywords = ['poem', 'poetry', 'verse', 'stanza'];
+
+        const isPoetry = poetryKeywords.some(keyword => title.includes(keyword) || content.includes(keyword));
+
+        return isPoetry;
+    });
+
+    // Map the posts to include only necessary fields
+    return poetryPosts.map(post => ({
+        title: post.title,
+        content: post.content
+    }));
 }
 
 // Function to sanitize HTML content to prevent XSS attacks
