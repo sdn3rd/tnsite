@@ -1,15 +1,9 @@
 // script.js
 
-// Global Variables
-let currentLanguage = 'en'; // Default language
-
 // Function to initialize the page
 function initializePage() {
     // Initialize theme
     initializeTheme();
-
-    // Initialize language settings
-    initializeLanguage();
 
     // Add event listeners
     addEventListeners();
@@ -19,6 +13,9 @@ function initializePage() {
 
     // Update the year in the footer
     updateYear();
+
+    // Update Patreon icon based on theme
+    updatePatreonIcon();
 }
 
 // Function to initialize theme
@@ -42,6 +39,7 @@ function initializeTheme() {
 function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    updatePatreonIcon();
 }
 
 // Detect OS theme preference
@@ -58,54 +56,8 @@ function toggleTheme() {
     applyTheme(newTheme);
 }
 
-// Initialize language settings
-function initializeLanguage() {
-    let storedLanguage = localStorage.getItem('language');
-
-    if (!storedLanguage) {
-        const lang = navigator.language || navigator.userLanguage;
-        if (lang.startsWith('it')) {
-            currentLanguage = 'it';
-        } else {
-            currentLanguage = 'en';
-        }
-        localStorage.setItem('language', currentLanguage);
-    } else {
-        currentLanguage = storedLanguage;
-    }
-
-    setLanguage();
-}
-
-// Set the current language
-function setLanguage() {
-    document.documentElement.setAttribute('lang', currentLanguage);
-
-    // Update toggle button text to show the language it will switch to
-    const langToggleBtn = document.getElementById('lang-toggle');
-    if (langToggleBtn) {
-        langToggleBtn.innerText = currentLanguage === 'en' ? 'atI' : 'Eng';
-    }
-
-    // Load sections with the selected language
-    loadSections();
-}
-
-// Toggle language
-function toggleLanguage() {
-    currentLanguage = currentLanguage === 'en' ? 'it' : 'en';
-    localStorage.setItem('language', currentLanguage);
-    setLanguage();
-}
-
 // Add event listeners
 function addEventListeners() {
-    // Language toggle
-    const langToggleBtn = document.getElementById('lang-toggle');
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', toggleLanguage);
-    }
-
     // Theme toggle
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
@@ -140,13 +92,10 @@ function displaySections(sections) {
         const sectionHeader = document.createElement('div');
         sectionHeader.classList.add('section-header');
 
-        // Process section title
-        let processedTitle = section.title[currentLanguage];
-        if (currentLanguage === 'it') {
-            processedTitle = reverseDisplayedText(processedTitle);
-        }
+        // Get the language preference
+        const lang = navigator.language.startsWith('it') ? 'it' : 'en';
 
-        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${processedTitle}`;
+        sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title[lang]}`;
 
         // Section Content
         const sectionContent = document.createElement('div');
@@ -155,15 +104,16 @@ function displaySections(sections) {
 
         // Section Text
         const sectionText = document.createElement('div');
-        const processedContent = markdownToHTML(section.content[currentLanguage]);
 
-        if (currentLanguage === 'it') {
-            sectionText.innerHTML = reverseDisplayedText(processedContent);
+        // Special handling for the Poetry section
+        if (section.title.en === "Poetry") {
+            loadPoetrySections(sectionContent);
         } else {
+            const processedContent = markdownToHTML(section.content[lang]);
             sectionText.innerHTML = processedContent;
+            sectionContent.appendChild(sectionText);
         }
 
-        sectionContent.appendChild(sectionText);
         sectionWrapper.appendChild(sectionHeader);
         sectionWrapper.appendChild(sectionContent);
         container.appendChild(sectionWrapper);
@@ -178,10 +128,79 @@ function displaySections(sections) {
     });
 }
 
-// Display error message
-function displayError(message) {
-    const container = document.getElementById('sections-container');
-    container.innerHTML = `<p>${message}</p>`;
+// Load Poetry sections from the worker endpoint
+function loadPoetrySections(parentElement) {
+    // Fetch poetry data from the worker endpoint
+    fetch('/patreon-poetry')
+        .then(response => response.json())
+        .then(data => {
+            displayPoetrySections(data, parentElement);
+        })
+        .catch(error => {
+            console.error('Error loading poetry sections:', error);
+            parentElement.innerHTML = '<p>Failed to load poetry collections.</p>';
+        });
+}
+
+// Display the Poetry sections
+function displayPoetrySections(posts, parentElement) {
+    // Get the language preference
+    const lang = navigator.language.startsWith('it') ? 'it' : 'en';
+
+    // Create a container for the poems
+    const poemsContainer = document.createElement('div');
+    poemsContainer.classList.add('poems-container');
+
+    posts.forEach(post => {
+        // Poem Wrapper
+        const poemWrapper = document.createElement('div');
+        poemWrapper.classList.add('poem');
+
+        // Poem Header
+        const poemHeader = document.createElement('div');
+        poemHeader.classList.add('poem-header');
+        poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${post.title}`;
+
+        // Poem Content
+        const poemContent = document.createElement('div');
+        poemContent.classList.add('poem-content');
+        poemContent.style.display = 'none'; // Hidden by default
+
+        // Process and sanitize the content
+        const sanitizedContent = sanitizeHTML(post.content);
+
+        poemContent.innerHTML = sanitizedContent;
+        poemWrapper.appendChild(poemHeader);
+        poemWrapper.appendChild(poemContent);
+        poemsContainer.appendChild(poemWrapper);
+
+        // Event listener for collapsing/expanding
+        poemHeader.addEventListener('click', () => {
+            const isVisible = poemContent.style.display === 'block';
+            poemContent.style.display = isVisible ? 'none' : 'block';
+            const toggleIcon = poemHeader.querySelector('.toggle-icon');
+            toggleIcon.textContent = isVisible ? '+' : '−';
+        });
+    });
+
+    parentElement.appendChild(poemsContainer);
+}
+
+// Function to sanitize HTML content to prevent XSS attacks
+function sanitizeHTML(html) {
+    // Create a temporary DOM element to parse the HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Remove script tags and their content
+    const scripts = tempDiv.getElementsByTagName('script');
+    const scriptsLength = scripts.length;
+    for (let i = scriptsLength - 1; i >= 0; i--) {
+        scripts[i].parentNode.removeChild(scripts[i]);
+    }
+
+    // Return the sanitized HTML
+    return tempDiv.innerHTML;
 }
 
 // Simple markdown parser for links
@@ -192,22 +211,10 @@ function markdownToHTML(text) {
         .replace(/\n/g, '<br>');
 }
 
-// Function to reverse the displayed text while preserving HTML tags
-function reverseDisplayedText(html) {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-
-    // Function to recursively traverse and reverse text nodes
-    function traverse(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            node.textContent = node.textContent.split('').reverse().join('');
-        } else {
-            node.childNodes.forEach(child => traverse(child));
-        }
-    }
-
-    traverse(tempDiv);
-    return tempDiv.innerHTML;
+// Display error message
+function displayError(message) {
+    const container = document.getElementById('sections-container');
+    container.innerHTML = `<p>${message}</p>`;
 }
 
 // Update the year in the footer
@@ -216,6 +223,20 @@ function updateYear() {
     if (yearElement) {
         const currentYear = new Date().getFullYear();
         yearElement.innerText = currentYear;
+    }
+}
+
+// Update the Patreon icon based on the current theme
+function updatePatreonIcon() {
+    const patreonIcon = document.getElementById('patreon-icon');
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    if (patreonIcon) {
+        if (currentTheme === 'light') {
+            patreonIcon.src = 'icons/patreon_alt.png';
+        } else {
+            patreonIcon.src = 'icons/patreon.png';
+        }
     }
 }
 
