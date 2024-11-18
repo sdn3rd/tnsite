@@ -92,6 +92,42 @@ function initializePage() {
     return categories;
   }
   
+  // Updated displaySections function
+  function displaySections(sections) {
+    const container = document.getElementById('sections-container');
+    container.innerHTML = '';
+  
+    sections.forEach(section => {
+      const sectionWrapper = document.createElement('div');
+      sectionWrapper.classList.add('section');
+  
+      const sectionHeader = document.createElement('div');
+      sectionHeader.classList.add('section-header');
+      sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title}`;
+  
+      const sectionContent = document.createElement('div');
+      sectionContent.classList.add('section-content');
+      sectionContent.style.display = 'none';
+  
+      if (section.title === 'Poetry') {
+        loadPoetrySections(sectionContent);
+      } else {
+        sectionContent.innerHTML = markdownToHTML(section.content);
+      }
+  
+      sectionWrapper.appendChild(sectionHeader);
+      sectionWrapper.appendChild(sectionContent);
+      container.appendChild(sectionWrapper);
+  
+      sectionHeader.addEventListener('click', () => {
+        const isVisible = sectionContent.style.display === 'block';
+        sectionContent.style.display = isVisible ? 'none' : 'block';
+        const toggleIcon = sectionHeader.querySelector('.toggle-icon');
+        toggleIcon.textContent = isVisible ? '+' : '−';
+      });
+    });
+  }
+  
   // Updated displayPoetry function
   function displayPoetry(poemsByCategory, container) {
     if (Object.keys(poemsByCategory).length === 0) {
