@@ -88,9 +88,10 @@ function initializePage() {
         return response.text();
       })
       .then(text => {
-        console.log('Raw response text:', text);
+        console.log('Raw response text received.');
         let data;
         try {
+          // Parse the JSON while handling Unicode characters
           data = JSON.parse(text);
         } catch (error) {
           console.error('Invalid JSON response from /patreon-poetry:', error);
