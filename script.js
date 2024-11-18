@@ -83,7 +83,7 @@ function loadSections() {
 // Enhanced poetry detection and processing
 function loadPoetrySections(parentElement) {
   console.log('Loading poetry from /patreon-poetry...');
-  fetch('/patreon-poetry')
+  fetch('https://spectraltapestry.com/patreon-poetry')
     .then(response => {
       console.log('Received response from /patreon-poetry:', response);
       if (!response.ok) {
