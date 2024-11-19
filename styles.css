@@ -7,8 +7,8 @@
     --link-color: #ffffff;
     --footer-height: 60px;
     --transition-speed: 0.3s;
-    --side-menu-width-desktop: 10px; /* Reduced width from 140px to 80px */
-    --side-menu-width-mobile: 51px; /* Reduced width from 100px to 50px */
+    --side-menu-width-desktop: 130px; /* Reduced width from 140px to 80px */
+    --side-menu-width-mobile: 50px; /* Reduced width from 100px to 50px */
 
     /* New variables for section spacing */
     --section-margin-left: 0px;
@@ -316,9 +316,8 @@ body.menu-open #main-content {
 
     /* Ensure sections adjust when menu is open on mobile */
     body.menu-open .section {
-        margin-left: 10px; /* Adjust as needed */
-        /* Or, if using padding */
-        /* padding-left: 10px; */
+        margin-left: var(--section-margin-left);
+        padding-left: var(--section-padding-left);  
     }
 }
 
