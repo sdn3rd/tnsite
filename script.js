@@ -70,11 +70,8 @@ function addEventListeners() {
     // Theme Toggle in Footer
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
     if (themeToggleFooter) {
-        themeToggleFooter.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent footer click
-            toggleTheme();
-            console.log('Theme toggled via footer.');
-        });
+        themeToggleFooter.addEventListener('click', toggleTheme);
+        console.log('Added event listener for theme toggle in footer.');
     } else {
         console.warn('Theme toggle in footer not found.');
     }
@@ -99,7 +96,6 @@ function addEventListeners() {
     document.addEventListener('click', (event) => {
         if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sideMenu.classList.remove('visible');
-            console.log('Menu closed by clicking outside.');
         }
     });
 
@@ -111,7 +107,6 @@ function addEventListeners() {
             const section = this.getAttribute('data-section');
             loadSection(section);
             sideMenu.classList.remove('visible');
-            console.log(`Menu item clicked: ${section}`);
         });
     });
 
@@ -121,11 +116,7 @@ function addEventListeners() {
     const footerToggleIcon = document.getElementById('footer-toggle-icon');
 
     if (footerToggle && footer && footerToggleIcon) {
-        footer.addEventListener('click', (event) => {
-            // If the click is on theme-toggle or social-media, do not toggle
-            if (event.target.closest('#theme-toggle') || event.target.closest('.social-media')) {
-                return;
-            }
+        footerToggle.addEventListener('click', () => {
             footer.classList.toggle('footer-collapsed');
             // Toggle arrow direction
             if (footer.classList.contains('footer-collapsed')) {
@@ -137,7 +128,7 @@ function addEventListeners() {
         });
     }
 
-    // Prevent clicks inside footer-content from toggling footer
+    // Prevent clicks inside footer-content from closing the menu
     const footerContent = document.getElementById('footer-content');
     if (footerContent) {
         footerContent.addEventListener('click', (event) => {
