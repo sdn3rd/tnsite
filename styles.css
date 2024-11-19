@@ -35,8 +35,8 @@ body {
 }
 
 #menu-icon-container img {
-    width: 50px;
-    height: 50px;
+    width: 132px;
+    height: 94px;
     cursor: pointer;
 }
 
@@ -72,7 +72,7 @@ body {
 }
 
 #side-menu li {
-    margin: 20px 0;
+    margin: 10px 0;
     width: 100%;
     text-align: center;
 }
@@ -85,10 +85,28 @@ body {
 }
 
 #side-menu img {
-    width: auto;
-    height: auto;
-    max-width: 100px;
-    max-height: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#introduction-link img {
+    width: 132px;
+    height: 171px;
+}
+
+#poetry-link img {
+    width: 129px;
+    height: 132px;
+}
+
+#books-link img {
+    width: 135px;
+    height: 155px;
+}
+
+#contact-link img {
+    width: 132px;
+    height: 95px;
 }
 
 /* Theme Toggle inside Side Menu */
@@ -109,8 +127,8 @@ body {
 }
 
 #tristan-logo-link img {
-    width: 100px;
-    height: auto;
+    width: 129px;
+    height: 194px;
 }
 
 /* Main Content */
@@ -183,7 +201,8 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    padding-top: 20px;
 }
 
 /* Title Image */
@@ -193,7 +212,7 @@ body {
     right: 240px;
     top: 60px;
     width: 270px;
-    height: auto;
+    height: 240px;
     z-index: 4;
     background-size: contain;
     background-repeat: no-repeat;
@@ -219,6 +238,22 @@ footer {
 
 footer p {
     margin: 0.5em 0 0 0;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: 32px;
+    height: 32px;
 }
 
 .footer-collapsed #footer-content {
@@ -256,5 +291,25 @@ footer p {
         right: 0;
         top: 0;
         margin: 20px auto;
+    }
+
+    #menu-icon-container img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #side-menu img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    #theme-toggle img {
+        width: 40px;
+        height: 40px;
+    }
+
+    #tristan-logo-link img {
+        width: 100px;
+        height: auto;
     }
 }
