@@ -12,35 +12,28 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 15%; /* Approximately 130px on an 866px wide screen */
+    --side-menu-width-desktop: 20%; /* Increased from 15% to 20% for larger panes on desktop */
     --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
 
     /* Right Panels Widths (Percentage of viewport width) */
-    --right-panels-width-desktop: 15%; /* Increased to 15% for larger panes on desktop */
+    --right-panels-width-desktop: 20%; /* Increased from 15% to 20% for larger panes on desktop */
     --right-panels-width-mobile: 50px; /* Fixed width for mobile */
 
     /* Section Spacing (Percentage of viewport width) */
     --section-margin-left: 5%;        /* Margin-left when menu is closed */
-    --section-margin-left-open: 15%;  /* Margin-left when menu is open */
-    --section-padding: 2%;            /* Padding inside sections */
-
+    --section-padding-left: 2%;       /* Padding inside sections */
     --section-margin-right: 5%;       /* Margin-right when panels are closed */
-    --section-margin-right-open: 15%; /* Margin-right when panels are open */
     --section-padding-right: 2%;      /* Padding inside sections */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
     --menu-icon-size-mobile: 30px;
 
-    --pane-width-desktop: 15%;        /* Full size on desktop */
-    --pane-width-mobile: 50px;
-
-    --pane-height-desktop: 15%;       /* Full height proportion on desktop */
-    --pane-height-mobile: 79px;
-
+    /* Social Icons Sizes */
     --social-icon-size-desktop: 32px;
     --social-icon-size-mobile: 24px;
 
+    /* Theme Toggle Icon Sizes */
     --theme-toggle-icon-size-desktop: 50px;
     --theme-toggle-icon-size-mobile: 40px;
 
@@ -117,7 +110,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop); /* Desktop width */
+    width: var(--side-menu-width-desktop); /* Increased width for desktop */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
@@ -133,7 +126,7 @@ body {
     transform: translateX(-100%); /* Hidden by default */
 }
 
-.side-menu.visible {
+body.menu-open .side-menu {
     transform: translateX(0); /* Slide in */
 }
 
@@ -193,7 +186,7 @@ body {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--pane-width-desktop); /* Full size on desktop */
+    width: var(--right-panels-width-desktop); /* Increased width for desktop */
     height: 100vh;
     z-index: 1001; /* Below side-menu */
     display: flex;
@@ -206,12 +199,8 @@ body {
     overflow-y: auto; /* Ensure panels can scroll if needed */
 }
 
-.panels.visible {
+body.menu-open .panels {
     transform: translateX(0); /* Slide in */
-}
-
-.panels.hidden {
-    transform: translateX(100%); /* Slide offscreen to the right */
 }
 
 /* Individual Panel */
@@ -281,8 +270,8 @@ body {
     padding: 20px;
     transition: 
         margin-left var(--transition-speed) ease, 
-        padding-left var(--transition-speed) ease,
         margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
     color: var(--text-color);
     margin: 40px auto 60px auto; /* Reduced top margin from 80px to 40px */
@@ -327,7 +316,7 @@ body.menu-open #main-content {
         transform: translateX(-100%); /* Hidden by default */
     }
 
-    .side-menu.visible {
+    body.menu-open .side-menu {
         transform: translateX(0); /* Slide in */
     }
 
@@ -353,12 +342,7 @@ body.menu-open #main-content {
         margin-right: calc(var(--right-panels-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
     }
 
-    /* Adjust panels hidden state on mobile */
-    .panels.hidden {
-        transform: translateX(100%); /* Slide offscreen to the right */
-    }
-
-    /* Adjust panels width for mobile */
+    /* Panels adjustments for mobile */
     .panels {
         width: var(--right-panels-width-mobile); /* Mobile pane width */
     }
@@ -372,7 +356,7 @@ body.menu-open #main-content {
     body.menu-open .section {
         margin-left: var(--section-margin-left-mobile);
         padding-left: var(--section-padding-left-mobile);  
-        margin-right: var(--section-margin-right-mobile);
+        margin-right: var(--section-margin_right_mobile);
         padding-right: var(--section-padding-right-mobile);
     }
 }
@@ -417,8 +401,8 @@ body.menu-open #main-content {
     text-align: var(--section-text-align-desktop);
 }
 
-/* Menu Open State: Adjust Section Spacing */
 body.menu-open {
+    /* Adjust Section Spacing */
     --section-margin-left: 10px;       /* Reduced margin when menu is open */
     --section-padding-left: 10px;      /* Reduced padding when menu is open */
     --section-margin-right: 10px;      /* Adjust right margin as needed */
@@ -566,12 +550,18 @@ footer {
     background-color: var(--background-color);
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     z-index: 1002;
     transition: 
-        height var(--transition-speed) ease,
+        transform var(--transition-speed) ease,
         background-color var(--transition-speed) ease;
     cursor: pointer; /* Make entire footer clickable */
+    transform: translateY(0); /* Visible by default */
+}
+
+body.menu-open footer {
+    transform: translateY(100%); /* Slide up and hide */
 }
 
 footer p {

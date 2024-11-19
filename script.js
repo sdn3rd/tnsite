@@ -116,17 +116,15 @@ function addEventListeners() {
     }
 
     // Hamburger Menu Toggle
-    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const hamburgerMenu = document.getElementById('menu-icon-container');
     const sideMenu = document.getElementById('side-menu');
     const panels = document.querySelector('.panels');
 
     if (hamburgerMenu && sideMenu && panels) {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
-            sideMenu.classList.toggle('visible');
-            panels.classList.toggle('hidden'); // Slide panels
-            document.body.classList.toggle('menu-open'); // Toggle menu-open class on body
-            console.log('Menu toggled, panels hidden state changed, and menu-open class toggled.');
+            document.body.classList.toggle('menu-open');
+            console.log('Menu toggled: menu-open class added/removed.');
         });
     } else {
         console.warn('One or more menu elements not found.');
@@ -134,11 +132,14 @@ function addEventListeners() {
 
     // Close menu when clicking outside
     document.addEventListener('click', (event) => {
-        if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-            sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Ensure panels are hidden when menu is closed
-            document.body.classList.remove('menu-open'); // Remove menu-open class from body
-            console.log('Clicked outside the menu. Menu closed, panels hidden, and menu-open class removed.');
+        const sideMenu = document.getElementById('side-menu');
+        const hamburgerMenu = document.getElementById('menu-icon-container');
+
+        if (document.body.classList.contains('menu-open')) {
+            if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                document.body.classList.remove('menu-open');
+                console.log('Clicked outside the menu. Menu closed.');
+            }
         }
     });
 
@@ -149,10 +150,8 @@ function addEventListeners() {
             event.preventDefault();
             const section = this.getAttribute('data-section');
             loadSection(section);
-            sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Slide panels offscreen
-            document.body.classList.remove('menu-open'); // Remove menu-open class from body
-            console.log(`Menu item clicked: ${section}. Menu closed, panels hidden, and menu-open class removed.`);
+            document.body.classList.remove('menu-open'); // Close the menu
+            console.log(`Menu item clicked: ${section}. Menu closed.`);
         });
     });
 
@@ -215,15 +214,13 @@ function loadContentSection(sectionId) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
                 // If about/introduction, show logo (if necessary)
                 if (sectionId === 'introduction') {
-                    document.body.classList.add('introduction-page');
+                    document.querySelector('.title-section').style.display = 'block';
                 } else {
-                    document.body.classList.remove('introduction-page');
+                    document.querySelector('.title-section').style.display = 'block';
                 }
-                // Ensure title section is visible
-                document.querySelector('.title-section').style.display = 'block';
+                // Optionally, adjust visibility of other elements
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
-                document.body.classList.remove('introduction-page');
                 document.querySelector('.title-section').style.display = 'block';
             }
         })
