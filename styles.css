@@ -62,8 +62,8 @@ body {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -160px; /* Hidden by default */
-    width: 140px; /* Reduced width */
+    left: -140px; /* Hidden by default */
+    width: 100px; /* Further reduced width for mobile */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
@@ -89,7 +89,7 @@ body {
 .side-menu li {
     width: 100%;
     text-align: center;
-    margin: 15px 0; /* Reduced margin */
+    margin: 10px 0; /* Further reduced margin */
 }
 
 .side-menu a {
@@ -106,14 +106,14 @@ body {
 }
 
 .menu-icon {
-    width: 50px; /* Reduced size */
-    height: 50px; /* Reduced size */
+    width: 40px; /* Further reduced size */
+    height: 40px; /* Further reduced size */
     object-fit: contain;
 }
 
 .menu-text {
     margin-top: 5px;
-    font-size: 0.8em; /* Reduced font size */
+    font-size: 0.7em; /* Further reduced font size */
 }
 
 /* Logo Container in Footer */
@@ -146,6 +146,10 @@ body {
     overflow-y: auto;  /* Allow scrolling if panels overflow */
 }
 
+.panels.hidden {
+    right: -220px;  /* Slide offscreen */
+}
+
 /* Individual Panel */
 .pane {
     width: 66.67px;  /* 200px scaled down to 1/3 */
@@ -154,11 +158,7 @@ body {
     background-size: contain;  /* Changed to contain to preserve aspect ratio */
     background-repeat: no-repeat;
     background-position: center;
-}
-
-/* Hide panels when menu is open */
-.side-menu.visible + .panels {
-    right: -220px;  /* Move panels off-screen when menu is visible */
+    border: 1px solid rgba(255, 0, 0, 0.1);  /* Light red border to see panel boundaries */
 }
 
 /* Ensure images are actually loaded */
@@ -170,11 +170,6 @@ body {
 .pane6 { background-image: url('images/pane6.png'); }
 .pane7 { background-image: url('images/pane7.png'); }
 .pane8 { background-image: url('images/pane8.png'); }
-
-/* Add debug outline to help during development */
-.pane {
-    border: 1px solid rgba(255, 0, 0, 0.1);  /* Light red border to see panel boundaries */
-}
 
 /* Title Section */
 .title-section {
@@ -224,9 +219,9 @@ body {
         margin: 150px 10px 60px 20px; /* Adjust margins for smaller screens */
     }
 
-    /* Hide panels on mobile */
+    /* Show panels on mobile */
     .panels {
-        display: none;
+        display: flex;
     }
 
     /* Adjust title size */
@@ -489,9 +484,9 @@ footer #theme-toggle img {
         margin: 150px 10px 60px 20px; /* Adjust margins for smaller screens */
     }
 
-    /* Hide panels on mobile */
+    /* Show panels on mobile */
     .panels {
-        display: none;
+        display: flex;
     }
 
     /* Adjust title size */
