@@ -89,6 +89,7 @@ function addEventListeners() {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             sideMenu.classList.toggle('visible');
+            panels.classList.toggle('hidden'); // Slide panes offscreen
             console.log('Menu toggled.');
         });
     } else {
@@ -99,6 +100,7 @@ function addEventListeners() {
     document.addEventListener('click', (event) => {
         if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sideMenu.classList.remove('visible');
+            panels.classList.add('hidden'); // Ensure panes are hidden when menu is closed
             console.log('Clicked outside the menu. Menu closed.');
         }
     });
@@ -111,6 +113,7 @@ function addEventListeners() {
             const section = this.getAttribute('data-section');
             loadSection(section);
             sideMenu.classList.remove('visible');
+            panels.classList.add('hidden'); // Slide panes offscreen
             console.log(`Menu item clicked: ${section}`);
         });
     });
@@ -178,12 +181,8 @@ function loadContentSection(sectionId) {
                 } else {
                     document.body.classList.remove('introduction-page');
                 }
-                // Hide title section on Poetry page
-                if (sectionId === 'poetry') {
-                    document.querySelector('.title-section').style.display = 'none';
-                } else {
-                    document.querySelector('.title-section').style.display = 'block';
-                }
+                // Ensure title section is visible
+                document.querySelector('.title-section').style.display = 'block';
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
                 document.body.classList.remove('introduction-page');
