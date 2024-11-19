@@ -44,10 +44,10 @@ body {
 }
 
 /* Side Menu */
-#side-menu {
+.side-menu {
     position: fixed;
     top: 0;
-    left: 0;
+    left: -160px; /* Hidden by default */
     width: 160px;
     height: 100%;
     background-color: var(--background-color);
@@ -60,29 +60,30 @@ body {
     padding-top: 20px;
 }
 
-#side-menu-logo {
-    margin-bottom: 40px; /* Space between logo and menu items */
+.side-menu.visible {
+    left: 0; /* Slide in */
 }
 
 #side-menu-logo img {
-    width: 100px; /* Adjusted size for consistency */
+    width: 100px; /* Adjusted size */
     height: auto;
+    margin-bottom: 40px; /* Space between logo and menu items */
 }
 
-#side-menu ul {
+.side-menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
     width: 100%;
 }
 
-#side-menu li {
+.side-menu li {
     width: 100%;
     text-align: center;
     margin: 20px 0;
 }
 
-#side-menu a {
+.side-menu a {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
@@ -91,7 +92,7 @@ body {
     transition: transform var(--transition-speed) ease;
 }
 
-#side-menu a:hover {
+.side-menu a:hover {
     transform: scale(1.05);
 }
 
@@ -112,35 +113,56 @@ body {
     top: 10px;
     left: 170px; /* Positioned to the right of the side menu */
     z-index: 1002;
+    cursor: pointer;
 }
 
 #menu-icon-container img {
     width: 40px;
     height: 40px;
-    cursor: pointer;
     transition: transform var(--transition-speed) ease;
+}
+
+.side-menu.visible ~ #menu-icon-container img {
+    transform: rotate(90deg); /* Optional: Rotate menu icon when menu is open */
 }
 
 @media (max-width: 768px) {
     #menu-icon-container {
-        left: 90px; /* Adjust position for smaller screens */
+        left: 130px; /* Adjust position for smaller screens */
     }
 
     #menu-icon-container img {
         width: 30px;
         height: 30px;
     }
+
+    .side-menu {
+        width: 120px;
+    }
+
+    #side-menu-logo img {
+        width: 80px;
+    }
+
+    .menu-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .menu-text {
+        font-size: 0.8em;
+    }
 }
 
 /* Panels (Pane Images) */
 .panels {
     position: fixed;
-    right: 0px; /* Fixed to the right */
+    right: 0px;
     top: 0px;
     width: 220px;
     height: 100%;
-    z-index: 10; /* Lower z-index */
-    pointer-events: none;
+    z-index: 10; /* Lower z-index to stay behind other elements */
+    pointer-events: none; /* Allow clicks through panes */
     transition: right var(--transition-speed) ease;
     display: flex;
     flex-direction: column;
@@ -148,8 +170,8 @@ body {
     padding-top: 20px;
 }
 
-#side-menu.visible ~ .panels {
-    right: -250px;
+.panels.hidden {
+    right: -250px; /* Move panes offscreen */
 }
 
 .pane {
@@ -173,14 +195,13 @@ body {
 .title-section {
     text-align: center;
     margin-top: 20px;
+    padding: 0 20px; /* Responsive padding */
 }
 
 .title-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Removed gap as there's only one title image */
-    flex-wrap: wrap;
 }
 
 .title {
@@ -201,28 +222,6 @@ body {
 .title-text p {
     font-size: 1em;
     margin: 5px 0 0 0;
-}
-
-/* Logo Container */
-#logo-container {
-    position: fixed;
-    left: 170px; /* Align with side menu */
-    bottom: 20px;
-    width: 100px; /* Scaled down */
-    height: auto;
-    z-index: 16;
-    display: none; /* Hidden by default */
-    transition: opacity var(--transition-speed) ease;
-}
-
-body.introduction-page #logo-container {
-    display: block;
-}
-
-#logo-container img {
-    width: 100%;
-    height: auto;
-    display: block;
 }
 
 /* Main Content */
@@ -503,7 +502,7 @@ footer #theme-toggle img {
     }
 
     /* Adjust side menu for mobile */
-    #side-menu {
+    .side-menu {
         width: 120px;
     }
 
