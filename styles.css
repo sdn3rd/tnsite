@@ -65,17 +65,22 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop);
+    width: var(--side-menu-width-desktop); /* Updated width */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding-top: 60px;
+    align-items: flex-start; /* Align items to the start (left) */
+    padding-left: 20px; /* 20px padding from the left edge */
+    padding-top: 60px; /* Space for menu button */
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Hidden by default */
+}
+
+.side-menu.visible {
+    transform: translateX(0); /* Slide in */
 }
 
 .side-menu ul {
@@ -87,9 +92,8 @@ body {
 
 .side-menu li {
     width: 100%;
-    padding: 5px 0;
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    margin: 10px 0; /* Reduced margin */
 }
 
 .side-menu a {
@@ -97,43 +101,25 @@ body {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 40px; /* Fixed width for icons container */
+    align-items: flex-start; /* Align items to the start (left) */
+    transition: transform var(--transition-speed) ease;
+}
+
+.side-menu a:hover {
+    transform: scale(1.05);
 }
 
 .menu-icon {
-    width: 30px;
+    width: 30px; /* Reduced size from 40px to 30px */
     height: 30px;
-    display: block; /* Ensure visibility */
-    margin-bottom: 5px;
+    object-fit: contain;
 }
 
 .menu-text {
-    font-size: 0.7em;
+    margin-top: 5px;
+    font-size: 0.7em; /* Reduced font size */
     text-align: center;
-    white-space: nowrap;
 }
-
-/* Menu Icon Container */
-#menu-icon-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1003;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#menu-icon-container img {
-    width: 30px;
-    height: 30px;
-    display: block;
-}
-
 
 /* Logo Container in Footer */
 #footer-logo-container {
