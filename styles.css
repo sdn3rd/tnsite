@@ -12,23 +12,22 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 15%; /* Approximately 130px on an 866px wide screen */
+    --side-menu-width-desktop: 15%; /* Increased to 15% for better visibility on desktop */
     --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
 
-    /* Section Spacing (Percentage of viewport width) */
-    --section-margin-left: 5%;        /* Margin-left when menu is closed */
-    --section-margin-left-open: 15%;  /* Margin-left when menu is open */
+    /* Right Panels Widths */
+    --panels-width-desktop: 15%; /* Increased to 15% for full-size on desktop */
+    --panels-width-mobile: 50px; /* Fixed width for mobile */
+
+    /* Section Spacing */
+    --section-margin-left: 15%;       /* Margin-left when menu is open */
+    --section-margin-right: 15%;      /* Margin-right when panels are open */
     --section-padding: 2%;            /* Padding inside sections */
-    --section-margin-right: 5%;       /* Margin-right when panels are closed */
-    --section-margin-right-open: 15%; /* Margin-right when panels are open */
-    --section-padding-right: 2%;      /* Padding inside sections */
+    --section-top-margin: 20px;       /* Top margin between title and sections */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
     --menu-icon-size-mobile: 30px;
-
-    --pane-width-desktop: 15%;        /* Increased to 15% for full-size on desktop */
-    --pane-width-mobile: 50px;
 
     --pane-height-desktop: 15%;       /* Adjusted to match width for consistency */
     --pane-height-mobile: 79px;
@@ -87,7 +86,7 @@ body {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 1003; /* Higher z-index to stay above other elements */
+    z-index: 1004; /* Higher z-index to stay above other elements */
     cursor: pointer;
 }
 
@@ -112,16 +111,13 @@ body {
     width: var(--side-menu-width-desktop); /* Desktop width */
     height: 100%;
     background-color: var(--background-color);
-    z-index: 1002;
+    z-index: 1003;
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
     padding-left: 15px; /* 15px padding from the left edge */
-    padding-top: 50px; /* Space for menu button */
-    padding-right: 0px;
-    margin-right: 0;
+    padding-top: 60px; /* Space for menu button */
     transition: transform var(--transition-speed) ease;
-    overflow-y: auto;
     transform: translateX(-100%); /* Hidden by default */
 }
 
@@ -147,7 +143,7 @@ body {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start (left) */
+    align-items: center; /* Center align icons and text */
     transition: transform var(--transition-speed) ease;
 }
 
@@ -167,25 +163,12 @@ body {
     text-align: center;
 }
 
-/* Logo Container in Footer */
-#footer-logo-container {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    width: 60px; /* Shrunk size */
-}
-
-#footer-logo-container img {
-    width: 100%;
-    height: auto;
-}
-
-/* Panels Container (Right Side) */
+/* Right Panels Container */
 .panels {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--pane-width-desktop); /* Increased width for full size on desktop */
+    width: var(--panels-width-desktop); /* Increased width for full-size on desktop */
     height: 100vh;
     z-index: 1001; /* Below side-menu */
     display: flex;
@@ -193,13 +176,13 @@ body {
     align-items: center;
     background-color: transparent; /* Changed from #000000 to transparent */
     padding: 10px 0;
-    transform: translateX(0);
+    transform: translateX(100%); /* Hidden by default */
     transition: transform var(--transition-speed) ease;
     overflow-y: auto; /* Ensure panels can scroll if needed */
 }
 
 .panels.visible {
-    transform: translateX(0); /* Ensure visible when needed */
+    transform: translateX(0); /* Slide in */
 }
 
 .panels.hidden {
@@ -208,7 +191,7 @@ body {
 
 /* Individual Panel */
 .pane {
-    width: var(--pane-width-desktop);  /* Full width on desktop */
+    width: 100%;  /* Full width of the panels container */
     height: var(--pane-height-desktop); /* Full height proportion */
     margin: 10px 0;  /* 10px top and bottom margins */
     background-size: contain;  /* Preserve aspect ratio */
@@ -230,7 +213,7 @@ body {
 /* Title Section */
 .title-section {
     text-align: center;
-    margin-top: 20px; /* Reduced top-margin from previous */
+    margin-top: var(--section-top-margin); /* Reduced top-margin */
     padding: 0 20px; /* Responsive padding */
 }
 
@@ -267,25 +250,26 @@ body {
     padding: 20px;
     transition: 
         margin-left var(--transition-speed) ease, 
-        padding-left var(--transition-speed) ease,
         margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
     color: var(--text-color);
-    margin: 80px auto 60px auto; /* Centered with auto margins */
+    margin: var(--section-top-margin) auto 60px auto; /* Centered with auto margins */
     text-align: var(--section-text-align-desktop); /* Dynamic text alignment */
     font-size: 1em;
 }
 
 body.menu-open #main-content {
-    margin-left: calc(var(--side-menu-width-desktop) + 2%); /* Shifted right when menu is open */
-    margin-right: calc(var(--pane-width-desktop) + 2%); /* Shifted left to accommodate right panels */
+    margin-left: var(--section-margin-left);  /* Shifted right when menu is open */
+    margin-right: var(--section-margin-right); /* Shifted left to accommodate right panels */
 }
 
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     /* Main Content Adjustments for Mobile */
     #main-content {
         width: 90%; /* Wider on mobile */
-        margin: 150px auto 60px auto; /* Centered with auto margins */
+        margin: var(--section-top-margin) auto 60px auto; /* Centered with auto margins */
     }
 
     /* Show panels on mobile */
@@ -318,7 +302,7 @@ body.menu-open #main-content {
 
     /* Adjust side menu contents for mobile */
     .side-menu a {
-        align-items: flex-start; /* Align items to the start (left) */
+        align-items: center; /* Center align on mobile */
     }
 
     /* Adjust menu icon container */
@@ -334,8 +318,8 @@ body.menu-open #main-content {
 
     /* Adjust main content margin when menu is open on mobile */
     body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2%); /* Adjust margin-left when menu is open */
-        margin-right: calc(var(--pane-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
+        margin-left: var(--section-margin-left);  /* Adjusted for mobile */
+        margin-right: var(--section-margin-right); /* Adjusted for mobile */
     }
 
     /* Adjust panels hidden state on mobile */
@@ -345,18 +329,17 @@ body.menu-open #main-content {
 
     /* Adjust panels width for mobile */
     .panels {
-        width: var(--pane-width-mobile); /* Mobile pane width */
+        width: var(--panels-width-mobile); /* Mobile pane width */
     }
 
     .pane {
-        width: var(--pane-width-mobile);
+        width: 100%; /* Full width of the panels container */
         height: var(--pane-height-mobile); /* Maintains aspect ratio */
     }
 
     /* Adjust main-content padding for mobile */
     #main-content {
         padding: 0 5%; /* Adjusted for smaller panels */
-        margin: 60px auto 60px auto;
     }
 
     /* Ensure sections adjust when menu is open on mobile */
@@ -395,13 +378,13 @@ body.menu-open #main-content {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding-left);
     margin-right: var(--section-margin-right);
-    padding-right: var(--section-padding-right);
+    padding-left: var(--section-padding);
+    padding-right: var(--section-padding);
     transition: 
         margin-left var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
         margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 
     /* Text Alignment */
@@ -410,10 +393,10 @@ body.menu-open #main-content {
 
 /* Menu Open State: Adjust Section Spacing */
 body.menu-open {
-    --section-margin-left: 10px;       /* Reduced margin when menu is open */
-    --section-padding-left: 10px;      /* Reduced padding when menu is open */
-    --section-margin-right: 10px;      /* Adjust right margin as needed */
-    --section-padding-right: 10px;     /* Adjust right padding as needed */
+    /* Adjusting margins to accommodate both side menu and right panels */
+    --section-margin-left: 15%;    /* Matches side menu width */
+    --section-margin-right: 15%;   /* Matches panels width */
+    --section-padding: 2%;         /* Maintain padding */
 }
 
 /* Optional: Adjust internal elements within sections when menu is open */
@@ -614,7 +597,7 @@ footer p {
     top: 10px;
     right: 20px;
     cursor: pointer;
-    z-index: 1003; /* Higher z-index to be clickable above the footer */
+    z-index: 1005; /* Higher z-index to be clickable above the footer */
 }
 
 #footer-toggle-icon {
@@ -655,47 +638,12 @@ footer #theme-toggle img {
     }
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    /* Additional Responsive Adjustments for Sections */
-    .section {
-        padding-left: var(--section-padding-left-mobile);
-        margin-left: var(--section-margin-left-mobile);
-        padding-right: var(--section-padding-right-mobile);
-        margin-right: var(--section-margin-right-mobile);
-    }
-}
-
-/* Adjust Poetry Headers and Lines */
-.poetry-collection {
-    border-bottom: 2px solid var(--line-color);
-}
-
-.collection-header, .poem-header {
-    font-size: 1.75em;
-}
-
-.toggle-icon {
-    font-size: 2em; /* Larger plus/minus symbols */
-}
-
-/* Adjust Main Content Font Size */
-#main-content {
-    font-size: 1em;
-}
-
-@media (min-width: 1200px) {
-    #main-content {
-        font-size: 1.2em;
-    }
-}
-
 /* Ensure Sections Transition Smoothly */
 .section {
     transition: 
         margin-left var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
         margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 }
 
