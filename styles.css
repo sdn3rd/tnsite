@@ -72,7 +72,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
-    padding-left: 10px; /* 20px padding from the left edge */
+    padding-left: 15px; /* 20px padding from the left edge */
     padding-top: 50px; /* Space for menu button */
     padding-right: 0px;
     margin-right: 0;
@@ -96,6 +96,7 @@ body {
     width: 100%;
     text-align: center;
     margin: 10px 0; /* Reduced margin */
+    margin-right: 0;
 }
 
 .side-menu a {
@@ -105,6 +106,7 @@ body {
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
     transition: transform var(--transition-speed) ease;
+    margin-right: 0;
 }
 
 .side-menu a:hover {
@@ -115,12 +117,14 @@ body {
     width: 30px; /* Reduced size from 40px to 30px */
     height: 30px;
     object-fit: contain;
+    margin-right: 0;
 }
 
 .menu-text {
     margin-top: 5px;
     font-size: 0.7em; /* Reduced font size */
     text-align: center;
+    margin-right: 0;
 }
 
 /* Logo Container in Footer */
