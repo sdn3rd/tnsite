@@ -69,7 +69,8 @@ body {
     z-index: 1002;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start (left) */
+    padding-left: 20px; /* 20px padding from the left edge */
     transition: left var(--transition-speed) ease;
     overflow-y: auto;
     padding-top: 60px; /* Space for menu button */
@@ -97,7 +98,7 @@ body {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start (left) */
     transition: transform var(--transition-speed) ease;
 }
 
@@ -132,7 +133,7 @@ body {
 /* Panels Container */
 .panels {
     position: fixed;
-    right: 20px;  /* Added right margin */
+    right: 20px;  /* 20px from the right edge of the screen */
     top: 0;
     width: 220px;
     height: 100vh;
@@ -144,6 +145,7 @@ body {
     align-items: flex-end;  /* Right align the panels */
     padding-top: 20px;
     overflow-y: auto;  /* Allow scrolling if panels overflow */
+    background-color: #000000; /* Black background for margins */
 }
 
 .panels.hidden {
@@ -154,8 +156,8 @@ body {
 .pane {
     width: 66.67px;  /* 200px scaled down to 1/3 */
     height: 105px;   /* 315px scaled down to 1/3 */
-    margin-bottom: 20px;  /* Specified margin */
-    background-size: contain;  /* Changed to contain to preserve aspect ratio */
+    margin: 10px 0;  /* 10px top and bottom margins */
+    background-size: contain;  /* Preserve aspect ratio */
     background-repeat: no-repeat;
     background-position: center;
     border: 1px solid rgba(255, 0, 0, 0.1);  /* Light red border to see panel boundaries */
