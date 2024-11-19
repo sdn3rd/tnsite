@@ -49,7 +49,7 @@ function toggleTheme() {
 
 function updateThemeIcon(theme) {
     const themeIcon = document.querySelector('#theme-toggle img');
-    themeIcon.src = theme === 'light' ? 'icons/lightmode.png' : 'icons/darkmode.png';
+    themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
 }
 
 function updatePatreonIcon() {
@@ -190,7 +190,7 @@ function categorizePoems(poems) {
     return categories;
 }
 
-// Function to display poetry
+// Function to display poetry with collapsible sections and poems
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -198,20 +198,82 @@ function displayPoetry(poemsByCategory, container) {
         return;
     }
 
-    // Generate HTML
-    let html = '';
-    for (const [collectionName, poems] of Object.entries(poemsByCategory)) {
-        html += `<h2>${collectionName}</h2>`;
-        poems.forEach(poem => {
-            html += `<div class="poem">
-                        <h3>${poem.title}</h3>
-                        <p>${poem.content.replace(/\n/g, '<br>')}</p>
-                     </div>`;
-        });
-        html += '<hr>';
-    }
+    container.innerHTML = ''; // Clear container
 
-    container.innerHTML = html;
+    // For each category, create a collapsible section
+    for (const [collectionName, poems] of Object.entries(poemsByCategory)) {
+        // Create collection wrapper
+        const collectionWrapper = document.createElement('div');
+        collectionWrapper.classList.add('poetry-collection');
+
+        // Collection header
+        const collectionHeader = document.createElement('div');
+        collectionHeader.classList.add('collection-header');
+        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${collectionName}`;
+        collectionWrapper.appendChild(collectionHeader);
+
+        // Collection content
+        const collectionContent = document.createElement('div');
+        collectionContent.classList.add('collection-content');
+        collectionContent.style.display = 'none'; // Initially collapsed
+
+        // For each poem in the collection
+        poems.forEach(poem => {
+            // Poem wrapper
+            const poemWrapper = document.createElement('div');
+            poemWrapper.classList.add('poem');
+
+            // Poem header
+            const poemHeader = document.createElement('div');
+            poemHeader.classList.add('poem-header');
+            poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${poem.title}`;
+            poemWrapper.appendChild(poemHeader);
+
+            // Poem content
+            const poemContent = document.createElement('div');
+            poemContent.classList.add('poem-content');
+            poemContent.style.display = 'none'; // Initially collapsed
+            poemContent.innerHTML = poem.content.replace(/\n/g, '<br>');
+            poemWrapper.appendChild(poemContent);
+
+            // Add event listener to poem header
+            poemHeader.addEventListener('click', () => {
+                const isVisible = poemContent.style.display === 'block';
+                // Collapse all other poems
+                const allPoemContents = collectionContent.querySelectorAll('.poem-content');
+                allPoemContents.forEach(pc => pc.style.display = 'none');
+                const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
+                allPoemHeaders.forEach(icon => icon.textContent = '+');
+
+                if (isVisible) {
+                    poemContent.style.display = 'none';
+                    poemHeader.querySelector('.toggle-icon').textContent = '+';
+                } else {
+                    poemContent.style.display = 'block';
+                    poemHeader.querySelector('.toggle-icon').textContent = '−';
+                    // Scroll poem to top
+                    poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            collectionContent.appendChild(poemWrapper);
+        });
+
+        collectionWrapper.appendChild(collectionContent);
+        container.appendChild(collectionWrapper);
+
+        // Add event listener to collection header
+        collectionHeader.addEventListener('click', () => {
+            const isVisible = collectionContent.style.display === 'block';
+            if (isVisible) {
+                collectionContent.style.display = 'none';
+                collectionHeader.querySelector('.toggle-icon').textContent = '+';
+            } else {
+                collectionContent.style.display = 'block';
+                collectionHeader.querySelector('.toggle-icon').textContent = '−';
+            }
+        });
+    }
 }
 
 // Utility functions

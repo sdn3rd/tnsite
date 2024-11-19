@@ -31,6 +31,7 @@ body {
     color: var(--text-color);
     font-family: 'Roboto', sans-serif;
     position: relative;
+    overflow-x: hidden;
 }
 
 /* Theme Toggle */
@@ -79,15 +80,17 @@ body {
 #side-menu {
     position: fixed;
     top: 0;
-    left: -200px;
-    width: 200px;
+    left: -150px;
+    width: 150px;
     height: 100%;
     background-color: var(--background-color);
     border-right: 1px solid var(--line-color);
     z-index: 1001;
     display: flex;
     flex-direction: column;
+    align-items: center;
     transition: left 0.3s ease;
+    overflow-y: auto;
 }
 
 #side-menu.visible {
@@ -98,16 +101,20 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 #side-menu li {
-    margin: 20px;
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
 }
 
 #side-menu a {
     color: var(--text-color);
     text-decoration: none;
     display: block;
+    width: 100%;
 }
 
 #side-menu img {
@@ -145,10 +152,12 @@ body {
     padding: 20px;
     transition: margin-left 0.3s ease;
     color: var(--text-color);
+    max-width: 800px;
+    margin-right: auto;
 }
 
 #side-menu.visible ~ #main-content {
-    margin-left: 200px;
+    margin-left: 150px;
 }
 
 /* Content Styling */
@@ -215,16 +224,17 @@ body {
 
 /* Individual poem wrapper */
 .poem {
-    border-bottom: 1px solid var(--line-color);
+    border-bottom: none;
 }
 
 /* Poem header styling */
 .poem-header {
-    padding: 1em;
+    padding: 0.5em;
     cursor: pointer;
     font-weight: bold;
     display: flex;
     align-items: center;
+    background-color: var(--background-color);
     transition: background-color 0.3s;
 }
 
@@ -238,70 +248,152 @@ body {
 
 /* Poem content styling */
 .poem-content {
-    padding: 1em;
+    padding: 0.5em 1em;
     display: none;
 }
 
-.poem-content p {
-    margin: 0.5em 0;
+/* Collection wrapper */
+.poetry-collection {
+    border-bottom: 1px solid var(--line-color);
 }
 
-.poem-content a {
-    text-decoration: underline;
+/* Collection header styling */
+.collection-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color 0.3s;
 }
 
-.poem-content a:hover {
-    color: var(--highlight-color);
+.collection-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.collection-header .toggle-icon {
+    margin-right: 0.5em;
+}
+
+/* Collection content */
+.collection-content {
+    padding-left: 1em;
+    display: none;
 }
 
 /* Panels (Manga Images) */
-#panels {
-    position: fixed;
-    right: 0;
+.panels {
+    position: absolute;
+    left: 0;
     top: 0;
-    width: 200px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
+    width: 1170px;
+    height: 2532px;
+    z-index: 20;
+    pointer-events: none; /* Make sure panels don't block interactions */
 }
 
-.pane {
-    flex: 1;
+.pane1, .pane2, .pane3, .pane4, .pane5, .pane6, .pane7, .pane8 {
+    position: absolute;
     background-size: cover;
     background-position: center;
 }
 
-#pane1 {
+.pane1 {
     background-image: url("pane1.png");
+    left: 949px;
+    top: 23px;
+    width: 200px;
+    height: 313px;
+    z-index: 19;
 }
 
-#pane2 {
+.pane2 {
     background-image: url("pane2.png");
+    left: 949px;
+    top: 358px;
+    width: 201px;
+    height: 315px;
+    z-index: 18;
 }
 
-#pane3 {
+.pane3 {
     background-image: url("pane3.png");
+    left: 947px;
+    top: 695px;
+    width: 201px;
+    height: 316px;
+    z-index: 17;
 }
 
-#pane4 {
+.pane4 {
     background-image: url("pane4.png");
+    left: 947px;
+    top: 1033px;
+    width: 200px;
+    height: 315px;
+    z-index: 16;
 }
 
-#pane5 {
+.pane5 {
     background-image: url("pane5.png");
+    left: 947px;
+    top: 1370px;
+    width: 200px;
+    height: 317px;
+    z-index: 15;
 }
 
-#pane6 {
+.pane6 {
     background-image: url("pane6.png");
+    left: 949px;
+    top: 1709px;
+    width: 200px;
+    height: 315px;
+    z-index: 14;
 }
 
-#pane7 {
+.pane7 {
     background-image: url("pane7.png");
+    left: 951px;
+    top: 2054px;
+    width: 199px;
+    height: 318px;
+    z-index: 13;
 }
 
-#pane8 {
+.pane8 {
     background-image: url("pane8.png");
+    left: 951px;
+    top: 2394px;
+    width: 199px;
+    height: 318px;
+    z-index: 12;
+}
+
+/* Title and Logo */
+.title {
+    background-image: url("title.png");
+    position: absolute;
+    left: 404px;
+    top: 23px;
+    width: 270px;
+    height: 240px;
+    z-index: 4;
+    background-size: cover;
+    background-position: center;
+}
+
+.logo {
+    background-image: url("logo.png");
+    position: absolute;
+    left: 30px;
+    top: 2315px;
+    width: 129px;
+    height: 194px;
+    z-index: 3;
+    background-size: cover;
+    background-position: center;
 }
 
 /* Footer Styling */
@@ -340,5 +432,17 @@ footer p {
 @media screen and (max-width: 768px) {
     #main-content {
         padding: 10px;
+        margin-right: 10px;
+    }
+
+    .panels {
+        display: none;
+    }
+
+    .title {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 20px auto;
     }
 }
