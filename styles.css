@@ -18,6 +18,8 @@
     /* Section Spacing */
     --section-margin-left: 0px;
     --section-padding-left: 15px;
+    --section-margin-right: 0px;
+    --section-padding-right: 15px;
 
     /* Icon Sizes */
     --menu-icon-size-desktop: 40px;
@@ -34,6 +36,10 @@
 
     --theme-toggle-icon-size-desktop: 50px;
     --theme-toggle-icon-size-mobile: 40px;
+
+    /* Section Text Alignment */
+    --section-text-align-desktop: center;
+    --section-text-align-mobile: left;
 }
 
 /* Light Theme Variables */
@@ -55,9 +61,10 @@ body {
     position: relative;
     overflow-x: hidden;
     font-size: 16px; /* Base font size */
-    transition: font-size var(--transition-speed) ease,
-                background-color var(--transition-speed) ease,
-                color var(--transition-speed) ease;
+    transition: 
+        font-size var(--transition-speed) ease, 
+        background-color var(--transition-speed) ease, 
+        color var(--transition-speed) ease;
 }
 
 /* Font Size Adjustments */
@@ -247,11 +254,14 @@ body {
 /* Main Content */
 #main-content {
     padding: 20px;
-    transition: margin-left var(--transition-speed) ease, padding-left var(--transition-speed) ease;
+    transition: 
+        margin-left var(--transition-speed) ease, 
+        padding-left var(--transition-speed) ease;
     color: var(--text-color);
     max-width: 800px;
     margin: 80px 20px 60px 0px; /* No left margin by default */
-    text-align: left; /* Left justify text */
+    text-align: left; /* Left justify text by default */
+    font-size: 1em;
 }
 
 body.menu-open #main-content {
@@ -345,6 +355,11 @@ body.menu-open #main-content {
         --section-margin-left-mobile: 10px;
         --section-padding-left-mobile: 10px;
     }
+
+    /* Adjust Section Text Alignment on Mobile */
+    .section {
+        text-align: var(--section-text-align-mobile);
+    }
 }
 
 /* Content Styling */
@@ -375,13 +390,24 @@ body.menu-open #main-content {
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
     padding-left: var(--section-padding-left);
-    transition: margin-left var(--transition-speed) ease, padding-left var(--transition-speed) ease;
+    margin-right: var(--section-margin-right);
+    padding-right: var(--section-padding-right);
+    transition: 
+        margin-left var(--transition-speed) ease, 
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+
+    /* Text Alignment */
+    text-align: var(--section-text-align-desktop);
 }
 
 /* Menu Open State: Adjust Section Spacing */
 body.menu-open {
     --section-margin-left: 10px; /* Reduced margin when menu is open */
     --section-padding-left: 10px; /* Reduced padding when menu is open */
+    --section-margin-right: 10px; /* Adjust right margin as needed */
+    --section-padding-right: 10px; /* Adjust right padding as needed */
 }
 
 /* Optional: Adjust internal elements within sections when menu is open */
@@ -393,6 +419,20 @@ body.menu-open .section h1,
 body.menu-open .section h2,
 body.menu-open .section h3 {
     margin-left: 5px; /* Adjust as needed */
+}
+
+/* Text Alignment on Desktop */
+@media (min-width: 769px) {
+    .section {
+        text-align: var(--section-text-align-desktop);
+    }
+}
+
+/* Text Alignment on Mobile */
+@media (max-width: 768px) {
+    .section {
+        text-align: var(--section-text-align-mobile);
+    }
 }
 
 .section-header {
@@ -513,8 +553,9 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1002;
-    transition: height var(--transition-speed) ease,
-                background-color var(--transition-speed) ease;
+    transition: 
+        height var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
     cursor: pointer; /* Make entire footer clickable */
 }
 
@@ -643,8 +684,11 @@ footer #theme-toggle img {
 
 /* Ensure Sections Transition Smoothly */
 .section {
-    transition: margin-left var(--transition-speed) ease,
-                padding-left var(--transition-speed) ease;
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
 }
 
 /* Footer Hover Effects */
