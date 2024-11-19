@@ -145,9 +145,6 @@ body {
     padding-top: 20px;
 }
 
-.panels.hidden {
-    right: -250px; /* Slide offscreen */
-}
 
 .pane {
     width: 180px; /* Reduced width */
