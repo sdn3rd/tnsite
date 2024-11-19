@@ -71,9 +71,8 @@ body {
     z-index: 1002;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Changed from flex-start to center */
+    align-items: center;
     padding-top: 60px;
-    padding-left: 0; /* Removed the 20px left padding */
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
     transform: translateX(-100%);
@@ -88,8 +87,9 @@ body {
 
 .side-menu li {
     width: 100%;
-    text-align: center;
-    margin: 10px 0;
+    padding: 5px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .side-menu a {
@@ -97,24 +97,43 @@ body {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Changed from flex-start to center */
-    width: 100%; /* Added width */
-    transition: transform var(--transition-speed) ease;
+    align-items: center;
+    width: 40px; /* Fixed width for icons container */
 }
 
-/* Menu icon and text adjustments */
 .menu-icon {
     width: 30px;
     height: 30px;
-    object-fit: contain;
+    display: block; /* Ensure visibility */
+    margin-bottom: 5px;
 }
 
 .menu-text {
-    margin-top: 5px;
     font-size: 0.7em;
     text-align: center;
-    width: 100%; /* Added width */
+    white-space: nowrap;
 }
+
+/* Menu Icon Container */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1003;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-icon-container img {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
 
 /* Logo Container in Footer */
 #footer-logo-container {
