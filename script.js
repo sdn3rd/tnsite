@@ -33,7 +33,7 @@ function applyTheme(theme) {
     localStorage.setItem('theme', theme);
     updateThemeIcon(theme);
     updatePatreonIcon();
-    updateImagesForTheme(theme); // Update images based on theme
+    updateAllIcons(theme); // Update all icons based on the current theme
 }
 
 function detectOSTheme() {
@@ -65,6 +65,39 @@ function updatePatreonIcon() {
     } else {
         console.warn('Patreon icon not found.');
     }
+}
+
+/* Function to update all icons based on the current theme */
+function updateAllIcons(theme) {
+    console.log(`Updating all icons to ${theme} mode.`);
+    const images = document.querySelectorAll('img');
+
+    images.forEach(img => {
+        // Exclude images inside the theme toggle button
+        if (img.closest('#theme-toggle')) {
+            return;
+        }
+
+        // Get the current src attribute
+        const src = img.getAttribute('src');
+
+        if (src) {
+            // Skip images that already have _alt in their filename when switching to light
+            if (theme === 'light') {
+                if (!src.includes('_alt') && src.endsWith('.png')) {
+                    const altSrc = src.replace('.png', '_alt.png');
+                    img.setAttribute('src', altSrc);
+                    console.log(`Switched ${src} to ${altSrc}`);
+                }
+            } else { // theme === 'dark'
+                if (src.includes('_alt') && src.endsWith('_alt.png')) {
+                    const darkSrc = src.replace('_alt.png', '.png');
+                    img.setAttribute('src', darkSrc);
+                    console.log(`Switched ${src} to ${darkSrc}`);
+                }
+            }
+        }
+    });
 }
 
 /* Event Listeners */
@@ -403,43 +436,4 @@ function duplicatePanes() {
     }
 
     console.log(`Duplicated panes to fill the panels container. Total panes: ${panels.querySelectorAll('.pane').length}`);
-}
-
-/* New Function: Update Images Based on Theme */
-/**
- * Updates all images on the page to their _alt.png (or appropriate) versions for dark mode
- * and reverts them back for light mode, excluding the theme toggle button images.
- * @param {string} theme - The current theme ('dark' or 'light').
- */
-function updateImagesForTheme(theme) {
-    // Select all images excluding those inside the theme toggle button
-    const images = document.querySelectorAll('img:not(#theme-toggle img)');
-    
-    images.forEach(img => {
-        if (theme === 'dark') {
-            // If the image hasn't been processed yet, store the original src
-            if (!img.dataset.originalSrc) {
-                img.dataset.originalSrc = img.src;
-            }
-            
-            // Change the src to _alt.png version
-            // Adjust this logic if your images have different extensions
-            if (img.src.endsWith('.png')) {
-                img.src = img.src.replace('.png', '_alt.png');
-            } else if (img.src.endsWith('.jpg')) {
-                img.src = img.src.replace('.jpg', '_alt.jpg');
-            } else if (img.src.endsWith('.jpeg')) {
-                img.src = img.src.replace('.jpeg', '_alt.jpeg');
-            } else if (img.src.endsWith('.svg')) {
-                img.src = img.src.replace('.svg', '_alt.svg');
-            }
-            // Add more conditions if you have images with different extensions
-        } else {
-            // Light mode: revert to the original src if it was stored
-            if (img.dataset.originalSrc) {
-                img.src = img.dataset.originalSrc;
-                delete img.dataset.originalSrc; // Clean up the data attribute
-            }
-        }
-    });
 }
