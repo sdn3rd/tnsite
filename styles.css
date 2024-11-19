@@ -12,24 +12,30 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 15%; /* Increased to 15% for better visibility on desktop */
+    --side-menu-width-desktop: 15%; /* Approximately 130px on an 866px wide screen */
     --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
 
-    /* Right Panels Widths */
-    --panels-width-desktop: 15%; /* Increased to 15% for full-size on desktop */
-    --panels-width-mobile: 50px; /* Fixed width for mobile */
+    /* Right Panels Widths (Percentage of viewport width) */
+    --right-panels-width-desktop: 15%; /* Increased to 15% for larger panes on desktop */
+    --right-panels-width-mobile: 50px; /* Fixed width for mobile */
 
-    /* Section Spacing */
-    --section-margin-left: 15%;       /* Margin-left when menu is open */
-    --section-margin-right: 15%;      /* Margin-right when panels are open */
+    /* Section Spacing (Percentage of viewport width) */
+    --section-margin-left: 5%;        /* Margin-left when menu is closed */
+    --section-margin-left-open: 15%;  /* Margin-left when menu is open */
     --section-padding: 2%;            /* Padding inside sections */
-    --section-top-margin: 20px;       /* Top margin between title and sections */
+
+    --section-margin-right: 5%;       /* Margin-right when panels are closed */
+    --section-margin-right-open: 15%; /* Margin-right when panels are open */
+    --section-padding-right: 2%;      /* Padding inside sections */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
     --menu-icon-size-mobile: 30px;
 
-    --pane-height-desktop: 15%;       /* Adjusted to match width for consistency */
+    --pane-width-desktop: 15%;        /* Full size on desktop */
+    --pane-width-mobile: 50px;
+
+    --pane-height-desktop: 15%;       /* Full height proportion on desktop */
     --pane-height-mobile: 79px;
 
     --social-icon-size-desktop: 32px;
@@ -41,6 +47,9 @@
     /* Section Text Alignment */
     --section-text-align-desktop: center;
     --section-text-align-mobile: left;
+
+    /* Spacing Between Title and Sections */
+    --title-section-margin-bottom: 20px; /* 20px below title */
 }
 
 /* Light Theme Variables */
@@ -111,13 +120,16 @@ body {
     width: var(--side-menu-width-desktop); /* Desktop width */
     height: 100%;
     background-color: var(--background-color);
-    z-index: 1003;
+    z-index: 1002;
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
     padding-left: 15px; /* 15px padding from the left edge */
-    padding-top: 60px; /* Space for menu button */
+    padding-top: 50px; /* Space for menu button */
+    padding-right: 0px;
+    margin-right: 0;
     transition: transform var(--transition-speed) ease;
+    overflow-y: auto;
     transform: translateX(-100%); /* Hidden by default */
 }
 
@@ -143,7 +155,7 @@ body {
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align icons and text */
+    align-items: flex-start; /* Align items to the start (left) */
     transition: transform var(--transition-speed) ease;
 }
 
@@ -163,12 +175,25 @@ body {
     text-align: center;
 }
 
-/* Right Panels Container */
+/* Logo Container in Footer */
+#footer-logo-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 60px; /* Shrunk size */
+}
+
+#footer-logo-container img {
+    width: 100%;
+    height: auto;
+}
+
+/* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--panels-width-desktop); /* Increased width for full-size on desktop */
+    width: var(--pane-width-desktop); /* Full size on desktop */
     height: 100vh;
     z-index: 1001; /* Below side-menu */
     display: flex;
@@ -191,13 +216,18 @@ body {
 
 /* Individual Panel */
 .pane {
-    width: 100%;  /* Full width of the panels container */
-    height: var(--pane-height-desktop); /* Full height proportion */
+    width: 100%; /* Full width within the panels container */
+    height: auto; /* Adjust height based on content */
     margin: 10px 0;  /* 10px top and bottom margins */
     background-size: contain;  /* Preserve aspect ratio */
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent; /* Ensured no background color */
+}
+
+.pane img {
+    width: 100%;
+    height: auto;
 }
 
 /* Ensure images are actually loaded */
@@ -213,8 +243,9 @@ body {
 /* Title Section */
 .title-section {
     text-align: center;
-    margin-top: var(--section-top-margin); /* Reduced top-margin */
+    margin-top: 20px; /* Reduced top-margin */
     padding: 0 20px; /* Responsive padding */
+    margin-bottom: var(--title-section-margin-bottom); /* 20px below title */
 }
 
 .title-container {
@@ -250,26 +281,26 @@ body {
     padding: 20px;
     transition: 
         margin-left var(--transition-speed) ease, 
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
     color: var(--text-color);
-    margin: var(--section-top-margin) auto 60px auto; /* Centered with auto margins */
+    margin: 40px auto 60px auto; /* Reduced top margin from 80px to 40px */
     text-align: var(--section-text-align-desktop); /* Dynamic text alignment */
     font-size: 1em;
 }
 
 body.menu-open #main-content {
-    margin-left: var(--section-margin-left);  /* Shifted right when menu is open */
-    margin-right: var(--section-margin-right); /* Shifted left to accommodate right panels */
+    margin-left: calc(var(--side-menu-width-desktop) + 2%); /* Shifted right when menu is open */
+    margin-right: calc(var(--right-panels-width-desktop) + 2%); /* Shifted left to accommodate right panels */
 }
 
-/* Mobile Adjustments */
 @media (max-width: 768px) {
     /* Main Content Adjustments for Mobile */
     #main-content {
         width: 90%; /* Wider on mobile */
-        margin: var(--section-top-margin) auto 60px auto; /* Centered with auto margins */
+        margin: 150px auto 60px auto; /* Centered with auto margins */
+        padding: 10px 5%; /* Reduced padding for mobile */
     }
 
     /* Show panels on mobile */
@@ -302,7 +333,7 @@ body.menu-open #main-content {
 
     /* Adjust side menu contents for mobile */
     .side-menu a {
-        align-items: center; /* Center align on mobile */
+        align-items: flex-start; /* Align items to the start (left) */
     }
 
     /* Adjust menu icon container */
@@ -318,8 +349,8 @@ body.menu-open #main-content {
 
     /* Adjust main content margin when menu is open on mobile */
     body.menu-open #main-content {
-        margin-left: var(--section-margin-left);  /* Adjusted for mobile */
-        margin-right: var(--section-margin-right); /* Adjusted for mobile */
+        margin-left: calc(var(--side-menu-width-mobile) + 2%); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
     }
 
     /* Adjust panels hidden state on mobile */
@@ -329,17 +360,12 @@ body.menu-open #main-content {
 
     /* Adjust panels width for mobile */
     .panels {
-        width: var(--panels-width-mobile); /* Mobile pane width */
+        width: var(--right-panels-width-mobile); /* Mobile pane width */
     }
 
     .pane {
-        width: 100%; /* Full width of the panels container */
-        height: var(--pane-height-mobile); /* Maintains aspect ratio */
-    }
-
-    /* Adjust main-content padding for mobile */
-    #main-content {
-        padding: 0 5%; /* Adjusted for smaller panels */
+        width: 100%; /* Full width within panels */
+        height: auto; /* Adjust height based on content */
     }
 
     /* Ensure sections adjust when menu is open on mobile */
@@ -378,13 +404,13 @@ body.menu-open #main-content {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
+    padding-left: var(--section-padding-left);
     margin-right: var(--section-margin-right);
-    padding-left: var(--section-padding);
-    padding-right: var(--section-padding);
+    padding-right: var(--section-padding-right);
     transition: 
         margin-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 
     /* Text Alignment */
@@ -393,10 +419,10 @@ body.menu-open #main-content {
 
 /* Menu Open State: Adjust Section Spacing */
 body.menu-open {
-    /* Adjusting margins to accommodate both side menu and right panels */
-    --section-margin-left: 15%;    /* Matches side menu width */
-    --section-margin-right: 15%;   /* Matches panels width */
-    --section-padding: 2%;         /* Maintain padding */
+    --section-margin-left: 10px;       /* Reduced margin when menu is open */
+    --section-padding-left: 10px;      /* Reduced padding when menu is open */
+    --section-margin-right: 10px;      /* Adjust right margin as needed */
+    --section-padding-right: 10px;     /* Adjust right padding as needed */
 }
 
 /* Optional: Adjust internal elements within sections when menu is open */
@@ -597,7 +623,7 @@ footer p {
     top: 10px;
     right: 20px;
     cursor: pointer;
-    z-index: 1005; /* Higher z-index to be clickable above the footer */
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
 }
 
 #footer-toggle-icon {
@@ -638,12 +664,47 @@ footer #theme-toggle img {
     }
 }
 
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
+
+/* Adjust Poetry Headers and Lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header, .poem-header {
+    font-size: 1.75em;
+}
+
+.toggle-icon {
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Adjust Main Content Font Size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
+    }
+}
+
 /* Ensure Sections Transition Smoothly */
 .section {
     transition: 
         margin-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 }
 
