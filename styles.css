@@ -63,7 +63,7 @@ body {
     position: fixed;
     top: 0;
     left: -160px; /* Hidden by default */
-    width: 160px;
+    width: 140px; /* Reduced width */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
@@ -72,7 +72,7 @@ body {
     align-items: center;
     transition: left var(--transition-speed) ease;
     overflow-y: auto;
-    padding-top: 60px; /* Space for the logo and some padding */
+    padding-top: 60px; /* Space for menu button */
 }
 
 .side-menu.visible {
@@ -89,7 +89,7 @@ body {
 .side-menu li {
     width: 100%;
     text-align: center;
-    margin: 20px 0;
+    margin: 15px 0; /* Reduced margin */
 }
 
 .side-menu a {
@@ -106,29 +106,27 @@ body {
 }
 
 .menu-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px; /* Reduced size */
+    height: 50px; /* Reduced size */
     object-fit: contain;
 }
 
 .menu-text {
     margin-top: 5px;
-    font-size: 0.9em;
+    font-size: 0.8em; /* Reduced font size */
 }
 
-/* Logo Container */
-#logo-container {
-    position: fixed;
-    top: 10px;
+/* Logo Container in Footer */
+#footer-logo-container {
+    position: absolute;
+    bottom: 10px;
     left: 10px;
-    z-index: 1001; /* Below the menu button */
-    pointer-events: none; /* Make it non-interactive */
+    width: 60px; /* Shrunk size */
 }
 
-#logo-container img {
-    width: 80px; /* Adjusted size */
+#footer-logo-container img {
+    width: 100%;
     height: auto;
-    transition: transform var(--transition-speed) ease;
 }
 
 /* Panels (Pane Images) */
@@ -152,11 +150,11 @@ body {
 }
 
 .pane {
-    width: 200px;
+    width: 180px; /* Reduced width */
     height: auto;
     background-size: cover;
     background-position: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Reduced spacing */
 }
 
 .pane1 { background-image: url("images/pane1.png"); }
@@ -207,7 +205,7 @@ body {
     transition: margin-left var(--transition-speed) ease;
     color: var(--text-color);
     max-width: 800px;
-    margin: 80px 20px 60px 180px; /* Adjust left margin to account for side menu */
+    margin: 80px 20px 60px 160px; /* Adjust left margin to account for side menu width */
     text-align: left; /* Left justify text */
 }
 
@@ -236,21 +234,22 @@ body {
 
     /* Adjust side menu for mobile */
     .side-menu {
-        width: 120px;
+        width: 100px; /* Further reduced width */
     }
 
     .side-menu a .menu-icon {
-        width: 50px;
-        height: 50px;
+        width: 40px; /* Further reduced size */
+        height: 40px; /* Further reduced size */
     }
 
     .side-menu a .menu-text {
-        font-size: 0.8em;
+        font-size: 0.7em; /* Further reduced font size */
     }
 
     /* Adjust menu icon container */
     #menu-icon-container {
-        left: 130px; /* Adjusted for smaller side menu width */
+        left: 10px; /* Keep at top-left */
+        top: 10px; /* Ensure it remains at top-left */
     }
 
     #menu-icon-container img {
@@ -259,8 +258,8 @@ body {
     }
 
     /* Adjust logo size on mobile */
-    #logo-container img {
-        width: 60px;
+    #footer-logo-container img {
+        width: 50px;
     }
 }
 
@@ -500,16 +499,16 @@ footer #theme-toggle img {
 
     /* Adjust side menu for mobile */
     .side-menu {
-        width: 120px;
+        width: 100px; /* Further reduced width */
     }
 
     .side-menu a .menu-icon {
-        width: 50px;
-        height: 50px;
+        width: 40px; /* Further reduced size */
+        height: 40px; /* Further reduced size */
     }
 
     .side-menu a .menu-text {
-        font-size: 0.8em;
+        font-size: 0.7em; /* Further reduced font size */
     }
 
     /* Adjust menu icon container */
@@ -524,8 +523,8 @@ footer #theme-toggle img {
     }
 
     /* Adjust logo size on mobile */
-    #logo-container img {
-        width: 60px;
+    #footer-logo-container img {
+        width: 50px;
     }
 }
 
