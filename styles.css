@@ -129,39 +129,52 @@ body {
     height: auto;
 }
 
-/* Panels (Pane Images) */
+/* Panels Container */
 .panels {
     position: fixed;
-    right: 0px;
-    top: 0px;
+    right: 20px;  /* Added right margin */
+    top: 0;
     width: 220px;
-    height: 100%;
-    z-index: 10; /* Lower z-index to stay behind other elements */
-    pointer-events: none; /* Allow clicks through panes */
+    height: 100vh;
+    z-index: 1;  /* Lower z-index as specified */
+    pointer-events: none;
     transition: right var(--transition-speed) ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;  /* Right align the panels */
     padding-top: 20px;
+    overflow-y: auto;  /* Allow scrolling if panels overflow */
 }
 
-
+/* Individual Panel */
 .pane {
-    width: 180px; /* Reduced width */
-    height: auto;
-    background-size: cover;
+    width: 66.67px;  /* 200px scaled down to 1/3 */
+    height: 105px;   /* 315px scaled down to 1/3 */
+    margin-bottom: 20px;  /* Specified margin */
+    background-size: contain;  /* Changed to contain to preserve aspect ratio */
+    background-repeat: no-repeat;
     background-position: center;
-    margin-bottom: 15px; /* Reduced spacing */
 }
 
-.pane1 { background-image: url("images/pane1.png"); }
-.pane2 { background-image: url("images/pane2.png"); }
-.pane3 { background-image: url("images/pane3.png"); }
-.pane4 { background-image: url("images/pane4.png"); }
-.pane5 { background-image: url("images/pane5.png"); }
-.pane6 { background-image: url("images/pane6.png"); }
-.pane7 { background-image: url("images/pane7.png"); }
-.pane8 { background-image: url("images/pane8.png"); }
+/* Hide panels when menu is open */
+.side-menu.visible + .panels {
+    right: -220px;  /* Move panels off-screen when menu is visible */
+}
+
+/* Ensure images are actually loaded */
+.pane1 { background-image: url('images/pane1.png'); }
+.pane2 { background-image: url('images/pane2.png'); }
+.pane3 { background-image: url('images/pane3.png'); }
+.pane4 { background-image: url('images/pane4.png'); }
+.pane5 { background-image: url('images/pane5.png'); }
+.pane6 { background-image: url('images/pane6.png'); }
+.pane7 { background-image: url('images/pane7.png'); }
+.pane8 { background-image: url('images/pane8.png'); }
+
+/* Add debug outline to help during development */
+.pane {
+    border: 1px solid rgba(255, 0, 0, 0.1);  /* Light red border to see panel boundaries */
+}
 
 /* Title Section */
 .title-section {
