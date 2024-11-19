@@ -33,6 +33,7 @@ function applyTheme(theme) {
     localStorage.setItem('theme', theme);
     updateThemeIcon(theme);
     updatePatreonIcon();
+    updateImagesForTheme(theme); // Update images based on theme
 }
 
 function detectOSTheme() {
@@ -402,4 +403,43 @@ function duplicatePanes() {
     }
 
     console.log(`Duplicated panes to fill the panels container. Total panes: ${panels.querySelectorAll('.pane').length}`);
+}
+
+/* New Function: Update Images Based on Theme */
+/**
+ * Updates all images on the page to their _alt.png (or appropriate) versions for dark mode
+ * and reverts them back for light mode, excluding the theme toggle button images.
+ * @param {string} theme - The current theme ('dark' or 'light').
+ */
+function updateImagesForTheme(theme) {
+    // Select all images excluding those inside the theme toggle button
+    const images = document.querySelectorAll('img:not(#theme-toggle img)');
+    
+    images.forEach(img => {
+        if (theme === 'dark') {
+            // If the image hasn't been processed yet, store the original src
+            if (!img.dataset.originalSrc) {
+                img.dataset.originalSrc = img.src;
+            }
+            
+            // Change the src to _alt.png version
+            // Adjust this logic if your images have different extensions
+            if (img.src.endsWith('.png')) {
+                img.src = img.src.replace('.png', '_alt.png');
+            } else if (img.src.endsWith('.jpg')) {
+                img.src = img.src.replace('.jpg', '_alt.jpg');
+            } else if (img.src.endsWith('.jpeg')) {
+                img.src = img.src.replace('.jpeg', '_alt.jpeg');
+            } else if (img.src.endsWith('.svg')) {
+                img.src = img.src.replace('.svg', '_alt.svg');
+            }
+            // Add more conditions if you have images with different extensions
+        } else {
+            // Light mode: revert to the original src if it was stored
+            if (img.dataset.originalSrc) {
+                img.src = img.dataset.originalSrc;
+                delete img.dataset.originalSrc; // Clean up the data attribute
+            }
+        }
+    });
 }
