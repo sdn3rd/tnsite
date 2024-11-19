@@ -92,7 +92,7 @@ function addEventListeners() {
     });
 
     // Menu Item Clicks
-    const menuItems = document.querySelectorAll('#side-menu a');
+    const menuItems = document.querySelectorAll('#side-menu a[data-section]');
     menuItems.forEach((item) => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -101,6 +101,17 @@ function addEventListeners() {
             sideMenu.classList.remove('visible');
         });
     });
+
+    // Footer Toggle
+    const footerToggle = document.getElementById('footer-toggle');
+    const footer = document.querySelector('footer');
+    const footerToggleIcon = document.getElementById('footer-toggle-icon');
+
+    if (footerToggle && footer && footerToggleIcon) {
+        footerToggle.addEventListener('click', () => {
+            footer.classList.toggle('footer-collapsed');
+        });
+    }
 }
 
 // Load Sections
@@ -143,17 +154,12 @@ function loadPoetrySection() {
             if (!response.ok) {
                 throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
             }
-            // Check for CORS issues
-            if (response.type === 'opaque') {
-                console.warn('Response type is opaque. Possible CORS issue.');
-            }
             return response.text();
         })
         .then(text => {
             console.log('Raw response text received.');
             let data;
             try {
-                // Parse the JSON while handling Unicode characters
                 data = JSON.parse(text);
             } catch (error) {
                 console.error('Invalid JSON response from /patreon-poetry:', error);

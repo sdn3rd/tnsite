@@ -3,10 +3,6 @@
     --background-color: #000000;
     --text-color: #ffffff;
     --line-color: #ffffff;
-    --toggle-bg: #444444;
-    --toggle-bg-checked: #666666;
-    --toggle-knob: #ffffff;
-    --toggle-knob-checked: #000000;
     --highlight-color: #333333;
     --link-color: #ffffff;
 }
@@ -15,10 +11,6 @@
     --background-color: #ffffff;
     --text-color: #000000;
     --line-color: #000000;
-    --toggle-bg: #dddddd;
-    --toggle-bg-checked: #bbbbbb;
-    --toggle-knob: #000000;
-    --toggle-knob-checked: #ffffff;
     --highlight-color: #f0f0f0;
     --link-color: #000000;
 }
@@ -32,27 +24,6 @@ body {
     font-family: 'Roboto', sans-serif;
     position: relative;
     overflow-x: hidden;
-}
-
-/* Theme Toggle */
-#theme-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    z-index: 1002;
-}
-
-#theme-toggle img {
-    width: 50px;
-    height: 50px;
-}
-
-@media screen and (max-width: 768px) {
-    #theme-toggle img {
-        width: 40px;
-        height: 40px;
-    }
 }
 
 /* Menu Icon Container */
@@ -69,13 +40,6 @@ body {
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
-    #menu-icon-container img {
-        width: 40px;
-        height: 40px;
-    }
-}
-
 /* Side Menu */
 #side-menu {
     position: fixed;
@@ -84,7 +48,6 @@ body {
     width: 150px;
     height: 100%;
     background-color: var(--background-color);
-    border-right: 1px solid var(--line-color);
     z-index: 1001;
     display: flex;
     flex-direction: column;
@@ -102,10 +65,14 @@ body {
     padding: 0;
     margin: 0;
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #side-menu li {
-    margin: 10px 0;
+    margin: 20px 0;
     width: 100%;
     text-align: center;
 }
@@ -118,32 +85,32 @@ body {
 }
 
 #side-menu img {
-    width: 100px;
+    width: auto;
     height: auto;
+    max-width: 100px;
+    max-height: 100px;
 }
 
-@media screen and (max-width: 768px) {
-    #side-menu img {
-        width: 80px;
-    }
+/* Theme Toggle inside Side Menu */
+#theme-toggle {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+#theme-toggle img {
+    width: 50px;
+    height: 50px;
 }
 
 /* Tristan Button Styles */
 #tristan-button-container {
-    margin-top: auto;
-    padding: 10px 0;
+    margin-bottom: 20px;
     text-align: center;
 }
 
 #tristan-logo-link img {
     width: 100px;
     height: auto;
-}
-
-@media screen and (max-width: 768px) {
-    #tristan-logo-link img {
-        width: 80px;
-    }
 }
 
 /* Main Content */
@@ -178,222 +145,64 @@ body {
     color: var(--highlight-color);
 }
 
-/* Sections styling */
-.section {
-    border-bottom: 1px solid var(--line-color);
-}
-
-.section-header {
-    padding: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s;
-}
-
-.section-header:hover {
-    background-color: var(--highlight-color);
-}
-
-.toggle-icon {
-    margin-right: 0.5em;
-}
-
-.section-content {
-    padding: 1em;
-    display: none;
-}
-
-.section-content p {
-    margin: 0;
-}
-
-.section-content a {
-    text-decoration: underline;
-}
-
-.section-content a:hover {
-    color: var(--highlight-color);
-}
-
-/* Poems container */
-.poems-container {
-    margin-top: 1em;
-}
-
-/* Individual poem wrapper */
-.poem {
-    border-bottom: none;
-}
-
-/* Poem header styling */
-.poem-header {
-    padding: 0.5em;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    background-color: var(--background-color);
-    transition: background-color 0.3s;
-}
-
-.poem-header:hover {
-    background-color: var(--highlight-color);
-}
-
-.poem-header .toggle-icon {
-    margin-right: 0.5em;
-}
-
-/* Poem content styling */
-.poem-content {
-    padding: 0.5em 1em;
-    display: none;
-}
-
-/* Collection wrapper */
-.poetry-collection {
-    border-bottom: 1px solid var(--line-color);
-}
-
-/* Collection header styling */
-.collection-header {
-    padding: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    background-color: var(--background-color);
-    transition: background-color 0.3s;
-}
-
-.collection-header:hover {
-    background-color: var(--highlight-color);
-}
-
-.collection-header .toggle-icon {
-    margin-right: 0.5em;
-}
-
-/* Collection content */
-.collection-content {
-    padding-left: 1em;
-    display: none;
-}
-
 /* Panels (Manga Images) */
 .panels {
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
-    width: 1170px;
-    height: 2532px;
+    width: 220px;
     z-index: 20;
-    pointer-events: none; /* Make sure panels don't block interactions */
+    pointer-events: none;
+    transition: right 0.3s ease;
 }
 
-.pane1, .pane2, .pane3, .pane4, .pane5, .pane6, .pane7, .pane8 {
-    position: absolute;
+#side-menu.visible ~ .panels {
+    right: -250px;
+}
+
+.pane {
+    width: 200px;
+    height: auto;
     background-size: cover;
     background-position: center;
+    margin-bottom: 20px;
 }
 
-.pane1 {
-    background-image: url("pane1.png");
-    left: 949px;
-    top: 23px;
-    width: 200px;
-    height: 313px;
-    z-index: 19;
+.pane1 { background-image: url("images/pane1.png"); }
+.pane2 { background-image: url("images/pane2.png"); }
+.pane3 { background-image: url("images/pane3.png"); }
+.pane4 { background-image: url("images/pane4.png"); }
+.pane5 { background-image: url("images/pane5.png"); }
+.pane6 { background-image: url("images/pane6.png"); }
+.pane7 { background-image: url("images/pane7.png"); }
+.pane8 { background-image: url("images/pane8.png"); }
+
+/* Arrange panes vertically */
+.panels {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
 }
 
-.pane2 {
-    background-image: url("pane2.png");
-    left: 949px;
-    top: 358px;
-    width: 201px;
-    height: 315px;
-    z-index: 18;
-}
-
-.pane3 {
-    background-image: url("pane3.png");
-    left: 947px;
-    top: 695px;
-    width: 201px;
-    height: 316px;
-    z-index: 17;
-}
-
-.pane4 {
-    background-image: url("pane4.png");
-    left: 947px;
-    top: 1033px;
-    width: 200px;
-    height: 315px;
-    z-index: 16;
-}
-
-.pane5 {
-    background-image: url("pane5.png");
-    left: 947px;
-    top: 1370px;
-    width: 200px;
-    height: 317px;
-    z-index: 15;
-}
-
-.pane6 {
-    background-image: url("pane6.png");
-    left: 949px;
-    top: 1709px;
-    width: 200px;
-    height: 315px;
-    z-index: 14;
-}
-
-.pane7 {
-    background-image: url("pane7.png");
-    left: 951px;
-    top: 2054px;
-    width: 199px;
-    height: 318px;
-    z-index: 13;
-}
-
-.pane8 {
-    background-image: url("pane8.png");
-    left: 951px;
-    top: 2394px;
-    width: 199px;
-    height: 318px;
-    z-index: 12;
-}
-
-/* Title and Logo */
+/* Title Image */
 .title {
-    background-image: url("title.png");
+    background-image: url("images/title.png");
     position: absolute;
-    left: 404px;
-    top: 23px;
+    right: 240px;
+    top: 60px;
     width: 270px;
-    height: 240px;
+    height: auto;
     z-index: 4;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
+    transition: right 0.3s ease;
 }
 
-.logo {
-    background-image: url("logo.png");
-    position: absolute;
-    left: 30px;
-    top: 2315px;
-    width: 129px;
-    height: 194px;
-    z-index: 3;
-    background-size: cover;
-    background-position: center;
+#side-menu.visible ~ .title {
+    right: -320px;
 }
 
 /* Footer Styling */
@@ -412,20 +221,23 @@ footer p {
     margin: 0.5em 0 0 0;
 }
 
-.social-media {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
+.footer-collapsed #footer-content {
+    display: none;
 }
 
-.social-media a {
-    margin: 0 0.5em;
+#footer-toggle {
+    cursor: pointer;
 }
 
-.social-media img {
-    width: 32px;
-    height: 32px;
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
 }
 
 /* Responsive design */
@@ -441,7 +253,7 @@ footer p {
 
     .title {
         position: relative;
-        left: 0;
+        right: 0;
         top: 0;
         margin: 20px auto;
     }

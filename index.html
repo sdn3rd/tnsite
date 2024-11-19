@@ -22,11 +22,6 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Theme Toggle Switch -->
-    <div id="theme-toggle">
-        <img src="icons/darkmode.png" alt="Toggle Theme">
-    </div>
-
     <!-- Menu Icon -->
     <div id="menu-icon-container">
         <img src="icons/menu.png" alt="Menu Icon" id="hamburger-menu">
@@ -51,15 +46,21 @@
                 </a>
             </li>
             <li>
-                <a href="#" data-section="contact" id="contact-link">
+                <a href="mailto:contact@tristannuvola.com" id="contact-link">
                     <img src="icons/contact.png" alt="Contact">
                 </a>
             </li>
         </ul>
+
+        <!-- Theme Toggle at the bottom -->
+        <div id="theme-toggle">
+            <img src="icons/darkmode.png" alt="Toggle Theme">
+        </div>
+
         <!-- Tristan Logo at the bottom -->
         <div id="tristan-button-container">
             <a href="#" id="tristan-logo-link">
-                <img src="icons/logo.png" alt="Logo">
+                <img src="images/logo.png" alt="Logo">
             </a>
         </div>
     </div>
@@ -75,33 +76,36 @@
 
     <!-- Panels (Manga Images) -->
     <div class="panels">
-        <div class="pane1"></div>
-        <div class="pane2"></div>
-        <div class="pane3"></div>
-        <div class="pane4"></div>
-        <div class="pane5"></div>
-        <div class="pane6"></div>
-        <div class="pane7"></div>
-        <div class="pane8"></div>
+        <div class="pane pane1"></div>
+        <div class="pane pane2"></div>
+        <div class="pane pane3"></div>
+        <div class="pane pane4"></div>
+        <div class="pane pane5"></div>
+        <div class="pane pane6"></div>
+        <div class="pane pane7"></div>
+        <div class="pane pane8"></div>
     </div>
-
-    <!-- Logo at the bottom -->
-    <div class="logo"></div>
 
     <!-- Footer -->
     <footer>
-        <div class="social-media">
-            <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link">
-                <img src="icons/patreon.png" alt="Patreon" id="patreon-icon">
-            </a>
-            <a href="https://twitter.com/tristannuvola" target="_blank">
-                <img src="icons/twitter.png" alt="Twitter">
-            </a>
-            <a href="https://www.instagram.com/adadandhismeat/" target="_blank">
-                <img src="icons/instagram.png" alt="Instagram">
-            </a>
+        <div id="footer-content">
+            <div class="social-media">
+                <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link">
+                    <img src="icons/patreon.png" alt="Patreon" id="patreon-icon">
+                </a>
+                <a href="https://twitter.com/tristannuvola" target="_blank">
+                    <img src="icons/twitter.png" alt="Twitter">
+                </a>
+                <a href="https://www.instagram.com/adadandhismeat/" target="_blank">
+                    <img src="icons/instagram.png" alt="Instagram">
+                </a>
+            </div>
+            <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
         </div>
-        <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
+        <!-- Footer Toggle -->
+        <div id="footer-toggle">
+            <span id="footer-toggle-icon">^</span>
+        </div>
     </footer>
 </body>
 </html>
