@@ -138,73 +138,7 @@ body {
     height: 95px;
 }
 
-/* Logo Container */
-#logo-container {
-    position: fixed;
-    right: 240px; /* Similar to .title */
-    top: 70%;
-    transform: translateY(-50%);
-    width: 129px;
-    height: 194px;
-    z-index: 16;
-    display: none; /* Hidden by default */
-    transition: opacity var(--transition-speed) ease, right var(--transition-speed) ease;
-}
-
-body.introduction-page #logo-container {
-    display: block;
-}
-
-#logo-container img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Adjust on mobile screens */
-@media screen and (max-width: 768px) {
-    .title {
-        right: 10px; /* Adjust position on mobile */
-        width: 200px;
-        height: 180px;
-        top: 100px; /* Adjust top position for mobile */
-        transform: none;
-    }
-
-    #logo-container {
-        right: 10px; /* Adjust to fit smaller screens */
-        top: 200px; /* Adjust top position for mobile */
-        transform: none;
-        width: 100px;
-        height: auto;
-    }
-
-    #menu-icon-container img {
-        width: 60px; /* Adjusted size for smaller screens */
-        height: auto;
-    }
-
-    #side-menu img {
-        max-width: 80px;
-        max-height: 80px;
-    }
-
-    footer #theme-toggle img {
-        width: 40px;
-        height: 40px;
-    }
-
-    /* Adjust poetry headers */
-    .collection-header, .poem-header, .section-header {
-        font-size: 1.2em;
-    }
-
-    .toggle-icon {
-        font-size: 1.2em;
-    }
-}
-
-/* Panels (Manga Images) */
+/* Panels (Pane Images) */
 .panels {
     position: fixed;
     right: 0px; /* Fixed to the right */
@@ -241,34 +175,98 @@ body.introduction-page #logo-container {
 .pane7 { background-image: url("images/pane7.png"); }
 .pane8 { background-image: url("images/pane8.png"); }
 
-/* Title Image */
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between titles */
+    flex-wrap: wrap;
+}
+
 .title {
-    background-image: url("images/title.png");
+    width: 100px; /* Scaled down */
+    height: auto;
+    transition: transform var(--transition-speed) ease;
+}
+
+.title-text {
+    margin-top: 10px;
+}
+
+.title-text h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.title-text p {
+    font-size: 1em;
+    margin: 5px 0 0 0;
+}
+
+/* Logo Container */
+#logo-container {
     position: fixed;
-    right: 240px; /* Similar to panels */
-    top: 30%;
-    transform: translateY(-50%); /* Center vertically */
-    width: 270px;
-    height: 240px;
-    z-index: 15; /* Above panels */
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: right var(--transition-speed) ease;
+    right: 240px; /* Aligned with title */
+    top: 70%;
+    transform: translateY(-50%);
+    width: 100px; /* Scaled down */
+    height: auto;
+    z-index: 16;
+    display: none; /* Hidden by default */
+    transition: opacity var(--transition-speed) ease, right var(--transition-speed) ease;
 }
 
-#side-menu.visible ~ .title {
-    right: -320px;
+body.introduction-page #logo-container {
+    display: block;
 }
 
+/* Adjust on mobile screens */
 @media screen and (max-width: 768px) {
     .title {
-        right: 10px; /* Adjust position on mobile */
-        width: 200px;
-        height: 180px;
-        top: 100px; /* Adjust top position for mobile */
-        transform: none;
+        width: 80px; /* Further scaled down */
     }
+
+    .title-container {
+        flex-direction: column;
+    }
+
+    #logo-container {
+        right: 10px; /* Adjust to fit smaller screens */
+        top: 200px; /* Adjust top position for mobile */
+        transform: none;
+        width: 80px;
+    }
+
+    #side-menu img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    #theme-toggle img {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Adjust poetry headers */
+    .collection-header, .poem-header, .section-header {
+        font-size: 1.2em;
+    }
+
+    .toggle-icon {
+        font-size: 1.2em;
+    }
+}
+
+/* Title Image Adjustments */
+.title-section .title-container img.title {
+    /* Ensure titles are centered and spaced */
+    margin: 0 auto;
 }
 
 /* Main Content */
@@ -283,7 +281,7 @@ body.introduction-page #logo-container {
 
 @media (max-width: 768px) {
     #main-content {
-        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 150px 10px 60px 10px; /* Adjust margins for smaller screens */
     }
 }
 
@@ -509,51 +507,23 @@ footer #theme-toggle img {
 /* Responsive design */
 @media screen and (max-width: 768px) {
     #main-content {
-        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 150px 10px 60px 10px; /* Adjust margins for smaller screens */
     }
 
     .panels {
         display: none;
     }
 
-    .title {
-        right: 10px; /* Adjust position on mobile */
-        width: 200px;
-        height: 180px;
-        top: 100px; /* Adjust top position for mobile */
-        transform: none;
+    .title-section .title-container {
+        gap: 10px; /* Reduced spacing on mobile */
     }
 
-    #logo-container {
-        right: 10px; /* Adjust to fit smaller screens */
-        top: 200px; /* Adjust top position for mobile */
-        transform: none;
-        width: 100px;
-        height: auto;
+    .title-section .title-text h1 {
+        font-size: 1.5em;
     }
 
-    #menu-icon-container img {
-        width: 60px; /* Adjusted size for smaller screens */
-        height: auto;
-    }
-
-    #side-menu img {
-        max-width: 80px;
-        max-height: 80px;
-    }
-
-    footer #theme-toggle img {
-        width: 40px;
-        height: 40px;
-    }
-
-    /* Adjust poetry headers */
-    .collection-header, .poem-header, .section-header {
-        font-size: 1.2em;
-    }
-
-    .toggle-icon {
-        font-size: 1.2em;
+    .title-section .title-text p {
+        font-size: 0.9em;
     }
 }
 
