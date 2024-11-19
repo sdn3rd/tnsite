@@ -83,10 +83,9 @@ function addEventListeners() {
     // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sideMenu = document.getElementById('side-menu');
-    const titleImage = document.querySelector('.title');
     const panels = document.querySelector('.panels');
 
-    if (hamburgerMenu && sideMenu && titleImage && panels) {
+    if (hamburgerMenu && sideMenu && panels) {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             sideMenu.classList.toggle('visible');
@@ -124,20 +123,21 @@ function addEventListeners() {
     if (footer && footerToggle && footerToggleIcon) {
         // Make entire footer clickable to collapse
         footer.addEventListener('click', (event) => {
-            // Prevent toggle icon from triggering collapse when clicked
-            if (!footerToggle.contains(event.target)) {
-                footer.classList.toggle('footer-collapsed');
-                // Toggle arrow direction
-                if (footer.classList.contains('footer-collapsed')) {
-                    footerToggleIcon.textContent = '^';
-                } else {
-                    footerToggleIcon.textContent = 'v';
-                }
-                console.log('Footer toggled by clicking on footer.');
+            // If the click is on the footer-toggle or theme toggle, do nothing
+            if (footerToggle.contains(event.target) || document.getElementById('theme-toggle').contains(event.target)) {
+                return;
             }
+            footer.classList.toggle('footer-collapsed');
+            // Toggle arrow direction
+            if (footer.classList.contains('footer-collapsed')) {
+                footerToggleIcon.textContent = '^';
+            } else {
+                footerToggleIcon.textContent = 'v';
+            }
+            console.log('Footer toggled by clicking on footer.');
         });
 
-        // Ensure the toggle icon itself does not trigger the footer collapse
+        // Ensure the toggle icon itself does not trigger the footer collapse when clicked
         footerToggle.addEventListener('click', (event) => {
             event.stopPropagation();
             footer.classList.toggle('footer-collapsed');

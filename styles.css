@@ -138,38 +138,86 @@ body {
     height: 95px;
 }
 
-/* Tristan Button Styles */
-#tristan-button-container {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-#tristan-logo-link img {
+/* Logo Container */
+#logo-container {
+    position: fixed;
+    right: 240px; /* Similar to .title */
+    top: 70%;
+    transform: translateY(-50%);
     width: 129px;
     height: 194px;
-    transition: transform var(--transition-speed) ease;
+    z-index: 16;
+    display: none; /* Hidden by default */
+    transition: opacity var(--transition-speed) ease, right var(--transition-speed) ease;
 }
 
-/* Hide logo on non-introduction pages */
-body:not(.introduction-page) #tristan-button-container {
-    display: none;
-}
-
-/* Show logo only on introduction page */
-body.introduction-page #tristan-button-container {
+body.introduction-page #logo-container {
     display: block;
+}
+
+#logo-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Adjust on mobile screens */
+@media screen and (max-width: 768px) {
+    .title {
+        right: 10px; /* Adjust position on mobile */
+        width: 200px;
+        height: 180px;
+        top: 100px; /* Adjust top position for mobile */
+        transform: none;
+    }
+
+    #logo-container {
+        right: 10px; /* Adjust to fit smaller screens */
+        top: 200px; /* Adjust top position for mobile */
+        transform: none;
+        width: 100px;
+        height: auto;
+    }
+
+    #menu-icon-container img {
+        width: 60px; /* Adjusted size for smaller screens */
+        height: auto;
+    }
+
+    #side-menu img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    footer #theme-toggle img {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Adjust poetry headers */
+    .collection-header, .poem-header, .section-header {
+        font-size: 1.2em;
+    }
+
+    .toggle-icon {
+        font-size: 1.2em;
+    }
 }
 
 /* Panels (Manga Images) */
 .panels {
     position: fixed;
-    right: 0;
-    top: 0;
+    right: 0px; /* Fixed to the right */
+    top: 0px;
     width: 220px;
     height: 100%;
-    z-index: 20;
+    z-index: 10; /* Lower z-index */
     pointer-events: none;
     transition: right var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
 }
 
 #side-menu.visible ~ .panels {
@@ -193,25 +241,16 @@ body.introduction-page #tristan-button-container {
 .pane7 { background-image: url("images/pane7.png"); }
 .pane8 { background-image: url("images/pane8.png"); }
 
-/* Arrange panes vertically with 20px spacing */
-.panels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    overflow-y: auto;
-    padding-top: 20px;
-}
-
 /* Title Image */
 .title {
     background-image: url("images/title.png");
     position: fixed;
-    right: 240px;
-    top: 60px;
+    right: 240px; /* Similar to panels */
+    top: 30%;
+    transform: translateY(-50%); /* Center vertically */
     width: 270px;
     height: 240px;
-    z-index: 4;
+    z-index: 15; /* Above panels */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -222,13 +261,23 @@ body.introduction-page #tristan-button-container {
     right: -320px;
 }
 
+@media screen and (max-width: 768px) {
+    .title {
+        right: 10px; /* Adjust position on mobile */
+        width: 200px;
+        height: 180px;
+        top: 100px; /* Adjust top position for mobile */
+        transform: none;
+    }
+}
+
 /* Main Content */
 #main-content {
     padding: 20px;
     transition: margin-left var(--transition-speed) ease;
     color: var(--text-color);
     max-width: 800px;
-    margin: 80px auto 60px auto; /* Adjusted to account for fixed title and menu */
+    margin: 80px 20px 60px 180px; /* Adjust left margin to account for side menu */
     text-align: left; /* Left justify text */
 }
 
@@ -468,10 +517,19 @@ footer #theme-toggle img {
     }
 
     .title {
-        position: relative;
-        right: 0;
-        top: 0;
-        margin: 20px auto;
+        right: 10px; /* Adjust position on mobile */
+        width: 200px;
+        height: 180px;
+        top: 100px; /* Adjust top position for mobile */
+        transform: none;
+    }
+
+    #logo-container {
+        right: 10px; /* Adjust to fit smaller screens */
+        top: 200px; /* Adjust top position for mobile */
+        transform: none;
+        width: 100px;
+        height: auto;
     }
 
     #menu-icon-container img {
@@ -484,14 +542,9 @@ footer #theme-toggle img {
         max-height: 80px;
     }
 
-    #theme-toggle img {
+    footer #theme-toggle img {
         width: 40px;
         height: 40px;
-    }
-
-    #tristan-logo-link img {
-        width: 100px;
-        height: auto;
     }
 
     /* Adjust poetry headers */
