@@ -9,12 +9,12 @@ function initializePage() {
     console.log('Initializing page...');
     initializeTheme();
     addEventListeners();
-    loadSection('introduction');
+    loadSection('introduction'); // Load the default section
     updateYear();
     updatePatreonIcon();
 }
 
-// Theme functions
+/* Theme functions */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -48,8 +48,10 @@ function toggleTheme() {
 }
 
 function updateThemeIcon(theme) {
-    const themeIcon = document.querySelector('#theme-toggle img');
-    themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
+    const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
+    themeToggleImages.forEach(themeIcon => {
+        themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
+    });
 }
 
 function updatePatreonIcon() {
@@ -63,25 +65,31 @@ function updatePatreonIcon() {
     }
 }
 
-// Event Listeners
+/* Event Listeners */
 function addEventListeners() {
-    // Theme Toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-        console.log('Added event listener for theme toggle.');
+    // Theme Toggle in Footer
+    const themeToggleFooter = document.querySelector('footer #theme-toggle');
+    if (themeToggleFooter) {
+        themeToggleFooter.addEventListener('click', toggleTheme);
+        console.log('Added event listener for theme toggle in footer.');
     } else {
-        console.warn('Theme toggle switch not found.');
+        console.warn('Theme toggle in footer not found.');
     }
 
     // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sideMenu = document.getElementById('side-menu');
-    if (hamburgerMenu) {
+    const titleImage = document.querySelector('.title');
+    const panels = document.querySelector('.panels');
+
+    if (hamburgerMenu && sideMenu && titleImage && panels) {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             sideMenu.classList.toggle('visible');
+            console.log('Menu toggled.');
         });
+    } else {
+        console.warn('One or more menu elements not found.');
     }
 
     // Close menu when clicking outside
@@ -110,11 +118,26 @@ function addEventListeners() {
     if (footerToggle && footer && footerToggleIcon) {
         footerToggle.addEventListener('click', () => {
             footer.classList.toggle('footer-collapsed');
+            // Toggle arrow direction
+            if (footer.classList.contains('footer-collapsed')) {
+                footerToggleIcon.textContent = '^';
+            } else {
+                footerToggleIcon.textContent = 'v';
+            }
+            console.log('Footer toggled.');
+        });
+    }
+
+    // Prevent clicks inside footer-content from closing the menu
+    const footerContent = document.getElementById('footer-content');
+    if (footerContent) {
+        footerContent.addEventListener('click', (event) => {
+            event.stopPropagation();
         });
     }
 }
 
-// Load Sections
+/* Load Sections */
 function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
@@ -132,8 +155,15 @@ function loadContentSection(sectionId) {
             const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
+                // If about/introduction, show logo
+                if (sectionId === 'introduction') {
+                    document.body.classList.add('introduction-page');
+                } else {
+                    document.body.classList.remove('introduction-page');
+                }
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
+                document.body.classList.remove('introduction-page');
             }
         })
         .catch(error => {
@@ -142,7 +172,7 @@ function loadContentSection(sectionId) {
         });
 }
 
-// Load Poetry Section with dynamic content from /patreon-poetry
+/* Load Poetry Section with dynamic content from /patreon-poetry */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     const contentDiv = document.getElementById('main-content');
@@ -177,7 +207,7 @@ function loadPoetrySection() {
         });
 }
 
-// Function to categorize poems by category
+/* Function to categorize poems by category */
 function categorizePoems(poems) {
     console.log('Categorizing poems...');
     const categories = {};
@@ -196,7 +226,7 @@ function categorizePoems(poems) {
     return categories;
 }
 
-// Function to display poetry with collapsible sections and poems
+/* Function to display poetry with collapsible sections and poems */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -245,7 +275,7 @@ function displayPoetry(poemsByCategory, container) {
             // Add event listener to poem header
             poemHeader.addEventListener('click', () => {
                 const isVisible = poemContent.style.display === 'block';
-                // Collapse all other poems
+                // Collapse all other poems in the same category
                 const allPoemContents = collectionContent.querySelectorAll('.poem-content');
                 allPoemContents.forEach(pc => pc.style.display = 'none');
                 const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
@@ -282,7 +312,7 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-// Utility functions
+/* Utility functions */
 function markdownToHTML(text) {
     return text
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')

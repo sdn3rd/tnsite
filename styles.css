@@ -5,6 +5,7 @@
     --line-color: #ffffff;
     --highlight-color: #333333;
     --link-color: #ffffff;
+    --footer-height: 100px;
 }
 
 [data-theme="light"] {
@@ -24,6 +25,19 @@ body {
     font-family: 'Roboto', sans-serif;
     position: relative;
     overflow-x: hidden;
+    font-size: 16px; /* Base font size */
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        font-size: 18px;
+    }
 }
 
 /* Menu Icon Container */
@@ -38,14 +52,22 @@ body {
     width: 132px;
     height: 94px;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    #menu-icon-container img {
+        width: 60px; /* Adjusted size for smaller screens */
+        height: auto;
+    }
 }
 
 /* Side Menu */
 #side-menu {
     position: fixed;
     top: 0;
-    left: -150px;
-    width: 150px;
+    left: -160px; /* Slightly wider to accommodate icons */
+    width: 160px;
     height: 100%;
     background-color: var(--background-color);
     z-index: 1001;
@@ -62,17 +84,18 @@ body {
 
 #side-menu ul {
     list-style: none;
-    padding: 0;
+    padding: 20px 0;
     margin: 0;
     width: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 #side-menu li {
-    margin: 10px 0;
+    margin: 20px 0;
     width: 100%;
     text-align: center;
 }
@@ -87,6 +110,8 @@ body {
 #side-menu img {
     display: block;
     margin: 0 auto;
+    max-width: 132px; /* Default max-width */
+    height: auto;
 }
 
 #introduction-link img {
@@ -109,17 +134,6 @@ body {
     height: 95px;
 }
 
-/* Theme Toggle inside Side Menu */
-#theme-toggle {
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-#theme-toggle img {
-    width: 50px;
-    height: 50px;
-}
-
 /* Tristan Button Styles */
 #tristan-button-container {
     margin-bottom: 20px;
@@ -129,53 +143,33 @@ body {
 #tristan-logo-link img {
     width: 129px;
     height: 194px;
+    transition: transform 0.3s ease;
 }
 
-/* Main Content */
-#main-content {
-    margin-left: 0;
-    padding: 20px;
-    transition: margin-left 0.3s ease;
-    color: var(--text-color);
-    max-width: 800px;
-    margin-right: auto;
+/* Hide logo on non-introduction pages */
+body:not(.introduction-page) #tristan-button-container {
+    display: none;
 }
 
-#side-menu.visible ~ #main-content {
-    margin-left: 150px;
-}
-
-/* Content Styling */
-#main-content h1 {
-    margin-top: 0;
-}
-
-#main-content img {
-    max-width: 100%;
-    height: auto;
-}
-
-#main-content a {
-    color: var(--link-color);
-}
-
-#main-content a:hover {
-    color: var(--highlight-color);
+/* Show logo only on introduction page */
+body.introduction-page #tristan-button-container {
+    display: block;
 }
 
 /* Panels (Manga Images) */
 .panels {
-    position: absolute;
-    right: 0;
+    position: fixed;
+    left: 0;
     top: 0;
     width: 220px;
+    height: 100%;
     z-index: 20;
     pointer-events: none;
-    transition: right 0.3s ease;
+    transition: left 0.3s ease;
 }
 
 #side-menu.visible ~ .panels {
-    right: -250px;
+    left: -250px;
 }
 
 .pane {
@@ -208,7 +202,7 @@ body {
 /* Title Image */
 .title {
     background-image: url("images/title.png");
-    position: absolute;
+    position: fixed;
     right: 240px;
     top: 60px;
     width: 270px;
@@ -224,6 +218,155 @@ body {
     right: -320px;
 }
 
+/* Main Content */
+#main-content {
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 80px auto 60px auto; /* Adjusted to account for fixed title and menu */
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
+    }
+}
+
+/* Content Styling */
+#main-content h1 {
+    margin-top: 0;
+    font-size: 2em;
+}
+
+#main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+#main-content a {
+    color: var(--link-color);
+}
+
+#main-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Sections styling */
+.section {
+    border-bottom: 1px solid var(--line-color);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+.section-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    font-size: 1.5em;
+}
+
+.section-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.5em;
+}
+
+.section-content {
+    padding: 1em;
+    display: none;
+}
+
+.section-content p {
+    margin: 0;
+}
+
+.section-content a {
+    text-decoration: underline;
+}
+
+.section-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Poems container */
+.poems-container {
+    margin-top: 1em;
+}
+
+/* Individual poem wrapper */
+.poem {
+    border-bottom: 1px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Poem header styling */
+.poem-header {
+    padding: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color 0.3s;
+    font-size: 1.25em;
+}
+
+.poem-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.poem-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.25em;
+}
+
+/* Poem content styling */
+.poem-content {
+    padding: 0.5em 1em;
+    display: none;
+    font-size: 1em;
+}
+
+/* Collection wrapper */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Collection header styling */
+.collection-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color 0.3s;
+    font-size: 1.75em;
+}
+
+.collection-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.collection-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.75em;
+}
+
+/* Collection content */
+.collection-content {
+    padding-left: 1em;
+    display: none;
+}
+
 /* Footer Styling */
 footer {
     padding: 1em 0;
@@ -234,10 +377,12 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1001;
+    transition: height 0.3s ease;
 }
 
 footer p {
     margin: 0.5em 0 0 0;
+    font-size: 1em;
 }
 
 .social-media {
@@ -275,11 +420,30 @@ footer p {
     transform: rotate(180deg);
 }
 
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+footer #theme-toggle img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Adjust footer toggle arrow */
+#footer-toggle-icon {
+    transform: rotate(0deg);
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
+
 /* Responsive design */
 @media screen and (max-width: 768px) {
     #main-content {
-        padding: 10px;
-        margin-right: 10px;
+        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
     }
 
     .panels {
@@ -294,8 +458,8 @@ footer p {
     }
 
     #menu-icon-container img {
-        width: 50px;
-        height: 50px;
+        width: 60px; /* Adjusted size for smaller screens */
+        height: auto;
     }
 
     #side-menu img {
@@ -311,5 +475,51 @@ footer p {
     #tristan-logo-link img {
         width: 100px;
         height: auto;
+    }
+
+    /* Adjust poetry headers */
+    .collection-header, .poem-header, .section-header {
+        font-size: 1.2em;
+    }
+
+    .toggle-icon {
+        font-size: 1.2em;
+    }
+}
+
+/* Adjust social media icons */
+.social-media img {
+    width: 24px;
+    height: 24px;
+}
+
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Adjust poetry headers and lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header, .poem-header {
+    font-size: 1.75em;
+}
+
+.toggle-icon {
+    font-size: 1.75em;
+}
+
+/* Adjust main content font size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
     }
 }
