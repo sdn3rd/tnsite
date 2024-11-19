@@ -12,6 +12,7 @@ function initializePage() {
     loadSection('introduction'); // Load the default section
     updateYear();
     updatePatreonIcon();
+    duplicatePanes(); // Call the duplicatePanes function after initialization
 }
 
 /* Theme functions */
@@ -362,4 +363,43 @@ function updateYear() {
     } else {
         console.warn('Year element not found in footer.');
     }
+}
+
+/* Function to duplicate panes to fill the panels container */
+function duplicatePanes() {
+    const panels = document.querySelector('.panels');
+    if (!panels) {
+        console.warn('Panels container not found.');
+        return;
+    }
+
+    const panes = Array.from(panels.querySelectorAll('.pane'));
+    if (panes.length === 0) {
+        console.warn('No pane elements found to duplicate.');
+        return;
+    }
+
+    // Calculate the total height of the panels container
+    const panelsHeight = panels.clientHeight;
+
+    // Calculate the total height of existing panes
+    const paneHeight = panes[0].offsetHeight + parseInt(getComputedStyle(panes[0]).marginTop) + parseInt(getComputedStyle(panes[0]).marginBottom);
+    let totalPaneHeight = panes.length * paneHeight;
+
+    // Clone panes until totalPaneHeight exceeds panelsHeight
+    let cloneIndex = 0;
+    while (totalPaneHeight < panelsHeight) {
+        const clone = panes[cloneIndex % panes.length].cloneNode(true);
+        // Optional: Remove the unique classes to prevent duplicate IDs or issues
+        clone.classList.remove(`pane${cloneIndex % panes.length + 1}`);
+        panels.appendChild(clone);
+        totalPaneHeight += paneHeight;
+        cloneIndex++;
+        if (cloneIndex > 100) { // Prevent infinite loop
+            console.warn('Reached 100 clones, stopping duplication to prevent infinite loop.');
+            break;
+        }
+    }
+
+    console.log(`Duplicated panes to fill the panels container. Total panes: ${panels.querySelectorAll('.pane').length}`);
 }
