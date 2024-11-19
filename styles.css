@@ -247,29 +247,65 @@ body.menu-open #main-content {
     }
 
     /* Adjust side menu for mobile */
+    /* Side Menu */
     .side-menu {
-        width: var(--side-menu-width-mobile); /* Further reduced width to 50px */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: var(--side-menu-width-desktop); /* Updated width */
+        height: 100%;
+        background-color: var(--background-color);
+        z-index: 1002;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the start (left) */
+        padding-left: 20px; /* 20px padding from the left edge */
+        padding-top: 60px; /* Space for menu button */
+        transition: transform var(--transition-speed) ease;
+        overflow-y: auto;
         transform: translateX(-100%); /* Hidden by default */
     }
-
+    
     .side-menu.visible {
         transform: translateX(0); /* Slide in */
     }
-
-    /* Adjust side menu contents for mobile */
+    
+    .side-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    
+    .side-menu li {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0; /* Reduced margin */
+    }
+    
     .side-menu a {
+        color: var(--text-color);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
         align-items: flex-start; /* Align items to the start (left) */
+        transition: transform var(--transition-speed) ease;
     }
-
-    /* Adjust menu icon container */
-    #menu-icon-container {
-        left: 10px; /* Keep at top-left */
-        top: 10px; /* Ensure it remains at top-left */
+    
+    .side-menu a:hover {
+        transform: scale(1.05);
     }
-
-    #menu-icon-container img {
-        width: 30px; /* Reduced size for mobile */
+    
+    .menu-icon {
+        width: 30px; /* Reduced size from 40px to 30px */
         height: 30px;
+        object-fit: contain;
+    }
+    
+    .menu-text {
+        margin-top: 5px;
+        font-size: 0.7em; /* Reduced font size */
+        text-align: center;
     }
 
     /* Adjust logo size on mobile */
