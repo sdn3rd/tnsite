@@ -64,7 +64,7 @@ body {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -var(--side-menu-width-desktop); /* Hidden by default */
+    left: 0;
     width: var(--side-menu-width-desktop);
     height: 100%;
     background-color: var(--background-color);
@@ -73,13 +73,14 @@ body {
     flex-direction: column;
     align-items: flex-start; /* Align items to the start (left) */
     padding-left: 20px; /* 20px padding from the left edge */
-    transition: left var(--transition-speed) ease;
-    overflow-y: auto;
     padding-top: 60px; /* Space for menu button */
+    transition: transform var(--transition-speed) ease;
+    overflow-y: auto;
+    transform: translateX(-100%); /* Hidden by default */
 }
 
 .side-menu.visible {
-    left: 0; /* Slide in */
+    transform: translateX(0); /* Slide in */
 }
 
 .side-menu ul {
@@ -92,7 +93,7 @@ body {
 .side-menu li {
     width: 100%;
     text-align: center;
-    margin: 10px 0; /* Further reduced margin */
+    margin: 10px 0; /* Reduced margin */
 }
 
 .side-menu a {
@@ -109,14 +110,14 @@ body {
 }
 
 .menu-icon {
-    width: 40px; /* Further reduced size */
-    height: 40px; /* Further reduced size */
+    width: 40px; /* Reduced size */
+    height: 40px; /* Reduced size */
     object-fit: contain;
 }
 
 .menu-text {
     margin-top: 5px;
-    font-size: 0.7em; /* Further reduced font size */
+    font-size: 0.7em; /* Reduced font size */
 }
 
 /* Logo Container in Footer */
@@ -141,17 +142,18 @@ body {
     height: calc(100vh - 40px); /* Adjust height considering top and bottom margins */
     z-index: 1;  /* Lower z-index as specified */
     pointer-events: none;
-    transition: right var(--transition-speed) ease;
+    transition: transform var(--transition-speed) ease;
     display: flex;
     flex-direction: column;
     align-items: flex-end;  /* Right align the panels */
     padding-top: 20px;
     overflow-y: auto;  /* Allow scrolling if panels overflow */
     background-color: #000000; /* Black background for margins */
+    transform: translateX(0); /* Default position */
 }
 
 .panels.hidden {
-    right: -220px;  /* Slide offscreen */
+    transform: translateX(220px);  /* Slide offscreen to the right */
 }
 
 /* Individual Panel */
@@ -248,11 +250,11 @@ body.menu-open #main-content {
     /* Adjust side menu for mobile */
     .side-menu {
         width: var(--side-menu-width-mobile); /* Further reduced width */
-        left: -var(--side-menu-width-mobile); /* Hidden by default */
+        transform: translateX(-100%); /* Hidden by default */
     }
 
     .side-menu.visible {
-        left: 0; /* Slide in */
+        transform: translateX(0); /* Slide in */
     }
 
     /* Adjust side menu contents for mobile */
@@ -279,6 +281,11 @@ body.menu-open #main-content {
     /* Adjust main content margin when menu is open on mobile */
     body.menu-open #main-content {
         margin-left: var(--side-menu-width-mobile); /* 100px on mobile */
+    }
+
+    /* Adjust panels hidden state on mobile */
+    .panels.hidden {
+        transform: translateX(220px); /* Ensure it slides correctly */
     }
 }
 
@@ -519,11 +526,11 @@ footer #theme-toggle img {
     /* Adjust side menu for mobile */
     .side-menu {
         width: var(--side-menu-width-mobile); /* Further reduced width */
-        left: -var(--side-menu-width-mobile); /* Hidden by default */
+        transform: translateX(-100%); /* Hidden by default */
     }
 
     .side-menu.visible {
-        left: 0; /* Slide in */
+        transform: translateX(0); /* Slide in */
     }
 
     /* Adjust side menu contents for mobile */
@@ -550,6 +557,11 @@ footer #theme-toggle img {
     /* Adjust main content margin when menu is open on mobile */
     body.menu-open #main-content {
         margin-left: var(--side-menu-width-mobile); /* 100px on mobile */
+    }
+
+    /* Adjust panels hidden state on mobile */
+    .panels.hidden {
+        transform: translateX(220px); /* Ensure it slides correctly */
     }
 }
 
