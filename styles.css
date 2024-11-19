@@ -279,8 +279,10 @@ body.menu-open #main-content {
     
     .side-menu li {
         width: 100%;
-        text-align: center;
-        margin: 10px 0; /* Reduced margin */
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: 10px;
     }
     
     .side-menu a {
