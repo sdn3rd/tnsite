@@ -1,315 +1,241 @@
-// script.js
-
 console.log('script.js is loaded and running.');
 
-// Function to initialize the page
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded event fired.');
+    initializePage();
+});
+
 function initializePage() {
-  console.log('Initializing page...');
-  initializeTheme();
-  addEventListeners();
-  loadSections();
-  updateYear();
-  updatePatreonIcon();
+    console.log('Initializing page...');
+    initializeTheme();
+    addEventListeners();
+    loadSection('introduction');
+    updateYear();
+    updatePatreonIcon();
 }
 
-// Theme functions remain the same
+// Theme functions
 function initializeTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    console.log(`Applying saved theme: ${savedTheme}`);
-    applyTheme(savedTheme);
-  } else {
-    console.log('No saved theme found, detecting OS theme preference.');
-    detectOSTheme();
-  }
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.checked = (document.documentElement.getAttribute('data-theme') === 'dark');
-  }
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        console.log(`Applying saved theme: ${savedTheme}`);
+        applyTheme(savedTheme);
+    } else {
+        console.log('No saved theme found, detecting OS theme preference.');
+        detectOSTheme();
+    }
 }
 
 function applyTheme(theme) {
-  console.log(`Applying theme: ${theme}`);
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  updatePatreonIcon();
+    console.log(`Applying theme: ${theme}`);
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeIcon(theme);
+    updatePatreonIcon();
 }
 
 function detectOSTheme() {
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = prefersDarkScheme ? 'dark' : 'light';
-  console.log(`Detected OS theme preference: ${theme}`);
-  applyTheme(theme);
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = prefersDarkScheme ? 'dark' : 'light';
+    console.log(`Detected OS theme preference: ${theme}`);
+    applyTheme(theme);
 }
 
 function toggleTheme() {
-  const themeToggle = document.getElementById('theme-toggle');
-  const newTheme = themeToggle.checked ? 'dark' : 'light';
-  console.log(`Theme toggled to: ${newTheme}`);
-  applyTheme(newTheme);
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
 }
 
+function updateThemeIcon(theme) {
+    const themeIcon = document.querySelector('#theme-toggle img');
+    themeIcon.src = theme === 'light' ? 'icons/lightmode.png' : 'icons/darkmode.png';
+}
+
+function updatePatreonIcon() {
+    const patreonIcon = document.getElementById('patreon-icon');
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    if (patreonIcon) {
+        patreonIcon.src = currentTheme === 'light' ? 'icons/patreon_alt.png' : 'icons/patreon.png';
+        console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
+    } else {
+        console.warn('Patreon icon not found.');
+    }
+}
+
+// Event Listeners
 function addEventListeners() {
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('change', toggleTheme);
-    console.log('Added event listener for theme toggle.');
-  } else {
-    console.warn('Theme toggle switch not found.');
-  }
-}
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+        console.log('Added event listener for theme toggle.');
+    } else {
+        console.warn('Theme toggle switch not found.');
+    }
 
-// Updated loadSections function
-function loadSections() {
-  console.log('Loading sections from sections.json...');
-  fetch('sections.json')
-    .then(response => {
-      console.log('Received response from sections.json:', response);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch sections.json: ${response.status} ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Sections loaded:', data);
-      displaySections(data);
-    })
-    .catch(error => {
-      console.error('Error loading sections:', error);
-      displayError('Failed to load sections.');
+    // Hamburger Menu Toggle
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const sideMenu = document.getElementById('side-menu');
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', (event) => {
+            event.stopPropagation();
+            sideMenu.classList.toggle('visible');
+        });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+            sideMenu.classList.remove('visible');
+        }
+    });
+
+    // Menu Item Clicks
+    const menuItems = document.querySelectorAll('#side-menu a');
+    menuItems.forEach((item) => {
+        item.addEventListener('click', function (event) {
+            event.preventDefault();
+            const section = this.getAttribute('data-section');
+            loadSection(section);
+            sideMenu.classList.remove('visible');
+        });
     });
 }
 
-// Enhanced poetry detection and processing
-function loadPoetrySections(parentElement) {
-  console.log('Loading poetry from /patreon-poetry...');
-  fetch('https://spectraltapestry.com/patreon-poetry')
-    .then(response => {
-      console.log('Received response from /patreon-poetry:', response);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
-      }
-      // Check for CORS issues
-      if (response.type === 'opaque') {
-        console.warn('Response type is opaque. Possible CORS issue.');
-      }
-      return response.text();
-    })
-    .then(text => {
-      console.log('Raw response text received.');
-      let data;
-      try {
-        // Parse the JSON while handling Unicode characters
-        data = JSON.parse(text);
-      } catch (error) {
-        console.error('Invalid JSON response from /patreon-poetry:', error);
-        console.error('Response text:', text);
-        throw new Error('Invalid JSON response from /patreon-poetry');
-      }
-      console.log('Poetry data received:', data);
-      const poemsByCategory = categorizePoems(data);
-      console.log('Poems categorized:', poemsByCategory);
-      displayPoetry(poemsByCategory, parentElement);
-    })
-    .catch(error => {
-      console.error('Error loading poetry:', error);
-      parentElement.innerHTML = `<p>Failed to load poetry. Error: ${error.message}</p>`;
-    });
+// Load Sections
+function loadSection(section) {
+    if (section === 'poetry') {
+        loadPoetrySection();
+    } else {
+        loadContentSection(section);
+    }
+}
+
+function loadContentSection(sectionId) {
+    console.log(`Loading section: ${sectionId}`);
+    fetch('sections.json')
+        .then(response => response.json())
+        .then(sections => {
+            const section = sections.find(s => s.id === sectionId);
+            const contentDiv = document.getElementById('main-content');
+            if (section) {
+                contentDiv.innerHTML = markdownToHTML(section.content);
+            } else {
+                contentDiv.innerHTML = '<p>Section not found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading sections:', error);
+            displayError('Failed to load sections.');
+        });
+}
+
+// Load Poetry Section with dynamic content from /patreon-poetry
+function loadPoetrySection() {
+    console.log('Loading poetry from /patreon-poetry...');
+    const contentDiv = document.getElementById('main-content');
+    contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
+
+    fetch('https://spectraltapestry.com/patreon-poetry')
+        .then(response => {
+            console.log('Received response from /patreon-poetry:', response);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
+            }
+            // Check for CORS issues
+            if (response.type === 'opaque') {
+                console.warn('Response type is opaque. Possible CORS issue.');
+            }
+            return response.text();
+        })
+        .then(text => {
+            console.log('Raw response text received.');
+            let data;
+            try {
+                // Parse the JSON while handling Unicode characters
+                data = JSON.parse(text);
+            } catch (error) {
+                console.error('Invalid JSON response from /patreon-poetry:', error);
+                console.error('Response text:', text);
+                throw new Error('Invalid JSON response from /patreon-poetry');
+            }
+            console.log('Poetry data received:', data);
+            const poemsByCategory = categorizePoems(data);
+            console.log('Poems categorized:', poemsByCategory);
+            displayPoetry(poemsByCategory, document.getElementById('poetry-container'));
+        })
+        .catch(error => {
+            console.error('Error loading poetry:', error);
+            displayError('Failed to load poetry.');
+        });
 }
 
 // Function to categorize poems by category
 function categorizePoems(poems) {
-  console.log('Categorizing poems...');
-  const categories = {};
+    console.log('Categorizing poems...');
+    const categories = {};
 
-  poems.forEach(poem => {
-    const category = poem.category || 'Uncategorized';
+    poems.forEach(poem => {
+        const category = poem.category || 'Throwetry';
 
-    if (!categories[category]) {
-      categories[category] = [];
-    }
+        if (!categories[category]) {
+            categories[category] = [];
+        }
 
-    categories[category].push(poem);
-  });
-
-  console.log('Categorized poems:', categories);
-  return categories;
-}
-
-// Updated displaySections function
-function displaySections(sections) {
-  console.log('Displaying sections...');
-  const container = document.getElementById('sections-container');
-  if (!container) {
-    console.error('Sections container not found.');
-    return;
-  }
-  container.innerHTML = '';
-
-  sections.forEach(section => {
-    console.log(`Rendering section: ${section.title}`);
-    const sectionWrapper = document.createElement('div');
-    sectionWrapper.classList.add('section');
-
-    const sectionHeader = document.createElement('div');
-    sectionHeader.classList.add('section-header');
-    sectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${section.title}`;
-
-    const sectionContent = document.createElement('div');
-    sectionContent.classList.add('section-content');
-    sectionContent.style.display = 'none';
-
-    if (section.title === 'Poetry') {
-      console.log('Loading poetry section content...');
-      loadPoetrySections(sectionContent);
-    } else {
-      console.log(`Loading content for section: ${section.title}`);
-      sectionContent.innerHTML = markdownToHTML(section.content);
-    }
-
-    sectionWrapper.appendChild(sectionHeader);
-    sectionWrapper.appendChild(sectionContent);
-    container.appendChild(sectionWrapper);
-
-    sectionHeader.addEventListener('click', () => {
-      const isVisible = sectionContent.style.display === 'block';
-      sectionContent.style.display = isVisible ? 'none' : 'block';
-      const toggleIcon = sectionHeader.querySelector('.toggle-icon');
-      toggleIcon.textContent = isVisible ? '+' : '−';
+        categories[category].push(poem);
     });
-  });
+
+    console.log('Categorized poems:', categories);
+    return categories;
 }
 
-// Updated displayPoetry function
+// Function to display poetry
 function displayPoetry(poemsByCategory, container) {
-  console.log('Displaying poetry by category...');
-  if (Object.keys(poemsByCategory).length === 0) {
-    container.innerHTML = '<p>No poems found.</p>';
-    return;
-  }
+    console.log('Displaying poetry by category...');
+    if (Object.keys(poemsByCategory).length === 0) {
+        container.innerHTML = '<p>No poems found.</p>';
+        return;
+    }
 
-  // For each category, create a section
-  Object.keys(poemsByCategory).forEach(categoryName => {
-    console.log(`Rendering category: ${categoryName}`);
-    const categoryWrapper = document.createElement('div');
-    categoryWrapper.classList.add('poetry-category');
+    // Generate HTML
+    let html = '';
+    for (const [collectionName, poems] of Object.entries(poemsByCategory)) {
+        html += `<h2>${collectionName}</h2>`;
+        poems.forEach(poem => {
+            html += `<div class="poem">
+                        <h3>${poem.title}</h3>
+                        <p>${poem.content.replace(/\n/g, '<br>')}</p>
+                     </div>`;
+        });
+        html += '<hr>';
+    }
 
-    const categoryHeader = document.createElement('div');
-    categoryHeader.classList.add('category-header');
-    categoryHeader.innerHTML = `<span class="toggle-icon">+</span> ${categoryName}`;
-
-    const categoryContent = document.createElement('div');
-    categoryContent.classList.add('category-content');
-    categoryContent.style.display = 'none';
-
-    const poemsContainer = document.createElement('div');
-    poemsContainer.classList.add('poems-container');
-
-    poemsByCategory[categoryName].forEach(poem => {
-      console.log(`Rendering poem: ${poem.title}`);
-      const poemWrapper = document.createElement('div');
-      poemWrapper.classList.add('poem');
-
-      const poemHeader = document.createElement('div');
-      poemHeader.classList.add('poem-header');
-      poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${poem.title}`;
-
-      const poemContent = document.createElement('div');
-      poemContent.classList.add('poem-content');
-      poemContent.style.display = 'none';
-      poemContent.innerHTML = sanitizeHTML(poem.content);
-
-      poemWrapper.appendChild(poemHeader);
-      poemWrapper.appendChild(poemContent);
-      poemsContainer.appendChild(poemWrapper);
-
-      // Event listener for poem collapse
-      poemHeader.addEventListener('click', () => {
-        const isVisible = poemContent.style.display === 'block';
-        poemContent.style.display = isVisible ? 'none' : 'block';
-        const toggleIcon = poemHeader.querySelector('.toggle-icon');
-        toggleIcon.textContent = isVisible ? '+' : '−';
-      });
-    });
-
-    categoryContent.appendChild(poemsContainer);
-    categoryWrapper.appendChild(categoryHeader);
-    categoryWrapper.appendChild(categoryContent);
-    container.appendChild(categoryWrapper);
-
-    // Event listener for category collapse
-    categoryHeader.addEventListener('click', () => {
-      const isVisible = categoryContent.style.display === 'block';
-      categoryContent.style.display = isVisible ? 'none' : 'block';
-      const toggleIcon = categoryHeader.querySelector('.toggle-icon');
-      toggleIcon.textContent = isVisible ? '+' : '−';
-    });
-  });
+    container.innerHTML = html;
 }
 
 // Utility functions
-function sanitizeHTML(html) {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-
-  // Remove script tags
-  const scripts = tempDiv.getElementsByTagName('script');
-  while (scripts[0]) {
-    scripts[0].parentNode.removeChild(scripts[0]);
-  }
-
-  // Remove inline event handlers
-  const allElements = tempDiv.getElementsByTagName('*');
-  for (let i = 0; i < allElements.length; i++) {
-    const attrs = allElements[i].attributes;
-    for (let j = attrs.length - 1; j >= 0; j--) {
-      if (attrs[j].name.startsWith('on')) {
-        allElements[i].removeAttribute(attrs[j].name);
-      }
-    }
-  }
-
-  return tempDiv.innerHTML;
-}
-
 function markdownToHTML(text) {
-  return text
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-    .replace(/\n/g, '<br>');
+    return text
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\n/g, '<br>');
 }
 
 function displayError(message) {
-  const container = document.getElementById('sections-container');
-  if (!container) {
-    console.error('Sections container not found while displaying error.');
-    return;
-  }
-  container.innerHTML = `<p class="error-message">${message}</p>`;
+    const contentDiv = document.getElementById('main-content');
+    if (contentDiv) {
+        contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
+    } else {
+        console.error('Main content container not found while displaying error.');
+    }
 }
 
 function updateYear() {
-  const yearElement = document.getElementById('year');
-  if (yearElement) {
-    yearElement.innerText = new Date().getFullYear();
-    console.log(`Updated year to ${yearElement.innerText}`);
-  } else {
-    console.warn('Year element not found in footer.');
-  }
+    const yearElement = document.getElementById('year');
+    if (yearElement) {
+        yearElement.innerText = new Date().getFullYear();
+        console.log(`Updated year to ${yearElement.innerText}`);
+    } else {
+        console.warn('Year element not found in footer.');
+    }
 }
-
-function updatePatreonIcon() {
-  const patreonIcon = document.getElementById('patreon-icon');
-  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-  if (patreonIcon) {
-    patreonIcon.src = currentTheme === 'light' ? 'icons/patreon_alt.png' : 'icons/patreon.png';
-    console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
-  } else {
-    console.warn('Patreon icon not found.');
-  }
-}
-
-// Initialize page
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded event fired.');
-  initializePage();
-});

@@ -9,124 +9,93 @@
     <meta name="keywords" content="Tristan Nuvola, Poetry, Introspection, Emotion, Creative Writing, Autistic Poet, Cloud-Inspired, Literary Art">
     <meta name="author" content="Tristan Nuvola (Tim Nelson)">
 
-    <!-- Open Graph Meta Tags for Social Media -->
-    <meta property="og:title" content="Tristan Nuvola - Poetry & Reflections">
-    <meta property="og:description" content="Dive into the intricate and heartfelt poetry of Tristan Nuvola. Each verse is a delicate bow of words, spinning silk-like and shimmering with care.">
-    <meta property="og:image" content="https://tristannuvola.com/preview.jpg">
-    <meta property="og:url" content="https://tristannuvola.com">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tristan Nuvola - Poetry & Reflections">
-    <meta name="twitter:description" content="Immerse yourself in the deep and mysterious poetry of Tristan Nuvola, where words pulse and worlds unfold.">
-    <meta name="twitter:image" content="https://tristannuvola.com/preview.jpg">
-
     <!-- Favicon -->
     <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
-    <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="icons/apple-touch-icon-512x512.png">
 
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Inline Critical CSS -->
-    <style>
-        /* Critical CSS */
-        :root {
-            --background-color: #000000;
-            --text-color: #ffffff;
-            --line-color: #ffffff;
-            --toggle-bg: #444444;
-            --toggle-bg-checked: #666666;
-            --toggle-knob: #ffffff;
-            --toggle-knob-checked: #000000;
-            --highlight-color: #333333;
-        }
-
-        [data-theme="light"] {
-            --background-color: #ffffff;
-            --text-color: #000000;
-            --line-color: #000000;
-            --toggle-bg: #dddddd;
-            --toggle-bg-checked: #bbbbbb;
-            --toggle-knob: #000000;
-            --toggle-knob-checked: #ffffff;
-            --highlight-color: #f0f0f0;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.5s, color 0.5s;
-        }
-
-        /* Include other critical styles needed for the initial render */
-    </style>
-
-    <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- Defer Non-Critical CSS -->
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    <!-- JavaScript -->
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Main content container -->
-    <div id="content">
-        <!-- Header -->
-        <header>
-            <div class="header-content">
-                <!-- Top Row -->
-                <div class="top-row">
-                    <div id="header-left">
-                        <h1 id="page-title">Tristan Nuvola - Author</h1>
-                    </div>
-                    <!-- Theme Toggle Switch -->
-                    <div id="header-right">
-                        <label class="theme-switch">
-                            <input type="checkbox" id="theme-toggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Collapsible Sections Container -->
-        <div id="sections-container"></div>
-
-        <!-- Footer -->
-        <footer>
-            <div class="social-media">
-                <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link">
-                    <img src="icons/patreon.png" alt="Patreon" id="patreon-icon">
-                </a>
-                <a href="https://twitter.com/tristannuvola" target="_blank">
-                    <img src="icons/twitter.png" alt="Twitter">
-                </a>
-                <a href="https://www.instagram.com/adadandhismeat/" target="_blank">
-                    <img src="icons/instagram.png" alt="Instagram">
-                </a>
-                <!-- Add other social media icons similarly -->
-            </div>
-            <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
-        </footer>
+    <!-- Theme Toggle Switch -->
+    <div id="theme-toggle">
+        <img src="icons/lightmode.png" alt="Toggle Theme">
     </div>
 
-    <!-- Defer JavaScript -->
-    <script defer src="script.js"></script>
+    <!-- Menu Icon -->
+    <div id="menu-icon-container">
+        <img src="icons/menu.png" alt="Menu Icon" id="hamburger-menu">
+    </div>
+
+    <!-- Side Menu -->
+    <div id="side-menu">
+        <ul>
+            <li>
+                <a href="#" data-section="introduction" id="introduction-link">
+                    <img src="icons/about.png" alt="Introduction">
+                </a>
+            </li>
+            <li>
+                <a href="#" data-section="poetry" id="poetry-link">
+                    <img src="icons/poetry.png" alt="Poetry">
+                </a>
+            </li>
+            <li>
+                <a href="#" data-section="books" id="books-link">
+                    <img src="icons/books.png" alt="Books">
+                </a>
+            </li>
+            <li>
+                <a href="#" data-section="contact" id="contact-link">
+                    <img src="icons/contact.png" alt="Contact">
+                </a>
+            </li>
+        </ul>
+        <!-- Tristan Logo at the bottom -->
+        <div id="tristan-button-container">
+            <a href="#" id="tristan-logo-link">
+                <img src="icons/logo.png" alt="Logo">
+            </a>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div id="main-content">
+        <!-- Sections will be loaded here -->
+        <!-- Initially, the Introduction section will be displayed -->
+    </div>
+
+    <!-- Manga Panels -->
+    <div id="panels">
+        <div class="pane" id="pane1"></div>
+        <div class="pane" id="pane2"></div>
+        <div class="pane" id="pane3"></div>
+        <div class="pane" id="pane4"></div>
+        <div class="pane" id="pane5"></div>
+        <div class="pane" id="pane6"></div>
+        <div class="pane" id="pane7"></div>
+        <div class="pane" id="pane8"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-media">
+            <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link">
+                <img src="icons/patreon.png" alt="Patreon" id="patreon-icon">
+            </a>
+            <a href="https://twitter.com/tristannuvola" target="_blank">
+                <img src="icons/twitter.png" alt="Twitter">
+            </a>
+            <a href="https://www.instagram.com/adadandhismeat/" target="_blank">
+                <img src="icons/instagram.png" alt="Instagram">
+            </a>
+        </div>
+        <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
+    </footer>
 </body>
 </html>

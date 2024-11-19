@@ -1,26 +1,14 @@
 [
   {
-    "title": "Introduction",
-    "content": "Welcome to the world of Tristan Nuvola. Here you'll find a collection of poetry and reflections."
+      "id": "introduction",
+      "content": "Welcome to the world of Tristan Nuvola. Here you'll find a collection of poetry and reflections.<br><br><img src='images/butler.png' alt='Butler'>"
   },
   {
-    "title": "Poetry",
-    "content": ""
+      "id": "books",
+      "content": "Spectral Tapestry is currently in talks to get published, stay tuned for more info!"
   },
   {
-    "title": "About Tristan Nuvola",
-    "content": "Tristan Nuvola is the pen name of Tim Nelson, a neurodivergent poet weaving clouds of words into intricate tapestries of emotion and thought."
-  },
-  {
-    "title": "Upcoming Book",
-    "content": "Spectral Tapestry is currently in talks to get published, stay tuned for more info!"
-  },
-  {
-    "title": "Contact",
-    "content": "If you'd like to reach out, follow me on Patreon or connect through my social media channels."
-  },
-  {
-    "title": "Social Media",
-    "content": "[Patreon](https://www.patreon.com/tristannuvola)\n[Twitter](https://twitter.com/tristannuvola)\n[Instagram](https://www.instagram.com/adadandhismeat/)"
+      "id": "contact",
+      "content": "If you'd like to reach out, follow me on Patreon or connect through my social media channels.<br><br>[Patreon](https://www.patreon.com/tristannuvola)<br>[Twitter](https://twitter.com/tristannuvola)<br>[Instagram](https://www.instagram.com/adadandhismeat/)"
   }
 ]
