@@ -89,8 +89,9 @@ function addEventListeners() {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             sideMenu.classList.toggle('visible');
-            panels.classList.toggle('hidden'); // Slide panes offscreen
-            console.log('Menu toggled.');
+            panels.classList.toggle('hidden'); // Slide panels
+            document.body.classList.toggle('menu-open'); // Toggle menu-open class on body
+            console.log('Menu toggled, panels hidden state changed, and menu-open class toggled.');
         });
     } else {
         console.warn('One or more menu elements not found.');
@@ -100,8 +101,9 @@ function addEventListeners() {
     document.addEventListener('click', (event) => {
         if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Ensure panes are hidden when menu is closed
-            console.log('Clicked outside the menu. Menu closed.');
+            panels.classList.add('hidden'); // Ensure panels are hidden when menu is closed
+            document.body.classList.remove('menu-open'); // Remove menu-open class from body
+            console.log('Clicked outside the menu. Menu closed, panels hidden, and menu-open class removed.');
         }
     });
 
@@ -113,8 +115,9 @@ function addEventListeners() {
             const section = this.getAttribute('data-section');
             loadSection(section);
             sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Slide panes offscreen
-            console.log(`Menu item clicked: ${section}`);
+            panels.classList.add('hidden'); // Slide panels offscreen
+            document.body.classList.remove('menu-open'); // Remove menu-open class from body
+            console.log(`Menu item clicked: ${section}. Menu closed, panels hidden, and menu-open class removed.`);
         });
     });
 
@@ -175,7 +178,7 @@ function loadContentSection(sectionId) {
             const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
-                // If about/introduction, show logo
+                // If about/introduction, show logo (if necessary)
                 if (sectionId === 'introduction') {
                     document.body.classList.add('introduction-page');
                 } else {
