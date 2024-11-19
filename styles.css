@@ -1,18 +1,39 @@
 /* Root Variables */
 :root {
+    /* Color Scheme */
     --background-color: #000000;
     --text-color: #ffffff;
     --line-color: #ffffff;
     --highlight-color: #333333;
     --link-color: #ffffff;
+
+    /* Layout */
     --footer-height: 60px;
     --transition-speed: 0.3s;
-    --side-menu-width-desktop: 130px; /* Reduced width from 140px to 80px */
-    --side-menu-width-mobile: 50px; /* Reduced width from 100px to 50px */
 
-    /* New variables for section spacing */
+    /* Side Menu Widths */
+    --side-menu-width-desktop: 130px; /* Updated from 140px to 130px */
+    --side-menu-width-mobile: 50px;   /* Reduced from 100px to 50px */
+
+    /* Section Spacing */
     --section-margin-left: 0px;
     --section-padding-left: 15px;
+
+    /* Icon Sizes */
+    --menu-icon-size-desktop: 40px;
+    --menu-icon-size-mobile: 30px;
+
+    --pane-width-desktop: 67px;
+    --pane-width-mobile: 50px;
+
+    --pane-height-desktop: 105px;
+    --pane-height-mobile: 79px;
+
+    --social-icon-size-desktop: 32px;
+    --social-icon-size-mobile: 24px;
+
+    --theme-toggle-icon-size-desktop: 50px;
+    --theme-toggle-icon-size-mobile: 40px;
 }
 
 /* Light Theme Variables */
@@ -34,9 +55,12 @@ body {
     position: relative;
     overflow-x: hidden;
     font-size: 16px; /* Base font size */
-    transition: font-size var(--transition-speed) ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    transition: font-size var(--transition-speed) ease,
+                background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
 }
 
+/* Font Size Adjustments */
 @media (max-width: 768px) {
     body {
         font-size: 14px;
@@ -59,8 +83,8 @@ body {
 }
 
 #menu-icon-container img {
-    width: 40px;
-    height: 40px;
+    width: var(--menu-icon-size-desktop);
+    height: var(--menu-icon-size-desktop);
     transition: transform var(--transition-speed) ease;
 }
 
@@ -69,7 +93,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop); /* Updated width */
+    width: var(--side-menu-width-desktop); /* Desktop width */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
@@ -149,13 +173,13 @@ body {
     position: fixed;
     right: 0;
     top: 0;
-    width: 67px; /* Exactly 1/3 of original 200px width */
+    width: var(--pane-width-desktop); /* Desktop width */
     height: 100vh;
     z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: transparent; /* Changed from #000000 to transparent as per the first block */
+    background-color: transparent; /* Changed from #000000 to transparent */
     padding: 10px 0;
     transform: translateX(0);
     transition: transform var(--transition-speed) ease;
@@ -168,8 +192,8 @@ body {
 
 /* Individual Panel */
 .pane {
-    width: 67px;  /* Exactly 1/3 of 200px */
-    height: 105px; /* Exactly 1/3 of 315px */
+    width: var(--pane-width-desktop);  /* Desktop pane width */
+    height: var(--pane-height-desktop); /* Desktop pane height */
     margin: 10px 0;  /* 10px top and bottom margins */
     background-size: contain;  /* Preserve aspect ratio */
     background-repeat: no-repeat;
@@ -231,10 +255,11 @@ body {
 }
 
 body.menu-open #main-content {
-    margin-left: var(--side-menu-width-desktop); /* 80px on desktop */
+    margin-left: var(--side-menu-width-desktop); /* 130px on desktop */
 }
 
 @media (max-width: 768px) {
+    /* Main Content Adjustments for Mobile */
     #main-content {
         margin: 150px 10px 60px 0px; /* Adjust margins for smaller screens */
     }
@@ -259,7 +284,7 @@ body.menu-open #main-content {
 
     /* Adjust side menu for mobile */
     .side-menu {
-        width: var(--side-menu-width-mobile); /* Corrected to mobile width */
+        width: var(--side-menu-width-mobile); /* Mobile width */
         transform: translateX(-100%); /* Hidden by default */
     }
 
@@ -273,14 +298,9 @@ body.menu-open #main-content {
     }
 
     /* Adjust menu icon container */
-    #menu-icon-container {
-        left: 10px; /* Keep at top-left */
-        top: 10px; /* Ensure it remains at top-left */
-    }
-
     #menu-icon-container img {
-        width: 30px; /* Reduced size for mobile */
-        height: 30px;
+        width: var(--menu-icon-size-mobile); /* Mobile icon size */
+        height: var(--menu-icon-size-mobile);
     }
 
     /* Adjust logo size on mobile */
@@ -300,12 +320,12 @@ body.menu-open #main-content {
 
     /* Adjust panels width for mobile */
     .panels {
-        width: 50px; /* Even smaller on mobile */
+        width: var(--pane-width-mobile); /* Mobile pane width */
     }
 
     .pane {
-        width: 50px;
-        height: 79px; /* Maintains aspect ratio */
+        width: var(--pane-width-mobile);
+        height: var(--pane-height-mobile); /* Maintains aspect ratio */
     }
 
     /* Adjust main-content padding for mobile */
@@ -316,8 +336,14 @@ body.menu-open #main-content {
 
     /* Ensure sections adjust when menu is open on mobile */
     body.menu-open .section {
-        margin-left: var(--section-margin-left);
-        padding-left: var(--section-padding-left);  
+        margin-left: var(--section-margin-left-mobile);
+        padding-left: var(--section-padding-left-mobile);  
+    }
+
+    /* Define mobile-specific section spacing variables */
+    :root {
+        --section-margin-left-mobile: 10px;
+        --section-padding-left-mobile: 10px;
     }
 }
 
@@ -340,7 +366,7 @@ body.menu-open #main-content {
     color: var(--highlight-color);
 }
 
-/* Sections styling */
+/* Sections Styling */
 .section {
     border-bottom: 1px solid var(--line-color);
     padding-bottom: 1em;
@@ -352,10 +378,10 @@ body.menu-open #main-content {
     transition: margin-left var(--transition-speed) ease, padding-left var(--transition-speed) ease;
 }
 
-body.menu-open .section {
+/* Menu Open State: Adjust Section Spacing */
+body.menu-open {
     --section-margin-left: 10px; /* Reduced margin when menu is open */
-    /* Or, if using padding */
-    /* --section-padding-left: 10px; */
+    --section-padding-left: 10px; /* Reduced padding when menu is open */
 }
 
 /* Optional: Adjust internal elements within sections when menu is open */
@@ -405,18 +431,18 @@ body.menu-open .section h3 {
     color: var(--highlight-color);
 }
 
-/* Poems container */
+/* Poems Container */
 .poems-container {
     margin-top: 1em;
 }
 
-/* Individual poem wrapper */
+/* Individual Poem Wrapper */
 .poem {
     border-bottom: 1px solid var(--line-color);
     margin-bottom: 1em;
 }
 
-/* Poem header styling */
+/* Poem Header Styling */
 .poem-header {
     padding: 0.5em;
     cursor: pointer;
@@ -437,20 +463,20 @@ body.menu-open .section h3 {
     font-size: 1.5em; /* Increased size for larger symbols */
 }
 
-/* Poem content styling */
+/* Poem Content Styling */
 .poem-content {
     padding: 0.5em 1em;
     display: none;
     font-size: 1em;
 }
 
-/* Collection wrapper */
+/* Collection Wrapper */
 .poetry-collection {
     border-bottom: 2px solid var(--line-color);
     margin-bottom: 1em;
 }
 
-/* Collection header styling */
+/* Collection Header Styling */
 .collection-header {
     padding: 1em;
     cursor: pointer;
@@ -471,7 +497,7 @@ body.menu-open .section h3 {
     font-size: 2em; /* Larger plus/minus symbols */
 }
 
-/* Collection content */
+/* Collection Content */
 .collection-content {
     padding-left: 1em;
     display: none;
@@ -487,7 +513,8 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1002;
-    transition: height var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    transition: height var(--transition-speed) ease,
+                background-color var(--transition-speed) ease;
     cursor: pointer; /* Make entire footer clickable */
 }
 
@@ -508,14 +535,21 @@ footer p {
 }
 
 .social-media img {
-    width: 24px;
-    height: 24px;
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
+    }
 }
 
 @media screen and (min-width: 769px) {
     .social-media img {
-        width: 32px;
-        height: 32px;
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
     }
 }
 
@@ -556,113 +590,34 @@ footer #theme-toggle {
 }
 
 footer #theme-toggle img {
-    width: 50px;
-    height: 50px;
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
 }
 
-/* Responsive design */
 @media screen and (max-width: 768px) {
-    #main-content {
-        margin: 150px 10px 60px 0px; /* Adjust margins for smaller screens */
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
     }
-
-    /* Show panels on mobile */
-    .panels {
-        display: flex;
-    }
-
-    /* Adjust title size */
-    .title-section .title-container img.title {
-        width: 80px; /* Further scaled down */
-    }
-
-    .title-text h1 {
-        font-size: 1.5em;
-    }
-
-    .title-text p {
-        font-size: 0.9em;
-    }
-
-    /* Adjust side menu for mobile */
-    .side-menu {
-        width: var(--side-menu-width-mobile); /* Corrected to mobile width */
-        transform: translateX(-100%); /* Hidden by default */
-    }
-
-    .side-menu.visible {
-        transform: translateX(0); /* Slide in */
-    }
-
-    /* Adjust side menu contents for mobile */
-    .side-menu a {
-        align-items: flex-start; /* Align items to the start (left) */
-    }
-
-    /* Adjust menu icon container */
-    #menu-icon-container {
-        left: 10px; /* Keep at top-left */
-        top: 10px; /* Ensure it remains at top-left */
-    }
-
-    #menu-icon-container img {
-        width: 30px; /* Reduced size for mobile */
-        height: 30px;
-    }
-
-    /* Adjust logo size on mobile */
-    #footer-logo-container img {
-        width: 50px;
-    }
-
-    /* Adjust main content margin when menu is open on mobile */
-    body.menu-open #main-content {
-        margin-left: var(--side-menu-width-mobile); /* 50px on mobile */
-    }
-
-    /* Adjust panels hidden state on mobile */
-    .panels.hidden {
-        transform: translateX(100%); /* Slide offscreen to the right */
-    }
-
-    /* Adjust panels width for mobile */
-    .panels {
-        width: 50px; /* Even smaller on mobile */
-    }
-
-    .pane {
-        width: 50px;
-        height: 79px; /* Maintains aspect ratio */
-    }
-
-    /* Adjust main-content padding for mobile */
-    #main-content {
-        padding: 0 60px; /* Adjusted for smaller panels */
-        margin: 60px auto 60px auto;
-    }
-
-    /* Ensure sections adjust when menu is open on mobile */
-    body.menu-open .section {
-        margin-left: 10px; /* Adjust as needed */
-        /* Or, if using padding */
-        /* padding-left: 10px; */
-    }
-}
-
-/* Adjust social media icons */
-.social-media img {
-    width: 24px;
-    height: 24px;
 }
 
 @media screen and (min-width: 769px) {
-    .social-media img {
-        width: 32px;
-        height: 32px;
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
     }
 }
 
-/* Adjust poetry headers and lines */
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+    }
+}
+
+/* Adjust Poetry Headers and Lines */
 .poetry-collection {
     border-bottom: 2px solid var(--line-color);
 }
@@ -675,7 +630,7 @@ footer #theme-toggle img {
     font-size: 2em; /* Larger plus/minus symbols */
 }
 
-/* Adjust main content font size */
+/* Adjust Main Content Font Size */
 #main-content {
     font-size: 1em;
 }
@@ -686,20 +641,13 @@ footer #theme-toggle img {
     }
 }
 
-/* Ensure sections transition smoothly */
+/* Ensure Sections Transition Smoothly */
 .section {
-    transition: margin-left var(--transition-speed) ease, padding-left var(--transition-speed) ease;
+    transition: margin-left var(--transition-speed) ease,
+                padding-left var(--transition-speed) ease;
 }
 
 /* Footer Hover Effects */
 footer:hover {
     background-color: var(--highlight-color);
-}
-
-/* Additional Responsive Adjustments for Sections */
-@media (max-width: 768px) {
-    .section {
-        padding-left: var(--section-padding-left);
-        margin-left: var(--section-margin-left);
-    }
 }
