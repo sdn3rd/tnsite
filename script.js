@@ -89,7 +89,6 @@ function addEventListeners() {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             sideMenu.classList.toggle('visible');
-            panels.classList.toggle('hidden'); // Slide panes offscreen
             console.log('Menu toggled.');
         });
     } else {
@@ -100,7 +99,6 @@ function addEventListeners() {
     document.addEventListener('click', (event) => {
         if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Ensure panes are hidden when menu is closed
             console.log('Clicked outside the menu. Menu closed.');
         }
     });
@@ -113,7 +111,6 @@ function addEventListeners() {
             const section = this.getAttribute('data-section');
             loadSection(section);
             sideMenu.classList.remove('visible');
-            panels.classList.add('hidden'); // Slide panes offscreen
             console.log(`Menu item clicked: ${section}`);
         });
     });
