@@ -5,9 +5,11 @@
     --line-color: #ffffff;
     --highlight-color: #333333;
     --link-color: #ffffff;
-    --footer-height: 100px;
+    --footer-height: 60px;
+    --transition-speed: 0.3s;
 }
 
+/* Light Theme Variables */
 [data-theme="light"] {
     --background-color: #ffffff;
     --text-color: #000000;
@@ -26,6 +28,7 @@ body {
     position: relative;
     overflow-x: hidden;
     font-size: 16px; /* Base font size */
+    transition: font-size var(--transition-speed) ease;
 }
 
 @media (max-width: 768px) {
@@ -52,7 +55,7 @@ body {
     width: 132px;
     height: 94px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) ease;
 }
 
 @media (max-width: 768px) {
@@ -74,7 +77,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: left 0.3s ease;
+    transition: left var(--transition-speed) ease;
     overflow-y: auto;
 }
 
@@ -114,6 +117,7 @@ body {
     height: auto;
 }
 
+/* Specific Icon Sizes */
 #introduction-link img {
     width: 132px;
     height: 171px;
@@ -143,7 +147,7 @@ body {
 #tristan-logo-link img {
     width: 129px;
     height: 194px;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) ease;
 }
 
 /* Hide logo on non-introduction pages */
@@ -159,17 +163,17 @@ body.introduction-page #tristan-button-container {
 /* Panels (Manga Images) */
 .panels {
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
     width: 220px;
     height: 100%;
     z-index: 20;
     pointer-events: none;
-    transition: left 0.3s ease;
+    transition: right var(--transition-speed) ease;
 }
 
 #side-menu.visible ~ .panels {
-    left: -250px;
+    right: -250px;
 }
 
 .pane {
@@ -189,7 +193,7 @@ body.introduction-page #tristan-button-container {
 .pane7 { background-image: url("images/pane7.png"); }
 .pane8 { background-image: url("images/pane8.png"); }
 
-/* Arrange panes vertically */
+/* Arrange panes vertically with 20px spacing */
 .panels {
     display: flex;
     flex-direction: column;
@@ -211,7 +215,7 @@ body.introduction-page #tristan-button-container {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transition: right 0.3s ease;
+    transition: right var(--transition-speed) ease;
 }
 
 #side-menu.visible ~ .title {
@@ -221,10 +225,11 @@ body.introduction-page #tristan-button-container {
 /* Main Content */
 #main-content {
     padding: 20px;
-    transition: margin-left 0.3s ease;
+    transition: margin-left var(--transition-speed) ease;
     color: var(--text-color);
     max-width: 800px;
     margin: 80px auto 60px auto; /* Adjusted to account for fixed title and menu */
+    text-align: left; /* Left justify text */
 }
 
 @media (max-width: 768px) {
@@ -265,7 +270,7 @@ body.introduction-page #tristan-button-container {
     font-weight: bold;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed) ease;
     font-size: 1.5em;
 }
 
@@ -314,7 +319,7 @@ body.introduction-page #tristan-button-container {
     display: flex;
     align-items: center;
     background-color: var(--background-color);
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed) ease;
     font-size: 1.25em;
 }
 
@@ -324,7 +329,7 @@ body.introduction-page #tristan-button-container {
 
 .poem-header .toggle-icon {
     margin-right: 0.5em;
-    font-size: 1.25em;
+    font-size: 1.5em; /* Increased size for larger symbols */
 }
 
 /* Poem content styling */
@@ -348,7 +353,7 @@ body.introduction-page #tristan-button-container {
     display: flex;
     align-items: center;
     background-color: var(--background-color);
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed) ease;
     font-size: 1.75em;
 }
 
@@ -358,7 +363,7 @@ body.introduction-page #tristan-button-container {
 
 .collection-header .toggle-icon {
     margin-right: 0.5em;
-    font-size: 1.75em;
+    font-size: 2em; /* Larger plus/minus symbols */
 }
 
 /* Collection content */
@@ -377,7 +382,8 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1001;
-    transition: height 0.3s ease;
+    transition: height var(--transition-speed) ease;
+    cursor: pointer; /* Make entire footer clickable */
 }
 
 footer p {
@@ -401,19 +407,28 @@ footer p {
     height: 32px;
 }
 
+/* Remove text labels from social icons if any (ensuring only images) */
+.social-media a span {
+    display: none;
+}
+
 .footer-collapsed #footer-content {
     display: none;
 }
 
 #footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
     cursor: pointer;
+    z-index: 1002; /* Higher z-index to be clickable above the footer */
 }
 
 #footer-toggle-icon {
     font-size: 1.5em;
     display: inline-block;
     transform: rotate(0deg);
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) ease;
 }
 
 .footer-collapsed #footer-toggle-icon {
@@ -424,6 +439,8 @@ footer p {
 footer #theme-toggle {
     margin-top: 1em;
     cursor: pointer;
+    position: relative;
+    z-index: 1003; /* Higher z-index to stay clickable */
 }
 
 footer #theme-toggle img {
@@ -510,7 +527,7 @@ footer #theme-toggle img {
 }
 
 .toggle-icon {
-    font-size: 1.75em;
+    font-size: 2em; /* Larger plus/minus symbols */
 }
 
 /* Adjust main content font size */

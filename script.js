@@ -70,7 +70,11 @@ function addEventListeners() {
     // Theme Toggle in Footer
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
     if (themeToggleFooter) {
-        themeToggleFooter.addEventListener('click', toggleTheme);
+        themeToggleFooter.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent triggering footer collapse
+            toggleTheme();
+            console.log('Theme toggle in footer clicked.');
+        });
         console.log('Added event listener for theme toggle in footer.');
     } else {
         console.warn('Theme toggle in footer not found.');
@@ -96,6 +100,7 @@ function addEventListeners() {
     document.addEventListener('click', (event) => {
         if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sideMenu.classList.remove('visible');
+            console.log('Clicked outside the menu. Menu closed.');
         }
     });
 
@@ -107,16 +112,34 @@ function addEventListeners() {
             const section = this.getAttribute('data-section');
             loadSection(section);
             sideMenu.classList.remove('visible');
+            console.log(`Menu item clicked: ${section}`);
         });
     });
 
     // Footer Toggle
-    const footerToggle = document.getElementById('footer-toggle');
     const footer = document.querySelector('footer');
+    const footerToggle = document.getElementById('footer-toggle');
     const footerToggleIcon = document.getElementById('footer-toggle-icon');
 
-    if (footerToggle && footer && footerToggleIcon) {
-        footerToggle.addEventListener('click', () => {
+    if (footer && footerToggle && footerToggleIcon) {
+        // Make entire footer clickable to collapse
+        footer.addEventListener('click', (event) => {
+            // Prevent toggle icon from triggering collapse when clicked
+            if (!footerToggle.contains(event.target)) {
+                footer.classList.toggle('footer-collapsed');
+                // Toggle arrow direction
+                if (footer.classList.contains('footer-collapsed')) {
+                    footerToggleIcon.textContent = '^';
+                } else {
+                    footerToggleIcon.textContent = 'v';
+                }
+                console.log('Footer toggled by clicking on footer.');
+            }
+        });
+
+        // Ensure the toggle icon itself does not trigger the footer collapse
+        footerToggle.addEventListener('click', (event) => {
+            event.stopPropagation();
             footer.classList.toggle('footer-collapsed');
             // Toggle arrow direction
             if (footer.classList.contains('footer-collapsed')) {
@@ -124,16 +147,10 @@ function addEventListeners() {
             } else {
                 footerToggleIcon.textContent = 'v';
             }
-            console.log('Footer toggled.');
+            console.log('Footer toggled by clicking on toggle icon.');
         });
-    }
-
-    // Prevent clicks inside footer-content from closing the menu
-    const footerContent = document.getElementById('footer-content');
-    if (footerContent) {
-        footerContent.addEventListener('click', (event) => {
-            event.stopPropagation();
-        });
+    } else {
+        console.warn('Footer toggle elements not found.');
     }
 }
 
