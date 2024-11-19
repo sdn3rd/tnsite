@@ -138,6 +138,8 @@ body {
 #tristan-button-container {
     margin-bottom: 20px;
     text-align: center;
+    position: relative;
+    z-index: 1003; /* Higher z-index to ensure visibility */
 }
 
 #tristan-logo-link img {
@@ -159,17 +161,21 @@ body.introduction-page #tristan-button-container {
 /* Panels (Manga Images) */
 .panels {
     position: fixed;
-    left: 0;
+    right: 0; /* Positioned on the right */
     top: 0;
     width: 220px;
     height: 100%;
     z-index: 20;
     pointer-events: none;
-    transition: left 0.3s ease;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
 }
 
 #side-menu.visible ~ .panels {
-    left: -250px;
+    right: -250px;
 }
 
 .pane {
@@ -177,7 +183,7 @@ body.introduction-page #tristan-button-container {
     height: auto;
     background-size: cover;
     background-position: center;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* 20px between panes */
 }
 
 .pane1 { background-image: url("images/pane1.png"); }
@@ -189,22 +195,13 @@ body.introduction-page #tristan-button-container {
 .pane7 { background-image: url("images/pane7.png"); }
 .pane8 { background-image: url("images/pane8.png"); }
 
-/* Arrange panes vertically */
-.panels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    overflow-y: auto;
-    padding-top: 20px;
-}
-
 /* Title Image */
 .title {
     background-image: url("images/title.png");
     position: fixed;
     right: 240px;
-    top: 60px;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
     width: 270px;
     height: 240px;
     z-index: 4;
@@ -214,8 +211,12 @@ body.introduction-page #tristan-button-container {
     transition: right 0.3s ease;
 }
 
-#side-menu.visible ~ .title {
-    right: -320px;
+@media screen and (max-width: 768px) {
+    .title {
+        right: 160px; /* Adjusted to prevent overlapping with logo on smaller screens */
+        width: 200px;
+        height: 180px;
+    }
 }
 
 /* Main Content */
@@ -224,12 +225,12 @@ body.introduction-page #tristan-button-container {
     transition: margin-left 0.3s ease;
     color: var(--text-color);
     max-width: 800px;
-    margin: 80px auto 60px auto; /* Adjusted to account for fixed title and menu */
+    margin: 80px 0 60px 180px; /* Adjusted to account for fixed menu */
 }
 
 @media (max-width: 768px) {
     #main-content {
-        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 100px 10px 60px 180px; /* Adjust margins for smaller screens */
     }
 }
 
@@ -377,7 +378,7 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1001;
-    transition: height 0.3s ease;
+    cursor: pointer; /* Make entire footer clickable */
 }
 
 footer p {
@@ -406,6 +407,9 @@ footer p {
 }
 
 #footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
     cursor: pointer;
 }
 
@@ -422,8 +426,11 @@ footer p {
 
 /* Footer Theme Toggle */
 footer #theme-toggle {
-    margin-top: 1em;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
     cursor: pointer;
+    z-index: 1002; /* Higher z-index to ensure it's clickable above footer */
 }
 
 footer #theme-toggle img {
@@ -440,21 +447,29 @@ footer #theme-toggle img {
     transform: rotate(180deg);
 }
 
+/* Ensure the theme toggle does not interfere with footer click */
+footer #footer-toggle {
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+footer #theme-toggle {
+    pointer-events: auto; /* Allow theme toggle clicks */
+}
+
 /* Responsive design */
 @media screen and (max-width: 768px) {
     #main-content {
-        margin: 100px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 100px 10px 60px 180px; /* Adjust margins for smaller screens */
     }
 
     .panels {
-        display: none;
+        width: 160px; /* Reduce width on smaller screens */
     }
 
     .title {
-        position: relative;
-        right: 0;
-        top: 0;
-        margin: 20px auto;
+        right: 160px; /* Adjusted to prevent overlapping with logo on smaller screens */
+        width: 200px;
+        height: 180px;
     }
 
     #menu-icon-container img {
@@ -467,7 +482,7 @@ footer #theme-toggle img {
         max-height: 80px;
     }
 
-    #theme-toggle img {
+    footer #theme-toggle img {
         width: 40px;
         height: 40px;
     }
@@ -522,4 +537,9 @@ footer #theme-toggle img {
     #main-content {
         font-size: 1.2em;
     }
+}
+
+/* Ensure panes stack with 20px between */
+.panels .pane {
+    margin-bottom: 20px;
 }
