@@ -12,22 +12,25 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 15%; /* Approximately 130px on a 866px wide screen */
+    --side-menu-width-desktop: 15%; /* Approximately 130px on an 866px wide screen */
     --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
 
     /* Section Spacing (Percentage of viewport width) */
-    --section-margin-left: 5%;      /* Margin-left when menu is closed */
-    --section-margin-left-open: 15%; /* Margin-left when menu is open */
-    --section-padding: 2%;          /* Padding inside sections */
+    --section-margin-left: 5%;        /* Margin-left when menu is closed */
+    --section-margin-left-open: 15%;  /* Margin-left when menu is open */
+    --section-padding: 2%;            /* Padding inside sections */
+    --section-margin-right: 5%;       /* Margin-right when panels are closed */
+    --section-margin-right-open: 15%; /* Margin-right when panels are open */
+    --section-padding-right: 2%;      /* Padding inside sections */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
     --menu-icon-size-mobile: 30px;
 
-    --pane-width-desktop: 10%;      /* Percentage of viewport width */
+    --pane-width-desktop: 15%;        /* Increased to 15% for full-size on desktop */
     --pane-width-mobile: 50px;
 
-    --pane-height-desktop: 10%;     /* Percentage of viewport height */
+    --pane-height-desktop: 15%;       /* Adjusted to match width for consistency */
     --pane-height-mobile: 79px;
 
     --social-icon-size-desktop: 32px;
@@ -177,14 +180,14 @@ body {
     height: auto;
 }
 
-/* Panels Container */
+/* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--pane-width-desktop); /* Desktop width */
+    width: var(--pane-width-desktop); /* Increased width for full size on desktop */
     height: 100vh;
-    z-index: 1;
+    z-index: 1001; /* Below side-menu */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -195,14 +198,18 @@ body {
     overflow-y: auto; /* Ensure panels can scroll if needed */
 }
 
+.panels.visible {
+    transform: translateX(0); /* Ensure visible when needed */
+}
+
 .panels.hidden {
     transform: translateX(100%); /* Slide offscreen to the right */
 }
 
 /* Individual Panel */
 .pane {
-    width: var(--pane-width-desktop);  /* Desktop pane width */
-    height: var(--pane-height-desktop); /* Desktop pane height */
+    width: var(--pane-width-desktop);  /* Full width on desktop */
+    height: var(--pane-height-desktop); /* Full height proportion */
     margin: 10px 0;  /* 10px top and bottom margins */
     background-size: contain;  /* Preserve aspect ratio */
     background-repeat: no-repeat;
@@ -223,7 +230,7 @@ body {
 /* Title Section */
 .title-section {
     text-align: center;
-    margin-top: 20px; /* 20px top-margin */
+    margin-top: 20px; /* Reduced top-margin from previous */
     padding: 0 20px; /* Responsive padding */
 }
 
@@ -261,7 +268,8 @@ body {
     transition: 
         margin-left var(--transition-speed) ease, 
         padding-left var(--transition-speed) ease,
-        width var(--transition-speed) ease;
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
     color: var(--text-color);
     margin: 80px auto 60px auto; /* Centered with auto margins */
     text-align: var(--section-text-align-desktop); /* Dynamic text alignment */
@@ -269,8 +277,8 @@ body {
 }
 
 body.menu-open #main-content {
-    margin-left: calc(var(--side-menu-width-desktop) + 5%); /* Adjust margin-left when menu is open */
-    margin-right: 5%; /* Optional: Adjust margin-right if needed */
+    margin-left: calc(var(--side-menu-width-desktop) + 2%); /* Shifted right when menu is open */
+    margin-right: calc(var(--pane-width-desktop) + 2%); /* Shifted left to accommodate right panels */
 }
 
 @media (max-width: 768px) {
@@ -326,8 +334,8 @@ body.menu-open #main-content {
 
     /* Adjust main content margin when menu is open on mobile */
     body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 5%); /* Adjust margin-left when menu is open */
-        margin-right: 5%; /* Optional: Adjust margin-right if needed */
+        margin-left: calc(var(--side-menu-width-mobile) + 2%); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--pane-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
     }
 
     /* Adjust panels hidden state on mobile */
@@ -348,12 +356,15 @@ body.menu-open #main-content {
     /* Adjust main-content padding for mobile */
     #main-content {
         padding: 0 5%; /* Adjusted for smaller panels */
+        margin: 60px auto 60px auto;
     }
 
     /* Ensure sections adjust when menu is open on mobile */
     body.menu-open .section {
         margin-left: var(--section-margin-left-mobile);
         padding-left: var(--section-padding-left-mobile);  
+        margin-right: var(--section-margin-right-mobile);
+        padding-right: var(--section-padding-right-mobile);
     }
 }
 
@@ -399,10 +410,10 @@ body.menu-open #main-content {
 
 /* Menu Open State: Adjust Section Spacing */
 body.menu-open {
-    --section-margin-left: 10px; /* Reduced margin when menu is open */
-    --section-padding-left: 10px; /* Reduced padding when menu is open */
-    --section-margin-right: 10px; /* Adjust right margin as needed */
-    --section-padding-right: 10px; /* Adjust right padding as needed */
+    --section-margin-left: 10px;       /* Reduced margin when menu is open */
+    --section-padding-left: 10px;      /* Reduced padding when menu is open */
+    --section-margin-right: 10px;      /* Adjust right margin as needed */
+    --section-padding-right: 10px;     /* Adjust right padding as needed */
 }
 
 /* Optional: Adjust internal elements within sections when menu is open */
