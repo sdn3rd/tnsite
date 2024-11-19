@@ -43,6 +43,21 @@ body {
     }
 }
 
+/* Menu Icon Container */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1003; /* Higher z-index to stay above other elements */
+    cursor: pointer;
+}
+
+#menu-icon-container img {
+    width: 40px;
+    height: 40px;
+    transition: transform var(--transition-speed) ease;
+}
+
 /* Side Menu */
 .side-menu {
     position: fixed;
@@ -51,23 +66,17 @@ body {
     width: 160px;
     height: 100%;
     background-color: var(--background-color);
-    z-index: 1001;
+    z-index: 1002;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: left var(--transition-speed) ease;
     overflow-y: auto;
-    padding-top: 20px;
+    padding-top: 60px; /* Space for the logo and some padding */
 }
 
 .side-menu.visible {
     left: 0; /* Slide in */
-}
-
-#side-menu-logo img {
-    width: 100px; /* Adjusted size */
-    height: auto;
-    margin-bottom: 40px; /* Space between logo and menu items */
 }
 
 .side-menu ul {
@@ -107,51 +116,19 @@ body {
     font-size: 0.9em;
 }
 
-/* Menu Icon Container */
-#menu-icon-container {
+/* Logo Container */
+#logo-container {
     position: fixed;
     top: 10px;
-    left: 170px; /* Positioned to the right of the side menu */
-    z-index: 1002;
-    cursor: pointer;
+    left: 10px;
+    z-index: 1001; /* Below the menu button */
+    pointer-events: none; /* Make it non-interactive */
 }
 
-#menu-icon-container img {
-    width: 40px;
-    height: 40px;
+#logo-container img {
+    width: 80px; /* Adjusted size */
+    height: auto;
     transition: transform var(--transition-speed) ease;
-}
-
-.side-menu.visible ~ #menu-icon-container img {
-    transform: rotate(90deg); /* Optional: Rotate menu icon when menu is open */
-}
-
-@media (max-width: 768px) {
-    #menu-icon-container {
-        left: 130px; /* Adjust position for smaller screens */
-    }
-
-    #menu-icon-container img {
-        width: 30px;
-        height: 30px;
-    }
-
-    .side-menu {
-        width: 120px;
-    }
-
-    #side-menu-logo img {
-        width: 80px;
-    }
-
-    .menu-icon {
-        width: 50px;
-        height: 50px;
-    }
-
-    .menu-text {
-        font-size: 0.8em;
-    }
 }
 
 /* Panels (Pane Images) */
@@ -171,7 +148,7 @@ body {
 }
 
 .panels.hidden {
-    right: -250px; /* Move panes offscreen */
+    right: -250px; /* Slide offscreen */
 }
 
 .pane {
@@ -194,7 +171,7 @@ body {
 /* Title Section */
 .title-section {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 80px; /* Space below the fixed menu and logo */
     padding: 0 20px; /* Responsive padding */
 }
 
@@ -255,6 +232,35 @@ body {
 
     .title-text p {
         font-size: 0.9em;
+    }
+
+    /* Adjust side menu for mobile */
+    .side-menu {
+        width: 120px;
+    }
+
+    .side-menu a .menu-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .side-menu a .menu-text {
+        font-size: 0.8em;
+    }
+
+    /* Adjust menu icon container */
+    #menu-icon-container {
+        left: 130px; /* Adjusted for smaller side menu width */
+    }
+
+    #menu-icon-container img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Adjust logo size on mobile */
+    #logo-container img {
+        width: 60px;
     }
 }
 
@@ -401,7 +407,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    z-index: 1001;
+    z-index: 1002;
     transition: height var(--transition-speed) ease;
     cursor: pointer; /* Make entire footer clickable */
 }
@@ -441,7 +447,7 @@ footer p {
     top: 10px;
     right: 20px;
     cursor: pointer;
-    z-index: 1002; /* Higher z-index to be clickable above the footer */
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
 }
 
 #footer-toggle-icon {
@@ -460,21 +466,12 @@ footer #theme-toggle {
     margin-top: 1em;
     cursor: pointer;
     position: relative;
-    z-index: 1003; /* Higher z-index to stay clickable */
+    z-index: 1004; /* Higher z-index to stay clickable */
 }
 
 footer #theme-toggle img {
     width: 50px;
     height: 50px;
-}
-
-/* Adjust footer toggle arrow */
-#footer-toggle-icon {
-    transform: rotate(0deg);
-}
-
-.footer-collapsed #footer-toggle-icon {
-    transform: rotate(180deg);
 }
 
 /* Responsive design */
@@ -506,27 +503,29 @@ footer #theme-toggle img {
         width: 120px;
     }
 
-    #side-menu-logo img {
-        width: 80px;
-    }
-
-    .menu-icon {
+    .side-menu a .menu-icon {
         width: 50px;
         height: 50px;
     }
 
-    .menu-text {
+    .side-menu a .menu-text {
         font-size: 0.8em;
     }
 
     /* Adjust menu icon container */
     #menu-icon-container {
-        left: 130px; /* Adjusted for smaller side menu width */
+        left: 10px; /* Keep at top-left */
+        top: 10px; /* Ensure it remains at top-left */
     }
 
     #menu-icon-container img {
         width: 30px;
         height: 30px;
+    }
+
+    /* Adjust logo size on mobile */
+    #logo-container img {
+        width: 60px;
     }
 }
 
