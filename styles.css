@@ -22,20 +22,20 @@
     /* Section Spacing (Percentage of viewport width) */
     --section-margin-left: 5%;        /* Margin-left when menu is closed */
     --section-margin-left-open: 15%;  /* Margin-left when menu is open */
-    --section-padding-left: 2%;       /* Padding-left inside sections */
+    --section-padding: 2%;            /* Padding inside sections */
 
     --section-margin-right: 5%;       /* Margin-right when panels are closed */
     --section-margin-right-open: 15%; /* Margin-right when panels are open */
-    --section-padding-right: 2%;      /* Padding-right inside sections */
+    --section-padding-right: 2%;      /* Padding inside sections */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
     --menu-icon-size-mobile: 30px;
 
-    --pane-width-desktop: 100%;        /* Full width within the panels container on desktop */
-    --pane-width-mobile: 100%;         /* Full width within the panels container on mobile */
+    --pane-width-desktop: 15%;        /* Full size on desktop */
+    --pane-width-mobile: 50px;
 
-    --pane-height-desktop: 200px;      /* Increased height for larger panes on desktop */
+    --pane-height-desktop: 15%;       /* Full height proportion on desktop */
     --pane-height-mobile: 79px;
 
     --social-icon-size-desktop: 32px;
@@ -175,12 +175,25 @@ body {
     text-align: center;
 }
 
+/* Logo Container in Footer */
+#footer-logo-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 60px; /* Shrunk size */
+}
+
+#footer-logo-container img {
+    width: 100%;
+    height: auto;
+}
+
 /* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--right-panels-width-desktop); /* Full size on desktop */
+    width: var(--pane-width-desktop); /* Full size on desktop */
     height: 100vh;
     z-index: 1001; /* Below side-menu */
     display: flex;
@@ -204,19 +217,17 @@ body {
 /* Individual Panel */
 .pane {
     width: 100%; /* Full width within the panels container */
-    height: var(--pane-height-desktop); /* Fixed height on desktop */
+    height: auto; /* Adjust height based on content */
     margin: 10px 0;  /* 10px top and bottom margins */
     background-size: contain;  /* Preserve aspect ratio */
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent; /* Ensured no background color */
-    transition: transform var(--transition-speed) ease;
 }
 
 .pane img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
 }
 
 /* Ensure images are actually loaded */
@@ -270,8 +281,8 @@ body {
     padding: 20px;
     transition: 
         margin-left var(--transition-speed) ease, 
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
     color: var(--text-color);
     margin: 40px auto 60px auto; /* Reduced top margin from 80px to 40px */
@@ -354,7 +365,7 @@ body.menu-open #main-content {
 
     .pane {
         width: 100%; /* Full width within panels */
-        height: var(--pane-height-mobile); /* Fixed height on mobile */
+        height: auto; /* Adjust height based on content */
     }
 
     /* Ensure sections adjust when menu is open on mobile */
@@ -398,8 +409,8 @@ body.menu-open #main-content {
     padding-right: var(--section-padding-right);
     transition: 
         margin-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 
     /* Text Alignment */
@@ -558,14 +569,9 @@ footer {
     width: 100%;
     z-index: 1002;
     transition: 
-        transform var(--transition-speed) ease,
+        height var(--transition-speed) ease,
         background-color var(--transition-speed) ease;
     cursor: pointer; /* Make entire footer clickable */
-    transform: translateY(0); /* Visible by default */
-}
-
-body.menu-open footer {
-    transform: translateY(100%); /* Slide up when menu is open */
 }
 
 footer p {
@@ -617,7 +623,7 @@ footer p {
     top: 10px;
     right: 20px;
     cursor: pointer;
-    z-index: 1005; /* Higher z-index to be clickable above the footer */
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
 }
 
 #footer-toggle-icon {
@@ -636,7 +642,7 @@ footer #theme-toggle {
     margin-top: 1em;
     cursor: pointer;
     position: relative;
-    z-index: 1006; /* Higher z-index to stay clickable */
+    z-index: 1004; /* Higher z-index to stay clickable */
 }
 
 footer #theme-toggle img {
@@ -665,7 +671,7 @@ footer #theme-toggle img {
         padding-left: var(--section-padding-left-mobile);
         margin-left: var(--section-margin-left-mobile);
         padding-right: var(--section-padding-right-mobile);
-        margin-right: var(--section-margin_right_mobile);
+        margin-right: var(--section-margin-right-mobile);
     }
 }
 
@@ -697,8 +703,8 @@ footer #theme-toggle img {
 .section {
     transition: 
         margin-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
 }
 
