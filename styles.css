@@ -43,33 +43,11 @@ body {
     }
 }
 
-/* Menu Icon Container */
-#menu-icon-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1002;
-}
-
-#menu-icon-container img {
-    width: 132px;
-    height: 94px;
-    cursor: pointer;
-    transition: transform var(--transition-speed) ease;
-}
-
-@media (max-width: 768px) {
-    #menu-icon-container img {
-        width: 60px; /* Adjusted size for smaller screens */
-        height: auto;
-    }
-}
-
 /* Side Menu */
 #side-menu {
     position: fixed;
     top: 0;
-    left: -160px; /* Slightly wider to accommodate icons */
+    left: 0;
     width: 160px;
     height: 100%;
     background-color: var(--background-color);
@@ -79,63 +57,79 @@ body {
     align-items: center;
     transition: left var(--transition-speed) ease;
     overflow-y: auto;
+    padding-top: 20px;
 }
 
-#side-menu.visible {
-    left: 0;
+#side-menu-logo {
+    margin-bottom: 40px; /* Space between logo and menu items */
+}
+
+#side-menu-logo img {
+    width: 100px; /* Adjusted size for consistency */
+    height: auto;
 }
 
 #side-menu ul {
     list-style: none;
-    padding: 20px 0;
+    padding: 0;
     margin: 0;
     width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 #side-menu li {
-    margin: 20px 0;
     width: 100%;
     text-align: center;
+    margin: 20px 0;
 }
 
 #side-menu a {
     color: var(--text-color);
     text-decoration: none;
-    display: block;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform var(--transition-speed) ease;
 }
 
-#side-menu img {
-    display: block;
-    margin: 0 auto;
-    max-width: 132px; /* Default max-width */
-    height: auto;
+#side-menu a:hover {
+    transform: scale(1.05);
 }
 
-/* Specific Icon Sizes */
-#introduction-link img {
-    width: 132px;
-    height: 171px;
+.menu-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
 }
 
-#poetry-link img {
-    width: 129px;
-    height: 132px;
+.menu-text {
+    margin-top: 5px;
+    font-size: 0.9em;
 }
 
-#books-link img {
-    width: 135px;
-    height: 155px;
+/* Menu Icon Container */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 170px; /* Positioned to the right of the side menu */
+    z-index: 1002;
 }
 
-#contact-link img {
-    width: 132px;
-    height: 95px;
+#menu-icon-container img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease;
+}
+
+@media (max-width: 768px) {
+    #menu-icon-container {
+        left: 90px; /* Adjust position for smaller screens */
+    }
+
+    #menu-icon-container img {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 /* Panels (Pane Images) */
@@ -185,7 +179,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* Space between titles */
+    /* Removed gap as there's only one title image */
     flex-wrap: wrap;
 }
 
@@ -212,61 +206,23 @@ body {
 /* Logo Container */
 #logo-container {
     position: fixed;
-    right: 240px; /* Aligned with title */
-    top: 70%;
-    transform: translateY(-50%);
+    left: 170px; /* Align with side menu */
+    bottom: 20px;
     width: 100px; /* Scaled down */
     height: auto;
     z-index: 16;
     display: none; /* Hidden by default */
-    transition: opacity var(--transition-speed) ease, right var(--transition-speed) ease;
+    transition: opacity var(--transition-speed) ease;
 }
 
 body.introduction-page #logo-container {
     display: block;
 }
 
-/* Adjust on mobile screens */
-@media screen and (max-width: 768px) {
-    .title {
-        width: 80px; /* Further scaled down */
-    }
-
-    .title-container {
-        flex-direction: column;
-    }
-
-    #logo-container {
-        right: 10px; /* Adjust to fit smaller screens */
-        top: 200px; /* Adjust top position for mobile */
-        transform: none;
-        width: 80px;
-    }
-
-    #side-menu img {
-        max-width: 80px;
-        max-height: 80px;
-    }
-
-    #theme-toggle img {
-        width: 40px;
-        height: 40px;
-    }
-
-    /* Adjust poetry headers */
-    .collection-header, .poem-header, .section-header {
-        font-size: 1.2em;
-    }
-
-    .toggle-icon {
-        font-size: 1.2em;
-    }
-}
-
-/* Title Image Adjustments */
-.title-section .title-container img.title {
-    /* Ensure titles are centered and spaced */
-    margin: 0 auto;
+#logo-container img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* Main Content */
@@ -281,7 +237,25 @@ body.introduction-page #logo-container {
 
 @media (max-width: 768px) {
     #main-content {
-        margin: 150px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 150px 10px 60px 20px; /* Adjust margins for smaller screens */
+    }
+
+    /* Hide panels on mobile */
+    .panels {
+        display: none;
+    }
+
+    /* Adjust title size */
+    .title-section .title-container img.title {
+        width: 80px; /* Further scaled down */
+    }
+
+    .title-text h1 {
+        font-size: 1.5em;
+    }
+
+    .title-text p {
+        font-size: 0.9em;
     }
 }
 
@@ -507,23 +481,53 @@ footer #theme-toggle img {
 /* Responsive design */
 @media screen and (max-width: 768px) {
     #main-content {
-        margin: 150px 10px 60px 10px; /* Adjust margins for smaller screens */
+        margin: 150px 10px 60px 20px; /* Adjust margins for smaller screens */
     }
 
+    /* Hide panels on mobile */
     .panels {
         display: none;
     }
 
-    .title-section .title-container {
-        gap: 10px; /* Reduced spacing on mobile */
+    /* Adjust title size */
+    .title-section .title-container img.title {
+        width: 80px; /* Further scaled down */
     }
 
-    .title-section .title-text h1 {
+    .title-text h1 {
         font-size: 1.5em;
     }
 
-    .title-section .title-text p {
+    .title-text p {
         font-size: 0.9em;
+    }
+
+    /* Adjust side menu for mobile */
+    #side-menu {
+        width: 120px;
+    }
+
+    #side-menu-logo img {
+        width: 80px;
+    }
+
+    .menu-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .menu-text {
+        font-size: 0.8em;
+    }
+
+    /* Adjust menu icon container */
+    #menu-icon-container {
+        left: 130px; /* Adjusted for smaller side menu width */
+    }
+
+    #menu-icon-container img {
+        width: 30px;
+        height: 30px;
     }
 }
 

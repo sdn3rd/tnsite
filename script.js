@@ -178,9 +178,16 @@ function loadContentSection(sectionId) {
                 } else {
                     document.body.classList.remove('introduction-page');
                 }
+                // Hide title section on Poetry page
+                if (sectionId === 'poetry') {
+                    document.querySelector('.title-section').style.display = 'none';
+                } else {
+                    document.querySelector('.title-section').style.display = 'block';
+                }
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
                 document.body.classList.remove('introduction-page');
+                document.querySelector('.title-section').style.display = 'block';
             }
         })
         .catch(error => {
