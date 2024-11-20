@@ -231,12 +231,6 @@ body.menu-open .panels {
     padding: 0; /* Remove unintended padding */
 }
 
-/* Remove background images from .pane if using img tags instead */
-.pane1 { /* Optional: Remove if using img tags
-    background-image: url('images/pane1.png');
-} */
-/* Repeat for other panes if necessary */
-
 /* Title Section */
 .title-section {
     text-align: center;
