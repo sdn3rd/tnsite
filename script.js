@@ -90,6 +90,12 @@ function updateAllIcons(theme) {
             return;
         }
 
+        // Exclude pane images
+        if (img.classList.contains('pane-image')) {
+            console.log(`Excluding pane image: ${img.src}`);
+            return;
+        }
+
         // Get the current src attribute
         const src = img.getAttribute('src');
 
@@ -111,6 +117,7 @@ function updateAllIcons(theme) {
         }
     });
 }
+
 
 /* Event Listeners */
 function addEventListeners() {
