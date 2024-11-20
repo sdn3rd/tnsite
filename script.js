@@ -1,485 +1,702 @@
-console.log('script.js is loaded and running.');
+/* Root Variables */
+:root {
+    /* Color Scheme */
+    --background-color: #000000;
+    --text-color: #ffffff;
+    --line-color: #ffffff;
+    --highlight-color: #333333;
+    --link-color: #ffffff;
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded event fired.');
-    initializePage();
-});
+    /* Layout */
+    --footer-height: 60px;
+    --transition-speed: 0.3s;
 
-function initializePage() {
-    console.log('Initializing page...');
-    initializeTheme();
-    addEventListeners();
-    loadSection('introduction'); // Load the default section
-    updateYear();
-    updatePatreonIcon();
-    duplicatePanes(); // Call the duplicatePanes function after initialization
-    adjustPaneImages(); // Adjust pane images on load
+    /* Side Menu Widths (Percentage of viewport width) */
+    --side-menu-width-desktop: 15%; /* Adjusted to 15% for better desktop sizing */
+    --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
+
+    /* Right Panels Widths (Percentage of viewport width) */
+    --right-panels-width-desktop: 15%; /* Reduced from 20% to 15% for desktop */
+    --right-panels-width-mobile: 70px; /* Increased from 50px to 70px for better visibility on mobile */
+
+    /* Section Spacing (Percentage of viewport width) */
+    --section-margin-left: 5%;        /* Margin-left when menu is closed */
+    --section-padding-left: 2%;       /* Padding inside sections */
+    --section-margin-right: 5%;       /* Margin-right when panels are closed */
+    --section-padding-right: 2%;      /* Padding inside sections */
+
+    /* Mobile Section Spacing */
+    --section-margin-left-mobile: 2%;    /* Reduced margin-left on mobile */
+    --section-padding-left-mobile: 1%;   /* Reduced padding-left on mobile */
+    --section-margin-right-mobile: 2%;   /* Reduced margin-right on mobile */
+    --section-padding-right-mobile: 1%;  /* Reduced padding-right on mobile */
+
+    /* Icon Sizes (Responsive) */
+    --menu-icon-size-desktop: 40px;
+    --menu-icon-size-mobile: 30px;
+
+    /* Social Icons Sizes */
+    --social-icon-size-desktop: 32px;
+    --social-icon-size-mobile: 24px;
+
+    /* Theme Toggle Icon Sizes */
+    --theme-toggle-icon-size-desktop: 50px;
+    --theme-toggle-icon-size-mobile: 40px;
+
+    /* Section Text Alignment */
+    --section-text-align-desktop: center;
+    --section-text-align-mobile: left;
+
+    /* Spacing Between Title and Sections */
+    --title-section-margin-bottom: 20px; /* 20px below title */
 }
 
-/* Theme functions */
-function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        console.log(`Applying saved theme: ${savedTheme}`);
-        applyTheme(savedTheme);
-    } else {
-        console.log('No saved theme found, detecting OS theme preference.');
-        detectOSTheme();
+/* Light Theme Variables */
+[data-theme="light"] {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --line-color: #000000;
+    --highlight-color: #f0f0f0;
+    --link-color: #000000;
+}
+
+/* Body Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    font-size: 16px; /* Base font size */
+    transition: 
+        font-size var(--transition-speed) ease, 
+        background-color var(--transition-speed) ease, 
+        color var(--transition-speed) ease;
+}
+
+/* Font Size Adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
     }
 }
 
-function applyTheme(theme) {
-    console.log(`Applying theme: ${theme}`);
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    updateThemeIcon(theme);
-    updatePatreonIcon();
-    updateAllIcons(theme); // Update all icons based on the current theme
-}
-
-function detectOSTheme() {
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = prefersDarkScheme ? 'dark' : 'light';
-    console.log(`Detected OS theme preference: ${theme}`);
-    applyTheme(theme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-}
-
-function updateThemeIcon(theme) {
-    const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
-    themeToggleImages.forEach(themeIcon => {
-        themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
-    });
-}
-
-function updatePatreonIcon() {
-    const patreonIcon = document.getElementById('patreon-icon');
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    if (patreonIcon) {
-        patreonIcon.src = currentTheme === 'light' ? 'icons/patreon_alt.png' : 'icons/patreon.png';
-        console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
-    } else {
-        console.warn('Patreon icon not found.');
+@media (min-width: 1200px) {
+    body {
+        font-size: 18px;
     }
 }
 
-/* Function to update all icons based on the current theme */
-function updateAllIcons(theme) {
-    console.log(`Updating all icons to ${theme} mode.`);
-    const images = document.querySelectorAll('img');
-
-    images.forEach(img => {
-        // Exclude images inside the theme toggle button
-        if (img.closest('#theme-toggle')) {
-            return;
-        }
-
-        // Get the current src attribute
-        const src = img.getAttribute('src');
-
-        if (src) {
-            // Skip images that already have _alt in their filename when switching to light
-            if (theme === 'light') {
-                if (!src.includes('_alt') && src.endsWith('.png')) {
-                    const altSrc = src.replace('.png', '_alt.png');
-                    img.setAttribute('src', altSrc);
-                    console.log(`Switched ${src} to ${altSrc}`);
-                }
-            } else { // theme === 'dark'
-                if (src.includes('_alt') && src.endsWith('_alt.png')) {
-                    const darkSrc = src.replace('_alt.png', '.png');
-                    img.setAttribute('src', darkSrc);
-                    console.log(`Switched ${src} to ${darkSrc}`);
-                }
-            }
-        }
-    });
+/* Menu Icon Container */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1004; /* Higher z-index to stay above other elements */
+    cursor: pointer;
 }
 
-/* Event Listeners */
-function addEventListeners() {
-    // Theme Toggle in Footer
-    const themeToggleFooter = document.querySelector('footer #theme-toggle');
-    if (themeToggleFooter) {
-        themeToggleFooter.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent triggering footer collapse
-            toggleTheme();
-            console.log('Theme toggle in footer clicked.');
-        });
-        console.log('Added event listener for theme toggle in footer.');
-    } else {
-        console.warn('Theme toggle in footer not found.');
-    }
-
-    // Hamburger Menu Toggle
-    const hamburgerMenu = document.getElementById('menu-icon-container');
-    const sideMenu = document.getElementById('side-menu');
-    const panels = document.querySelector('.panels');
-
-    if (hamburgerMenu && sideMenu && panels) {
-        hamburgerMenu.addEventListener('click', (event) => {
-            event.stopPropagation();
-            document.body.classList.toggle('menu-open');
-            console.log('Menu toggled: menu-open class added/removed.');
-        });
-    } else {
-        console.warn('One or more menu elements not found.');
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (event) => {
-        const sideMenu = document.getElementById('side-menu');
-        const hamburgerMenu = document.getElementById('menu-icon-container');
-
-        if (document.body.classList.contains('menu-open')) {
-            if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                document.body.classList.remove('menu-open');
-                console.log('Clicked outside the menu. Menu closed.');
-            }
-        }
-    });
-
-    // Menu Item Clicks
-    const menuItems = document.querySelectorAll('#side-menu a[data-section]');
-    menuItems.forEach((item) => {
-        item.addEventListener('click', function (event) {
-            event.preventDefault();
-            const section = this.getAttribute('data-section');
-            loadSection(section);
-            document.body.classList.remove('menu-open'); // Close the menu
-            console.log(`Menu item clicked: ${section}. Menu closed.`);
-        });
-    });
-
-    // Footer Toggle
-    const footer = document.querySelector('footer');
-    const footerToggle = document.getElementById('footer-toggle');
-    const footerToggleIcon = document.getElementById('footer-toggle-icon');
-
-    if (footer && footerToggle && footerToggleIcon) {
-        // Make entire footer clickable to collapse
-        footer.addEventListener('click', (event) => {
-            // If the click is on the footer-toggle or theme toggle, do nothing
-            if (footerToggle.contains(event.target) || document.getElementById('theme-toggle').contains(event.target)) {
-                return;
-            }
-            footer.classList.toggle('footer-collapsed');
-            // Toggle arrow direction
-            if (footer.classList.contains('footer-collapsed')) {
-                footerToggleIcon.textContent = '^';
-            } else {
-                footerToggleIcon.textContent = 'v';
-            }
-            console.log('Footer toggled by clicking on footer.');
-        });
-
-        // Ensure the toggle icon itself does not trigger the footer collapse when clicked
-        footerToggle.addEventListener('click', (event) => {
-            event.stopPropagation();
-            footer.classList.toggle('footer-collapsed');
-            // Toggle arrow direction
-            if (footer.classList.contains('footer-collapsed')) {
-                footerToggleIcon.textContent = '^';
-            } else {
-                footerToggleIcon.textContent = 'v';
-            }
-            console.log('Footer toggled by clicking on toggle icon.');
-        });
-    } else {
-        console.warn('Footer toggle elements not found.');
-    }
-
-    // Adjust pane images on window resize
-    window.addEventListener('resize', adjustPaneImages);
+#menu-icon-container img {
+    width: var(--menu-icon-size-desktop);
+    height: var(--menu-icon-size-desktop);
+    transition: transform var(--transition-speed) ease;
 }
 
-/* Load Sections */
-function loadSection(section) {
-    if (section === 'poetry') {
-        loadPoetrySection();
-    } else {
-        loadContentSection(section);
+@media (max-width: 768px) {
+    #menu-icon-container img {
+        width: var(--menu-icon-size-mobile);
+        height: var(--menu-icon-size-mobile);
     }
 }
 
-function loadContentSection(sectionId) {
-    console.log(`Loading section: ${sectionId}`);
-    fetch('sections.json')
-        .then(response => response.json())
-        .then(sections => {
-            const section = sections.find(s => s.id === sectionId);
-            const contentDiv = document.getElementById('main-content');
-            if (section) {
-                contentDiv.innerHTML = markdownToHTML(section.content);
-                // If about/introduction, show logo (if necessary)
-                if (sectionId === 'introduction') {
-                    document.querySelector('.title-section').style.display = 'block';
-                } else {
-                    document.querySelector('.title-section').style.display = 'block';
-                }
-                // Optionally, adjust visibility of other elements
-            } else {
-                contentDiv.innerHTML = '<p>Section not found.</p>';
-                document.querySelector('.title-section').style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading sections:', error);
-            displayError('Failed to load sections.');
-        });
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--side-menu-width-desktop); /* Adjusted width for desktop */
+    height: 100%;
+    background-color: var(--background-color);
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    padding-left: 15px; /* 15px padding from the left edge */
+    padding-top: 50px; /* Space for menu button */
+    padding-right: 0px;
+    margin-right: 0;
+    transition: transform var(--transition-speed) ease;
+    overflow-y: auto;
+    transform: translateX(-100%); /* Hidden by default */
 }
 
-/* Load Poetry Section with dynamic content from /patreon-poetry */
-function loadPoetrySection() {
-    console.log('Loading poetry from /patreon-poetry...');
-    const contentDiv = document.getElementById('main-content');
-    contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
-
-    fetch('https://spectraltapestry.com/patreon-poetry')
-        .then(response => {
-            console.log('Received response from /patreon-poetry:', response);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
-            }
-            return response.text();
-        })
-        .then(text => {
-            console.log('Raw response text received.');
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (error) {
-                console.error('Invalid JSON response from /patreon-poetry:', error);
-                console.error('Response text:', text);
-                throw new Error('Invalid JSON response from /patreon-poetry');
-            }
-            console.log('Poetry data received:', data);
-            const poemsByCategory = categorizePoems(data);
-            console.log('Poems categorized:', poemsByCategory);
-            displayPoetry(poemsByCategory, document.getElementById('poetry-container'));
-        })
-        .catch(error => {
-            console.error('Error loading poetry:', error);
-            displayError('Failed to load poetry.');
-        });
+body.menu-open .side-menu {
+    transform: translateX(0); /* Slide in */
 }
 
-/* Function to categorize poems by category */
-function categorizePoems(poems) {
-    console.log('Categorizing poems...');
-    const categories = {};
-
-    poems.forEach(poem => {
-        const category = poem.category || 'Throwetry';
-
-        if (!categories[category]) {
-            categories[category] = [];
-        }
-
-        categories[category].push(poem);
-    });
-
-    console.log('Categorized poems:', categories);
-    return categories;
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
-/* Function to display poetry with collapsible sections and poems */
-function displayPoetry(poemsByCategory, container) {
-    console.log('Displaying poetry by category...');
-    if (Object.keys(poemsByCategory).length === 0) {
-        container.innerHTML = '<p>No poems found.</p>';
-        return;
+.side-menu li {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0; /* Reduced margin */
+}
+
+.side-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    transition: transform var(--transition-speed) ease;
+}
+
+.side-menu a:hover {
+    transform: scale(1.05);
+}
+
+.menu-icon {
+    width: 30px; /* Reduced size from 40px to 30px */
+    height: 30px;
+    object-fit: contain;
+}
+
+.menu-text {
+    margin-top: 5px;
+    font-size: 0.7em; /* Reduced font size */
+    text-align: center;
+}
+
+/* Logo Container in Footer */
+#footer-logo-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 60px; /* Shrunk size */
+}
+
+#footer-logo-container img {
+    width: 100%;
+    height: auto;
+}
+
+/* Panels Container (Right Side) */
+.panels {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: var(--right-panels-width-desktop); /* Adjusted width for desktop */
+    height: 100vh;
+    z-index: 1001; /* Below side-menu */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (top) */
+    background-color: transparent; /* Changed from #000000 to transparent */
+    padding: 10px 0;
+    transform: translateX(100%); /* Hidden by default */
+    transition: transform var(--transition-speed) ease;
+    overflow: hidden; /* Prevent overflow */
+}
+
+body.menu-open .panels {
+    transform: translateX(0); /* Slide in */
+}
+
+/* Individual Panel */
+.pane {
+    width: 100%; /* Full width within the panels container */
+    height: auto; /* Adjust height based on content */
+    margin: 10px 0;  /* 10px top and bottom margins */
+    background-size: contain;  /* Preserve aspect ratio */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent; /* Ensured no background color */
+}
+
+.pane img {
+    width: 100%;
+    height: auto;
+    /* To prevent images from exceeding the container, set max-height */
+    max-height: calc((100vh / 8) + 200px);
+    object-fit: contain;
+    display: block;
+    margin: 0; /* Remove unintended margins */
+    padding: 0; /* Remove unintended padding */
+}
+
+/* Remove background images from .pane if using img tags instead */
+.pane1 { /* Optional: Remove if using img tags
+    background-image: url('images/pane1.png');
+} */
+/* Repeat for other panes if necessary */
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-top: 20px; /* Reduced top-margin */
+    padding: 0 20px; /* Responsive padding */
+    margin-bottom: var(--title-section-margin-bottom); /* 20px below title */
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    width: 100px; /* Scaled down */
+    height: auto;
+    transition: transform var(--transition-speed) ease;
+}
+
+.title-text {
+    margin-top: 10px;
+}
+
+.title-text h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.title-text p {
+    font-size: 1em;
+    margin: 5px 0 0 0;
+}
+
+/* Main Content */
+#main-content {
+    width: 80%; /* Percentage-based width */
+    max-width: 800px; /* Optional max-width for very large screens */
+    padding: 20px;
+    transition: 
+        margin-left var(--transition-speed) ease, 
+        margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+    color: var(--text-color);
+    margin: 40px auto 60px auto; /* Reduced top margin from 80px to 40px */
+    text-align: var(--section-text-align-desktop); /* Dynamic text alignment */
+    font-size: 1em;
+}
+
+body.menu-open #main-content {
+    margin-left: calc(var(--side-menu-width-desktop) + 2%); /* Shifted right when menu is open */
+    margin-right: calc(var(--right-panels-width-desktop) + 2%); /* Shifted left to accommodate right panels */
+}
+
+@media (max-width: 768px) {
+    /* Main Content Adjustments for Mobile */
+    #main-content {
+        width: 90%; /* Wider on mobile */
+        margin: 150px auto 60px auto; /* Centered with auto margins */
+        padding: 10px 5%; /* Reduced padding for mobile */
     }
 
-    container.innerHTML = ''; // Clear container
+    /* Adjust title size */
+    .title-section .title-container img.title {
+        width: 80px; /* Further scaled down */
+    }
 
-    // For each category, create a collapsible section
-    for (const [collectionName, poems] of Object.entries(poemsByCategory)) {
-        // Create collection wrapper
-        const collectionWrapper = document.createElement('div');
-        collectionWrapper.classList.add('poetry-collection');
+    .title-text h1 {
+        font-size: 1.5em;
+    }
 
-        // Collection header
-        const collectionHeader = document.createElement('div');
-        collectionHeader.classList.add('collection-header');
-        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${collectionName}`;
-        collectionWrapper.appendChild(collectionHeader);
+    .title-text p {
+        font-size: 0.9em;
+    }
 
-        // Collection content
-        const collectionContent = document.createElement('div');
-        collectionContent.classList.add('collection-content');
-        collectionContent.style.display = 'none'; // Initially collapsed
+    /* Adjust side menu for mobile */
+    .side-menu {
+        width: var(--side-menu-width-mobile); /* Mobile width */
+    }
 
-        // For each poem in the collection
-        poems.forEach(poem => {
-            // Poem wrapper
-            const poemWrapper = document.createElement('div');
-            poemWrapper.classList.add('poem');
+    /* Adjust side menu contents for mobile */
+    .side-menu a {
+        align-items: flex-start; /* Align items to the start (left) */
+    }
 
-            // Poem header
-            const poemHeader = document.createElement('div');
-            poemHeader.classList.add('poem-header');
-            poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${poem.title}`;
-            poemWrapper.appendChild(poemHeader);
+    /* Adjust menu icon container */
+    #menu-icon-container img {
+        width: var(--menu-icon-size-mobile); /* Mobile icon size */
+        height: var(--menu-icon-size-mobile);
+    }
 
-            // Poem content
-            const poemContent = document.createElement('div');
-            poemContent.classList.add('poem-content');
-            poemContent.style.display = 'none'; // Initially collapsed
-            poemContent.innerHTML = poem.content.replace(/\n/g, '<br>');
-            poemWrapper.appendChild(poemContent);
+    /* Adjust logo size on mobile */
+    #footer-logo-container img {
+        width: 50px;
+    }
 
-            // Add event listener to poem header
-            poemHeader.addEventListener('click', () => {
-                const isVisible = poemContent.style.display === 'block';
-                // Collapse all other poems in the same category
-                const allPoemContents = collectionContent.querySelectorAll('.poem-content');
-                allPoemContents.forEach(pc => pc.style.display = 'none');
-                const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
-                allPoemHeaders.forEach(icon => icon.textContent = '+');
+    /* Adjust main content margin when menu is open on mobile */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2%); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
+    }
 
-                if (isVisible) {
-                    poemContent.style.display = 'none';
-                    poemHeader.querySelector('.toggle-icon').textContent = '+';
-                } else {
-                    poemContent.style.display = 'block';
-                    poemHeader.querySelector('.toggle-icon').textContent = '−';
-                    // Scroll poem to top
-                    poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+    /* Panels adjustments for mobile */
+    .panels {
+        width: var(--right-panels-width-mobile); /* Mobile pane width */
+    }
 
-            collectionContent.appendChild(poemWrapper);
-        });
+    .pane {
+        width: 100%; /* Full width within panels */
+        height: auto; /* Adjust height based on content */
+    }
 
-        collectionWrapper.appendChild(collectionContent);
-        container.appendChild(collectionWrapper);
-
-        // Add event listener to collection header
-        collectionHeader.addEventListener('click', () => {
-            const isVisible = collectionContent.style.display === 'block';
-            if (isVisible) {
-                collectionContent.style.display = 'none';
-                collectionHeader.querySelector('.toggle-icon').textContent = '+';
-            } else {
-                collectionContent.style.display = 'block';
-                collectionHeader.querySelector('.toggle-icon').textContent = '−';
-            }
-        });
+    /* Ensure sections adjust when menu is open on mobile */
+    body.menu-open .section {
+        margin-left: var(--section-margin-left-mobile);
+        padding-left: var(--section-padding-left-mobile);  
+        margin-right: var(--section-margin-right-mobile);
+        padding-right: var(--section-padding-right-mobile);
     }
 }
 
-/* Utility functions */
-function markdownToHTML(text) {
-    return text
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-        .replace(/\n/g, '<br>');
+/* Content Styling */
+#main-content h1 {
+    margin-top: 0;
+    font-size: 2em;
 }
 
-function displayError(message) {
-    const contentDiv = document.getElementById('main-content');
-    if (contentDiv) {
-        contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
-    } else {
-        console.error('Main content container not found while displaying error.');
+#main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+#main-content a {
+    color: var(--link-color);
+}
+
+#main-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Sections Styling */
+.section {
+    border-bottom: 1px solid var(--line-color);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+
+    /* Apply section spacing variables */
+    margin-left: var(--section-margin-left);
+    padding-left: var(--section-padding-left);
+    margin-right: var(--section-margin-right);
+    padding-right: var(--section-padding-right);
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+
+    /* Text Alignment */
+    text-align: var(--section-text-align-desktop);
+}
+
+body.menu-open {
+    /* Adjust Section Spacing */
+    --section-margin-left: 10px;       /* Reduced margin when menu is open */
+    --section-padding-left: 10px;      /* Reduced padding when menu is open */
+    --section-margin-right: 10px;      /* Adjust right margin as needed */
+    --section-padding-right: 10px;     /* Adjust right padding as needed */
+}
+
+/* Optional: Adjust internal elements within sections when menu is open */
+body.menu-open .section p {
+    margin-left: 5px; /* Adjust as needed */
+}
+
+body.menu-open .section h1,
+body.menu-open .section h2,
+body.menu-open .section h3 {
+    margin-left: 5px; /* Adjust as needed */
+}
+
+/* Text Alignment on Desktop */
+@media (min-width: 769px) {
+    .section {
+        text-align: var(--section-text-align-desktop);
     }
 }
 
-function updateYear() {
-    const yearElement = document.getElementById('year');
-    if (yearElement) {
-        yearElement.innerText = new Date().getFullYear();
-        console.log(`Updated year to ${yearElement.innerText}`);
-    } else {
-        console.warn('Year element not found in footer.');
+/* Text Alignment on Mobile */
+@media (max-width: 768px) {
+    .section {
+        text-align: var(--section-text-align-mobile);
     }
 }
 
-/* Function to duplicate panes to fill the panels container */
-function duplicatePanes() {
-    const panels = document.querySelector('.panels');
-    if (!panels) {
-        console.warn('Panels container not found.');
-        return;
-    }
-
-    const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
-    const initialPaneCount = masterPanes.length;
-
-    // Remove any additional panes beyond the master list
-    const allPanes = Array.from(panels.querySelectorAll('.pane'));
-    allPanes.forEach((pane, index) => {
-        if (index >= initialPaneCount) {
-            panels.removeChild(pane);
-        }
-    });
-
-    console.log('Duplicate panes have been reset to the master list.');
+.section-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.5em;
 }
 
-/* Function to adjust pane images based on viewport height and add/remove panes dynamically */
-function adjustPaneImages() {
-    console.log('Adjusting pane images based on viewport height.');
-    const panesContainer = document.querySelector('.panels');
-    if (!panesContainer) {
-        console.warn('Panels container not found.');
-        return;
+.section-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.5em;
+}
+
+.section-content {
+    padding: 1em;
+    display: none;
+}
+
+.section-content p {
+    margin: 0;
+}
+
+.section-content a {
+    text-decoration: underline;
+}
+
+.section-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Poems Container */
+.poems-container {
+    margin-top: 1em;
+}
+
+/* Individual Poem Wrapper */
+.poem {
+    border-bottom: 1px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Poem Header Styling */
+.poem-header {
+    padding: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.25em;
+}
+
+.poem-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.poem-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.5em; /* Increased size for larger symbols */
+}
+
+/* Poem Content Styling */
+.poem-content {
+    padding: 0.5em 1em;
+    display: none;
+    font-size: 1em;
+}
+
+/* Collection Wrapper */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Collection Header Styling */
+.collection-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.75em;
+}
+
+.collection-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.collection-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Collection Content */
+.collection-content {
+    padding-left: 1em;
+    display: none;
+}
+
+/* Footer Styling */
+footer {
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid var(--line-color);
+    background-color: var(--background-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
+    transition: 
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
+    cursor: pointer; /* Make entire footer clickable */
+    transform: translateY(0); /* Visible by default */
+}
+
+body.menu-open footer {
+    transform: translateY(100%); /* Slide up and hide */
+}
+
+footer p {
+    margin: 0.5em 0 0 0;
+    font-size: 1em;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
     }
+}
 
-    const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
-    const viewportHeight = window.innerHeight;
-    const baseThreshold = 315 * 8 + 200; // 2520 + 200 = 2720px
-    const extraPaneThreshold = 335; // For every 335px beyond the baseThreshold, add one pane
-
-    // Calculate the number of additional panes needed
-    let extraHeight = viewportHeight - baseThreshold;
-    let additionalPanes = 0;
-
-    if (extraHeight > 0) {
-        additionalPanes = Math.floor(extraHeight / extraPaneThreshold);
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
     }
+}
 
-    // Total panes needed
-    const totalPanesNeeded = 8 + additionalPanes;
+/* Remove text labels from social icons if any (ensuring only images) */
+.social-media a span {
+    display: none;
+}
 
-    // Current number of panes
-    const currentPanes = Array.from(panesContainer.querySelectorAll('.pane')).length;
+.footer-collapsed #footer-content {
+    display: none;
+}
 
-    // Adjust the number of panes
-    if (currentPanes < totalPanesNeeded) {
-        // Add more panes by cloning from the master list
-        for (let i = currentPanes; i < totalPanesNeeded; i++) {
-            const masterPane = masterPanes[i % masterPanes.length];
-            const clone = masterPane.cloneNode(true);
-            // Remove unique classes if any
-            clone.classList.remove(`pane${i % masterPanes.length + 1}`);
-            panesContainer.appendChild(clone);
-            console.log(`Added pane clone number ${i + 1}`);
-        }
-    } else if (currentPanes > totalPanesNeeded) {
-        // Remove excess panes
-        for (let i = currentPanes; i > totalPanesNeeded; i--) {
-            const paneToRemove = panesContainer.querySelectorAll('.pane')[i - 1];
-            panesContainer.removeChild(paneToRemove);
-            console.log(`Removed pane clone number ${i}`);
-        }
+#footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
+}
+
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed) ease;
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1004; /* Higher z-index to stay clickable */
+}
+
+footer #theme-toggle img {
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
     }
+}
 
-    // Now, adjust the max-height of all pane images
-    const paneImages = panesContainer.querySelectorAll('.pane img');
-    const calculatedMaxHeight = (viewportHeight / 8) + 200; // As per user requirement
+@media screen and (min-width: 769px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
+    }
+}
 
-    paneImages.forEach(img => {
-        img.style.maxHeight = `${calculatedMaxHeight}px`;
-        img.style.height = 'auto'; // Ensure aspect ratio is maintained
-        console.log(`Set image max-height to ${calculatedMaxHeight}px for viewport height ${viewportHeight}px.`);
-    });
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
 
-    // Ensure pane images are centered vertically
-    panesContainer.style.justifyContent = 'center';
+/* Adjust Poetry Headers and Lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header, .poem-header {
+    font-size: 1.75em;
+}
+
+.toggle-icon {
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Adjust Main Content Font Size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
+    }
+}
+
+/* Ensure Sections Transition Smoothly */
+.section {
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+}
+
+/* Footer Hover Effects */
+footer:hover {
+    background-color: var(--highlight-color);
 }
