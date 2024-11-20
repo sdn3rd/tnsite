@@ -188,6 +188,7 @@ body.menu-open .side-menu {
 }
 
 /* Panels Container (Right Side) */
+/* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
@@ -200,13 +201,13 @@ body.menu-open .side-menu {
     align-items: flex-start; /* Align items to the start (top) */
     background-color: transparent; /* Changed from #000000 to transparent */
     padding: 10px 0;
-    transform: translateX(100%); /* Hidden by default */
+    transform: translateX(0); /* Move fully into view on desktop and mobile */
     transition: transform var(--transition-speed) ease;
     overflow: hidden; /* Prevent overflow */
 }
 
 body.menu-open .panels {
-    transform: translateX(0); /* Slide in */
+    transform: translateX(0); /* Ensure it fully moves into view when the menu is open */
 }
 
 /* Individual Panel */
@@ -237,6 +238,7 @@ body.menu-open .panels {
         width: var(--right-panels-width-mobile); /* Mobile pane width */
         flex-direction: column; /* Stack panes vertically */
         overflow-y: auto; /* Enable vertical scrolling if needed */
+        transform: translateX(0); /* Ensure panes are visible on mobile */
     }
 
     .pane {
@@ -249,6 +251,7 @@ body.menu-open .panels {
         overflow-x: hidden;
     }
 }
+
 
 /* Title Section */
 .title-section {
