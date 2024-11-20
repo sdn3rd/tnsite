@@ -192,8 +192,8 @@ body.menu-open .side-menu {
 }
 
 #footer-logo-container img {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    height: 100%;
 }
 
 /* Panels Container (Right Side) */
