@@ -54,29 +54,29 @@
     </div>
 
     <!-- Side Menu -->
-    <div id="side-menu" class="side-menu">
+    <div id="side-menu" class="side-menu" aria-hidden="true">
         <ul>
             <li>
-                <a href="#" data-section="introduction" id="introduction-link">
-                    <img src="icons/about.png" alt="Introduction" class="menu-icon">
+                <a href="#" data-section="introduction" id="introduction-link" aria-label="About Section">
+                    <img src="icons/about.png" alt="Introduction Icon" class="menu-icon">
                     <span class="menu-text">About</span>
                 </a>
             </li>
             <li>
-                <a href="#" data-section="poetry" id="poetry-link">
-                    <img src="icons/poetry.png" alt="Poetry" class="menu-icon">
+                <a href="#" data-section="poetry" id="poetry-link" aria-label="Poetry Section">
+                    <img src="icons/poetry.png" alt="Poetry Icon" class="menu-icon">
                     <span class="menu-text">Poetry</span>
                 </a>
             </li>
             <li>
-                <a href="#" data-section="books" id="books-link">
-                    <img src="icons/books.png" alt="Books" class="menu-icon">
+                <a href="#" data-section="books" id="books-link" aria-label="Books Section">
+                    <img src="icons/books.png" alt="Books Icon" class="menu-icon">
                     <span class="menu-text">Books</span>
                 </a>
             </li>
             <li>
-                <a href="mailto:contact@tristannuvola.com" id="contact-link">
-                    <img src="icons/contact.png" alt="Contact" class="menu-icon">
+                <a href="mailto:contact@tristannuvola.com" id="contact-link" aria-label="Contact Section">
+                    <img src="icons/contact.png" alt="Contact Icon" class="menu-icon">
                     <span class="menu-text">Contact</span>
                 </a>
             </li>
@@ -119,7 +119,7 @@
     </div>
 
     <!-- Main Content Area -->
-    <div id="main-content">
+    <div id="main-content" tabindex="0">
         <!-- Sections will be loaded here -->
         <!-- Initially, the Introduction section will be displayed -->
     </div>
@@ -128,24 +128,24 @@
     <footer>
         <div id="footer-content">
             <div class="social-media">
-                <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link">
-                    <img src="icons/patreon.png" alt="Patreon" id="patreon-icon">
+                <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link" aria-label="Patreon">
+                    <img src="icons/patreon.png" alt="Patreon Icon" id="patreon-icon">
                 </a>
-                <a href="https://twitter.com/tristannuvola" target="_blank">
-                    <img src="icons/twitter.png" alt="Twitter">
+                <a href="https://twitter.com/tristannuvola" target="_blank" aria-label="Twitter">
+                    <img src="icons/twitter.png" alt="Twitter Icon">
                 </a>
-                <a href="https://www.instagram.com/adadandhismeat/" target="_blank">
-                    <img src="icons/instagram.png" alt="Instagram">
+                <a href="https://www.instagram.com/adadandhismeat/" target="_blank" aria-label="Instagram">
+                    <img src="icons/instagram.png" alt="Instagram Icon">
                 </a>
             </div>
             <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
             <!-- Theme Toggle in Footer -->
-            <div id="theme-toggle">
-                <img src="icons/darkmode.png" alt="Toggle Theme">
+            <div id="theme-toggle" aria-label="Toggle Theme">
+                <img src="icons/darkmode.png" alt="Toggle Theme Icon">
             </div>
         </div>
         <!-- Footer Toggle -->
-        <div id="footer-toggle">
+        <div id="footer-toggle" aria-label="Toggle Footer">
             <span id="footer-toggle-icon">v</span>
         </div>
         <!-- Logo moved to Footer -->
