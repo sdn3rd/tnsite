@@ -327,13 +327,18 @@ body.menu-open {
 /* Corrected: Adjust main content without shifting on desktop */
 @media (min-width: 769px) {
     body.menu-open #main-content {
-        /* Adjust width instead of margins to prevent shifting */
+        /* Remove margin shifts and adjust width instead */
         width: calc(80% - var(--side-menu-width-desktop) - var(--right-panels-width-desktop));
         margin: 40px auto 60px auto; /* Keep centered */
     }
 }
 
-/* Remove the margin adjustments for desktop when menu is open */
+body.menu-open #main-content {
+    margin-left: calc(var(--side-menu-width-desktop) + 2%); /* Shifted right when menu open - REMOVE for desktop */
+    margin-right: calc(var(--right-panels-width-desktop) + 2%); /* Shifted left when menu open - REMOVE for desktop */
+}
+
+/* Remove the above margin adjustments for desktop */
 @media (min-width: 769px) {
     body.menu-open #main-content {
         /* No margin adjustments on desktop */
@@ -406,13 +411,360 @@ body.menu-open {
     body.menu-open .section {
         margin-left: var(--section-margin-left-mobile);
         padding-left: var(--section-padding-left-mobile);  
-        margin-right: var(--section-margin-right-mobile);
-        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin_right_mobile);
+        padding-right: var(--section_padding_right_mobile);
     }
 
     /* Prevent horizontal overflow on mobile */
     body {
         overflow-x: hidden;
+    }
+}
+
+/* Additional Media Query for Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Hide panels by default */
+    .panels {
+        transform: translateX(100%); /* Hide panes to the right */
+        width: var(--right-panels-width-mobile); /* Ensure mobile width */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Show panels when menu is open */
+    body.menu-open .panels {
+        transform: translateX(0); /* Slide in panes */
+    }
+
+    /* Adjust main content for <480px */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
+    }
+
+    /* Ensure main content does not exceed viewport */
+    #main-content {
+        max-width: 100%;
+    }
+
+    /* Optional: Reduce padding or margins further if needed */
+}
+
+/* Content Styling */
+#main-content h1 {
+    margin-top: 0;
+    font-size: 2em;
+}
+
+#main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+#main-content a {
+    color: var(--link-color);
+}
+
+#main-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Sections Styling */
+.section {
+    border-bottom: 1px solid var(--line-color);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+
+    /* Apply section spacing variables */
+    margin-left: var(--section-margin-left);
+    padding-left: var(--section-padding_left);
+    margin-right: var(--section-margin_right);
+    padding-right: var(--section-padding_right);
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+
+    /* Text Alignment */
+    text-align: var(--section-text-align-desktop);
+}
+
+body.menu-open {
+    /* Adjust Section Spacing */
+    --section-margin-left: 10px;       /* Reduced margin when menu is open */
+    --section-padding-left: 10px;      /* Reduced padding when menu is open */
+    --section-margin-right: 10px;      /* Adjust right margin as needed */
+    --section-padding-right: 10px;     /* Adjust right padding as needed */
+}
+
+/* Ensure Section Contents are 10px Below Title */
+#main-content {
+    position: relative;
+    z-index: 50; /* Below title-section but above other content */
+    width: 80%; /* Percentage-based width */
+    max-width: 800px; /* Optional max-width for very large screens */
+    padding: 20px;
+    padding-bottom: var(--footer-height); /* Prevent overlap with footer */
+    transition: 
+        margin-left var(--transition-speed) ease, 
+        margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+    color: var(--text-color);
+    margin: 40px auto 60px auto; /* Reduced top margin from 80px to 40px */
+    text-align: var(--section-text-align-desktop); /* Dynamic text alignment */
+    font-size: 1em;
+}
+
+/* Remove duplicate .section styles */
+.section {
+    /* Border and spacing already defined above */
+}
+
+/* Text Alignment on Desktop */
+@media (min-width: 769px) {
+    .section {
+        text-align: var(--section-text-align-desktop);
+    }
+}
+
+/* Text Alignment on Mobile */
+@media (max-width: 768px) {
+    .section {
+        text-align: var(--section-text-align-mobile);
+    }
+}
+
+/* Section Header Styling */
+.section-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.5em;
+}
+
+.section-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.5em;
+}
+
+.section-content {
+    padding: 1em;
+    display: none;
+}
+
+.section-content p {
+    margin: 0;
+}
+
+.section-content a {
+    text-decoration: underline;
+}
+
+.section-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Poems Container */
+.poems-container {
+    margin-top: 1em;
+}
+
+/* Individual Poem Wrapper */
+.poem {
+    border-bottom: 1px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Poem Header Styling */
+.poem-header {
+    padding: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.25em;
+}
+
+.poem-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.poem-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 1.5em; /* Increased size for larger symbols */
+}
+
+/* Poem Content Styling */
+.poem-content {
+    padding: 0.5em 1em;
+    display: none;
+    font-size: 1em;
+}
+
+/* Collection Wrapper */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+    margin-bottom: 1em;
+}
+
+/* Collection Header Styling */
+.collection-header {
+    padding: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    transition: background-color var(--transition-speed) ease;
+    font-size: 1.75em;
+}
+
+.collection-header:hover {
+    background-color: var(--highlight-color);
+}
+
+.collection-header .toggle-icon {
+    margin-right: 0.5em;
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Collection Content */
+.collection-content {
+    padding-left: 1em;
+    display: none;
+}
+
+/* Footer Styling */
+footer {
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid var(--line-color);
+    background-color: var(--background-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
+    transition: 
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
+    cursor: pointer; /* Make entire footer clickable */
+    transform: translateY(0); /* Visible by default */
+}
+
+body.menu-open footer {
+    transform: translateY(100%); /* Slide up and hide */
+}
+
+footer p {
+    margin: 0.5em 0 0 0;
+    font-size: 1em;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
+    }
+}
+
+/* Remove text labels from social icons if any (ensuring only images) */
+.social-media a span {
+    display: none;
+}
+
+.footer-collapsed #footer-content {
+    display: none;
+}
+
+#footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
+}
+
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed) ease;
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1004; /* Higher z-index to stay clickable */
+}
+
+footer #theme-toggle img {
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
     }
 }
 
@@ -544,31 +896,12 @@ body.menu-open .section h3 {
 /* Poems Container */
 .poems-container {
     margin-top: 1em;
-    margin-left: 1%; /* 1% margin on each side */
-    margin-right: 1%;
-}
-
-@media (min-width: 769px) {
-    .poems-container {
-        margin-left: 1%;
-        margin-right: 1%;
-    }
-}
-
-@media (max-width: 768px) {
-    .poems-container {
-        margin-left: 1%;
-        margin-right: 1%;
-    }
 }
 
 /* Individual Poem Wrapper */
 .poem {
     border-bottom: 1px solid var(--line-color);
-    margin: 1em 2%; /* 2% margin on each side */
-    padding-left: 0;
-    padding-right: 0;
-    text-align: left; /* Left justify poem text */
+    margin-bottom: 1em;
 }
 
 /* Poem Header Styling */
@@ -596,8 +929,7 @@ body.menu-open .section h3 {
 .poem-content {
     padding: 0.5em 1em;
     display: none;
-    font-size: 0.9em; /* Smaller font size for poem content */
-    text-align: left; /* Left align poem text */
+    font-size: 1em;
 }
 
 /* Collection Wrapper */
@@ -797,7 +1129,7 @@ body {
 
 .collection-header,
 .poem-header {
-    font-size: 1.75em; /* Increased font size for hierarchy */
+    font-size: 1.75em;
 }
 
 .toggle-icon {
