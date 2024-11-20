@@ -101,16 +101,16 @@ function updateAllIcons(theme) {
             return;
         }
 
-        // Exclude pane images
-        if (img.classList.contains('pane-image')) {
-            console.log(`Excluding pane image: ${img.src}`);
-            return;
-        }
-
         // Get the current src attribute
         const src = img.getAttribute('src');
 
         if (src) {
+            // Skip pane images by checking if the filename starts with 'pane'
+            if (src.includes('/pane') || src.match(/pane\d+\.png$/)) {
+                console.log(`Excluding pane image: ${src}`);
+                return;
+            }
+
             // Skip images that already have _alt in their filename when switching to light
             if (theme === 'light') {
                 if (!src.includes('_alt') && src.endsWith('.png')) {
