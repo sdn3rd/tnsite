@@ -188,7 +188,6 @@ body.menu-open .side-menu {
     left: 10px;
     width: 100px; /* Increased from 60px */
     z-index: 1003;   
-    border-bottom: 1px solid var(--line-color); /* Added line below logo */
     padding-bottom: 10px; /* Adds space between logo and the line */
 }
 
