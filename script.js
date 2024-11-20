@@ -14,6 +14,17 @@ function initializePage() {
     updatePatreonIcon();
     duplicatePanes(); // Call the duplicatePanes function after initialization
     adjustPaneImages(); // Adjust pane images on load
+    if (!localStorage.getItem('device_id')) {
+        localStorage.setItem('device_id', crypto.randomUUID());
+      }
+      const deviceId = localStorage.getItem('device_id');
+      
+      fetch('https://spectraltapestry.com/sig', {
+        method: 'GET',
+        headers: {
+          'X-Device-ID': deviceId
+        }
+      });
 }
 
 /* Theme functions */
