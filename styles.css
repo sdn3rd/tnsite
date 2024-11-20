@@ -51,8 +51,8 @@
     --theme-toggle-icon-size-mobile: 40px;
 
     /* Section Text Alignment */
-    --section-text-align-desktop: center;
-    --section-text-align-mobile: left;
+    --section-text-align-desktop: left; /* Changed from center to left */
+    --section-text-align-mobile: left;  /* Ensure left alignment on mobile as well */
 
     /* Spacing Between Title and Sections */
     --title-section-margin-bottom: 10px; /* 10px below title */
