@@ -408,47 +408,78 @@ function duplicatePanes() {
         return;
     }
 
-    const panes = Array.from(panels.querySelectorAll('.pane'));
-    if (panes.length === 0) {
-        console.warn('No pane elements found to duplicate.');
+    const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
+    const initialPaneCount = masterPanes.length;
+
+    // Remove any additional panes beyond the master list
+    const allPanes = Array.from(panels.querySelectorAll('.pane'));
+    allPanes.forEach((pane, index) => {
+        if (index >= initialPaneCount) {
+            panels.removeChild(pane);
+        }
+    });
+
+    console.log('Duplicate panes have been reset to the master list.');
+}
+
+/* Function to adjust pane images based on viewport height and add/remove panes dynamically */
+function adjustPaneImages() {
+    console.log('Adjusting pane images based on viewport height.');
+    const panesContainer = document.querySelector('.panels');
+    if (!panesContainer) {
+        console.warn('Panels container not found.');
         return;
     }
 
-    // Calculate the total height of the panels container
-    const panelsHeight = panels.clientHeight;
+    const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
+    const viewportHeight = window.innerHeight;
+    const baseThreshold = 315 * 8 + 200; // 2520 + 200 = 2720px
+    const extraPaneThreshold = 335; // For every 335px beyond the baseThreshold, add one pane
 
-    // Calculate the total height of existing panes
-    const paneHeight = panes[0].offsetHeight + parseInt(getComputedStyle(panes[0]).marginTop) + parseInt(getComputedStyle(panes[0]).marginBottom);
-    let totalPaneHeight = panes.length * paneHeight;
+    // Calculate the number of additional panes needed
+    let extraHeight = viewportHeight - baseThreshold;
+    let additionalPanes = 0;
 
-    // Clone panes until totalPaneHeight exceeds panelsHeight
-    let cloneIndex = 0;
-    while (totalPaneHeight < panelsHeight) {
-        const clone = panes[cloneIndex % panes.length].cloneNode(true);
-        // Optional: Remove the unique classes to prevent duplicate IDs or issues
-        clone.classList.remove(`pane${cloneIndex % panes.length + 1}`);
-        panels.appendChild(clone);
-        totalPaneHeight += paneHeight;
-        cloneIndex++;
-        if (cloneIndex > 100) { // Prevent infinite loop
-            console.warn('Reached 100 clones, stopping duplication to prevent infinite loop.');
-            break;
+    if (extraHeight > 0) {
+        additionalPanes = Math.floor(extraHeight / extraPaneThreshold);
+    }
+
+    // Total panes needed
+    const totalPanesNeeded = 8 + additionalPanes;
+
+    // Current number of panes
+    const currentPanes = Array.from(panesContainer.querySelectorAll('.pane')).length;
+
+    // Adjust the number of panes
+    if (currentPanes < totalPanesNeeded) {
+        // Add more panes by cloning from the master list
+        for (let i = currentPanes; i < totalPanesNeeded; i++) {
+            const masterPane = masterPanes[i % masterPanes.length];
+            const clone = masterPane.cloneNode(true);
+            // Remove unique classes if any
+            clone.classList.remove(`pane${i % masterPanes.length + 1}`);
+            panesContainer.appendChild(clone);
+            console.log(`Added pane clone number ${i + 1}`);
+        }
+    } else if (currentPanes > totalPanesNeeded) {
+        // Remove excess panes
+        for (let i = currentPanes; i > totalPanesNeeded; i--) {
+            const paneToRemove = panesContainer.querySelectorAll('.pane')[i - 1];
+            panesContainer.removeChild(paneToRemove);
+            console.log(`Removed pane clone number ${i}`);
         }
     }
 
-    console.log(`Duplicated panes to fill the panels container. Total panes: ${panels.querySelectorAll('.pane').length}`);
-}
-
-/* Function to adjust pane images based on viewport height */
-function adjustPaneImages() {
-    console.log('Adjusting pane images based on viewport height.');
-    const paneImages = document.querySelectorAll('.panels .pane img');
-    const viewportHeight = window.innerHeight;
+    // Now, adjust the max-height of all pane images
+    const paneImages = panesContainer.querySelectorAll('.pane img');
+    const calculatedMaxHeight = (viewportHeight / 8) + 200; // As per user requirement
 
     paneImages.forEach(img => {
-        const newHeight = (viewportHeight / 8) + 200; // Calculate height
-        img.style.maxHeight = `${newHeight}px`;
+        img.style.maxHeight = `${calculatedMaxHeight}px`;
         img.style.height = 'auto'; // Ensure aspect ratio is maintained
-        console.log(`Set image height to ${newHeight}px for viewport height ${viewportHeight}px.`);
+        console.log(`Set image max-height to ${calculatedMaxHeight}px for viewport height ${viewportHeight}px.`);
     });
+
+    // Ensure pane images are centered vertically
+    panesContainer.style.justifyContent = 'center';
 }
