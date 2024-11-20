@@ -346,7 +346,15 @@ function categorizePoems(poems) {
     return categories;
 }
 
-/* Function to display poetry with collapsible sections and poems */
+/* Utility function to format collection names */
+function formatCollectionName(name) {
+    // Replace underscores with spaces and split into words
+    return name
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -370,10 +378,11 @@ function displayPoetry(poemsByCategory, container) {
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
 
-        // Collection header
+        // Collection header with formatted name
         const collectionHeader = document.createElement('div');
         collectionHeader.classList.add('collection-header');
-        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${collectionName}`;
+        const formattedName = formatCollectionName(collectionName);
+        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedName}`;
         collectionWrapper.appendChild(collectionHeader);
 
         // Collection content
@@ -390,10 +399,11 @@ function displayPoetry(poemsByCategory, container) {
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
 
-            // Poem header
+            // Poem header with formatted title
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
-            poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${poem.title}`;
+            const formattedTitle = formatCollectionName(poem.title); // Also format poem titles
+            poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
             poemWrapper.appendChild(poemHeader);
 
             // Poem content
