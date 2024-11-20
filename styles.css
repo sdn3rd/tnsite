@@ -202,7 +202,7 @@ body.menu-open .side-menu {
     padding: 10px 0;
     transform: translateX(100%); /* Hidden by default */
     transition: transform var(--transition-speed) ease;
-    overflow-y: auto; /* Ensure panels can scroll if needed */
+    /* Removed overflow-y: auto to prevent scrolling */
 }
 
 body.menu-open .panels {
@@ -223,6 +223,11 @@ body.menu-open .panels {
 .pane img {
     width: 100%;
     height: auto;
+    /* To prevent images from exceeding the container, set max-height */
+    max-height: calc((100vh / 8) + 200px);
+    object-fit: contain;
+    display: block;
+    margin: 0 auto; /* Center horizontally */
 }
 
 /* Ensure images are actually loaded */

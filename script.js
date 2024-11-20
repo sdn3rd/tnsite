@@ -13,6 +13,7 @@ function initializePage() {
     updateYear();
     updatePatreonIcon();
     duplicatePanes(); // Call the duplicatePanes function after initialization
+    adjustPaneImages(); // Adjust pane images on load
 }
 
 /* Theme functions */
@@ -192,6 +193,9 @@ function addEventListeners() {
     } else {
         console.warn('Footer toggle elements not found.');
     }
+
+    // Adjust pane images on window resize
+    window.addEventListener('resize', adjustPaneImages);
 }
 
 /* Load Sections */
@@ -433,4 +437,18 @@ function duplicatePanes() {
     }
 
     console.log(`Duplicated panes to fill the panels container. Total panes: ${panels.querySelectorAll('.pane').length}`);
+}
+
+/* Function to adjust pane images based on viewport height */
+function adjustPaneImages() {
+    console.log('Adjusting pane images based on viewport height.');
+    const paneImages = document.querySelectorAll('.panels .pane img');
+    const viewportHeight = window.innerHeight;
+
+    paneImages.forEach(img => {
+        const newHeight = (viewportHeight / 8) + 200; // Calculate height
+        img.style.maxHeight = `${newHeight}px`;
+        img.style.height = 'auto'; // Ensure aspect ratio is maintained
+        console.log(`Set image height to ${newHeight}px for viewport height ${viewportHeight}px.`);
+    });
 }
