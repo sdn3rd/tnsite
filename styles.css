@@ -12,18 +12,24 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 20%; /* Increased from 15% to 20% for larger panes on desktop */
+    --side-menu-width-desktop: 15%; /* Adjusted to 15% for better desktop sizing */
     --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
 
     /* Right Panels Widths (Percentage of viewport width) */
-    --right-panels-width-desktop: 20%; /* Increased from 15% to 20% for larger panes on desktop */
-    --right-panels-width-mobile: 50px; /* Fixed width for mobile */
+    --right-panels-width-desktop: 15%; /* Reduced from 20% to 15% for desktop */
+    --right-panels-width-mobile: 70px; /* Increased from 50px to 70px for better visibility on mobile */
 
     /* Section Spacing (Percentage of viewport width) */
     --section-margin-left: 5%;        /* Margin-left when menu is closed */
     --section-padding-left: 2%;       /* Padding inside sections */
     --section-margin-right: 5%;       /* Margin-right when panels are closed */
     --section-padding-right: 2%;      /* Padding inside sections */
+
+    /* Mobile Section Spacing */
+    --section-margin-left-mobile: 2%;    /* Reduced margin-left on mobile */
+    --section-padding-left-mobile: 1%;   /* Reduced padding-left on mobile */
+    --section-margin-right-mobile: 2%;   /* Reduced margin-right on mobile */
+    --section-padding-right-mobile: 1%;  /* Reduced padding-right on mobile */
 
     /* Icon Sizes (Responsive) */
     --menu-icon-size-desktop: 40px;
@@ -110,7 +116,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop); /* Increased width for desktop */
+    width: var(--side-menu-width-desktop); /* Adjusted width for desktop */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
@@ -186,7 +192,7 @@ body.menu-open .side-menu {
     position: fixed;
     right: 0;
     top: 0;
-    width: var(--right-panels-width-desktop); /* Increased width for desktop */
+    width: var(--right-panels-width-desktop); /* Adjusted width for desktop */
     height: 100vh;
     z-index: 1001; /* Below side-menu */
     display: flex;
@@ -292,11 +298,6 @@ body.menu-open #main-content {
         padding: 10px 5%; /* Reduced padding for mobile */
     }
 
-    /* Show panels on mobile */
-    .panels {
-        display: flex;
-    }
-
     /* Adjust title size */
     .title-section .title-container img.title {
         width: 80px; /* Further scaled down */
@@ -313,11 +314,6 @@ body.menu-open #main-content {
     /* Adjust side menu for mobile */
     .side-menu {
         width: var(--side-menu-width-mobile); /* Mobile width */
-        transform: translateX(-100%); /* Hidden by default */
-    }
-
-    body.menu-open .side-menu {
-        transform: translateX(0); /* Slide in */
     }
 
     /* Adjust side menu contents for mobile */
@@ -356,7 +352,7 @@ body.menu-open #main-content {
     body.menu-open .section {
         margin-left: var(--section-margin-left-mobile);
         padding-left: var(--section-padding-left-mobile);  
-        margin-right: var(--section-margin_right_mobile);
+        margin-right: var(--section-margin-right-mobile);
         padding-right: var(--section-padding-right-mobile);
     }
 }
