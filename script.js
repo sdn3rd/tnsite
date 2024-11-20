@@ -356,8 +356,16 @@ function displayPoetry(poemsByCategory, container) {
 
     container.innerHTML = ''; // Clear container
 
+    // Sort the collections alphabetically
+    const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
+        // Move 'Throwetry' to the end if it exists
+        if (a[0] === 'Throwetry') return 1;
+        if (b[0] === 'Throwetry') return -1;
+        return a[0].localeCompare(b[0]);
+    });
+
     // For each category, create a collapsible section
-    for (const [collectionName, poems] of Object.entries(poemsByCategory)) {
+    for (const [collectionName, poems] of sortedCollections) {
         // Create collection wrapper
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
@@ -373,8 +381,11 @@ function displayPoetry(poemsByCategory, container) {
         collectionContent.classList.add('collection-content');
         collectionContent.style.display = 'none'; // Initially collapsed
 
+        // Sort poems within each collection alphabetically by title
+        const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
+
         // For each poem in the collection
-        poems.forEach(poem => {
+        sortedPoems.forEach(poem => {
             // Poem wrapper
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
