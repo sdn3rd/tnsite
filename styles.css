@@ -329,6 +329,109 @@ body.menu-open #main-content {
     margin-right: calc(var(--right-panels-width-desktop) + 2%); /* Shifted left to accommodate right panels */
 }
 
+@media (max-width: 768px) {
+    /* Main Content Adjustments for Mobile */
+    #main-content {
+        width: 90%; /* Wider on mobile */
+        margin: 150px auto 60px auto; /* Centered with auto margins */
+        padding: 10px 5%; /* Reduced padding for mobile */
+        max-width: 100%; /* Prevent overflow */
+    }
+
+    /* Adjust title size */
+    .title-section .title-container img.title {
+        width: 80px; /* Further scaled down */
+    }
+
+    .title-text h1 {
+        font-size: 1.5em;
+    }
+
+    .title-text p {
+        font-size: 0.9em;
+    }
+
+    /* Adjust side menu for mobile */
+    .side-menu {
+        width: var(--side-menu-width-mobile); /* Mobile width */
+    }
+
+    /* Adjust side menu contents for mobile */
+    .side-menu a {
+        align-items: flex-start; /* Align items to the start (left) */
+    }
+
+    /* Adjust menu icon container */
+    #menu-icon-container img {
+        width: var(--menu-icon-size-mobile); /* Mobile icon size */
+        height: var(--menu-icon-size-mobile);
+    }
+
+    /* Adjust logo size on mobile */
+    #footer-logo-container img {
+        width: 50px;
+    }
+
+    /* Adjust main content margin when menu is open on mobile */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2%); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2%); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4%); /* Adjust width */
+    }
+
+    /* Panels adjustments for mobile */
+    .panels {
+        width: var(--right-panels-width-mobile); /* Mobile pane width */
+    }
+
+    .pane {
+        width: 100%; /* Full width within panels */
+        height: auto; /* Adjust height based on content */
+    }
+
+    /* Ensure sections adjust when menu is open on mobile */
+    body.menu-open .section {
+        margin-left: var(--section-margin-left-mobile);
+        padding-left: var(--section-padding-left-mobile);  
+        margin-right: var(--section-margin-right-mobile);
+        padding-right: var(--section-padding-right-mobile);
+    }
+
+    /* Prevent horizontal overflow on mobile */
+    body {
+        overflow-x: hidden;
+    }
+}
+
+/* Additional Media Query for Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Hide panels by default */
+    .panels {
+        transform: translateX(100%); /* Hide panes to the right */
+        width: var(--right-panels-width-mobile); /* Ensure mobile width */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Show panels when menu is open */
+    body.menu-open .panels {
+        transform: translateX(0); /* Slide in panes */
+    }
+
+    /* Adjust main content for <480px */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
+    }
+
+    /* Ensure main content does not exceed viewport */
+    #main-content {
+        max-width: 100%;
+    }
+
+    /* Optional: Reduce padding or margins further if needed */
+}
+
 /* Content Styling */
 #main-content h1 {
     margin-top: 0;
@@ -648,10 +751,19 @@ footer #theme-toggle img {
         transform: translateX(0); /* Slide in panes */
     }
 
-    /* Ensure overflow is hidden on mobile */
-    body {
-        overflow-x: hidden;
+    /* Adjust main content for <480px */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
     }
+
+    /* Ensure main content does not exceed viewport */
+    #main-content {
+        max-width: 100%;
+    }
+
+    /* Optional: Reduce padding or margins further if needed */
 }
 
 /* Ensure No Horizontal Overflow */
@@ -664,7 +776,8 @@ body {
     border-bottom: 2px solid var(--line-color);
 }
 
-.collection-header, .poem-header {
+.collection-header,
+.poem-header {
     font-size: 1.75em;
 }
 
