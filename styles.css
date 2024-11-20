@@ -188,7 +188,6 @@ body.menu-open .side-menu {
 }
 
 /* Panels Container (Right Side) */
-/* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
@@ -201,7 +200,7 @@ body.menu-open .side-menu {
     align-items: flex-start; /* Align items to the start (top) */
     background-color: transparent; /* Changed from #000000 to transparent */
     padding: 10px 0;
-    transform: translateX(0); /* Move fully into view on desktop and mobile */
+    transform: translateX(0); /* Move fully into view on desktop by default */
     transition: transform var(--transition-speed) ease;
     overflow: hidden; /* Prevent overflow */
 }
@@ -231,27 +230,6 @@ body.menu-open .panels {
     margin: 0; /* Remove unintended margins */
     padding: 0; /* Remove unintended padding */
 }
-
-/* Fix for Pane Images on Mobile */
-@media screen and (max-width: 768px) {
-    .panels {
-        width: var(--right-panels-width-mobile); /* Mobile pane width */
-        flex-direction: column; /* Stack panes vertically */
-        overflow-y: auto; /* Enable vertical scrolling if needed */
-        transform: translateX(0); /* Ensure panes are visible on mobile */
-    }
-
-    .pane {
-        width: 100%; /* Full width within panels */
-        margin: 10px 0; /* Maintain top and bottom margins */
-    }
-
-    /* Prevent horizontal overflow */
-    body {
-        overflow-x: hidden;
-    }
-}
-
 
 /* Title Section */
 .title-section {
@@ -416,6 +394,26 @@ body.menu-open #main-content {
     }
 }
 
+/* Additional Media Query for Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Hide panels by default */
+    .panels {
+        transform: translateX(100%); /* Hide panes to the right */
+        width: var(--right-panels-width-mobile); /* Ensure mobile width */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Show panels when menu is open */
+    body.menu-open .panels {
+        transform: translateX(0); /* Slide in panes */
+    }
+
+    /* Ensure overflow is hidden on mobile */
+    body {
+        overflow-x: hidden;
+    }
+}
+
 /* Content Styling */
 #main-content h1 {
     margin-top: 0;
@@ -443,7 +441,7 @@ body.menu-open #main-content {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding-left);
+    padding-left: var(--section-padding_left);
     margin-right: var(--section-margin-right);
     padding-right: var(--section-padding-right);
     transition: 
@@ -489,6 +487,7 @@ body.menu-open .section h3 {
     }
 }
 
+/* Section Header Styling */
 .section-header {
     padding: 1em;
     cursor: pointer;
