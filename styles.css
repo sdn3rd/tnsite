@@ -197,12 +197,12 @@ body.menu-open .side-menu {
     z-index: 1001; /* Below side-menu */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start (top) */
     background-color: transparent; /* Changed from #000000 to transparent */
     padding: 10px 0;
     transform: translateX(100%); /* Hidden by default */
     transition: transform var(--transition-speed) ease;
-    /* Removed overflow-y: auto to prevent scrolling */
+    overflow: hidden; /* Prevent overflow */
 }
 
 body.menu-open .panels {
@@ -227,18 +227,15 @@ body.menu-open .panels {
     max-height: calc((100vh / 8) + 200px);
     object-fit: contain;
     display: block;
-    margin: 0 auto; /* Center horizontally */
+    margin: 0; /* Remove unintended margins */
+    padding: 0; /* Remove unintended padding */
 }
 
-/* Ensure images are actually loaded */
-.pane1 { background-image: url('images/pane1.png'); }
-.pane2 { background-image: url('images/pane2.png'); }
-.pane3 { background-image: url('images/pane3.png'); }
-.pane4 { background-image: url('images/pane4.png'); }
-.pane5 { background-image: url('images/pane5.png'); }
-.pane6 { background-image: url('images/pane6.png'); }
-.pane7 { background-image: url('images/pane7.png'); }
-.pane8 { background-image: url('images/pane8.png'); }
+/* Remove background images from .pane if using img tags instead */
+.pane1 { /* Optional: Remove if using img tags
+    background-image: url('images/pane1.png');
+} */
+/* Repeat for other panes if necessary */
 
 /* Title Section */
 .title-section {
