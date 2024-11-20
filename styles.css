@@ -48,7 +48,7 @@
     --section-text-align-mobile: left;
 
     /* Spacing Between Title and Sections */
-    --title-section-margin-bottom: 20px; /* 20px below title */
+    --title-section-margin-bottom: 10px; /* 10px below title */
 }
 
 /* Light Theme Variables */
@@ -257,7 +257,7 @@ body.menu-open .panels {
     z-index: 100; /* Higher z-index to stay above panes */
     margin-top: 20px; /* Reduced top-margin */
     padding: 0 20px; /* Responsive padding */
-    margin-bottom: var(--title-section-margin-bottom); /* 20px below title */
+    margin-bottom: var(--title-section-margin-bottom); /* 10px below title */
 }
 
 .title-container {
@@ -288,7 +288,7 @@ body.menu-open .panels {
 
 /* Adjust Section Contents Positioning */
 .section {
-    margin-top: 20px; /* 20px above each section */
+    margin-top: 10px; /* 10px above each section */
     padding-top: 0; /* Remove any additional top padding */
     border-bottom: 1px solid var(--line-color);
     padding-bottom: 1em;
@@ -296,9 +296,9 @@ body.menu-open .panels {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding_left);
+    padding-left: var(--section-padding-left);
     margin-right: var(--section-margin-right);
-    padding-right: var(--section-padding_right);
+    padding-right: var(--section-padding-right);
     transition: 
         margin-left var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
@@ -317,7 +317,7 @@ body.menu-open {
     --section-padding-right: 10px;     /* Adjust right padding as needed */
 }
 
-/* Ensure Section Contents are 20px Below Title */
+/* Ensure Section Contents are 10px Below Title */
 #main-content {
     position: relative;
     z-index: 50; /* Below title-section but above other content */
@@ -440,9 +440,9 @@ body.menu-open #main-content {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding_left);
+    padding-left: var(--section-padding-left);
     margin-right: var(--section-margin-right);
-    padding-right: var(--section-padding_right);
+    padding-right: var(--section-padding-right);
     transition: 
         margin-left var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
