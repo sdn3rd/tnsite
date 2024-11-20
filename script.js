@@ -101,16 +101,14 @@ function updateAllIcons(theme) {
             return;
         }
 
-        // Get the current src attribute
+        // Exclude pane images by checking if the filename starts with 'pane' or has the 'pane-image' class
         const src = img.getAttribute('src');
+        if (src && (src.includes('/pane') || src.match(/pane\d+\.png$/))) {
+            console.log(`Excluding pane image: ${src}`);
+            return;
+        }
 
         if (src) {
-            // Skip pane images by checking if the filename starts with 'pane'
-            if (src.includes('/pane') || src.match(/pane\d+\.png$/)) {
-                console.log(`Excluding pane image: ${src}`);
-                return;
-            }
-
             // Skip images that already have _alt in their filename when switching to light
             if (theme === 'light') {
                 if (!src.includes('_alt') && src.endsWith('.png')) {
@@ -320,10 +318,31 @@ function loadPoetrySection() {
             const poemsByCategory = categorizePoems(data);
             console.log('Poems categorized:', poemsByCategory);
             displayPoetry(poemsByCategory, document.getElementById('poetry-container'));
+
+            // Cache the fetched poems
+            try {
+                localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+                console.log('Poems cached successfully.');
+            } catch (e) {
+                console.error('Failed to cache poems:', e);
+            }
         })
         .catch(error => {
             console.error('Error loading poetry:', error);
-            displayError('Failed to load poetry.');
+            // Attempt to use cached poems
+            const cachedPoems = localStorage.getItem('cached_poems');
+            if (cachedPoems) {
+                try {
+                    const poemsByCategory = JSON.parse(cachedPoems);
+                    console.log('Loaded poems from cache:', poemsByCategory);
+                    displayPoetry(poemsByCategory, document.getElementById('poetry-container'));
+                } catch (parseError) {
+                    console.error('Error parsing cached poems:', parseError);
+                    displayError('No cache, no connection.\nWe cannot display the poetry, try when you are connected.');
+                }
+            } else {
+                displayError('No cache, no connection.\nWe cannot display the poetry, try when you are connected.');
+            }
         });
 }
 
@@ -346,15 +365,7 @@ function categorizePoems(poems) {
     return categories;
 }
 
-/* Utility function to format collection names */
-function formatCollectionName(name) {
-    // Replace underscores with spaces and split into words
-    return name
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
-}
-
+/* Function to display poetry with collapsible sections and poems */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -503,7 +514,7 @@ function markdownToHTML(text) {
 function displayError(message) {
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
-        contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
+        contentDiv.innerHTML = `<p class="error-message">${message.replace(/\n/g, '<br>')}</p>`;
         console.error(`Displayed error message: ${message}`);
     } else {
         console.error('Main content container not found while displaying error.');
@@ -629,4 +640,12 @@ function adjustPaneImages() {
     panesContainer.style.justifyContent = 'flex-start';
 }
 
-/* End of script.js */
+/* Utility function to format collection names */
+function formatCollectionName(name) {
+    // Replace underscores with spaces and split into words
+    return name
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
