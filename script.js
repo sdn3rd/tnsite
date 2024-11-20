@@ -16,15 +16,15 @@ function initializePage() {
     adjustPaneImages(); // Adjust pane images on load
     if (!localStorage.getItem('device_id')) {
         localStorage.setItem('device_id', crypto.randomUUID());
-      }
-      const deviceId = localStorage.getItem('device_id');
-      
-      fetch('https://spectraltapestry.com/sig', {
+    }
+    const deviceId = localStorage.getItem('device_id');
+    
+    fetch('https://spectraltapestry.com/sig', {
         method: 'GET',
         headers: {
-          'X-Device-ID': deviceId
+            'X-Device-ID': deviceId
         }
-      });
+    });
 }
 
 /* Theme functions */
@@ -262,13 +262,8 @@ function loadContentSection(sectionId) {
             const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
-                // If about/introduction, show logo (if necessary)
-                if (sectionId === 'introduction') {
-                    document.querySelector('.title-section').style.display = 'block';
-                } else {
-                    document.querySelector('.title-section').style.display = 'block';
-                }
-                // Optionally, adjust visibility of other elements
+                // Show the title section
+                document.querySelector('.title-section').style.display = 'block';
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
                 document.querySelector('.title-section').style.display = 'block';
@@ -569,3 +564,5 @@ function adjustPaneImages() {
     // Ensure pane images are aligned to the top
     panesContainer.style.justifyContent = 'flex-start';
 }
+
+/* End of script.js */
