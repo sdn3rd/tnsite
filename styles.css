@@ -231,9 +231,30 @@ body.menu-open .panels {
     padding: 0; /* Remove unintended padding */
 }
 
+/* Fix for Pane Images on Mobile */
+@media screen and (max-width: 768px) {
+    .panels {
+        width: var(--right-panels-width-mobile); /* Mobile pane width */
+        flex-direction: column; /* Stack panes vertically */
+        overflow-y: auto; /* Enable vertical scrolling if needed */
+    }
+
+    .pane {
+        width: 100%; /* Full width within panels */
+        margin: 10px 0; /* Maintain top and bottom margins */
+    }
+
+    /* Prevent horizontal overflow */
+    body {
+        overflow-x: hidden;
+    }
+}
+
 /* Title Section */
 .title-section {
     text-align: center;
+    position: relative;
+    z-index: 100; /* Higher z-index to stay above panes */
     margin-top: 20px; /* Reduced top-margin */
     padding: 0 20px; /* Responsive padding */
     margin-bottom: var(--title-section-margin-bottom); /* 20px below title */
@@ -265,11 +286,45 @@ body.menu-open .panels {
     margin: 5px 0 0 0;
 }
 
-/* Main Content */
+/* Adjust Section Contents Positioning */
+.section {
+    margin-top: 20px; /* 20px above each section */
+    padding-top: 0; /* Remove any additional top padding */
+    border-bottom: 1px solid var(--line-color);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+
+    /* Apply section spacing variables */
+    margin-left: var(--section-margin-left);
+    padding-left: var(--section-padding_left);
+    margin-right: var(--section-margin-right);
+    padding-right: var(--section-padding_right);
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+
+    /* Text Alignment */
+    text-align: var(--section-text-align-desktop);
+}
+
+body.menu-open {
+    /* Adjust Section Spacing */
+    --section-margin-left: 10px;       /* Reduced margin when menu is open */
+    --section-padding-left: 10px;      /* Reduced padding when menu is open */
+    --section-margin-right: 10px;      /* Adjust right margin as needed */
+    --section-padding-right: 10px;     /* Adjust right padding as needed */
+}
+
+/* Ensure Section Contents are 20px Below Title */
 #main-content {
+    position: relative;
+    z-index: 50; /* Below title-section but above other content */
     width: 80%; /* Percentage-based width */
     max-width: 800px; /* Optional max-width for very large screens */
     padding: 20px;
+    padding-bottom: var(--footer-height); /* Prevent overlap with footer */
     transition: 
         margin-left var(--transition-speed) ease, 
         margin-right var(--transition-speed) ease,
@@ -351,6 +406,11 @@ body.menu-open #main-content {
         margin-right: var(--section-margin-right-mobile);
         padding-right: var(--section-padding-right-mobile);
     }
+
+    /* Prevent horizontal overflow on mobile */
+    body {
+        overflow-x: hidden;
+    }
 }
 
 /* Content Styling */
@@ -380,9 +440,9 @@ body.menu-open #main-content {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding-left);
+    padding-left: var(--section-padding_left);
     margin-right: var(--section-margin-right);
-    padding-right: var(--section-padding-right);
+    padding-right: var(--section-padding_right);
     transition: 
         margin-left var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
@@ -693,4 +753,12 @@ footer #theme-toggle img {
 /* Footer Hover Effects */
 footer:hover {
     background-color: var(--highlight-color);
+}
+
+/* Focus Styles for Interactive Elements */
+#menu-icon-container:focus,
+#footer-toggle:focus,
+#theme-toggle:focus {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 2px;
 }
