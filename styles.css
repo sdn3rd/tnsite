@@ -186,13 +186,14 @@ body.menu-open .side-menu {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    width: 132px; /* Shrunk size */
+    width: 60px; /* Shrunk size */
+    z-index: 1005;
     
 }
 
 #footer-logo-container img {
     width: 100%;
-    height: auto;
+    height: 180px;
 }
 
 /* Panels Container (Right Side) */
