@@ -184,7 +184,7 @@ body.menu-open .side-menu {
 /* Logo Container in Footer */
 #footer-logo-container {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     left: 10px;
     width: 100px; /* Increased from 60px */
     z-index: 1003;   
