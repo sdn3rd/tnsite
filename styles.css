@@ -186,7 +186,7 @@ body.menu-open .side-menu {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    width 132px; /* Shrunk size */
+    width: 132px; /* Shrunk size */
     
 }
 
