@@ -1,3 +1,4 @@
+// script.js is loaded and running.
 console.log('script.js is loaded and running.');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,16 +15,25 @@ function initializePage() {
     updatePatreonIcon();
     duplicatePanes(); // Call the duplicatePanes function after initialization
     adjustPaneImages(); // Adjust pane images on load
+
     if (!localStorage.getItem('device_id')) {
         localStorage.setItem('device_id', crypto.randomUUID());
     }
     const deviceId = localStorage.getItem('device_id');
-    
+
     fetch('https://spectraltapestry.com/sig', {
         method: 'GET',
         headers: {
             'X-Device-ID': deviceId
         }
+    }).then(response => {
+        if (!response.ok) {
+            console.warn('Failed to fetch device signature:', response.statusText);
+        } else {
+            console.log('Device signature fetched successfully.');
+        }
+    }).catch(error => {
+        console.error('Error fetching device signature:', error);
     });
 }
 
@@ -65,6 +75,7 @@ function updateThemeIcon(theme) {
     const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
     themeToggleImages.forEach(themeIcon => {
         themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
+        console.log(`Theme toggle icon updated to: ${themeIcon.src}`);
     });
 }
 
@@ -117,7 +128,6 @@ function updateAllIcons(theme) {
         }
     });
 }
-
 
 /* Event Listeners */
 function addEventListeners() {
@@ -473,6 +483,7 @@ function displayError(message) {
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
         contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
+        console.error(`Displayed error message: ${message}`);
     } else {
         console.error('Main content container not found while displaying error.');
     }
@@ -504,8 +515,27 @@ function duplicatePanes() {
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
             panels.removeChild(pane);
+            console.log(`Removed extra pane: index ${index}`);
         }
     });
+
+    // Clone panes as needed
+    const currentPaneCount = panels.querySelectorAll('.pane').length;
+    const desiredPaneCount = 8; // Initial desired count
+
+    for (let i = currentPaneCount; i < desiredPaneCount; i++) {
+        const masterPane = masterPanes[i % masterPanes.length];
+        const clone = masterPane.cloneNode(true);
+        clone.classList.remove(`pane${(i % masterPanes.length) + 1}`); // Remove unique classes if any
+        // Ensure the cloned image retains the 'pane-image' class
+        const clonedImg = clone.querySelector('img');
+        if (clonedImg) {
+            clonedImg.classList.add('pane-image');
+            console.log(`Cloned pane image: ${clonedImg.src}`);
+        }
+        panels.appendChild(clone);
+        console.log(`Added cloned pane number ${i + 1}`);
+    }
 
     console.log('Duplicate panes have been reset to the master list.');
 }
@@ -546,6 +576,12 @@ function adjustPaneImages() {
             const clone = masterPane.cloneNode(true);
             // Remove unique classes if any
             clone.classList.remove(`pane${(i % masterPanes.length) + 1}`);
+            // Ensure the cloned image retains the 'pane-image' class
+            const clonedImg = clone.querySelector('img');
+            if (clonedImg) {
+                clonedImg.classList.add('pane-image');
+                console.log(`Cloned pane image: ${clonedImg.src}`);
+            }
             panesContainer.appendChild(clone);
             console.log(`Added pane clone number ${i + 1}`);
         }
