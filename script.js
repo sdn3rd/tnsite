@@ -922,3 +922,41 @@ function formatCollectionName(name) {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
 }
+
+/* ------------------ Service Worker Registration ------------------
+ * Registers the Service Worker for caching static assets and enabling offline functionality.
+ * Ensure that 'sw.js' is placed in the root directory of your website.
+ */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+                
+                // Listen for updates to the Service Worker
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    console.log('New Service Worker found:', newWorker);
+                    
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                // New update available
+                                console.log('New Service Worker installed.');
+                                // Optionally, prompt the user to reload
+                                if (confirm('New version available. Reload to update?')) {
+                                    window.location.reload();
+                                }
+                            } else {
+                                // No previous Service Worker, content cached for offline use
+                                console.log('Content cached for offline use.');
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
