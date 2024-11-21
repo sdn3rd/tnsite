@@ -1,17 +1,3 @@
-// Ensure Dexie.js is loaded before this script
-if (typeof Dexie === 'undefined') {
-    console.error('Dexie.js is not loaded. Please include Dexie.js before script.js.');
-}
-
-// Initialize Dexie database
-const db = new Dexie("SiteContentDB");
-db.version(1).stores({
-    poems: '++id, category, title, content',
-    sections: '++id, sectionId, content',
-    settings: 'key, value' // For storing versioning info
-    // Add more stores as needed for different content types
-});
-
 // script.js is loaded and running.
 console.log('script.js is loaded and running.');
 
@@ -283,129 +269,92 @@ function loadSection(section) {
     }
 }
 
-/* Load Content Sections with Caching */
 function loadContentSection(sectionId) {
-    console.log(`Loading section: ${sectionId} from cache or fetching from network.`);
-    const contentDiv = document.getElementById('main-content');
-
-    // Attempt to get the section from IndexedDB
-    db.sections.where('sectionId').equals(sectionId).first()
-        .then(section => {
-            if (section) {
-                console.log(`Loaded section "${sectionId}" from IndexedDB.`);
-                contentDiv.innerHTML = markdownToHTML(section.content);
-                document.querySelector('.title-section').style.display = 'block';
-            } else {
-                console.log(`Section "${sectionId}" not found in IndexedDB. Fetching from network...`);
-                fetchSectionFromNetwork(sectionId);
-            }
-        })
-        .catch(error => {
-            console.error('Error accessing IndexedDB:', error);
-            // Fail-open by fetching from network
-            fetchSectionFromNetwork(sectionId);
-        });
-
-    // Fetch in the background to update cache if needed
-    fetchSectionFromNetwork(sectionId, true);
-}
-
-function fetchSectionFromNetwork(sectionId, isBackground = false) {
-    fetch('sections.json') // Adjust URL as needed
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch sections: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
+    console.log(`Loading section: ${sectionId}`);
+    fetch('sections.json')
+        .then(response => response.json())
         .then(sections => {
             const section = sections.find(s => s.id === sectionId);
+            const contentDiv = document.getElementById('main-content');
             if (section) {
-                // Cache the section
-                db.sections.put(section)
-                    .then(() => console.log(`Cached section "${sectionId}" in IndexedDB.`))
-                    .catch(error => console.error('Error caching section in IndexedDB:', error));
-
-                if (!isBackground) {
-                    contentDiv.innerHTML = markdownToHTML(section.content);
-                    document.querySelector('.title-section').style.display = 'block';
-                }
+                contentDiv.innerHTML = markdownToHTML(section.content);
+                // Show the title section
+                document.querySelector('.title-section').style.display = 'block';
             } else {
-                if (!isBackground) {
-                    displayError('Section not found.');
-                }
+                contentDiv.innerHTML = '<p>Section not found.</p>';
+                document.querySelector('.title-section').style.display = 'block';
             }
         })
         .catch(error => {
-            console.error('Error fetching sections from network:', error);
-            if (!isBackground) {
-                displayError('Failed to load section. Please check your internet connection.');
-            }
+            console.error('Error loading sections:', error);
+            displayError('Failed to load sections.');
         });
 }
 
-/* Load Poetry Section with Caching */
+/* Load Poetry Section with dynamic content from /patreon-poetry */
 function loadPoetrySection() {
-    console.log('Loading poetry from cache or fetching from network...');
+    console.log('Loading poetry from /patreon-poetry...');
     const contentDiv = document.getElementById('main-content');
     contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
 
     const poetryContainer = document.getElementById('poetry-container');
 
-    // First, attempt to load poems from IndexedDB
-    db.poems.toArray()
-        .then(poems => {
-            if (poems.length > 0) {
-                console.log('Loaded poems from IndexedDB:', poems);
-                const poemsByCategory = categorizePoems(poems);
-                displayPoetry(poemsByCategory, poetryContainer);
-            } else {
-                console.log('No poems found in IndexedDB. Fetching from network...');
-                fetchPoemsFromNetwork(poetryContainer);
-            }
-        })
-        .catch(error => {
-            console.error('Error accessing IndexedDB:', error);
-            // As a fail-open, attempt to fetch from network
-            fetchPoemsFromNetwork(poetryContainer);
-        });
+    // Attempt to load poems from cache first
+    const cachedPoems = localStorage.getItem('cached_poems');
+    if (cachedPoems) {
+        try {
+            const poemsByCategory = JSON.parse(cachedPoems);
+            console.log('Loaded poems from cache:', poemsByCategory);
+            displayPoetry(poemsByCategory, poetryContainer);
+        } catch (parseError) {
+            console.error('Error parsing cached poems:', parseError);
+            // Remove corrupted cache
+            localStorage.removeItem('cached_poems');
+            console.warn('Corrupted cached poems removed.');
+        }
+    } else {
+        console.log('No cached poems found.');
+    }
 
-    // Fetch in the background to update cache if needed
-    fetchPoemsFromNetwork(poetryContainer, true);
-}
-
-function fetchPoemsFromNetwork(container, isBackground = false) {
+    // Attempt to fetch fresh poems
     fetch('https://spectraltapestry.com/patreon-poetry')
         .then(response => {
+            console.log('Received response from /patreon-poetry:', response);
             if (!response.ok) {
                 throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
             }
-            return response.json(); // Assuming the response is JSON
+            return response.text();
         })
-        .then(poems => {
-            console.log('Fetched poems from network:', poems);
-            // Categorize poems before caching
-            const poemsByCategory = categorizePoems(poems);
-            // Cache the fetched poems
-            db.poems.clear()
-                .then(() => db.poems.bulkAdd(poems))
-                .then(() => console.log('Poems cached successfully in IndexedDB.'))
-                .catch(e => console.error('Failed to cache poems in IndexedDB:', e));
+        .then(text => {
+            console.log('Raw response text received.');
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (error) {
+                console.error('Invalid JSON response from /patreon-poetry:', error);
+                console.error('Response text:', text);
+                throw new Error('Invalid JSON response from /patreon-poetry');
+            }
+            console.log('Poetry data received:', data);
+            const poemsByCategory = categorizePoems(data);
+            console.log('Poems categorized:', poemsByCategory);
+            displayPoetry(poemsByCategory, poetryContainer);
 
-            if (!isBackground) {
-                displayPoetry(poemsByCategory, container);
+            // Cache the fetched poems
+            try {
+                localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+                console.log('Poems cached successfully.');
+            } catch (e) {
+                console.error('Failed to cache poems:', e);
             }
         })
         .catch(error => {
-            console.error('Error loading poetry from network:', error);
+            console.error('Error loading poetry:', error);
             // If no poems were loaded from cache, display error
-            db.poems.count()
-                .then(count => {
-                    if (count === 0 && !isBackground) {
-                        displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
-                    }
-                    // Else, poems from cache are already displayed
-                });
+            if (!cachedPoems) {
+                displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
+            }
+            // Else, poems from cache are already displayed
         });
 }
 
@@ -712,26 +661,6 @@ function formatCollectionName(name) {
         .join(' ');
 }
 
-/* Function to categorize poems by category */
-function categorizePoems(poems) {
-    console.log('Categorizing poems...');
-    const categories = {};
-
-    poems.forEach(poem => {
-        const category = poem.category || 'Throwetry';
-
-        if (!categories[category]) {
-            categories[category] = [];
-        }
-
-        categories[category].push(poem);
-    });
-
-    console.log('Categorized poems:', categories);
-    return categories;
-}
-
-/* Function to display poetry with collapsible sections and poems */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -1006,15 +935,11 @@ function adjustPaneImages() {
     panesContainer.style.justifyContent = 'flex-start';
 }
 
-/* Register Service Worker (Optional but Recommended) */
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('Service Worker registered with scope:', registration.scope);
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
+/* Utility function to format collection names */
+function formatCollectionName(name) {
+    // Replace underscores with spaces and split into words
+    return name
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
