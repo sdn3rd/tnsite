@@ -43,6 +43,7 @@ const ASSETS_TO_CACHE = [
  */
 self.addEventListener('install', event => {
     console.log('[Service Worker] Install Event');
+    self.skipWaiting(); // Force the waiting Service Worker to become the active Service Worker
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
@@ -60,6 +61,7 @@ self.addEventListener('install', event => {
  */
 self.addEventListener('activate', event => {
     console.log('[Service Worker] Activate Event');
+    self.clients.claim(); // Become available to all pages
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
