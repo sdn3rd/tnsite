@@ -39,8 +39,8 @@
     --section-padding-right-mobile: 1%;  /* Reduced padding-right on mobile */
 
     /* Icon Sizes (Responsive) */
-    --menu-icon-size-desktop: 40px;
-    --menu-icon-size-mobile: 30px;
+    --menu-icon-size-desktop: 50px; /* Increased to match second CSS */
+    --menu-icon-size-mobile: 40px;  /* Adjusted for better visibility on mobile */
 
     /* Social Icons Sizes */
     --social-icon-size-desktop: 32px;
@@ -118,6 +118,26 @@ body {
     }
 }
 
+/* Patreon Icon Container */
+#patreon-icon-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1002;
+}
+
+#patreon-icon-container img {
+    width: 50px;
+    height: 50px;
+}
+
+@media (max-width: 768px) {
+    #patreon-icon-container img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 /* Side Menu */
 .side-menu {
     position: fixed;
@@ -156,29 +176,44 @@ body.menu-open .side-menu {
     margin: 10px 0; /* Reduced margin */
 }
 
+/* Updated Side Menu Links for Proper Icon Scaling */
 .side-menu a {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the start (left) */
-    transition: transform var(--transition-speed) ease;
+    flex-direction: row; /* Changed from column to row for horizontal alignment */
+    align-items: center; /* Center vertically */
+    padding: 10px 0; /* Increased padding for better click area */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    width: 100%; /* Occupy full width */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 .side-menu a:hover {
-    transform: scale(1.05);
+    background-color: var(--highlight-color); /* Highlight on hover */
+    transform: scale(1.05); /* Slight scale on hover */
 }
 
-.menu-icon {
-    width: 30px; /* Reduced size from 40px to 30px */
-    height: 30px;
+.side-menu a img.menu-icon {
+    width: var(--menu-icon-size-desktop); /* Updated to match second CSS */
+    height: var(--menu-icon-size-desktop);
+    margin-right: 10px; /* Space between icon and text */
     object-fit: contain;
+    transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
+}
+
+@media (max-width: 768px) {
+    .side-menu a img.menu-icon {
+        width: var(--menu-icon-size-mobile);
+        height: var(--menu-icon-size-mobile);
+    }
 }
 
 .menu-text {
-    margin-top: 5px;
-    font-size: 0.7em; /* Reduced font size */
-    text-align: center;
+    font-size: 1em; /* Increased from 0.7em for better readability */
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-weight: 500; /* Medium weight for better readability */
 }
 
 /* Logo Container in Footer */
@@ -381,7 +416,7 @@ body.menu-open {
 
     /* Adjust side menu contents for mobile */
     .side-menu a {
-        align-items: flex-start; /* Align items to the start (left) */
+        align-items: center; /* Ensure items are centered vertically */
     }
 
     /* Adjust menu icon container */
@@ -505,442 +540,101 @@ body.menu-open {
 
 /* Poems Container */
 #poems-container {
-    padding: 10px;
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Poem Wrapper */
 .poem-wrapper {
     border-bottom: 1px solid var(--line-color);
-    padding: 10px 0;
+    padding: 20px 0;
+    transition: background-color var(--transition-speed) ease;
 }
 
-/* Custom Background for Poem Wrapper */
-.poem-wrapper.custom-background {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
+.poem-wrapper:hover {
+    background-color: var(--highlight-color);
 }
 
 /* Poem Header */
 .poem-header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto;
-    align-items: start;
-    column-gap: 10px; /* Space between title and date */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line-color);
 }
 
 .poem-header h2 {
     margin: 0;
-    grid-column: 1 / 2; /* Place in first column */
+    font-size: 1.5em;
 }
 
 .poem-header span {
     font-size: 0.9em;
-    grid-column: 2 / 3; /* Place in second column */
-    align-self: start; /* Align date to the top */
+    color: var(--link-color);
 }
 
 /* Poem Content */
 .poem-content {
-    padding: 10px 0;
-}
-
-.poem-text {
-    margin-top: 10px;
-}
-
-.poem-text.clickable {
-    cursor: pointer;
-}
-
-/* Media Controls */
-.media-controls {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.media-controls button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.media-controls img {
-    width: 30px;
-    height: 30px;
-}
-
-.media-controls input[type="range"] {
-    margin-left: 10px;
-    width: 100px;
-}
-
-/* Hidden Class */
-.hidden {
+    margin-top: 15px;
     display: none;
+    transition: max-height var(--transition-speed) ease;
 }
 
-/* Collection Wrapper */
+.poem-content.active {
+    display: block;
+}
+
+/* Responsive Adjustments for Poems */
+@media (max-width: 768px) {
+    .poem-header h2 {
+        font-size: 1.2em;
+    }
+
+    .poem-header span {
+        font-size: 0.8em;
+    }
+
+    .poem-content {
+        margin-top: 10px;
+    }
+}
+
+/* Poetry Collection */
 .poetry-collection {
-    border-bottom: 2px solid var(--line-color);
-    margin-bottom: 1em;
+    margin-bottom: 30px;
 }
 
-/* Collection Header Styling */
+/* Collection Header */
 .collection-header {
-    padding: 1em;
+    font-size: 2em;
+    margin-bottom: 15px;
     cursor: pointer;
-    font-weight: bold;
     display: flex;
     align-items: center;
-    background-color: var(--background-color);
-    transition: background-color var(--transition-speed) ease;
-    font-size: 1.75em;
-}
-
-.collection-header:hover {
-    background-color: var(--highlight-color);
 }
 
 .collection-header .toggle-icon {
-    margin-right: 0.5em;
-    font-size: 2em; /* Larger plus/minus symbols */
-}
-
-/* Collection Content */
-.collection-content {
-    padding-left: 1em;
-    display: none;
-}
-
-/* Footer Styling */
-footer {
-    padding: 1em 0;
-    text-align: center;
-    border-top: 1px solid var(--line-color); /* Existing top border */
-    background-color: var(--background-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1002;
-    transition: 
-        transform var(--transition-speed) ease,
-        background-color var(--transition-speed) ease;
-    cursor: pointer; /* Make entire footer clickable */
-    transform: translateY(0); /* Visible by default */
-}
-
-body.menu-open footer {
-    transform: translateY(100%); /* Slide up and hide */
-}
-
-footer p {
-    margin: 0.5em 0 0 0;
-    font-size: 1em;
-}
-
-.social-media {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
-}
-
-.social-media a {
-    margin: 0 0.5em;
-}
-
-.social-media img {
-    width: var(--social-icon-size-desktop);
-    height: var(--social-icon-size-desktop);
-}
-
-@media screen and (max-width: 768px) {
-    .social-media img {
-        width: var(--social-icon-size-mobile);
-        height: var(--social-icon-size-mobile);
-    }
-}
-
-@media screen and (min-width: 769px) {
-    .social-media img {
-        width: var(--social-icon-size-desktop);
-        height: var(--social-icon-size-desktop);
-    }
-}
-
-/* Remove text labels from social icons if any (ensuring only images) */
-.social-media a span {
-    display: none;
-}
-
-.footer-collapsed #footer-content {
-    display: none;
-}
-
-#footer-toggle {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-    z-index: 1003; /* Higher z-index to be clickable above the footer */
-}
-
-#footer-toggle-icon {
+    margin-right: 10px;
     font-size: 1.5em;
-    display: inline-block;
-    transform: rotate(0deg);
     transition: transform var(--transition-speed) ease;
 }
 
-.footer-collapsed #footer-toggle-icon {
-    transform: rotate(180deg);
-}
-
-/* Footer Theme Toggle */
-footer #theme-toggle {
-    margin-top: 1em;
-    cursor: pointer;
-    position: relative;
-    z-index: 1004; /* Higher z-index to stay clickable */
-}
-
-footer #theme-toggle img {
-    width: var(--theme-toggle-icon-size-desktop);
-    height: var(--theme-toggle-icon-size-desktop);
-}
-
-@media screen and (max-width: 768px) {
-    footer #theme-toggle img {
-        width: var(--theme-toggle-icon-size-mobile);
-        height: var(--theme-toggle-icon-size-mobile);
-    }
-}
-
-@media screen and (min-width: 769px) {
-    footer #theme-toggle img {
-        width: var(--theme-toggle-icon-size-desktop);
-        height: var(--theme-toggle-icon-size-desktop);
-    }
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    /* Additional Responsive Adjustments for Sections */
-    .section {
-        padding-left: var(--section-padding-left-mobile);
-        margin-left: var(--section-margin-left-mobile);
-        padding-right: var(--section-padding-right-mobile);
-        margin-right: var(--section-margin-right-mobile);
-    }
-}
-
-/* Additional Media Query for Mobile (<480px) */
-@media (max-width: 480px) {
-    /* Hide panels by default */
-    .panels {
-        transform: translateX(100%); /* Hide panes to the right */
-        width: var(--right-panels-width-mobile); /* Ensure mobile width */
-        overflow: hidden; /* Prevent scrolling */
-    }
-
-    /* Show panels when menu is open */
-    body.menu-open .panels {
-        transform: translateX(0); /* Slide in panes */
-    }
-
-    /* Adjust main content for <480px */
-    body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
-        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
-        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
-    }
-
-    /* Ensure main content does not exceed viewport */
-    #main-content {
-        max-width: 100%;
-    }
-
-    /* Optional: Reduce padding or margins further if needed */
-}
-
-/* Ensure No Horizontal Overflow */
-body {
-    overflow-x: hidden;
-}
-
-/* Optional: Adjust Poetry Headers and Lines */
-.poetry-collection {
-    border-bottom: 2px solid var(--line-color);
-}
-
-.collection-header,
-.poem-header {
-    font-size: 1.75em; /* Increased font size for hierarchy */
-}
-
-.toggle-icon {
-    font-size: 2em; /* Larger plus/minus symbols */
-}
-
-/* Adjust Main Content Font Size */
-#main-content {
-    font-size: 1em;
-}
-
-@media (min-width: 1200px) {
-    #main-content {
-        font-size: 1.2em;
-    }
-}
-
-/* Ensure Sections Transition Smoothly */
-.section {
-    transition: 
-        margin-left var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
-        padding-right var(--transition-speed) ease;
-}
-
-/* Footer Hover Effects */
-footer:hover {
-    background-color: var(--highlight-color);
-}
-
-/* Focus Styles for Interactive Elements */
-#menu-icon-container:focus,
-#footer-toggle:focus,
-#theme-toggle:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
-}
-
-/* Poem-Related Styles (Updated) */
-
-/* Poems Container */
-#poems-container {
-    padding: 10px;
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Poem Wrapper */
-.poem-wrapper {
-    border-bottom: 1px solid var(--line-color);
-    padding: 10px 0;
-}
-
-/* Custom Background for Poem Wrapper */
-.poem-wrapper.custom-background {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-}
-
-/* Poem Header */
-.poem-header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto;
-    align-items: start;
-    column-gap: 10px; /* Space between title and date */
-    cursor: pointer;
-}
-
-.poem-header h2 {
-    margin: 0;
-    grid-column: 1 / 2; /* Place in first column */
-}
-
-.poem-header span {
-    font-size: 0.9em;
-    grid-column: 2 / 3; /* Place in second column */
-    align-self: start; /* Align date to the top */
-}
-
-/* Poem Content */
-.poem-content {
-    padding: 10px 0;
-}
-
-.poem-text {
-    margin-top: 10px;
-}
-
-.poem-text.clickable {
-    cursor: pointer;
-}
-
-/* Media Controls */
-.media-controls {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.media-controls button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.media-controls img {
-    width: 30px;
-    height: 30px;
-}
-
-.media-controls input[type="range"] {
-    margin-left: 10px;
-    width: 100px;
-}
-
-/* Hidden Class */
-.hidden {
-    display: none;
-}
-
-/* Collection Wrapper */
-.poetry-collection {
-    border-bottom: 2px solid var(--line-color);
-    margin-bottom: 1em;
-}
-
-/* Collection Header Styling */
-.collection-header {
-    padding: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    background-color: var(--background-color);
-    transition: background-color var(--transition-speed) ease;
-    font-size: 1.75em;
-}
-
-.collection-header:hover {
-    background-color: var(--highlight-color);
-}
-
-.collection-header .toggle-icon {
-    margin-right: 0.5em;
-    font-size: 2em; /* Larger plus/minus symbols */
+.collection-header.expanded .toggle-icon {
+    transform: rotate(45deg); /* Change icon when expanded */
 }
 
 /* Collection Content */
 .collection-content {
-    padding-left: 1em;
     display: none;
+    padding-left: 20px;
+    transition: max-height var(--transition-speed) ease;
+}
+
+.collection-content.active {
+    display: block;
 }
 
 /* Footer Styling */
@@ -1248,30 +942,511 @@ footer:hover {
     display: block;
 }
 
-/* Enhanced Accessibility */
-.poem-header:focus,
-.collection-header:focus {
+/* Footer Styling */
+footer {
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid var(--line-color); /* Existing top border */
+    background-color: var(--background-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
+    transition: 
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
+    cursor: pointer; /* Make entire footer clickable */
+    transform: translateY(0); /* Visible by default */
+}
+
+body.menu-open footer {
+    transform: translateY(100%); /* Slide up and hide */
+}
+
+footer p {
+    margin: 0.5em 0 0 0;
+    font-size: 1em;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
+    }
+}
+
+/* Remove text labels from social icons if any (ensuring only images) */
+.social-media a span {
+    display: none;
+}
+
+.footer-collapsed #footer-content {
+    display: none;
+}
+
+#footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
+}
+
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed) ease;
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1004; /* Higher z-index to stay clickable */
+}
+
+footer #theme-toggle img {
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
+
+/* Additional Media Query for Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Hide panels by default */
+    .panels {
+        transform: translateX(100%); /* Hide panes to the right */
+        width: var(--right-panels-width-mobile); /* Ensure mobile width */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Show panels when menu is open */
+    body.menu-open .panels {
+        transform: translateX(0); /* Slide in panes */
+    }
+
+    /* Adjust main content for <480px */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
+    }
+
+    /* Ensure main content does not exceed viewport */
+    #main-content {
+        max-width: 100%;
+    }
+
+    /* Optional: Reduce padding or margins further if needed */
+}
+
+/* Ensure No Horizontal Overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* Optional: Adjust Poetry Headers and Lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header,
+.poem-header {
+    font-size: 1.75em; /* Increased font size for hierarchy */
+}
+
+.toggle-icon {
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Adjust Main Content Font Size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
+    }
+}
+
+/* Ensure Sections Transition Smoothly */
+.section {
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+}
+
+/* Footer Hover Effects */
+footer:hover {
+    background-color: var(--highlight-color);
+}
+
+/* Focus Styles for Interactive Elements */
+#menu-icon-container:focus,
+#footer-toggle:focus,
+#theme-toggle:focus {
     outline: 2px solid var(--highlight-color);
     outline-offset: 2px;
 }
 
-/* Additional Styling for Readability */
-.poem-content p {
-    line-height: 1.6;
-    margin-bottom: 10px;
+/* Poem-Related Styles (Updated) */
+
+/* Poems Container */
+#poems-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.poem-content a {
-    color: var(--link-color);
-    text-decoration: underline;
+/* Poem Wrapper */
+.poem-wrapper {
+    border-bottom: 1px solid var(--line-color);
+    padding: 20px 0;
+    transition: background-color var(--transition-speed) ease;
 }
 
-.poem-content a:hover {
-    color: var(--highlight-color);
+.poem-wrapper:hover {
+    background-color: var(--highlight-color);
 }
 
-/* Additional Classes for Interactive Elements */
-.expandable {
+/* Poem Header */
+.poem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line-color);
 }
 
+.poem-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.poem-header span {
+    font-size: 0.9em;
+    color: var(--link-color);
+}
+
+/* Poem Content */
+.poem-content {
+    margin-top: 15px;
+    display: none;
+    transition: max-height var(--transition-speed) ease;
+}
+
+.poem-content.active {
+    display: block;
+}
+
+/* Responsive Adjustments for Poems */
+@media (max-width: 768px) {
+    .poem-header h2 {
+        font-size: 1.2em;
+    }
+
+    .poem-header span {
+        font-size: 0.8em;
+    }
+
+    .poem-content {
+        margin-top: 10px;
+    }
+}
+
+/* Poetry Collection */
+.poetry-collection {
+    margin-bottom: 30px;
+}
+
+/* Collection Header */
+.collection-header {
+    font-size: 2em;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.collection-header .toggle-icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+    transition: transform var(--transition-speed) ease;
+}
+
+.collection-header.expanded .toggle-icon {
+    transform: rotate(45deg); /* Change icon when expanded */
+}
+
+/* Collection Content */
+.collection-content {
+    display: none;
+    padding-left: 20px;
+    transition: max-height var(--transition-speed) ease;
+}
+
+.collection-content.active {
+    display: block;
+}
+
+/* Footer Styling */
+footer {
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid var(--line-color); /* Existing top border */
+    background-color: var(--background-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
+    transition: 
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
+    cursor: pointer; /* Make entire footer clickable */
+    transform: translateY(0); /* Visible by default */
+}
+
+body.menu-open footer {
+    transform: translateY(100%); /* Slide up and hide */
+}
+
+footer p {
+    margin: 0.5em 0 0 0;
+    font-size: 1em;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
+    }
+}
+
+/* Remove text labels from social icons if any (ensuring only images) */
+.social-media a span {
+    display: none;
+}
+
+.footer-collapsed #footer-content {
+    display: none;
+}
+
+#footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1003; /* Higher z-index to be clickable above the footer */
+}
+
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed) ease;
+}
+
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1004; /* Higher z-index to stay clickable */
+}
+
+footer #theme-toggle img {
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Additional Responsive Adjustments for Sections */
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
+
+/* Additional Media Query for Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Hide panels by default */
+    .panels {
+        transform: translateX(100%); /* Hide panes to the right */
+        width: var(--right-panels-width-mobile); /* Ensure mobile width */
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Show panels when menu is open */
+    body.menu-open .panels {
+        transform: translateX(0); /* Slide in panes */
+    }
+
+    /* Adjust main content for <480px */
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); /* Adjust margin-left when menu is open */
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); /* Adjust margin-right to accommodate right panels */
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px); /* Adjust width */
+    }
+
+    /* Ensure main content does not exceed viewport */
+    #main-content {
+        max-width: 100%;
+    }
+
+    /* Optional: Reduce padding or margins further if needed */
+}
+
+/* Ensure No Horizontal Overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* Optional: Adjust Poetry Headers and Lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header,
+.poem-header {
+    font-size: 1.75em; /* Increased font size for hierarchy */
+}
+
+.toggle-icon {
+    font-size: 2em; /* Larger plus/minus symbols */
+}
+
+/* Adjust Main Content Font Size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
+    }
+}
+
+/* Ensure Sections Transition Smoothly */
+.section {
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+}
+
+/* Footer Hover Effects */
+footer:hover {
+    background-color: var(--highlight-color);
+}
+
+/* Focus Styles for Interactive Elements */
+#menu-icon-container:focus,
+#footer-toggle:focus,
+#theme-toggle:focus {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 2px;
+}
