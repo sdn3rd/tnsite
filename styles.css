@@ -176,7 +176,7 @@ body.menu-open .side-menu {
     margin: 10px 0; /* Reduced margin */
 }
 
-/* Updated Side Menu Links for Proper Icon Scaling */
+/* Side Menu Links */
 .side-menu a {
     color: var(--text-color);
     text-decoration: none;
@@ -232,8 +232,8 @@ body.menu-open .side-menu {
 #footer-logo-container {
     position: absolute;
     bottom: 20px;
-    left: 10px;
-    width: 100px; /* Increased from 60px */
+    left: 0px;
+    width: 90px; /* Increased from 60px */
     z-index: 1003;   
     padding-bottom: 10px; /* Adds space between logo and the line */
 }
@@ -341,9 +341,9 @@ body.menu-open .panels {
 
     /* Apply section spacing variables */
     margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding_left);
-    margin-right: var(--section-margin_right);
-    padding-right: var(--section-padding_right);
+    padding-left: var(--section-padding-left);
+    margin-right: var(--section-margin-right);
+    padding-right: var(--section-padding-right);
     transition: 
         margin-left var(--transition-speed) ease,
         padding-left var(--transition-speed) ease,
@@ -382,15 +382,6 @@ body.menu-open {
 }
 
 /* Corrected: Adjust main content without shifting on desktop */
-@media (min-width: 769px) {
-    body.menu-open #main-content {
-        /* Adjust width instead of margins to prevent shifting */
-        width: calc(80% - var(--side-menu-width-desktop) - var(--right-panels-width-desktop));
-        margin: 40px auto 60px auto; /* Keep centered */
-    }
-}
-
-/* Remove the margin adjustments for desktop when menu is open */
 @media (min-width: 769px) {
     body.menu-open #main-content {
         /* No margin adjustments on desktop */
@@ -516,42 +507,50 @@ body.menu-open {
     color: var(--highlight-color);
 }
 
-/* Sections Styling */
-.section {
-    border-bottom: 1px solid var(--line-color);
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-
-    /* Apply section spacing variables */
-    margin-left: var(--section-margin-left);
-    padding-left: var(--section-padding_left);
-    margin-right: var(--section-margin_right);
-    padding-right: var(--section-padding_right);
-    transition: 
-        margin-left var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
-        padding-right var(--transition-speed) ease;
-
-    /* Text Alignment */
-    text-align: var(--section-text-align-desktop);
-}
-
-body.menu-open {
-    /* Adjust Section Spacing */
-    --section-margin-left: 10px;       /* Reduced margin when menu is open */
-    --section-padding-left: 10px;      /* Reduced padding when menu is open */
-    --section-margin-right: 10px;      /* Adjust right margin as needed */
-    --section-padding-right: 10px;     /* Adjust right padding as needed */
-}
-
-/* Poem-Related Styles (Updated) */
+/* Poetry Section Styling */
 
 /* Poems Container */
 #poems-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Poetry Collection */
+.poetry-collection {
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--line-color);
+}
+
+/* Collection Header */
+.collection-header {
+    font-size: 2em;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: transform var(--transition-speed) ease;
+}
+
+.collection-header .toggle-icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+    transition: transform var(--transition-speed) ease;
+}
+
+.collection-header.expanded .toggle-icon {
+    transform: rotate(45deg); /* Change icon when expanded */
+}
+
+/* Collection Content */
+.collection-content {
+    display: none;
+    padding-left: 20px;
+    transition: max-height var(--transition-speed) ease;
+}
+
+.collection-content.active {
+    display: block;
 }
 
 /* Poem Wrapper */
@@ -611,42 +610,34 @@ body.menu-open {
     }
 }
 
-/* Poetry Collection */
-.poetry-collection {
-    margin-bottom: 30px;
-}
+/* Additional Styles for Poetry (Optional Enhancements) */
 
-/* Collection Header */
-.collection-header {
-    font-size: 2em;
-    margin-bottom: 15px;
-    cursor: pointer;
+/* Matrix Poem Styling */
+.matrix-poem-wrapper {
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
-.collection-header .toggle-icon {
-    margin-right: 10px;
-    font-size: 1.5em;
-    transition: transform var(--transition-speed) ease;
+.matrix-poem-wrapper .poem-text {
+    text-align: center;
 }
 
-.collection-header.expanded .toggle-icon {
-    transform: rotate(45deg); /* Change icon when expanded */
+.matrix-poem-wrapper table {
+    margin: 0 auto; /* Center the table */
 }
 
-/* Collection Content */
-.collection-content {
-    display: none;
-    padding-left: 20px;
-    transition: max-height var(--transition-speed) ease;
+.matrix-poem-wrapper td {
+    font-size: 1em;
+    padding: 2px 2px;
 }
 
-.collection-content.active {
-    display: block;
+/* Adjust font size for matrix poem */
+.matrix-poem-wrapper td {
+    font-size: 1em;
+    padding: 2px 2px;
 }
 
-/* Footer Styling */
+/* Floating Footer */
 footer {
     padding: 1em 0;
     text-align: center;
@@ -848,105 +839,4 @@ footer:hover {
 #theme-toggle:focus {
     outline: 2px solid var(--highlight-color);
     outline-offset: 2px;
-}
-
-/* Poem-Related Styles (Updated) */
-
-/* Poems Container */
-#poems-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Poem Wrapper */
-.poem-wrapper {
-    border-bottom: 1px solid var(--line-color);
-    padding: 20px 0;
-    transition: background-color var(--transition-speed) ease;
-}
-
-.poem-wrapper:hover {
-    background-color: var(--highlight-color);
-}
-
-/* Poem Header */
-.poem-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--line-color);
-}
-
-.poem-header h2 {
-    margin: 0;
-    font-size: 1.5em;
-}
-
-.poem-header span {
-    font-size: 0.9em;
-    color: var(--link-color);
-}
-
-/* Poem Content */
-.poem-content {
-    margin-top: 15px;
-    display: none;
-    transition: max-height var(--transition-speed) ease;
-}
-
-.poem-content.active {
-    display: block;
-}
-
-/* Responsive Adjustments for Poems */
-@media (max-width: 768px) {
-    .poem-header h2 {
-        font-size: 1.2em;
-    }
-
-    .poem-header span {
-        font-size: 0.8em;
-    }
-
-    .poem-content {
-        margin-top: 10px;
-    }
-}
-
-/* Poetry Collection */
-.poetry-collection {
-    margin-bottom: 30px;
-}
-
-/* Collection Header */
-.collection-header {
-    font-size: 2em;
-    margin-bottom: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.collection-header .toggle-icon {
-    margin-right: 10px;
-    font-size: 1.5em;
-    transition: transform var(--transition-speed) ease;
-}
-
-.collection-header.expanded .toggle-icon {
-    transform: rotate(45deg); /* Change icon when expanded */
-}
-
-/* Collection Content */
-.collection-content {
-    display: none;
-    padding-left: 20px;
-    transition: max-height var(--transition-speed) ease;
-}
-
-.collection-content.active {
-    display: block;
 }
