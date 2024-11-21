@@ -15,27 +15,6 @@ function initializePage() {
     updatePatreonIcon();
     duplicatePanes(); // Call the duplicatePanes function after initialization
     adjustPaneImages(); // Adjust pane images on load
-
-    if (!localStorage.getItem('device_id')) {
-        localStorage.setItem('device_id', crypto.randomUUID());
-        console.log('Generated and stored new device_id.');
-    }
-    const deviceId = localStorage.getItem('device_id');
-
-    fetch('https://spectraltapestry.com/sig', {
-        method: 'GET',
-        headers: {
-            'X-Device-ID': deviceId
-        }
-    }).then(response => {
-        if (!response.ok) {
-            console.warn('Failed to fetch device signature:', response.statusText);
-        } else {
-            console.log('Device signature fetched successfully.');
-        }
-    }).catch(error => {
-        console.error('Error fetching device signature:', error);
-    });
 }
 
 /* Theme functions */
