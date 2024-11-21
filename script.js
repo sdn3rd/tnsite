@@ -1,19 +1,9 @@
-// script.js
-
-/* 
- * Ensure Dexie.js is loaded before this script.
- * This check prevents runtime errors if Dexie.js is not loaded.
- */
+// Ensure Dexie.js is loaded before this script
 if (typeof Dexie === 'undefined') {
     console.error('Dexie.js is not loaded. Please include Dexie.js before script.js.');
 }
 
-/* 
- * Initialize Dexie database for caching dynamic content.
- * - 'poems': Stores poetry data.
- * - 'sections': Stores various content sections like 'introduction', etc.
- * - 'settings': Can be used for storing versioning or other settings if needed.
- */
+// Initialize Dexie database
 const db = new Dexie("SiteContentDB");
 db.version(1).stores({
     poems: '++id, category, title, content',
@@ -22,29 +12,24 @@ db.version(1).stores({
     // Add more stores as needed for different content types
 });
 
-// Log to confirm that script.js is loaded
+// script.js is loaded and running.
 console.log('script.js is loaded and running.');
 
-// Wait for the DOM to be fully loaded before initializing the page
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded event fired.');
     initializePage();
 });
 
-/**
- * Initializes the page by setting up themes, event listeners, loading default content, etc.
- */
 function initializePage() {
     console.log('Initializing page...');
     initializeTheme();
     addEventListeners();
-    loadSection('introduction'); // Load the default section on page load
+    loadSection('introduction'); // Load the default section
     updateYear();
     updatePatreonIcon();
-    duplicatePanes(); // Initialize pane duplication
-    adjustPaneImages(); // Adjust pane images based on viewport size
+    duplicatePanes(); // Call the duplicatePanes function after initialization
+    adjustPaneImages(); // Adjust pane images on load
 
-    // Generate and store a unique device ID if not already present
     if (!localStorage.getItem('device_id')) {
         localStorage.setItem('device_id', crypto.randomUUID());
         console.log('Generated and stored new device_id.');
@@ -52,7 +37,8 @@ function initializePage() {
     const deviceId = localStorage.getItem('device_id');
 
     // Fetch device signature for tracking or analytics purposes
-    fetch('https://spectraltapestry.com/sig', {
+    // Using relative path to avoid cross-origin issues
+    fetch('/sig', {
         method: 'GET',
         headers: {
             'X-Device-ID': deviceId
@@ -70,9 +56,6 @@ function initializePage() {
 
 /* ------------------ Theme Handling Functions ------------------ */
 
-/**
- * Initializes the theme based on saved preference or system settings.
- */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -84,10 +67,6 @@ function initializeTheme() {
     }
 }
 
-/**
- * Applies the specified theme to the document.
- * @param {string} theme - The theme to apply ('light' or 'dark').
- */
 function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
@@ -97,9 +76,6 @@ function applyTheme(theme) {
     updateAllIcons(theme); // Update all icons based on the current theme
 }
 
-/**
- * Detects the user's OS theme preference and applies it.
- */
 function detectOSTheme() {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const theme = prefersDarkScheme ? 'dark' : 'light';
@@ -107,19 +83,12 @@ function detectOSTheme() {
     applyTheme(theme);
 }
 
-/**
- * Toggles between 'light' and 'dark' themes.
- */
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     applyTheme(newTheme);
 }
 
-/**
- * Updates the theme toggle icon based on the current theme.
- * @param {string} theme - The current theme ('light' or 'dark').
- */
 function updateThemeIcon(theme) {
     const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
     themeToggleImages.forEach(themeIcon => {
@@ -128,9 +97,6 @@ function updateThemeIcon(theme) {
     });
 }
 
-/**
- * Updates the Patreon icon based on the current theme.
- */
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -142,10 +108,7 @@ function updatePatreonIcon() {
     }
 }
 
-/**
- * Updates all icons (excluding specific ones) based on the current theme.
- * @param {string} theme - The current theme ('light' or 'dark').
- */
+/* Function to update all icons based on the current theme */
 function updateAllIcons(theme) {
     console.log(`Updating all icons to ${theme} mode.`);
     const images = document.querySelectorAll('img');
@@ -164,14 +127,14 @@ function updateAllIcons(theme) {
         }
 
         if (src) {
-            // Switch to alternate icon for light theme
+            // Skip images that already have _alt in their filename when switching to light
             if (theme === 'light') {
                 if (!src.includes('_alt') && src.endsWith('.png')) {
                     const altSrc = src.replace('.png', '_alt.png');
                     img.setAttribute('src', altSrc);
                     console.log(`Switched ${src} to ${altSrc}`);
                 }
-            } else { // Switch back to dark theme
+            } else { // theme === 'dark'
                 if (src.includes('_alt') && src.endsWith('_alt.png')) {
                     const darkSrc = src.replace('_alt.png', '.png');
                     img.setAttribute('src', darkSrc);
@@ -184,9 +147,6 @@ function updateAllIcons(theme) {
 
 /* ------------------ Event Listener Setup ------------------ */
 
-/**
- * Adds necessary event listeners for theme toggling, menu interactions, footer interactions, etc.
- */
 function addEventListeners() {
     /* Theme Toggle in Footer */
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
@@ -230,11 +190,9 @@ function addEventListeners() {
             const sideMenu = document.getElementById('side-menu');
             const hamburgerMenu = document.getElementById('menu-icon-container');
 
-            if (sideMenu && hamburgerMenu) {
-                if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                    document.body.classList.remove('menu-open');
-                    console.log('Clicked outside the menu. Menu closed.');
-                }
+            if (sideMenu && hamburgerMenu && !sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                document.body.classList.remove('menu-open');
+                console.log('Clicked outside the menu. Menu closed.');
             }
         }
     });
@@ -270,6 +228,7 @@ function addEventListeners() {
     if (footer && footerToggle && footerToggleIcon) {
         // Make entire footer clickable to collapse, excluding specific elements
         footer.addEventListener('click', (event) => {
+            // If the click is on the footer-toggle or theme toggle, do nothing
             if (footerToggle.contains(event.target) || document.getElementById('theme-toggle').contains(event.target)) {
                 return;
             }
@@ -324,10 +283,6 @@ function addEventListeners() {
 
 /* ------------------ Section Loading Functions ------------------ */
 
-/**
- * Loads the specified section. If the section is 'poetry', it loads poetry-specific content.
- * @param {string} section - The ID of the section to load.
- */
 function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
@@ -336,10 +291,7 @@ function loadSection(section) {
     }
 }
 
-/**
- * Loads a content section with caching via IndexedDB.
- * @param {string} sectionId - The ID of the section to load.
- */
+/* Load Content Sections with Caching */
 function loadContentSection(sectionId) {
     console.log(`Loading section: ${sectionId} from cache or fetching from network.`);
     const contentDiv = document.getElementById('main-content');
@@ -366,13 +318,8 @@ function loadContentSection(sectionId) {
     fetchSectionFromNetwork(sectionId, true);
 }
 
-/**
- * Fetches a section from the network and caches it in IndexedDB.
- * @param {string} sectionId - The ID of the section to fetch.
- * @param {boolean} isBackground - Indicates if the fetch is a background update.
- */
 function fetchSectionFromNetwork(sectionId, isBackground = false) {
-    fetch('/sections.json') // Ensure this path is correct relative to your server
+    fetch('/sections.json') // Changed to absolute path
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Failed to fetch sections: ${response.status} ${response.statusText}`);
@@ -382,7 +329,7 @@ function fetchSectionFromNetwork(sectionId, isBackground = false) {
         .then(sections => {
             const section = sections.find(s => s.id === sectionId);
             if (section) {
-                // Cache the section in IndexedDB
+                // Cache the section
                 db.sections.put(section)
                     .then(() => console.log(`Cached section "${sectionId}" in IndexedDB.`))
                     .catch(error => console.error('Error caching section in IndexedDB:', error));
@@ -407,11 +354,8 @@ function fetchSectionFromNetwork(sectionId, isBackground = false) {
 
 /* ------------------ Poetry Loading Functions ------------------ */
 
-/**
- * Loads the poetry section with caching via IndexedDB.
- */
 function loadPoetrySection() {
-    console.log('Loading poetry from cache or fetching from network.');
+    console.log('Loading poetry from cache or fetching from network...');
     const contentDiv = document.getElementById('main-content');
     contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
 
@@ -439,13 +383,8 @@ function loadPoetrySection() {
     fetchPoemsFromNetwork(poetryContainer, true);
 }
 
-/**
- * Fetches poetry data from the network and caches it in IndexedDB.
- * @param {HTMLElement} container - The container element to display poetry.
- * @param {boolean} isBackground - Indicates if the fetch is a background update.
- */
 function fetchPoemsFromNetwork(container, isBackground = false) {
-    fetch('/patreon-poetry') // Ensure this path is correct relative to your server
+    fetch('/patreon-poetry') // Changed to relative path
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
@@ -456,7 +395,7 @@ function fetchPoemsFromNetwork(container, isBackground = false) {
             console.log('Fetched poems from network:', poems);
             // Categorize poems before caching
             const poemsByCategory = categorizePoems(poems);
-            // Cache the fetched poems in IndexedDB
+            // Cache the fetched poems
             db.poems.clear()
                 .then(() => db.poems.bulkAdd(poems))
                 .then(() => console.log('Poems cached successfully in IndexedDB.'))
@@ -479,11 +418,7 @@ function fetchPoemsFromNetwork(container, isBackground = false) {
         });
 }
 
-/**
- * Categorizes poems by their respective categories.
- * @param {Array} poems - An array of poem objects.
- * @returns {Object} An object where keys are categories and values are arrays of poems.
- */
+/* Function to categorize poems by category */
 function categorizePoems(poems) {
     console.log('Categorizing poems...');
     const categories = {};
@@ -502,11 +437,7 @@ function categorizePoems(poems) {
     return categories;
 }
 
-/**
- * Displays poetry categorized by their respective categories with collapsible sections.
- * @param {Object} poemsByCategory - An object with categories as keys and arrays of poems as values.
- * @param {HTMLElement} container - The container element to display poetry.
- */
+/* Function to display poetry with collapsible sections and poems */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category.');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -645,21 +576,12 @@ function displayPoetry(poemsByCategory, container) {
 
 /* ------------------ Utility Functions ------------------ */
 
-/**
- * Converts Markdown-like syntax to HTML.
- * @param {string} text - The text containing Markdown syntax.
- * @returns {string} The converted HTML string.
- */
 function markdownToHTML(text) {
     return text
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
         .replace(/\n/g, '<br>');
 }
 
-/**
- * Displays an error message in the main content area.
- * @param {string} message - The error message to display.
- */
 function displayError(message) {
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
@@ -670,9 +592,6 @@ function displayError(message) {
     }
 }
 
-/**
- * Updates the footer year dynamically.
- */
 function updateYear() {
     const yearElement = document.getElementById('year');
     if (yearElement) {
@@ -696,8 +615,7 @@ function duplicatePanes() {
         return;
     }
 
-    // Master list of first 8 panes to clone from
-    const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
+    const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
     const initialPaneCount = masterPanes.length;
 
     // Remove any additional panes beyond the master list
@@ -788,7 +706,7 @@ function adjustPaneImages() {
         }
     }
 
-    // Adjust the max-height of all pane images to maintain aspect ratio
+    // Now, adjust the max-height of all pane images
     const paneImages = panesContainer.querySelectorAll('.pane img');
     const calculatedMaxHeight = (viewportHeight / 8) + 200; // As per user requirement
 
@@ -810,7 +728,7 @@ function adjustPaneImages() {
  */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/sw.js') // Ensure sw.js is at root
             .then(registration => {
                 console.log('Service Worker registered with scope:', registration.scope);
             })

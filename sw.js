@@ -8,6 +8,7 @@ const urlsToCache = [
     '/styles.css',
     '/script.js',
     '/sections.json',
+    '/patreon-poetry', // Ensure this endpoint returns JSON
     // Icons
     '/icons/favicon.ico',
     '/icons/darkmode.png',
@@ -36,7 +37,9 @@ const urlsToCache = [
     // Add any additional static assets here
 ];
 
-// Install Event - Caching Static Assets
+/**
+ * Install Event - Caching Static Assets
+ */
 self.addEventListener('install', event => {
     console.log('[Service Worker] Install Event');
     event.waitUntil(
@@ -51,7 +54,9 @@ self.addEventListener('install', event => {
     );
 });
 
-// Activate Event - Cleaning Up Old Caches
+/**
+ * Activate Event - Cleaning Up Old Caches
+ */
 self.addEventListener('activate', event => {
     console.log('[Service Worker] Activate Event');
     event.waitUntil(
@@ -68,11 +73,13 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch Event - Serving Cached Assets and Caching Dynamic Content
+/**
+ * Fetch Event - Serving Cached Assets and Caching Dynamic Content
+ */
 self.addEventListener('fetch', event => {
     const requestURL = new URL(event.request.url);
 
-    // Handle API requests (e.g., sections.json and /patreon-poetry)
+    // Handle API requests (e.g., /sections.json and /patreon-poetry)
     if (requestURL.pathname === '/sections.json' || requestURL.pathname === '/patreon-poetry') {
         event.respondWith(
             caches.open(API_CACHE_NAME).then(cache => {
@@ -101,7 +108,7 @@ self.addEventListener('fetch', event => {
                 return fetch(event.request)
                     .then(networkResponse => {
                         // Optionally cache the new resource
-                        if (networkResponse.ok) {
+                        if (networkResponse.ok && shouldCache(requestURL.pathname)) {
                             return caches.open(CACHE_NAME).then(cache => {
                                 cache.put(event.request, networkResponse.clone());
                                 return networkResponse;
@@ -116,3 +123,18 @@ self.addEventListener('fetch', event => {
             })
     );
 });
+
+/**
+ * Determines whether a given path should be cached.
+ * @param {string} pathname - The path of the request.
+ * @returns {boolean} - True if the path should be cached, false otherwise.
+ */
+function shouldCache(pathname) {
+    // Define paths that should not be cached
+    const blacklist = [
+        '/sig', // Assuming /sig is an endpoint that shouldn't be cached
+        // Add more paths as needed
+    ];
+
+    return !blacklist.includes(pathname);
+}
