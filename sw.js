@@ -1,8 +1,7 @@
 // sw.js
 
 const CACHE_NAME = 'site-cache-v1';
-const API_CACHE_NAME = 'api-cache-v1';
-const urlsToCache = [
+const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/styles.css',
@@ -34,6 +33,8 @@ const urlsToCache = [
     '/images/title.png',
     '/images/logo.png',
     '/images/preview.jpg', // Ensure this image exists
+    // Google Fonts
+    'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
     // Add any additional static assets here
 ];
 
@@ -46,7 +47,7 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('[Service Worker] Caching all static assets');
-                return cache.addAll(urlsToCache);
+                return cache.addAll(ASSETS_TO_CACHE);
             })
             .catch(error => {
                 console.error('[Service Worker] Failed to cache static assets:', error);
@@ -63,7 +64,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cache => {
-                    if (cache !== CACHE_NAME && cache !== API_CACHE_NAME) {
+                    if (cache !== CACHE_NAME) {
                         console.log('[Service Worker] Deleting old cache:', cache);
                         return caches.delete(cache);
                     }
@@ -82,7 +83,7 @@ self.addEventListener('fetch', event => {
     // Handle API requests (e.g., /sections.json and /patreon-poetry)
     if (requestURL.pathname === '/sections.json' || requestURL.pathname === '/patreon-poetry') {
         event.respondWith(
-            caches.open(API_CACHE_NAME).then(cache => {
+            caches.open(CACHE_NAME).then(cache => {
                 return fetch(event.request)
                     .then(response => {
                         if (response.ok) {
