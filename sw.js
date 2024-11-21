@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
     '/styles.css',
     '/script.js',
     '/sections.json',
-    '/patreon-poetry', // Ensure this endpoint returns JSON
+    '/patreon-poetry',
     // Icons
     '/icons/favicon.ico',
     '/icons/darkmode.png',
@@ -32,7 +32,7 @@ const ASSETS_TO_CACHE = [
     '/images/pane8.png',
     '/images/title.png',
     '/images/logo.png',
-    '/images/preview.jpg', // Ensure this image exists
+    '/images/preview.jpg',
     // Google Fonts
     'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
     // Add any additional static assets here

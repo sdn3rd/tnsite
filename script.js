@@ -83,7 +83,7 @@ function updateAllIcons(theme) {
 
         // Exclude pane images by checking if the filename starts with 'pane' or has the 'pane-image' class
         const src = img.getAttribute('src');
-        if (src && (src.includes('/pane') || img.classList.contains('pane-image'))) {
+        if (src && (src.includes('/pane') || src.match(/pane\d+\.png$/))) {
             console.log(`Excluding pane image: ${src}`);
             return;
         }
@@ -107,10 +107,9 @@ function updateAllIcons(theme) {
     });
 }
 
-/* ------------------ Event Listener Setup ------------------ */
-
+/* Event Listeners */
 function addEventListeners() {
-    /* Theme Toggle in Footer */
+    // Theme Toggle in Footer
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
     if (themeToggleFooter) {
         themeToggleFooter.addEventListener('click', (event) => {
@@ -123,11 +122,12 @@ function addEventListeners() {
         console.warn('Theme toggle in footer not found.');
     }
 
-    /* Hamburger Menu Toggle */
+    // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('menu-icon-container');
     const sideMenu = document.getElementById('side-menu');
+    const panels = document.querySelector('.panels');
 
-    if (hamburgerMenu && sideMenu) {
+    if (hamburgerMenu && sideMenu && panels) {
         hamburgerMenu.addEventListener('click', (event) => {
             event.stopPropagation();
             document.body.classList.toggle('menu-open');
@@ -143,23 +143,23 @@ function addEventListeners() {
             }
         });
     } else {
-        console.warn('Hamburger menu or side menu not found.');
+        console.warn('One or more menu elements not found.');
     }
 
-    /* Close Menu When Clicking Outside */
+    // Close menu when clicking outside
     document.addEventListener('click', (event) => {
-        if (document.body.classList.contains('menu-open')) {
-            const sideMenu = document.getElementById('side-menu');
-            const hamburgerMenu = document.getElementById('menu-icon-container');
+        const sideMenu = document.getElementById('side-menu');
+        const hamburgerMenu = document.getElementById('menu-icon-container');
 
-            if (sideMenu && hamburgerMenu && !sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+        if (document.body.classList.contains('menu-open')) {
+            if (!sideMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
                 document.body.classList.remove('menu-open');
                 console.log('Clicked outside the menu. Menu closed.');
             }
         }
     });
 
-    /* Menu Item Clicks */
+    // Menu Item Clicks
     const menuItems = document.querySelectorAll('#side-menu a[data-section]');
     menuItems.forEach((item) => {
         item.addEventListener('click', function (event) {
@@ -182,13 +182,13 @@ function addEventListeners() {
         });
     });
 
-    /* Footer Toggle */
+    // Footer Toggle
     const footer = document.querySelector('footer');
     const footerToggle = document.getElementById('footer-toggle');
     const footerToggleIcon = document.getElementById('footer-toggle-icon');
 
     if (footer && footerToggle && footerToggleIcon) {
-        // Make entire footer clickable to collapse, excluding specific elements
+        // Make entire footer clickable to collapse
         footer.addEventListener('click', (event) => {
             // If the click is on the footer-toggle or theme toggle, do nothing
             if (footerToggle.contains(event.target) || document.getElementById('theme-toggle').contains(event.target)) {
@@ -235,16 +235,11 @@ function addEventListeners() {
         console.warn('Footer toggle elements not found.');
     }
 
-    /* Adjust pane images on window resize with debouncing to optimize performance */
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(adjustPaneImages, 200);
-    });
+    // Adjust pane images on window resize
+    window.addEventListener('resize', adjustPaneImages);
 }
 
-/* ------------------ Section Loading Functions ------------------ */
-
+/* Load Sections */
 function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
@@ -253,16 +248,13 @@ function loadSection(section) {
     }
 }
 
-/* Load Content Sections with Caching */
 function loadContentSection(sectionId) {
-    console.log(`Loading section: ${sectionId} from cache or fetching from network.`);
-    const contentDiv = document.getElementById('main-content');
-
-    // Attempt to get the section from cache
+    console.log(`Loading section: ${sectionId}`);
     fetch('sections.json')
         .then(response => response.json())
         .then(sections => {
             const section = sections.find(s => s.id === sectionId);
+            const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
                 // Show the title section
@@ -304,17 +296,26 @@ function loadPoetrySection() {
     }
 
     // Attempt to fetch fresh poems
-    fetch('/patreon-poetry')
+    fetch('https://spectraltapestry.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
             if (!response.ok) {
                 throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
             }
-            return response.json(); // Assuming the response is JSON
+            return response.text();
         })
-        .then(poems => {
-            console.log('Poetry data received:', poems);
-            const poemsByCategory = categorizePoems(poems);
+        .then(text => {
+            console.log('Raw response text received.');
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (error) {
+                console.error('Invalid JSON response from /patreon-poetry:', error);
+                console.error('Response text:', text);
+                throw new Error('Invalid JSON response from /patreon-poetry');
+            }
+            console.log('Poetry data received:', data);
+            const poemsByCategory = categorizePoems(data);
             console.log('Poems categorized:', poemsByCategory);
             displayPoetry(poemsByCategory, poetryContainer);
 
@@ -357,7 +358,7 @@ function categorizePoems(poems) {
 
 /* Function to display poetry with collapsible sections and poems */
 function displayPoetry(poemsByCategory, container) {
-    console.log('Displaying poetry by category.');
+    console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
         container.innerHTML = '<p>No poems found.</p>';
         return;
@@ -365,15 +366,16 @@ function displayPoetry(poemsByCategory, container) {
 
     container.innerHTML = ''; // Clear container
 
-    // Sort the collections alphabetically, moving 'Throwetry' to the end if it exists
+    // Sort the collections alphabetically
     const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
+        // Move 'Throwetry' to the end if it exists
         if (a[0] === 'Throwetry') return 1;
         if (b[0] === 'Throwetry') return -1;
         return a[0].localeCompare(b[0]);
     });
 
     // For each category, create a collapsible section
-    sortedCollections.forEach(([collectionName, poems]) => {
+    for (const [collectionName, poems] of sortedCollections) {
         // Create collection wrapper
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
@@ -391,7 +393,7 @@ function displayPoetry(poemsByCategory, container) {
         collectionContent.style.display = 'none'; // Initially collapsed
 
         // Sort poems within each collection alphabetically by title
-        const sortedPoems = poems.slice().sort((a, b) => a.title.localeCompare(b.title));
+        const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
 
         // For each poem in the collection
         sortedPoems.forEach(poem => {
@@ -428,7 +430,7 @@ function displayPoetry(poemsByCategory, container) {
                 } else {
                     poemContent.style.display = 'block';
                     poemHeader.querySelector('.toggle-icon').textContent = '−';
-                    // Scroll poem into view for better user experience
+                    // Scroll poem to top
                     poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
@@ -451,7 +453,7 @@ function displayPoetry(poemsByCategory, container) {
                     } else {
                         poemContent.style.display = 'block';
                         poemHeader.querySelector('.toggle-icon').textContent = '−';
-                        // Scroll poem into view for better user experience
+                        // Scroll poem to top
                         poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
@@ -491,6 +493,7 @@ function displayPoetry(poemsByCategory, container) {
             }
         });
     }
+}
 
 /* Utility functions */
 function markdownToHTML(text) {
@@ -519,12 +522,7 @@ function updateYear() {
     }
 }
 
-/* ------------------ Pane Management Functions ------------------ */
-
-/**
- * Duplicates pane elements to ensure there are always 8 panes in the panels container.
- * This function resets the panes to the master list and clones them as needed.
- */
+/* Function to duplicate panes to fill the panels container */
 function duplicatePanes() {
     const panels = document.querySelector('.panels');
     if (!panels) {
@@ -544,7 +542,7 @@ function duplicatePanes() {
         }
     });
 
-    // Clone panes as needed to maintain 8 panes
+    // Clone panes as needed
     const currentPaneCount = panels.querySelectorAll('.pane').length;
     const desiredPaneCount = 8; // Initial desired count
 
@@ -552,7 +550,6 @@ function duplicatePanes() {
         const masterPane = masterPanes[i % masterPanes.length];
         const clone = masterPane.cloneNode(true);
         clone.classList.remove(`pane${(i % masterPanes.length) + 1}`); // Remove unique classes if any
-
         // Ensure the cloned image retains the 'pane-image' class
         const clonedImg = clone.querySelector('img');
         if (clonedImg) {
@@ -566,10 +563,7 @@ function duplicatePanes() {
     console.log('Duplicate panes have been reset to the master list.');
 }
 
-/**
- * Adjusts pane images based on viewport height and adds/removes panes dynamically.
- * This ensures responsive design and optimal display across different devices.
- */
+/* Function to adjust pane images based on viewport height and add/remove panes dynamically */
 function adjustPaneImages() {
     console.log('Adjusting pane images based on viewport height.');
     const panesContainer = document.querySelector('.panels');
@@ -583,7 +577,7 @@ function adjustPaneImages() {
     const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720px
     const extraPaneThreshold = 335; // For every 335px beyond the baseThreshold, add one pane
 
-    // Calculate the number of additional panes needed based on viewport height
+    // Calculate the number of additional panes needed
     let extraHeight = viewportHeight - baseThreshold;
     let additionalPanes = 0;
 
@@ -595,7 +589,7 @@ function adjustPaneImages() {
     const totalPanesNeeded = 8 + additionalPanes;
 
     // Current number of panes
-    const currentPanes = panesContainer.querySelectorAll('.pane').length;
+    const currentPanes = Array.from(panesContainer.querySelectorAll('.pane')).length;
 
     // Adjust the number of panes
     if (currentPanes < totalPanesNeeded) {
@@ -637,6 +631,298 @@ function adjustPaneImages() {
     panesContainer.style.justifyContent = 'flex-start';
 }
 
+/* Utility function to format collection names */
+function formatCollectionName(name) {
+    // Replace underscores with spaces and split into words
+    return name
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
+function displayPoetry(poemsByCategory, container) {
+    console.log('Displaying poetry by category...');
+    if (Object.keys(poemsByCategory).length === 0) {
+        container.innerHTML = '<p>No poems found.</p>';
+        return;
+    }
+
+    container.innerHTML = ''; // Clear container
+
+    // Sort the collections alphabetically
+    const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
+        // Move 'Throwetry' to the end if it exists
+        if (a[0] === 'Throwetry') return 1;
+        if (b[0] === 'Throwetry') return -1;
+        return a[0].localeCompare(b[0]);
+    });
+
+    // For each category, create a collapsible section
+    for (const [collectionName, poems] of sortedCollections) {
+        // Create collection wrapper
+        const collectionWrapper = document.createElement('div');
+        collectionWrapper.classList.add('poetry-collection');
+
+        // Collection header with formatted name
+        const collectionHeader = document.createElement('div');
+        collectionHeader.classList.add('collection-header');
+        const formattedName = formatCollectionName(collectionName);
+        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedName}`;
+        collectionWrapper.appendChild(collectionHeader);
+
+        // Collection content
+        const collectionContent = document.createElement('div');
+        collectionContent.classList.add('collection-content');
+        collectionContent.style.display = 'none'; // Initially collapsed
+
+        // Sort poems within each collection alphabetically by title
+        const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
+
+        // For each poem in the collection
+        sortedPoems.forEach(poem => {
+            // Poem wrapper
+            const poemWrapper = document.createElement('div');
+            poemWrapper.classList.add('poem');
+
+            // Poem header with formatted title
+            const poemHeader = document.createElement('div');
+            poemHeader.classList.add('poem-header');
+            const formattedTitle = formatCollectionName(poem.title); // Also format poem titles
+            poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
+            poemWrapper.appendChild(poemHeader);
+
+            // Poem content
+            const poemContent = document.createElement('div');
+            poemContent.classList.add('poem-content');
+            poemContent.style.display = 'none'; // Initially collapsed
+            poemContent.innerHTML = poem.content.replace(/\n/g, '<br>');
+            poemWrapper.appendChild(poemContent);
+
+            // Add event listener to poem header
+            poemHeader.addEventListener('click', () => {
+                const isVisible = poemContent.style.display === 'block';
+                // Collapse all other poems in the same category
+                const allPoemContents = collectionContent.querySelectorAll('.poem-content');
+                allPoemContents.forEach(pc => pc.style.display = 'none');
+                const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
+                allPoemHeaders.forEach(icon => icon.textContent = '+');
+
+                if (isVisible) {
+                    poemContent.style.display = 'none';
+                    poemHeader.querySelector('.toggle-icon').textContent = '+';
+                } else {
+                    poemContent.style.display = 'block';
+                    poemHeader.querySelector('.toggle-icon').textContent = '−';
+                    // Scroll poem to top
+                    poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            // Enable keyboard accessibility for poem headers
+            poemHeader.setAttribute('tabindex', '0'); // Make focusable
+            poemHeader.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const isVisible = poemContent.style.display === 'block';
+                    // Collapse all other poems in the same category
+                    const allPoemContents = collectionContent.querySelectorAll('.poem-content');
+                    allPoemContents.forEach(pc => pc.style.display = 'none');
+                    const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
+                    allPoemHeaders.forEach(icon => icon.textContent = '+');
+
+                    if (isVisible) {
+                        poemContent.style.display = 'none';
+                        poemHeader.querySelector('.toggle-icon').textContent = '+';
+                    } else {
+                        poemContent.style.display = 'block';
+                        poemHeader.querySelector('.toggle-icon').textContent = '−';
+                        // Scroll poem to top
+                        poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+
+            collectionContent.appendChild(poemWrapper);
+        });
+
+        collectionWrapper.appendChild(collectionContent);
+        container.appendChild(collectionWrapper);
+
+        // Add event listener to collection header
+        collectionHeader.addEventListener('click', () => {
+            const isVisible = collectionContent.style.display === 'block';
+            if (isVisible) {
+                collectionContent.style.display = 'none';
+                collectionHeader.querySelector('.toggle-icon').textContent = '+';
+            } else {
+                collectionContent.style.display = 'block';
+                collectionHeader.querySelector('.toggle-icon').textContent = '−';
+            }
+        });
+
+        // Enable keyboard accessibility for collection headers
+        collectionHeader.setAttribute('tabindex', '0'); // Make focusable
+        collectionHeader.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                const isVisible = collectionContent.style.display === 'block';
+                if (isVisible) {
+                    collectionContent.style.display = 'none';
+                    collectionHeader.querySelector('.toggle-icon').textContent = '+';
+                } else {
+                    collectionContent.style.display = 'block';
+                    collectionHeader.querySelector('.toggle-icon').textContent = '−';
+                }
+            }
+        });
+    }
+}
+
+/* Utility functions */
+function markdownToHTML(text) {
+    return text
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\n/g, '<br>');
+}
+
+function displayError(message) {
+    const contentDiv = document.getElementById('main-content');
+    if (contentDiv) {
+        contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
+        console.error(`Displayed error message: ${message}`);
+    } else {
+        console.error('Main content container not found while displaying error.');
+    }
+}
+
+function updateYear() {
+    const yearElement = document.getElementById('year');
+    if (yearElement) {
+        yearElement.innerText = new Date().getFullYear();
+        console.log(`Updated year to ${yearElement.innerText}`);
+    } else {
+        console.warn('Year element not found in footer.');
+    }
+}
+
+/* Function to duplicate panes to fill the panels container */
+function duplicatePanes() {
+    const panels = document.querySelector('.panels');
+    if (!panels) {
+        console.warn('Panels container not found.');
+        return;
+    }
+
+    const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
+    const initialPaneCount = masterPanes.length;
+
+    // Remove any additional panes beyond the master list
+    const allPanes = Array.from(panels.querySelectorAll('.pane'));
+    allPanes.forEach((pane, index) => {
+        if (index >= initialPaneCount) {
+            panels.removeChild(pane);
+            console.log(`Removed extra pane: index ${index}`);
+        }
+    });
+
+    // Clone panes as needed
+    const currentPaneCount = panels.querySelectorAll('.pane').length;
+    const desiredPaneCount = 8; // Initial desired count
+
+    for (let i = currentPaneCount; i < desiredPaneCount; i++) {
+        const masterPane = masterPanes[i % masterPanes.length];
+        const clone = masterPane.cloneNode(true);
+        clone.classList.remove(`pane${(i % masterPanes.length) + 1}`); // Remove unique classes if any
+        // Ensure the cloned image retains the 'pane-image' class
+        const clonedImg = clone.querySelector('img');
+        if (clonedImg) {
+            clonedImg.classList.add('pane-image');
+            console.log(`Cloned pane image: ${clonedImg.src}`);
+        }
+        panels.appendChild(clone);
+        console.log(`Added cloned pane number ${i + 1}`);
+    }
+
+    console.log('Duplicate panes have been reset to the master list.');
+}
+
+/* Function to adjust pane images based on viewport height and add/remove panes dynamically */
+function adjustPaneImages() {
+    console.log('Adjusting pane images based on viewport height.');
+    const panesContainer = document.querySelector('.panels');
+    if (!panesContainer) {
+        console.warn('Panels container not found.');
+        return;
+    }
+
+    const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8); // Master list of first 8 panes
+    const viewportHeight = window.innerHeight;
+    const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720px
+    const extraPaneThreshold = 335; // For every 335px beyond the baseThreshold, add one pane
+
+    // Calculate the number of additional panes needed
+    let extraHeight = viewportHeight - baseThreshold;
+    let additionalPanes = 0;
+
+    if (extraHeight > 0) {
+        additionalPanes = Math.floor(extraHeight / extraPaneThreshold);
+    }
+
+    // Total panes needed
+    const totalPanesNeeded = 8 + additionalPanes;
+
+    // Current number of panes
+    const currentPanes = Array.from(panesContainer.querySelectorAll('.pane')).length;
+
+    // Adjust the number of panes
+    if (currentPanes < totalPanesNeeded) {
+        // Add more panes by cloning from the master list
+        for (let i = currentPanes; i < totalPanesNeeded; i++) {
+            const masterPane = masterPanes[i % masterPanes.length];
+            const clone = masterPane.cloneNode(true);
+            // Remove unique classes if any
+            clone.classList.remove(`pane${(i % masterPanes.length) + 1}`);
+            // Ensure the cloned image retains the 'pane-image' class
+            const clonedImg = clone.querySelector('img');
+            if (clonedImg) {
+                clonedImg.classList.add('pane-image');
+                console.log(`Cloned pane image: ${clonedImg.src}`);
+            }
+            panesContainer.appendChild(clone);
+            console.log(`Added pane clone number ${i + 1}`);
+        }
+    } else if (currentPanes > totalPanesNeeded) {
+        // Remove excess panes
+        for (let i = currentPanes; i > totalPanesNeeded; i--) {
+            const paneToRemove = panesContainer.querySelectorAll('.pane')[i - 1];
+            panesContainer.removeChild(paneToRemove);
+            console.log(`Removed pane clone number ${i}`);
+        }
+    }
+
+    // Now, adjust the max-height of all pane images
+    const paneImages = panesContainer.querySelectorAll('.pane img');
+    const calculatedMaxHeight = (viewportHeight / 8) + 200; // As per user requirement
+
+    paneImages.forEach(img => {
+        img.style.maxHeight = `${calculatedMaxHeight}px`;
+        img.style.height = 'auto'; // Ensure aspect ratio is maintained
+        console.log(`Set image max-height to ${calculatedMaxHeight}px for viewport height ${viewportHeight}px.`);
+    });
+
+    // Ensure pane images are aligned to the top
+    panesContainer.style.justifyContent = 'flex-start';
+}
+
+/* Utility function to format collection names */
+function formatCollectionName(name) {
+    // Replace underscores with spaces and split into words
+    return name
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
 /* ------------------ Service Worker Registration ------------------ */
 
 /**
@@ -654,3 +940,4 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
