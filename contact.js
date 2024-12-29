@@ -1,8 +1,8 @@
 /* contact.js
-   -------------
-   Single-file approach: 
-   - loadContactSection() injects the contact form into #main-content.
-   - Then it initializes theme, language, and cookie-submission logic.
+   --------------------
+   Single-file approach:
+   - loadContactSection() injects the contact form + Turnstile into #main-content.
+   - Then it initializes theme, language, cookie logic, etc.
 */
 
 /**
@@ -28,23 +28,25 @@ function loadContactSection() {
         titleSection.style.display = 'none';
     }
 
-    // 2) Inject the form + Turnstile widget (No volume slider here, if you don't want it)
+    // 2) Inject the form + Turnstile widget (with normal size, auto theme)
     mainContent.innerHTML = `
-        <!-- Contact Form Container -->
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
 
             <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev">
-                <!-- Email -->
                 <label for="email" id="email-label">Your Email (optional):</label>
                 <input type="email" id="email" name="email" placeholder="you@example.com">
 
-                <!-- Message -->
                 <label for="message" id="message-label">Your Message:</label>
                 <textarea id="message" name="message" required></textarea>
 
-                <!-- Cloudflare Turnstile Widget -->
-                <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyqLP0723YQLCis"></div>
+                <!-- Cloudflare Turnstile Widget: normal size, auto theme -->
+                <div 
+                    class="cf-turnstile"
+                    data-sitekey="0x4AAAAAAAyqLP0723YQLCis"
+                    data-size="normal"
+                    data-theme="auto"
+                ></div>
 
                 <button type="submit" id="submit-button">Send</button>
             </form>
@@ -56,6 +58,18 @@ function loadContactSection() {
 
     // 4) Check cookie to hide the form if user already submitted
     checkSubmissionCookie();
+
+    // 5) (Optional) If Turnstile fails to auto-render, manually re-render:
+    if (window.turnstile && typeof window.turnstile.render === 'function') {
+        // Rerender all .cf-turnstile elements
+        document.querySelectorAll('.cf-turnstile').forEach((el) => {
+            window.turnstile.render(el, {
+                sitekey: '0x4AAAAAAAyqLP0723YQLCis',
+                size: 'normal',
+                theme: 'auto'
+            });
+        });
+    }
 }
 
 /* ------------------------------------------
@@ -63,8 +77,8 @@ function loadContactSection() {
 ------------------------------------------ */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
-    initializeTheme();
-    initializeLanguage();
+    initializeTheme();       // Dark/Light theme
+    initializeLanguage();    // EN/IT language text
     addContactEventListeners();
 }
 
@@ -143,7 +157,7 @@ function toggleLanguage() {
     setLanguage();
 }
 
-// Update text on the contact page (and beyond) for EN/IT
+// Update text on the page (or just the contact section) for EN/IT
 function updateContentLanguage(lang) {
     const elementsToUpdate = [
         { id: 'page-title',     en: 'Leave feedback or request for takedown',  it: 'Lascia un feedback o richiedi la rimozione' },
