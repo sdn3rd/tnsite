@@ -83,29 +83,20 @@ function initializeTheme() {
     applyTheme(theme);
 }
 
-
 function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    // Restore the old approach: set theme icon specifically,
-    // then update patreon, then run the skip-#theme-toggle logic
-    updateThemeIcon(theme);
+    // Removed: localStorage.setItem('theme', theme);
+    // Removed: updateThemeIcon(theme);
     updatePatreonIcon();
     updateAllIcons(theme);
 }
 
 function detectOSTheme() {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = prefersDarkScheme ? 'dark' : 'dark';
+    const theme = prefersDarkScheme ? 'dark' : 'light';
     console.log(`Detected OS theme preference: ${theme}`);
     applyTheme(theme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
 }
 
 /**
@@ -188,16 +179,16 @@ function updateAllIcons(theme) {
 ---------------------------------- */
 function addEventListeners() {
     // Theme Toggle in Footer
-    const themeToggleFooter = document.querySelector('footer #theme-toggle');
-    if (themeToggleFooter) {
-        themeToggleFooter.addEventListener('click', (event) => {
-            event.stopPropagation();
-            toggleTheme();
-            console.log('Theme toggle in footer clicked.');
-        });
-    } else {
-        console.warn('Theme toggle in footer not found.');
-    }
+    //const themeToggleFooter = document.querySelector('footer #theme-toggle');
+    //if (themeToggleFooter) {
+    //    themeToggleFooter.addEventListener('click', (event) => {
+    //        event.stopPropagation();
+    //        toggleTheme();
+    //        console.log('Theme toggle in footer clicked.');
+    //    });
+    //} else {
+    //    console.warn('Theme toggle in footer not found.');
+    //}
 
     // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('menu-icon-container');
