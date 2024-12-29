@@ -840,3 +840,47 @@ footer:hover {
     outline: 2px solid var(--highlight-color);
     outline-offset: 2px;
 }
+
+/* ... your existing CSS ... */
+
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--side-menu-width-desktop);
+    height: 100%;
+    background-color: var(--background-color);
+    z-index: 1005; /* Increased for better tap-ability above other elements */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 15px;
+    padding-top: 50px;
+    padding-right: 0px;
+    margin-right: 0;
+    transition: transform var(--transition-speed) ease;
+    overflow-y: auto;
+    transform: translateX(-100%);
+}
+
+/* The hamburger menu container can stay with a high z-index as well */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1006; /* Even higher than the side menu */
+    cursor: pointer;
+}
+
+/* Ensure #main-content has sufficient bottom space so poems don’t hide behind the footer */
+#main-content {
+    /* existing properties ... */
+    padding-bottom: calc(var(--footer-height) + 100px); /* Extra space so content above footer */
+    /* or margin-bottom: 100px; whichever you prefer */
+}
+
+/* Reading Overlay (added a minimal style here) */
+#reading-overlay {
+    /* intentionally left blank here, as it’s inlined in script */
+}
