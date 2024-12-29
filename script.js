@@ -249,8 +249,7 @@ function loadContentSection(sectionId) {
             const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
-                // show the title section
-                document.querySelector('.title-section').style.display = 'block';
+                document.querySelector('.title-section').style.display = 'block'; // show the title section
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
                 document.querySelector('.title-section').style.display = 'block';
@@ -450,12 +449,11 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/* ------------------ CONTACT SECTION (MOVED FROM contact.html) ------------------ */
+/* ------------------ CONTACT SECTION ------------------ */
 function loadContactSection() {
     console.log('Loading contact section...');
-    // Insert the contact form HTML into #main-content
     const contentDiv = document.getElementById('main-content');
-    document.querySelector('.title-section').style.display = 'none'; // hide the main title if you prefer
+    document.querySelector('.title-section').style.display = 'none'; 
     contentDiv.innerHTML = `
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
@@ -477,18 +475,18 @@ function loadContactSection() {
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
     `;
 
-    // Call the initialization that was originally in contact.js
+    // Call the initialization logic (from original contact.js)
     initializeContactPage();
 }
 
-/* The logic from contact.js, merged here */
+/* ---------- CONTACT PAGE LOGIC (MERGED FROM contact.js) ---------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
     initializeLanguageForContact();
     initializeVolumeForContact();
     addContactEventListeners();
     contactFormCookieCheck();
-    // Re-apply current theme, to ensure correct toggles
+    // Re-apply current theme
     const currentTheme = document.documentElement.getAttribute('data-theme');
     updateThemeIcon(currentTheme);
 }
@@ -566,8 +564,7 @@ function initializeVolumeForContact() {
 
 /* ----- CONTACT EVENT LISTENERS ----- */
 function addContactEventListeners() {
-    // If you want a language toggle button inside the contact form, you can dynamically add it or store it in the menu
-    // For example, if you have a #lang-toggle button somewhere in the contact form, you can do:
+    // If you want a language toggle in the contact form, you could add it similarly
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
         langToggleBtn.addEventListener('click', toggleContactLanguage);
@@ -576,7 +573,6 @@ function addContactEventListeners() {
 
 /* ----- COOKIE HANDLING / FORM SUBMISSION CHECK ----- */
 function contactFormCookieCheck() {
-    // This replicates the logic from your script in contact.html
     function getQueryParams() {
         const params = {};
         window.location.search.substring(1).split("&").forEach(function(part) {

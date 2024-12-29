@@ -128,7 +128,7 @@ self.addEventListener('fetch', event => {
 function shouldCache(pathname) {
     // Define any paths that should NOT be cached
     const blacklist = [
-        '/sig'
+        '/sig'  // example endpoint not to cache
     ];
     return !blacklist.includes(pathname);
 }

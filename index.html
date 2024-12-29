@@ -62,24 +62,31 @@
         <img id="patreon-icon" src="icons/patreon.png" alt="Patreon Icon">
     </div>
 
-    <!-- Side Menu -->
+    <!-- Side Menu (fixed) -->
     <nav class="side-menu" id="side-menu">
         <ul>
-            <!-- Example: "Introduction" link using data-section -->
+            <!-- "Introduction" (About) -->
             <li>
                 <a href="#" data-section="introduction">
                     <img class="menu-icon" src="icons/about.png" alt="About Icon">
                     <span class="menu-text">About</span>
                 </a>
             </li>
-            <!-- Poetry Section Link -->
+            <!-- Poetry -->
             <li>
                 <a href="#" data-section="poetry">
                     <img class="menu-icon" src="icons/poetry.png" alt="Poetry Icon">
                     <span class="menu-text">Poetry</span>
                 </a>
             </li>
-            <!-- Contact Link: triggers loading of contact form from script.js -->
+            <!-- Books -->
+            <li>
+                <a href="#" data-section="books">
+                    <img class="menu-icon" src="icons/books.png" alt="Books Icon">
+                    <span class="menu-text">Books</span>
+                </a>
+            </li>
+            <!-- Contact -->
             <li>
                 <a href="#" data-section="contact">
                     <img class="menu-icon" src="icons/contact.png" alt="Contact Icon">
@@ -122,7 +129,7 @@
         </div>
     </div>
 
-    <!-- Title Section (you can hide/display as needed) -->
+    <!-- Title Section -->
     <div class="title-section">
         <div class="title-container">
             <img class="title" src="images/title.png" alt="Site Title">
@@ -133,13 +140,14 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content (dynamic) -->
     <div id="main-content">
-        <!-- Content loaded dynamically from script.js (sections.json or contact form, etc.) -->
+        <!-- Content loaded dynamically from script.js (sections.json, poetry, contact form, etc.) -->
     </div>
 
     <!-- Floating Footer -->
     <footer>
+        <!-- Social icons (centered) -->
         <div class="social-media">
             <a href="https://twitter.com/tristannuvola" target="_blank"><img src="icons/twitter.png" alt="Twitter"></a>
             <a href="https://instagram.com/tristannuvola" target="_blank"><img src="icons/instagram.png" alt="Instagram"></a>
@@ -158,13 +166,13 @@
         </div>
     </footer>
 
-    <!-- Audio element (optional) -->
+    <!-- Audio element (optional, for background/volume control) -->
     <audio id="background-audio" loop muted></audio>
 
     <!-- Main script (includes contact form logic) -->
     <script src="script.js" defer></script>
 
-    <!-- Service Worker Registration (optional, can also be in script.js if you prefer) -->
+    <!-- Service Worker Registration (unchanged) -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -180,7 +188,6 @@
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed') {
                                     if (navigator.serviceWorker.controller) {
-                                        // New update available
                                         console.log('New Service Worker installed.');
                                         if (confirm('New version available. Reload to update?')) {
                                             window.location.reload();

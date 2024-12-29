@@ -111,7 +111,7 @@ body {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 1004;
+    z-index: 1006; /* Ensure it stays above side-menu (which is 1005) */
     cursor: pointer;
 }
 
@@ -387,7 +387,8 @@ body.menu-open {
     width: 80%;
     max-width: 800px;
     padding: 20px;
-    padding-bottom: var(--footer-height);
+    /* Extra bottom padding to avoid overlap with footer */
+    padding-bottom: calc(var(--footer-height) + 100px);
     transition: 
         margin-left var(--transition-speed) ease, 
         margin-right var(--transition-speed) ease,
@@ -702,6 +703,7 @@ footer #theme-toggle img {
     footer #theme-toggle img {
         width: var(--theme-toggle-icon-size-mobile);
         height: var(--theme-toggle-icon-size-mobile);
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -711,58 +713,10 @@ footer #theme-toggle img {
     }
 }
 
-/* Additional Responsive Adjustments for Section */
-@media screen and (max-width: 768px) {
-    .section {
-        padding-left: var(--section-padding-left-mobile);
-        margin-left: var(--section-margin-left-mobile);
-        padding-right: var(--section-padding-right-mobile);
-        margin-right: var(--section-margin-right-mobile);
-    }
-}
-
-/* Extra repetition for <480px to hide right panes by default */
-@media (max-width: 480px) {
-    .panels {
-        transform: translateX(100%);
-        width: var(--right-panels-width-mobile);
-        overflow: hidden;
-    }
-
-    body.menu-open .panels {
-        transform: translateX(0);
-    }
-
-    body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2px);
-        margin-right: calc(var(--right-panels-width-mobile) + 2px);
-        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
-    }
-
-    #main-content {
-        max-width: 100%;
-    }
-}
-
-/* Ensure no horizontal overflow */
-body {
-    overflow-x: hidden;
-}
-
-/* Optional: Footer Hover Effects */
-footer:hover {
-    background-color: var(--highlight-color);
-}
-
 /* Focus Styles for A11y */
 #menu-icon-container:focus,
 #footer-toggle:focus,
 #theme-toggle:focus {
     outline: 2px solid var(--highlight-color);
     outline-offset: 2px;
-}
-
-/* Ensure #main-content has extra space to not hide behind footer */
-#main-content {
-    padding-bottom: calc(var(--footer-height) + 100px);
 }
