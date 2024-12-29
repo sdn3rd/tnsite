@@ -78,66 +78,30 @@ function initializePage() {
    THEME FUNCTIONS (MAIN SITE)
 ---------------------------------- */
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        console.log(`Applying saved theme: ${savedTheme}`);
-        applyTheme(savedTheme);
-    } else {
-        console.log('No saved theme found, detecting OS theme preference.');
-        detectOSTheme();
-    }
+    const theme = 'dark';
+    console.log(`Setting theme to ${theme}`);
+    applyTheme(theme);
 }
 
 function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    // Restore the old approach: set theme icon specifically,
-    // then update patreon, then run the skip-#theme-toggle logic
-    updateThemeIcon(theme);
+    // Removed: localStorage.setItem('theme', theme);
+    // Removed: updateThemeIcon(theme);
     updatePatreonIcon();
     updateAllIcons(theme);
 }
 
-function detectOSTheme() {
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = prefersDarkScheme ? 'dark' : 'light';
-    console.log(`Detected OS theme preference: ${theme}`);
-    applyTheme(theme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-}
-
-/**
- * updateThemeIcon(theme):
- * If theme = 'light', set icon = 'icons/darkmode.png'
- * If theme = 'dark',  set icon = 'icons/lightmode.png'
- */
-function updateThemeIcon(theme) {
-    const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
-    themeToggleImages.forEach(themeIcon => {
-        themeIcon.src = (theme === 'light')
-            ? 'icons/darkmode.png'
-            : 'icons/lightmode.png';
-        console.log(`Theme toggle icon updated to: ${themeIcon.src}`);
-    });
-}
-
-/**
- * updatePatreonIcon:
- * If theme=light => patreon_alt.png
- * else => patreon.png
- */
+/* 
+   Patreon icon: 
+   If data-theme=light => patreon_alt.png, else => patreon.png 
+*/
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     if (patreonIcon) {
-        patreonIcon.src = (currentTheme === 'light')
-            ? 'icons/patreon_alt.png'
+        patreonIcon.src = currentTheme === 'light' 
+            ? 'icons/patreon_alt.png' 
             : 'icons/patreon.png';
         console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
     } else {
@@ -155,7 +119,7 @@ function updateAllIcons(theme) {
     const images = document.querySelectorAll('img');
 
     images.forEach(img => {
-        // Exclude images inside the theme toggle button
+        // Exclude images inside the theme toggle button (already removed)
         if (img.closest('#theme-toggle')) {
             return;
         }
@@ -169,15 +133,8 @@ function updateAllIcons(theme) {
             return;
         }
 
-        // Switch to alt if light theme
-        if (theme === 'light') {
-            if (!src.includes('_alt') && src.endsWith('.png')) {
-                const altSrc = src.replace('.png', '_alt.png');
-                img.setAttribute('src', altSrc);
-                console.log(`Switched ${src} to ${altSrc}`);
-            }
-        } else {
-            // Switch back to dark if ends with _alt
+        // Since theme is 'dark', switch any '_alt.png' back to '.png'
+        if (theme === 'dark') {
             if (src.includes('_alt') && src.endsWith('_alt.png')) {
                 const darkSrc = src.replace('_alt.png', '.png');
                 img.setAttribute('src', darkSrc);
@@ -191,7 +148,8 @@ function updateAllIcons(theme) {
    EVENT LISTENERS (MENU, FOOTER, ETC.)
 ---------------------------------- */
 function addEventListeners() {
-    // Theme Toggle in Footer
+    // Theme Toggle in Footer - Remove since button is deleted from HTML
+    /*
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
     if (themeToggleFooter) {
         themeToggleFooter.addEventListener('click', (event) => {
@@ -202,6 +160,7 @@ function addEventListeners() {
     } else {
         console.warn('Theme toggle in footer not found.');
     }
+    */
 
     // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('menu-icon-container');
@@ -418,10 +377,9 @@ function displayPoetry(poemsByCategory, container) {
         container.innerHTML = '<p>No poems found.</p>';
         return;
     }
+    container.innerHTML = '';
 
-    container.innerHTML = ''; // Clear container
-
-    // Sort the collections alphabetically, placing 'Throwetry' last if it exists
+    // Sort the collections
     const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
         if (a[0] === 'Throwetry') return 1;
         if (b[0] === 'Throwetry') return -1;
@@ -429,7 +387,7 @@ function displayPoetry(poemsByCategory, container) {
     });
 
     for (const [collectionName, poems] of sortedCollections) {
-        // Create collection wrapper
+        // Collection wrapper
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
 
@@ -495,7 +453,7 @@ function displayPoetry(poemsByCategory, container) {
                 }
             });
 
-            // MOBILE-ONLY READING OVERLAY
+            // MOBILE-ONLY READING MODE
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
                 poemContent.addEventListener('click', evt => {
                     evt.stopPropagation();
@@ -575,22 +533,13 @@ function loadContactSection() {
 /* -------------- CONTACT LOGIC (MERGED) -------------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
-    initializeTheme(); // or if you want a separate contact theme logic, your call
-    initializeLanguage();
+    initializeTheme(); // Applies dark theme
+    initializeLanguage(); // Assuming you have this function defined elsewhere
     addContactEventListeners();
 }
 
-/* Here you'd replicate the older contact logic or unify it with your main site.
-   For instance, if you want the volume logic, do it below, 
-   or remove it if you do not want a volume slider anymore.
-*/
-function addContactEventListeners() {
-    // Language toggle
-    const langToggleBtn = document.getElementById('lang-toggle');
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', toggleLanguage);
-    }
-}
+/* Replicate or integrate older contact logic here */
+/* For example, volume slider functionality or other features */
 
 /* Submission Cookie Check */
 function checkSubmissionCookie() {
@@ -719,7 +668,7 @@ function duplicatePanes() {
     const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
     const initialPaneCount = masterPanes.length;
 
-    // remove extra
+    // Remove any additional panes beyond the master list
     const allPanes = Array.from(panels.querySelectorAll('.pane'));
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
@@ -728,7 +677,7 @@ function duplicatePanes() {
         }
     });
 
-    // ensure we have 8 total
+    // Ensure we have 8 total panes
     const currentPaneCount = panels.querySelectorAll('.pane').length;
     const desiredPaneCount = 8;
     for (let i = currentPaneCount; i < desiredPaneCount; i++) {
@@ -738,8 +687,10 @@ function duplicatePanes() {
         const clonedImg = clone.querySelector('img');
         if (clonedImg) {
             clonedImg.classList.add('pane-image');
+            console.log(`Cloned pane image: ${clonedImg.src}`);
         }
         panels.appendChild(clone);
+        console.log(`Added cloned pane number ${i + 1}`);
     }
 }
 
@@ -773,11 +724,13 @@ function adjustPaneImages() {
                 clonedImg.classList.add('pane-image');
             }
             panesContainer.appendChild(clone);
+            console.log(`Added pane clone number ${i + 1}`);
         }
     } else if (currentPanes > totalPanesNeeded) {
         for (let i = currentPanes; i > totalPanesNeeded; i--) {
             const paneToRemove = panesContainer.querySelectorAll('.pane')[i - 1];
             panesContainer.removeChild(paneToRemove);
+            console.log(`Removed pane clone number ${i}`);
         }
     }
 
