@@ -86,9 +86,11 @@ function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    updateThemeIcon(theme);
+    // Removed the line that explicitly calls updateThemeIcon(theme)
+    // We'll rely on updateAllIcons(...) to handle the theme toggle icon now.
+
     updatePatreonIcon();
-    updateAllIcons(theme);
+    updateAllIcons(theme);  // updates the theme toggle icon & others
 }
 
 function detectOSTheme() {
@@ -104,54 +106,55 @@ function toggleTheme() {
     applyTheme(newTheme);
 }
 
-function updateThemeIcon(theme) {
-    const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
-    themeToggleImages.forEach(themeIcon => {
-        themeIcon.src = theme === 'light' ? 'icons/darkmode.png' : 'icons/lightmode.png';
-        console.log(`Theme toggle icon updated to: ${themeIcon.src}`);
-    });
-}
-
+/* 
+   Patreon icon: 
+   If data-theme=light => patreon_alt.png, else => patreon.png 
+*/
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     if (patreonIcon) {
-        patreonIcon.src = currentTheme === 'light' ? 'icons/patreon_alt.png' : 'icons/patreon.png';
+        patreonIcon.src = currentTheme === 'light' 
+            ? 'icons/patreon_alt.png' 
+            : 'icons/patreon.png';
         console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
     } else {
         console.warn('Patreon icon not found.');
     }
 }
 
-/* Update all icons based on theme (avoid changing pane images) */
+/* 
+   Update all icons based on theme (avoid changing pane images).
+   - If theme=light => .png -> _alt.png
+   - If theme=dark  => _alt.png -> .png
+*/
 function updateAllIcons(theme) {
     console.log(`Updating all icons to ${theme} mode.`);
     const images = document.querySelectorAll('img');
 
     images.forEach(img => {
-        // Skip theme-toggle icon
-        if (img.closest('#theme-toggle')) return;
-        // Skip pane images
         const src = img.getAttribute('src');
-        if (src && (src.includes('/pane') || src.match(/pane\\d+\\.png$/))) {
+        if (!src) return;
+
+        // Skip pane images
+        if (src.includes('/pane') || src.match(/pane\\d+\\.png$/)) {
             return;
         }
 
-        if (src) {
-            // Switch to alt if light theme
-            if (theme === 'light') {
-                if (!src.includes('_alt') && src.endsWith('.png')) {
-                    const altSrc = src.replace('.png', '_alt.png');
-                    img.setAttribute('src', altSrc);
-                    console.log(`Switched ${src} to ${altSrc}`);
-                }
-            } else {
-                // Switch back to dark if ends with _alt
-                if (src.includes('_alt') && src.endsWith('_alt.png')) {
-                    const darkSrc = src.replace('_alt.png', '.png');
-                    img.setAttribute('src', darkSrc);
-                    console.log(`Switched ${src} to ${darkSrc}`);
-                }
+        // If theme=light => switch .png to _alt.png if not already
+        if (theme === 'light') {
+            if (!src.includes('_alt') && src.endsWith('.png')) {
+                const altSrc = src.replace('.png', '_alt.png');
+                img.setAttribute('src', altSrc);
+                console.log(`Switched ${src} to ${altSrc}`);
+            }
+        } 
+        // If theme=dark => switch _alt.png to .png
+        else {
+            if (src.includes('_alt') && src.endsWith('_alt.png')) {
+                const darkSrc = src.replace('_alt.png', '.png');
+                img.setAttribute('src', darkSrc);
+                console.log(`Switched ${src} to ${darkSrc}`);
             }
         }
     });
@@ -260,7 +263,7 @@ function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
     } else if (section === 'contact') {
-        // We'll call loadContactSection from contact.js, 
+        // We'll call loadContactSection from contact.js,
         // but we handle that in the side menu listener above.
         loadContactSection();
     } else {
@@ -343,7 +346,8 @@ function loadPoetrySection() {
         })
         .catch(error => {
             console.error('Error loading poetry:', error);
-            if (!cachedPoems) {
+            const cachedPoemsAgain = localStorage.getItem('cached_poems');
+            if (!cachedPoemsAgain) {
                 displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
             }
         });
