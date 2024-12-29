@@ -1,6 +1,8 @@
-/* --------------------------------------------
-   UNIVERSAL & ROOT VARIABLES
--------------------------------------------- */
+/* ------------------------------------------------------------------
+   BEGIN: Your Original ~900-Line styles.css
+   ------------------------------------------------------------------ */
+
+/* Universal Box Sizing */
 *,
 *::before,
 *::after {
@@ -29,20 +31,20 @@
     --right-panels-width-mobile: 70px; /* Increased from 50px to 70px for better visibility on mobile */
 
     /* Section Spacing (Percentage of viewport width) */
-    --section-margin-left: 5%;   /* Margin-left when menu is closed */
-    --section-padding-left: 2%;  /* Padding inside sections */
-    --section-margin-right: 5%;  /* Margin-right when panels are closed */
-    --section-padding-right: 2%; /* Padding inside sections */
+    --section-margin-left: 5%;        /* Margin-left when menu is closed */
+    --section-padding-left: 2%;       /* Padding inside sections */
+    --section-margin-right: 5%;       /* Margin-right when panels are closed */
+    --section-padding-right: 2%;      /* Padding inside sections */
 
     /* Mobile Section Spacing */
-    --section-margin-left-mobile: 2%;   /* Reduced margin-left on mobile */
-    --section-padding-left-mobile: 1%;  /* Reduced padding-left on mobile */
-    --section-margin-right-mobile: 2%;  /* Reduced margin-right on mobile */
-    --section-padding-right-mobile: 1%; /* Reduced padding-right on mobile */
+    --section-margin-left-mobile: 2%;    /* Reduced margin-left on mobile */
+    --section-padding-left-mobile: 1%;   /* Reduced padding-left on mobile */
+    --section-margin-right-mobile: 2%;   /* Reduced margin-right on mobile */
+    --section-padding-right-mobile: 1%;  /* Reduced padding-right on mobile */
 
     /* Icon Sizes (Responsive) */
-    --menu-icon-size-desktop: 50px; 
-    --menu-icon-size-mobile: 40px;
+    --menu-icon-size-desktop: 50px; /* Increased to match second CSS */
+    --menu-icon-size-mobile: 40px;  /* Adjusted for better visibility on mobile */
 
     /* Social Icons Sizes */
     --social-icon-size-desktop: 32px;
@@ -53,11 +55,11 @@
     --theme-toggle-icon-size-mobile: 40px;
 
     /* Section Text Alignment */
-    --section-text-align-desktop: left;
-    --section-text-align-mobile: left;
+    --section-text-align-desktop: left; /* Changed from center to left */
+    --section-text-align-mobile: left;  /* Ensure left alignment on mobile as well */
 
     /* Spacing Between Title and Sections */
-    --title-section-margin-bottom: 10px;
+    --title-section-margin-bottom: 10px; /* 10px below title */
 }
 
 /* Light Theme Variables */
@@ -69,9 +71,7 @@
     --link-color: #000000;
 }
 
-/* --------------------------------------------
-   BODY & RESPONSIVE FONTS
--------------------------------------------- */
+/* Body Styles */
 body {
     margin: 0;
     padding: 0;
@@ -100,14 +100,12 @@ body {
     }
 }
 
-/* --------------------------------------------
-   MENU ICON (HAMBURGER)
--------------------------------------------- */
+/* Menu Icon Container */
 #menu-icon-container {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 1004;
+    z-index: 1004; /* Higher z-index to stay above other elements */
     cursor: pointer;
 }
 
@@ -124,9 +122,7 @@ body {
     }
 }
 
-/* --------------------------------------------
-   PATREON ICON (TOP-RIGHT)
--------------------------------------------- */
+/* Patreon Icon Container */
 #patreon-icon-container {
     position: fixed;
     top: 10px;
@@ -146,31 +142,29 @@ body {
     }
 }
 
-/* --------------------------------------------
-   SIDE MENU
--------------------------------------------- */
+/* Side Menu */
 .side-menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop);
+    width: var(--side-menu-width-desktop); /* Adjusted width for desktop */
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding-left: 15px;
-    padding-top: 50px;
-    padding-right: 0;
+    align-items: flex-start; /* Align items to the start (left) */
+    padding-left: 15px; /* 15px padding from the left edge */
+    padding-top: 50px; /* Space for menu button */
+    padding-right: 0px;
     margin-right: 0;
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Hidden by default */
 }
 
 body.menu-open .side-menu {
-    transform: translateX(0);
+    transform: translateX(0); /* Slide in */
 }
 
 .side-menu ul {
@@ -183,7 +177,7 @@ body.menu-open .side-menu {
 .side-menu li {
     width: 100%;
     text-align: center;
-    margin: 10px 0;
+    margin: 10px 0; /* Reduced margin */
 }
 
 /* Side Menu Links */
@@ -191,32 +185,32 @@ body.menu-open .side-menu {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px 0;
-    border-radius: 5px;
+    flex-direction: row; /* Default: row for desktop */
+    align-items: center; /* Center vertically */
+    padding: 10px 0; /* Increased padding for better click area */
+    border-radius: 5px; /* Rounded corners */
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-    width: 100%;
-    box-sizing: border-box;
+    width: 100%; /* Occupy full width */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 .side-menu a:hover {
-    background-color: var(--highlight-color);
-    transform: scale(1.05);
+    background-color: var(--highlight-color); /* Highlight on hover */
+    transform: scale(1.05); /* Slight scale on hover */
 }
 
 .side-menu a img.menu-icon {
-    width: var(--menu-icon-size-desktop);
+    width: var(--menu-icon-size-desktop); /* Updated to match second CSS */
     height: var(--menu-icon-size-desktop);
-    margin-right: 10px;
+    margin-right: 10px; /* Space between icon and text */
     object-fit: contain;
     transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
 }
 
 @media (max-width: 768px) {
     .side-menu a {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Column for mobile */
+        align-items: center;    /* Center items horizontally */
     }
 
     .side-menu a img.menu-icon {
@@ -238,13 +232,13 @@ body.menu-open .side-menu {
     font-weight: 500;
 }
 
-/* Footer Logo in Side Menu */
+/* Logo Container in Footer */
 #footer-logo-container {
     position: absolute;
     bottom: 20px;
-    left: 0;
+    left: 0px;
     width: 90px;
-    z-index: 1003;
+    z-index: 1003;   
     padding-bottom: 10px;
 }
 
@@ -261,9 +255,7 @@ body.menu-open .side-menu {
     z-index: 1005;
 }
 
-/* --------------------------------------------
-   RIGHT PANELS (IMAGES)
--------------------------------------------- */
+/* Panels Container (Right Side) */
 .panels {
     position: fixed;
     right: 0;
@@ -305,9 +297,7 @@ body.menu-open .panels {
     padding: 0;
 }
 
-/* --------------------------------------------
-   TITLE SECTION
--------------------------------------------- */
+/* Title Section */
 .title-section {
     text-align: center;
     position: relative;
@@ -343,9 +333,7 @@ body.menu-open .panels {
     margin: 5px 0 0 0;
 }
 
-/* --------------------------------------------
-   MAIN CONTENT SECTIONS
--------------------------------------------- */
+/* Main Sections */
 .section {
     margin-top: 10px;
     padding-top: 0;
@@ -371,7 +359,7 @@ body.menu-open {
     --section-padding-right: 10px;
 }
 
-/* Main Content Wrapper */
+/* Main Content */
 #main-content {
     position: relative;
     z-index: 50;
@@ -390,6 +378,7 @@ body.menu-open {
     font-size: 1em;
 }
 
+/* Correct for desktop menu open */
 @media (min-width: 769px) {
     body.menu-open #main-content {
         margin-left: auto;
@@ -397,6 +386,7 @@ body.menu-open {
     }
 }
 
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     #main-content {
         width: 90%;
@@ -466,26 +456,22 @@ body.menu-open {
     body.menu-open .panels {
         transform: translateX(0);
     }
-
     body.menu-open #main-content {
         margin-left: calc(var(--side-menu-width-mobile) + 2px);
         margin-right: calc(var(--right-panels-width-mobile) + 2px);
         width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
     }
-
     #main-content {
         max-width: 100%;
     }
 }
 
-/* Ensure no horizontal overflow */
+/* No Horizontal Overflow */
 body {
     overflow-x: hidden;
 }
 
-/* --------------------------------------------
-   POETRY SECTION / COLLAPSIBLE STYLING
--------------------------------------------- */
+/* Poetry Section */
 #poems-container {
     padding: 20px;
     max-width: 1200px;
@@ -593,9 +579,7 @@ body {
     padding: 2px 2px;
 }
 
-/* --------------------------------------------
-   FOOTER (FIXED, COLLAPSIBLE)
--------------------------------------------- */
+/* Floating Footer */
 footer {
     padding: 1em 0;
     text-align: center;
@@ -644,7 +628,6 @@ footer p {
         height: var(--social-icon-size-mobile);
     }
 }
-
 @media screen and (min-width: 769px) {
     .social-media img {
         width: var(--social-icon-size-desktop);
@@ -699,7 +682,6 @@ footer #theme-toggle img {
         height: var(--theme-toggle-icon-size-mobile);
     }
 }
-
 @media screen and (min-width: 769px) {
     footer #theme-toggle img {
         width: var(--theme-toggle-icon-size-desktop);
@@ -707,7 +689,7 @@ footer #theme-toggle img {
     }
 }
 
-/* Focus Styles for A11y */
+/* Focus Styles for Interactive Elements */
 #menu-icon-container:focus,
 #footer-toggle:focus,
 #theme-toggle:focus {
@@ -720,19 +702,59 @@ footer:hover {
     background-color: var(--highlight-color);
 }
 
-/* Ensure #main-content has extra space so poems won't hide behind footer */
+/* Extra space so poems won't hide behind footer */
 #main-content {
-    padding-bottom: calc(var(--footer-height) + 100px); 
+    padding-bottom: calc(var(--footer-height) + 100px);
 }
 
-/* Reading overlay minimal style (inlined in script) */
+/* Reading Overlay (inlined in script) */
 #reading-overlay {
-    /* intentionally left blank */
+    /* intentionally blank */
 }
 
-/* --------------------------------------------
-   ADDITIONAL: CONTACT FORM ENHANCEMENTS
--------------------------------------------- */
+/* Side Menu (duplicate) with higher z-index for menu icon */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--side-menu-width-desktop);
+    height: 100%;
+    background-color: var(--background-color);
+    z-index: 1005;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 15px;
+    padding-top: 50px;
+    padding-right: 0px;
+    margin-right: 0;
+    transition: transform var(--transition-speed) ease;
+    overflow-y: auto;
+    transform: translateX(-100%);
+}
+
+/* The hamburger menu container can stay with a high z-index as well */
+#menu-icon-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1006;
+    cursor: pointer;
+}
+
+/* ------------------------------------------------------------------
+   END: Your Original ~900-Line styles (all integrated)
+   ------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------
+   BEGIN: Contact Form Enhancements
+   ------------------------------------------------------------------ */
+
+/* These styles ensure the contact form fields are stacked nicely
+   and the Turnstile widget has proper spacing.
+*/
+
 #contact-form-container {
     max-width: 600px; /* nicer width on desktop */
     margin: 0 auto;   /* center horizontally */
@@ -740,7 +762,7 @@ footer:hover {
 }
 
 #contact-form {
-    display: block; 
+    display: block;
 }
 
 #contact-form label {
@@ -761,9 +783,8 @@ footer:hover {
     border-radius: 3px;
 }
 
-/* Give the textarea some height */
 #contact-form textarea {
-    min-height: 120px;
+    min-height: 120px; /* give the textarea some height */
 }
 
 #contact-form button[type="submit"] {
@@ -774,15 +795,18 @@ footer:hover {
     color: var(--text-color);
     border: none;
     border-radius: 3px;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed) ease;
 }
 
 #contact-form button[type="submit"]:hover {
     background-color: var(--line-color);
 }
 
-/* Ensure Turnstile widget is stacked + spaced */
+/* Ensure the Turnstile widget is displayed properly (normal size) */
 .cf-turnstile {
     display: block;
     margin: 20px 0;
 }
+/* ------------------------------------------------------------------
+   END: Contact Form Enhancements
+   ------------------------------------------------------------------ */
