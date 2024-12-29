@@ -1,11 +1,16 @@
-/* contact.js */
+/* contact.js
+   -------------
+   Single-file approach: 
+   - loadContactSection() injects the contact form into #main-content.
+   - Then it initializes theme, language, and cookie-submission logic.
+*/
 
 /**
- * loadContactSection:
- * Injects the Contact form HTML (including Turnstile) into #main-content,
+ * loadContactSection():
+ * Injects the contact form HTML (including Turnstile) into #main-content,
  * then runs all logic (theme, language, cookie submission check).
  *
- * Call loadContactSection() when user clicks "Contact" in your hamburger menu.
+ * Call loadContactSection() when the user clicks "Contact" in your hamburger menu.
  */
 function loadContactSection() {
     console.log("Loading Contact Section...");
@@ -23,10 +28,12 @@ function loadContactSection() {
         titleSection.style.display = 'none';
     }
 
-    // 2) Inject the form + Turnstile widget (NO volume slider/audio here)
+    // 2) Inject the form + Turnstile widget (No volume slider here, if you don't want it)
     mainContent.innerHTML = `
+        <!-- Contact Form Container -->
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
+
             <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev">
                 <!-- Email -->
                 <label for="email" id="email-label">Your Email (optional):</label>
@@ -44,26 +51,26 @@ function loadContactSection() {
         </div>
     `;
 
-    // 3) Initialize all page logic
+    // 3) Initialize theme/language logic, event listeners, etc.
     initializeContactPage();
 
     // 4) Check cookie to hide the form if user already submitted
     checkSubmissionCookie();
 }
 
-/* ----------------------------------------------------------------
+/* ------------------------------------------
    CONTACT PAGE INITIALIZATION
----------------------------------------------------------------- */
+------------------------------------------ */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
-    initializeTheme();       // Dark/Light theme
-    initializeLanguage();    // EN/IT language text
-    addContactEventListeners(); 
+    initializeTheme();
+    initializeLanguage();
+    addContactEventListeners();
 }
 
-/* ----------------------------------------------------------------
-   THEME LOGIC
----------------------------------------------------------------- */
+/* ------------------------------------------
+   THEME LOGIC (Dark/Light)
+------------------------------------------ */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -102,16 +109,16 @@ function toggleTheme() {
     }
 }
 
-/* ----------------------------------------------------------------
-   LANGUAGE LOGIC
----------------------------------------------------------------- */
+/* ------------------------------------------
+   LANGUAGE LOGIC (English/Italian)
+------------------------------------------ */
 let currentLanguage = 'en'; // default
 
 function initializeLanguage() {
     const storedLanguage = localStorage.getItem('language');
     if (!storedLanguage) {
         const lang = navigator.language || navigator.userLanguage;
-        currentLanguage = lang.startsWith('it') ? 'it' : 'en';
+        currentLanguage = (lang.startsWith('it')) ? 'it' : 'en';
         localStorage.setItem('language', currentLanguage);
     } else {
         currentLanguage = storedLanguage;
@@ -122,7 +129,6 @@ function initializeLanguage() {
 function setLanguage() {
     document.documentElement.setAttribute('lang', currentLanguage);
 
-    // If there's a #lang-toggle button
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
         langToggleBtn.innerText = (currentLanguage === 'en') ? 'Ita' : 'Eng';
@@ -137,7 +143,7 @@ function toggleLanguage() {
     setLanguage();
 }
 
-// Update text on the page (or just the contact section) for EN/IT
+// Update text on the contact page (and beyond) for EN/IT
 function updateContentLanguage(lang) {
     const elementsToUpdate = [
         { id: 'page-title',     en: 'Leave feedback or request for takedown',  it: 'Lascia un feedback o richiedi la rimozione' },
@@ -157,9 +163,9 @@ function updateContentLanguage(lang) {
     });
 }
 
-/* ----------------------------------------------------------------
-   EVENT LISTENERS (LANG/ THEME)
----------------------------------------------------------------- */
+/* ------------------------------------------
+   EVENT LISTENERS (Language/Theme, etc.)
+------------------------------------------ */
 function addContactEventListeners() {
     // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
@@ -167,16 +173,16 @@ function addContactEventListeners() {
         langToggleBtn.addEventListener('click', toggleLanguage);
     }
 
-    // Theme toggle (if checkbox #theme-toggle exists)
+    // Theme toggle (if #theme-toggle is a checkbox)
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle && themeToggle.type === 'checkbox') {
         themeToggle.addEventListener('change', toggleTheme);
     }
 }
 
-/* ----------------------------------------------------------------
+/* ------------------------------------------
    COOKIE / FORM-SUBMISSION LOGIC
----------------------------------------------------------------- */
+------------------------------------------ */
 
 /** 
  * checkSubmissionCookie:
@@ -187,7 +193,6 @@ function addContactEventListeners() {
 function checkSubmissionCookie() {
     console.log('Checking submission cookie...');
 
-    // 1) Check query param
     const params = getQueryParams();
     if (params.submitted === 'true') {
         setCookie('formSubmitted', 'true', 24);
@@ -202,7 +207,6 @@ function checkSubmissionCookie() {
         disableContactFormAndButton();
     }
 
-    // 2) Check cookie
     if (getCookie('formSubmitted') === 'true') {
         disableContactFormAndButton();
     }
@@ -223,7 +227,7 @@ function disableContactFormAndButton() {
         contactForm.parentNode.appendChild(msg);
     }
 
-    // Optionally hide a #contact-link if it exists
+    // Optionally hide #contact-link if it exists
     const contactLink = document.getElementById('contact-link');
     if (contactLink) {
         contactLink.style.display = 'none';
@@ -266,9 +270,11 @@ function getQueryParams() {
     if (!queryStr) return params;
 
     queryStr.split('&').forEach(part => {
-        const [key, val] = part.split('=');
-        if (key) {
-            params[decodeURIComponent(key)] = decodeURIComponent(val || '');
+        const [rawKey, rawVal] = part.split('=');
+        if (rawKey) {
+            const key = decodeURIComponent(rawKey);
+            const val = decodeURIComponent(rawVal || '');
+            params[key] = val;
         }
     });
     return params;

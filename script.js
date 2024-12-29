@@ -6,6 +6,57 @@ console.log('script.js is loaded and running.');
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded event fired.');
     initializePage();
+
+    // Listen for side menu link clicks
+    const menuItems = document.querySelectorAll('#side-menu a[data-section]');
+    menuItems.forEach(item => {
+        item.addEventListener('click', e => {
+            e.preventDefault();
+            const section = item.getAttribute('data-section');
+            // If "contact", call loadContactSection() from contact.js
+            if (section === 'contact') {
+                loadContactSection();
+            } else {
+                // Otherwise load a normal section
+                loadSection(section);
+            }
+            // Close the menu
+            document.body.classList.remove('menu-open');
+            console.log(`Menu item clicked: ${section}. Menu closed.`);
+        });
+    });
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                    
+                    // Listen for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('New Service Worker found:', newWorker);
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    console.log('New Service Worker installed.');
+                                    if (confirm('New version available. Reload to update?')) {
+                                        window.location.reload();
+                                    }
+                                } else {
+                                    console.log('Content cached for offline use.');
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        });
+    }
 });
 
 function initializePage() {
@@ -79,9 +130,7 @@ function updateAllIcons(theme) {
 
     images.forEach(img => {
         // Skip theme-toggle icon
-        if (img.closest('#theme-toggle')) {
-            return;
-        }
+        if (img.closest('#theme-toggle')) return;
         // Skip pane images
         const src = img.getAttribute('src');
         if (src && (src.includes('/pane') || src.match(/pane\\d+\\.png$/))) {
@@ -154,28 +203,6 @@ function addEventListeners() {
         }
     });
 
-    // Menu Item Clicks
-    const menuItems = document.querySelectorAll('#side-menu a[data-section]');
-    menuItems.forEach((item) => {
-        item.addEventListener('click', function (event) {
-            event.preventDefault();
-            const section = this.getAttribute('data-section');
-            loadSection(section);
-            document.body.classList.remove('menu-open'); // close the menu
-            console.log(`Menu item clicked: ${section}. Menu closed.`);
-        });
-        // Keyboard accessibility
-        item.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                const section = this.getAttribute('data-section');
-                loadSection(section);
-                document.body.classList.remove('menu-open');
-                console.log(`Menu item clicked via keyboard: ${section}. Menu closed.`);
-            }
-        });
-    });
-
     // Footer Toggle
     const footer = document.querySelector('footer');
     const footerToggle = document.getElementById('footer-toggle');
@@ -233,6 +260,8 @@ function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
     } else if (section === 'contact') {
+        // We'll call loadContactSection from contact.js, 
+        // but we handle that in the side menu listener above.
         loadContactSection();
     } else {
         loadContentSection(section);
@@ -333,12 +362,6 @@ function categorizePoems(poems) {
     return categories;
 }
 
-/**
- * Display poetry by category. 
- * Poem titles are capitalized according to your requested logic:
- *   - First word: always capital
- *   - Subsequent words: capitalized unless they are "of" or "the".
- */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -381,9 +404,7 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-            // Format the poem title with the custom capitalization
             const formattedTitle = formatPoemTitle(poem.title);
-
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
             // Poem content
@@ -398,7 +419,7 @@ function displayPoetry(poemsByCategory, container) {
 
             poemHeader.addEventListener('click', () => {
                 const isVisible = poemContent.style.display === 'block';
-                // Collapse all in this collection
+                // Collapse all poems in this collection
                 const allPoemContents = collectionContent.querySelectorAll('.poem-content');
                 allPoemContents.forEach(pc => (pc.style.display = 'none'));
                 const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
@@ -424,10 +445,9 @@ function displayPoetry(poemsByCategory, container) {
             });
 
             // MOBILE-ONLY READING MODE
-            // If on mobile, and not a matrix/puzzle poem, click on poem text to open reading overlay
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
-                poemContent.addEventListener('click', (evt) => {
-                    evt.stopPropagation(); // Prevent collapsing
+                poemContent.addEventListener('click', evt => {
+                    evt.stopPropagation();
                     enterReadingMode(poem);
                 });
             }
@@ -448,7 +468,7 @@ function displayPoetry(poemsByCategory, container) {
             }
         });
 
-        // Keyboard accessibility
+        // Keyboard accessibility for collection header
         collectionHeader.setAttribute('tabindex', '0');
         collectionHeader.addEventListener('keypress', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
@@ -459,11 +479,21 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/* ------------------ CONTACT SECTION ------------------ */
+/* ------------------ CONTACT SECTION (INJECTION) ------------------ */
 function loadContactSection() {
     console.log('Loading contact section...');
     const contentDiv = document.getElementById('main-content');
-    document.querySelector('.title-section').style.display = 'none'; 
+    if (!contentDiv) {
+        console.warn('#main-content not found.');
+        return;
+    }
+
+    // Hide title if you want
+    const titleSection = document.querySelector('.title-section');
+    if (titleSection) {
+        titleSection.style.display = 'none';
+    }
+
     contentDiv.innerHTML = `
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
@@ -481,152 +511,43 @@ function loadContactSection() {
             </form>
         </div>
 
-        <!-- (Optional) Volume Slider -->
+        <!-- Optional volume slider (remove if you truly don't want it) -->
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
     `;
 
-    // Call the initialization logic (from original contact.js)
     initializeContactPage();
+    checkSubmissionCookie(); // Cookie check to block repeated submissions
 }
 
-/* ---------- CONTACT PAGE LOGIC (MERGED FROM contact.js) ---------- */
+/* -------------- CONTACT LOGIC (MERGED) -------------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
-    initializeLanguageForContact();
-    initializeVolumeForContact();
+    initializeTheme(); // or if you want a separate contact theme logic, your call
+    initializeLanguage();
     addContactEventListeners();
-    contactFormCookieCheck();
-    // Re-apply current theme
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    updateThemeIcon(currentTheme);
 }
 
-/* ----- LANGUAGE ----- */
-let currentContactLanguage = 'en';
+/* Here you'd replicate the older contact logic or unify it with your main site.
+   For instance, if you want the volume logic, do it below, 
+   or remove it if you do not want a volume slider anymore.
+*/
 
-function initializeLanguageForContact() {
-    let storedLanguage = localStorage.getItem('language');
-    if (!storedLanguage) {
-        const lang = navigator.language || navigator.userLanguage;
-        currentContactLanguage = lang.startsWith('it') ? 'it' : 'en';
-        localStorage.setItem('language', currentContactLanguage);
-    } else {
-        currentContactLanguage = storedLanguage;
-    }
-    setContactLanguage();
-}
-
-function setContactLanguage() {
-    document.documentElement.setAttribute('lang', currentContactLanguage);
-    const langToggleBtn = document.getElementById('lang-toggle');
-    if (langToggleBtn) {
-        langToggleBtn.innerText = currentContactLanguage === 'en' ? 'Ita' : 'Eng';
-    }
-    updateContactText(currentContactLanguage);
-}
-
-function toggleContactLanguage() {
-    currentContactLanguage = currentContactLanguage === 'en' ? 'it' : 'en';
-    localStorage.setItem('language', currentContactLanguage);
-    setContactLanguage();
-}
-
-function updateContactText(lang) {
-    const elementsToUpdate = [
-        { id: 'page-title', en: 'Leave feedback or request for takedown', it: 'Lascia un feedback o richiedi la rimozione' },
-        { id: 'email-label', en: 'Your Email (optional):', it: 'La tua email (opzionale):' },
-        { id: 'message-label', en: 'Your Message:', it: 'Il tuo messaggio:' },
-        { id: 'submit-button', en: 'Send', it: 'Invia' }
-    ];
-    elementsToUpdate.forEach(element => {
-        const el = document.getElementById(element.id);
-        if (el) {
-            el.textContent = (lang === 'en') ? element.en : element.it;
-        }
-    });
-}
-
-/* ----- VOLUME ----- */
-function initializeVolumeForContact() {
-    const volumeSlider = document.getElementById('volume-slider');
-    const backgroundAudio = document.getElementById('background-audio');
-    const savedVolume = localStorage.getItem('volume') || 0;
-    if (volumeSlider && backgroundAudio) {
-        volumeSlider.value = savedVolume;
-        backgroundAudio.volume = savedVolume;
-        if (savedVolume > 0) {
-            backgroundAudio.muted = false;
-            backgroundAudio.play();
-        }
-        volumeSlider.addEventListener('input', function () {
-            backgroundAudio.volume = this.value;
-            localStorage.setItem('volume', this.value);
-            if (this.value > 0) {
-                backgroundAudio.muted = false;
-                backgroundAudio.play();
-            } else {
-                backgroundAudio.muted = true;
-                backgroundAudio.pause();
-            }
-        });
-    }
-}
-
-/* ----- CONTACT EVENT LISTENERS ----- */
 function addContactEventListeners() {
-    // If you want a language toggle in the contact form, you could add it similarly
+    // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', toggleContactLanguage);
+        langToggleBtn.addEventListener('click', toggleLanguage);
     }
 }
 
-/* ----- COOKIE HANDLING / FORM SUBMISSION CHECK ----- */
-function contactFormCookieCheck() {
-    function getQueryParams() {
-        const params = {};
-        window.location.search.substring(1).split("&").forEach(function(part) {
-            const [key, value] = part.split("=");
-            if (key) params[decodeURIComponent(key)] = decodeURIComponent(value);
-        });
-        return params;
-    }
-
-    function setCookie(name, value, hours) {
-        const d = new Date();
-        d.setTime(d.getTime() + (hours*60*60*1000));
-        const expires = "expires="+ d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
-
-    function getCookie(name) {
-        const cname = name + "=";
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(cname) === 0) {
-                return c.substring(cname.length, c.length);
-            }
-        }
-        return "";
-    }
-
-    function disableContactFormAndButton() {
-        const contactForm = document.getElementById('contact-form');
-        if (contactForm) {
-            contactForm.style.display = 'none';
-            const message = document.createElement('p');
-            message.textContent = "You have already contacted us. Please try again in 24 hours.";
-            message.style.color = 'gray';
-            message.style.marginTop = '20px';
-            contactForm.parentNode.appendChild(message);
-        }
-    }
-
+/* Submission Cookie Check */
+function checkSubmissionCookie() {
+    console.log('Checking submission cookie...');
     const params = getQueryParams();
-    if (params.submitted && params.submitted === "true") {
+    if (params.submitted === 'true') {
         setCookie('formSubmitted', 'true', 24);
+
+        // Remove param
         if (window.history.replaceState) {
             const url = new URL(window.location);
             url.searchParams.delete('submitted');
@@ -635,29 +556,42 @@ function contactFormCookieCheck() {
         disableContactFormAndButton();
     }
 
-    const formSubmitted = getCookie('formSubmitted');
-    if (formSubmitted === "true") {
+    if (getCookie('formSubmitted') === 'true') {
         disableContactFormAndButton();
     }
 }
 
-/* ------------------ READING OVERLAY (MOBILE) ------------------ */
+function disableContactFormAndButton() {
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.style.display = 'none';
+        const msg = document.createElement('p');
+        msg.textContent = "You have already contacted us. Please try again in 24 hours.";
+        msg.style.color = 'gray';
+        msg.style.marginTop = '20px';
+        contactForm.parentNode.appendChild(msg);
+    }
+
+    const contactLink = document.getElementById('contact-link');
+    if (contactLink) {
+        contactLink.style.display = 'none';
+        const msg2 = document.createElement('p');
+        msg2.textContent = "You have already contacted us. Please try again in 24 hours.";
+        msg2.style.color = 'gray';
+        msg2.style.marginTop = '10px';
+        contactLink.parentNode.appendChild(msg2);
+    }
+}
+
+/* -------------- READING OVERLAY (MOBILE) -------------- */
 function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 }
 
-/**
- * Creates an overlay that shows the poem text in a mobile-friendly reading mode.
- * Only triggered on mobile devices. 
- */
 function enterReadingMode(poem) {
-    // If an overlay already exists, remove it
     const existingOverlay = document.getElementById('reading-overlay');
-    if (existingOverlay) {
-        existingOverlay.remove();
-    }
+    if (existingOverlay) existingOverlay.remove();
 
-    // Build the overlay
     const overlay = document.createElement('div');
     overlay.id = 'reading-overlay';
     overlay.style.position = 'fixed';
@@ -665,7 +599,7 @@ function enterReadingMode(poem) {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'; // dark background
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
     overlay.style.color = '#fff';
     overlay.style.zIndex = '9999';
     overlay.style.overflowY = 'auto';
@@ -679,28 +613,24 @@ function enterReadingMode(poem) {
     closeBtn.style.marginBottom = '20px';
     closeBtn.style.textAlign = 'right';
 
-    // Poem title
     const poemTitle = document.createElement('h2');
-    poemTitle.textContent = poem.title;
+    poemTitle.textContent = poem.title || 'Untitled Poem';
     poemTitle.style.marginTop = '0';
 
-    // Poem text
     const poemText = document.createElement('div');
     poemText.innerHTML = poem.content.replace(/\n/g, '<br>');
 
-    // Append elements
     overlay.appendChild(closeBtn);
     overlay.appendChild(poemTitle);
     overlay.appendChild(poemText);
     document.body.appendChild(overlay);
 
-    // Close on click
     closeBtn.addEventListener('click', () => {
         overlay.remove();
     });
 }
 
-/* ------------------ UTILITY FUNCTIONS ------------------ */
+/* -------------- UTILITY FUNCTIONS -------------- */
 function markdownToHTML(text) {
     return text
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
@@ -808,27 +738,24 @@ function adjustPaneImages() {
 }
 
 /**
- * formatCollectionName - For categories (like "Throwetry," etc.).
- * You can keep or modify as needed if you want to unify all naming logic.
+ * formatCollectionName - For categories
  */
 function formatCollectionName(name) {
-    // Use the same logic as poem titles if you want consistent behavior:
     return formatPoemTitle(name);
 }
 
 /**
  * formatPoemTitle - 
- *  1) The first word: always capitalized (first letter uppercase, rest lowercase).
+ *  1) The first word: always capitalized 
  *  2) Subsequent words: capitalized unless they are 'of' or 'the'.
  */
 function formatPoemTitle(originalTitle) {
     if (!originalTitle || typeof originalTitle !== 'string') return '';
 
-    // Split on whitespace
     const words = originalTitle.trim().split(/\s+/).map(w => w.toLowerCase());
     const exclude = ['of', 'the'];
 
-    // First word: always capitalized
+    // First word always capitalized
     if (words[0]) {
         words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
     }
@@ -838,6 +765,5 @@ function formatPoemTitle(originalTitle) {
             words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
         }
     }
-
     return words.join(' ');
 }

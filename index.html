@@ -157,7 +157,7 @@
 
         <p>&copy; <span id="year"></span> Tristan Nuvola</p>
 
-        <!-- Theme Toggle (if you want a checkbox or icon) -->
+        <!-- Theme Toggle -->
         <div id="theme-toggle">
             <img src="icons/lightmode.png" alt="Theme Toggle">
         </div>
@@ -176,62 +176,5 @@
 
     <!-- Single-file Contact logic (injects the contact form) -->
     <script src="contact.js" defer></script>
-
-    <!-- Small inline script to handle the Contact link -->
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const menuLinks = document.querySelectorAll('#side-menu a[data-section]');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const section = link.getAttribute('data-section');
-
-                if (section === 'contact') {
-                    // Call the function from contact.js
-                    loadContactSection();
-                } else {
-                    // Otherwise, pass to your main script logic
-                    // For example:
-                    // loadSection(section);  // If your script.js has loadSection
-                    window.loadSection(section); // or however you do it
-                }
-            });
-        });
-    });
-    </script>
-
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                        
-                        // Listen for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            console.log('New Service Worker found:', newWorker);
-                            
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed') {
-                                    if (navigator.serviceWorker.controller) {
-                                        console.log('New Service Worker installed.');
-                                        if (confirm('New version available. Reload to update?')) {
-                                            window.location.reload();
-                                        }
-                                    } else {
-                                        console.log('Content cached for offline use.');
-                                    }
-                                }
-                            });
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
 </body>
 </html>
