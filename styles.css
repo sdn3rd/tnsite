@@ -31,20 +31,20 @@
     --right-panels-width-mobile: 70px; /* Increased from 50px to 70px for better visibility on mobile */
 
     /* Section Spacing (Percentage of viewport width) */
-    --section-margin-left: 5%;        /* Margin-left when menu is closed */
-    --section-padding-left: 2%;       /* Padding inside sections */
-    --section-margin-right: 5%;       /* Margin-right when panels are closed */
-    --section-padding-right: 2%;      /* Padding inside sections */
+    --section-margin-left: 5%; 
+    --section-padding-left: 2%; 
+    --section-margin-right: 5%; 
+    --section-padding-right: 2%; 
 
     /* Mobile Section Spacing */
-    --section-margin-left-mobile: 2%;    /* Reduced margin-left on mobile */
-    --section-padding-left-mobile: 1%;   /* Reduced padding-left on mobile */
-    --section-margin-right-mobile: 2%;   /* Reduced margin-right on mobile */
-    --section-padding-right-mobile: 1%;  /* Reduced padding-right on mobile */
+    --section-margin-left-mobile: 2%;  
+    --section-padding-left-mobile: 1%; 
+    --section-margin-right-mobile: 2%;
+    --section-padding-right-mobile: 1%;
 
     /* Icon Sizes (Responsive) */
-    --menu-icon-size-desktop: 50px; /* Increased to match second CSS */
-    --menu-icon-size-mobile: 40px;  /* Adjusted for better visibility on mobile */
+    --menu-icon-size-desktop: 50px; 
+    --menu-icon-size-mobile: 40px;  
 
     /* Social Icons Sizes */
     --social-icon-size-desktop: 32px;
@@ -55,11 +55,11 @@
     --theme-toggle-icon-size-mobile: 40px;
 
     /* Section Text Alignment */
-    --section-text-align-desktop: left; /* Changed from center to left */
-    --section-text-align-mobile: left;  /* Ensure left alignment on mobile as well */
+    --section-text-align-desktop: left; 
+    --section-text-align-mobile: left;  
 
     /* Spacing Between Title and Sections */
-    --title-section-margin-bottom: 10px; /* 10px below title */
+    --title-section-margin-bottom: 10px; 
 }
 
 /* Light Theme Variables */
@@ -147,24 +147,24 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop); /* Adjusted width for desktop */
+    width: var(--side-menu-width-desktop); 
     height: 100%;
     background-color: var(--background-color);
     z-index: 1002;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start (left) */
-    padding-left: 15px; /* 15px padding from the left edge */
-    padding-top: 50px; /* Space for menu button */
+    align-items: flex-start; 
+    padding-left: 15px; 
+    padding-top: 50px; 
     padding-right: 0px;
     margin-right: 0;
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
-    transform: translateX(-100%); /* Hidden by default */
+    transform: translateX(-100%); 
 }
 
 body.menu-open .side-menu {
-    transform: translateX(0); /* Slide in */
+    transform: translateX(0); 
 }
 
 .side-menu ul {
@@ -177,7 +177,7 @@ body.menu-open .side-menu {
 .side-menu li {
     width: 100%;
     text-align: center;
-    margin: 10px 0; /* Reduced margin */
+    margin: 10px 0; 
 }
 
 /* Side Menu Links */
@@ -185,51 +185,51 @@ body.menu-open .side-menu {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: row; /* Default: row for desktop */
-    align-items: center; /* Center vertically */
-    padding: 10px 0; /* Increased padding for better click area */
-    border-radius: 5px; /* Rounded corners */
+    flex-direction: row; 
+    align-items: center; 
+    padding: 10px 0; 
+    border-radius: 5px; 
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-    width: 100%; /* Occupy full width */
-    box-sizing: border-box; /* Include padding in width */
+    width: 100%;
+    box-sizing: border-box; 
 }
 
 .side-menu a:hover {
-    background-color: var(--highlight-color); /* Highlight on hover */
-    transform: scale(1.05); /* Slight scale on hover */
+    background-color: var(--highlight-color); 
+    transform: scale(1.05); 
 }
 
 .side-menu a img.menu-icon {
-    width: var(--menu-icon-size-desktop); /* Updated to match second CSS */
+    width: var(--menu-icon-size-desktop); 
     height: var(--menu-icon-size-desktop);
-    margin-right: 10px; /* Space between icon and text */
+    margin-right: 10px; 
     object-fit: contain;
     transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
 }
 
 @media (max-width: 768px) {
     .side-menu a {
-        flex-direction: column; /* Column for mobile */
-        align-items: center;    /* Center items horizontally */
+        flex-direction: column; 
+        align-items: center; 
     }
 
     .side-menu a img.menu-icon {
         width: var(--menu-icon-size-mobile);
         height: var(--menu-icon-size-mobile);
-        margin-right: 0;
-        margin-bottom: 5px;
+        margin-right: 0; 
+        margin-bottom: 5px; 
     }
 
     .menu-text {
-        font-size: 0.9em;
-        margin: 0;
+        font-size: 0.9em; 
+        margin: 0; 
     }
 }
 
 .menu-text {
-    font-size: 1em;
-    white-space: nowrap;
-    font-weight: 500;
+    font-size: 1em; 
+    white-space: nowrap; 
+    font-weight: 500; 
 }
 
 /* Logo Container in Footer */
@@ -237,21 +237,21 @@ body.menu-open .side-menu {
     position: absolute;
     bottom: 20px;
     left: 0px;
-    width: 90px;
+    width: 90px; 
     z-index: 1003;   
-    padding-bottom: 10px;
+    padding-bottom: 10px; 
 }
 
 @media (max-width: 768px) {
     #footer-logo-container {
-        width: 70px;
+        width: 70px; 
     }
 }
 
 #footer-logo-container img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: contain; 
     z-index: 1005;
 }
 
@@ -262,29 +262,30 @@ body.menu-open .side-menu {
     top: 0;
     width: var(--right-panels-width-desktop);
     height: 100vh;
-    z-index: 1001;
+    z-index: 1001; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    background-color: transparent;
+    align-items: flex-start; 
+    background-color: transparent; 
     padding: 10px 0;
-    transform: translateX(0);
+    transform: translateX(0); 
     transition: transform var(--transition-speed) ease;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
 body.menu-open .panels {
-    transform: translateX(0);
+    transform: translateX(0); 
 }
 
+/* Individual Panel */
 .pane {
-    width: 100%;
-    height: auto;
-    margin: 10px 0;
-    background-size: contain;
+    width: 100%; 
+    height: auto; 
+    margin: 10px 0;  
+    background-size: contain;  
     background-repeat: no-repeat;
     background-position: center;
-    background-color: transparent;
+    background-color: transparent; 
 }
 
 .pane img {
@@ -293,8 +294,8 @@ body.menu-open .panels {
     max-height: calc((100vh / 8) + 200px);
     object-fit: contain;
     display: block;
-    margin: 0;
-    padding: 0;
+    margin: 0; 
+    padding: 0; 
 }
 
 /* Title Section */
@@ -314,7 +315,7 @@ body.menu-open .panels {
 }
 
 .title {
-    width: 100px;
+    width: 100px; 
     height: auto;
     transition: transform var(--transition-speed) ease;
 }
@@ -333,13 +334,14 @@ body.menu-open .panels {
     margin: 5px 0 0 0;
 }
 
-/* Main Sections */
+/* Adjust Section Contents Positioning */
 .section {
-    margin-top: 10px;
-    padding-top: 0;
+    margin-top: 10px; 
+    padding-top: 0; 
     border-bottom: 1px solid var(--line-color);
     padding-bottom: 1em;
     margin-bottom: 1em;
+
     margin-left: var(--section-margin-left);
     padding-left: var(--section-padding-left);
     margin-right: var(--section-margin-right);
@@ -349,22 +351,23 @@ body.menu-open .panels {
         padding-left var(--transition-speed) ease,
         margin-right var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
+
     text-align: var(--section-text-align-desktop);
 }
 
 body.menu-open {
-    --section-margin-left: 10px;
+    --section-margin-left: 10px; 
     --section-padding-left: 10px;
     --section-margin-right: 10px;
     --section-padding-right: 10px;
 }
 
-/* Main Content */
+/* Ensure Section Contents are 10px Below Title */
 #main-content {
     position: relative;
-    z-index: 50;
-    width: 80%;
-    max-width: 800px;
+    z-index: 50; 
+    width: 80%; 
+    max-width: 800px; 
     padding: 20px;
     padding-bottom: var(--footer-height);
     transition: 
@@ -373,12 +376,12 @@ body.menu-open {
         padding-left var(--transition-speed) ease,
         padding-right var(--transition-speed) ease;
     color: var(--text-color);
-    margin: 40px auto 60px auto;
-    text-align: var(--section-text-align-desktop);
+    margin: 40px auto 60px auto; 
+    text-align: var(--section-text-align-desktop); 
     font-size: 1em;
 }
 
-/* Correct for desktop menu open */
+/* Corrected: Adjust main content without shifting on desktop */
 @media (min-width: 769px) {
     body.menu-open #main-content {
         margin-left: auto;
@@ -386,17 +389,17 @@ body.menu-open {
     }
 }
 
-/* Mobile Adjustments */
+/* Adjustments for Mobile */
 @media (max-width: 768px) {
     #main-content {
-        width: 90%;
-        margin: 40px auto 60px auto;
-        padding: 10px 5%;
-        max-width: 100%;
+        width: 90%; 
+        margin: 40px auto 60px auto; 
+        padding: 10px 5%; 
+        max-width: 100%; 
     }
 
     .title-section .title-container img.title {
-        width: 80px;
+        width: 80px; 
     }
 
     .title-text h1 {
@@ -408,20 +411,20 @@ body.menu-open {
     }
 
     .side-menu {
-        width: var(--side-menu-width-mobile);
+        width: var(--side-menu-width-mobile); 
     }
 
     .side-menu a {
-        align-items: center;
+        align-items: center; 
     }
 
     #menu-icon-container img {
-        width: var(--menu-icon-size-mobile);
+        width: var(--menu-icon-size-mobile); 
         height: var(--menu-icon-size-mobile);
     }
 
     body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2%);
+        margin-left: calc(var(--side-menu-width-mobile) + 2%); 
         margin-right: calc(var(--right-panels-width-mobile) + 2%);
         width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4%);
     }
@@ -437,7 +440,7 @@ body.menu-open {
 
     body.menu-open .section {
         margin-left: var(--section-margin-left-mobile);
-        padding-left: var(--section-padding-left-mobile);
+        padding-left: var(--section-padding-left-mobile);  
         margin-right: var(--section-margin-right-mobile);
         padding-right: var(--section-padding-right-mobile);
     }
@@ -447,31 +450,49 @@ body.menu-open {
     }
 }
 
+/* Additional Media Query for Mobile (<480px) */
 @media (max-width: 480px) {
     .panels {
-        transform: translateX(100%);
+        transform: translateX(100%); 
         width: var(--right-panels-width-mobile);
-        overflow: hidden;
+        overflow: hidden; 
     }
+
     body.menu-open .panels {
-        transform: translateX(0);
+        transform: translateX(0); 
     }
+
     body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2px);
-        margin-right: calc(var(--right-panels-width-mobile) + 2px);
+        margin-left: calc(var(--side-menu-width-mobile) + 2px); 
+        margin-right: calc(var(--right-panels-width-mobile) + 2px); 
         width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
     }
+
     #main-content {
         max-width: 100%;
     }
 }
 
-/* No Horizontal Overflow */
-body {
-    overflow-x: hidden;
+/* Content Styling */
+#main-content h1 {
+    margin-top: 0;
+    font-size: 2em;
 }
 
-/* Poetry Section */
+#main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+#main-content a {
+    color: var(--link-color);
+}
+
+#main-content a:hover {
+    color: var(--highlight-color);
+}
+
+/* Poetry Section Styling */
 #poems-container {
     padding: 20px;
     max-width: 1200px;
@@ -563,17 +584,20 @@ body {
     }
 }
 
-/* Matrix Poem */
+/* Matrix Poem Styling */
 .matrix-poem-wrapper {
     display: flex;
     justify-content: center;
 }
+
 .matrix-poem-wrapper .poem-text {
     text-align: center;
 }
+
 .matrix-poem-wrapper table {
     margin: 0 auto;
 }
+
 .matrix-poem-wrapper td {
     font-size: 1em;
     padding: 2px 2px;
@@ -583,7 +607,7 @@ body {
 footer {
     padding: 1em 0;
     text-align: center;
-    border-top: 1px solid var(--line-color);
+    border-top: 1px solid var(--line-color); 
     background-color: var(--background-color);
     position: fixed;
     bottom: 0;
@@ -593,7 +617,7 @@ footer {
     transition: 
         transform var(--transition-speed) ease,
         background-color var(--transition-speed) ease;
-    cursor: pointer;
+    cursor: pointer; 
     transform: translateY(0);
 }
 
@@ -689,6 +713,82 @@ footer #theme-toggle img {
     }
 }
 
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
+
+@media (max-width: 480px) {
+    .panels {
+        transform: translateX(100%); 
+        width: var(--right-panels-width-mobile); 
+        overflow: hidden; 
+    }
+
+    body.menu-open .panels {
+        transform: translateX(0);
+    }
+
+    body.menu-open #main-content {
+        margin-left: calc(var(--side-menu-width-mobile) + 2px);
+        margin-right: calc(var(--right-panels-width-mobile) + 2px);
+        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
+    }
+
+    #main-content {
+        max-width: 100%;
+    }
+}
+
+/* Ensure No Horizontal Overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* Optional: Adjust Poetry Headers and Lines */
+.poetry-collection {
+    border-bottom: 2px solid var(--line-color);
+}
+
+.collection-header,
+.poem-header {
+    font-size: 1.75em; 
+}
+
+.toggle-icon {
+    font-size: 2em; 
+}
+
+/* Adjust Main Content Font Size */
+#main-content {
+    font-size: 1em;
+}
+
+@media (min-width: 1200px) {
+    #main-content {
+        font-size: 1.2em;
+    }
+}
+
+/* Ensure Sections Transition Smoothly */
+.section {
+    transition: 
+        margin-left var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        margin-right var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+}
+
+/* Footer Hover Effects */
+footer:hover {
+    background-color: var(--highlight-color);
+}
+
 /* Focus Styles for Interactive Elements */
 #menu-icon-container:focus,
 #footer-toggle:focus,
@@ -697,22 +797,9 @@ footer #theme-toggle img {
     outline-offset: 2px;
 }
 
-/* Footer hover effect (optional) */
-footer:hover {
-    background-color: var(--highlight-color);
-}
+/* ... your existing CSS ... */
 
-/* Extra space so poems won't hide behind footer */
-#main-content {
-    padding-bottom: calc(var(--footer-height) + 100px);
-}
-
-/* Reading Overlay (inlined in script) */
-#reading-overlay {
-    /* intentionally blank */
-}
-
-/* Side Menu (duplicate) with higher z-index for menu icon */
+/* Side Menu (duplicate but with higher z-index) */
 .side-menu {
     position: fixed;
     top: 0;
@@ -720,7 +807,7 @@ footer:hover {
     width: var(--side-menu-width-desktop);
     height: 100%;
     background-color: var(--background-color);
-    z-index: 1005;
+    z-index: 1005; 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -733,25 +820,36 @@ footer:hover {
     transform: translateX(-100%);
 }
 
-/* The hamburger menu container can stay with a high z-index as well */
+/* The hamburger menu container can stay with a high z-index */
 #menu-icon-container {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 1006;
+    z-index: 1006; 
     cursor: pointer;
 }
 
-/* ------------------------------------------------------------------
-   END: Your Original ~900-Line styles (all integrated)
-   ------------------------------------------------------------------ */
+/* Ensure #main-content has sufficient bottom space so poems don’t hide behind the footer */
+#main-content {
+    padding-bottom: calc(var(--footer-height) + 100px);
+}
 
+/* Reading Overlay (added a minimal style here) */
+#reading-overlay {
+    /* intentionally left blank here, as it’s inlined in script */
+}
+
+
+/* ------------------------------------------------------------------
+   END: Your Original ~900-Line styles
+   ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------
    BEGIN: Contact Form Enhancements
    ------------------------------------------------------------------ */
 
-/* These styles ensure the contact form fields are stacked nicely
+/* 
+   Ensures the contact form fields are stacked nicely
    and the Turnstile widget has proper spacing.
 */
 
@@ -802,11 +900,12 @@ footer:hover {
     background-color: var(--line-color);
 }
 
-/* Ensure the Turnstile widget is displayed properly (normal size) */
+/* Ensure Turnstile widget is displayed properly (normal size) */
 .cf-turnstile {
     display: block;
     margin: 20px 0;
 }
+
 /* ------------------------------------------------------------------
    END: Contact Form Enhancements
    ------------------------------------------------------------------ */
