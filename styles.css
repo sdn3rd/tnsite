@@ -64,11 +64,12 @@
 
 /* Light Theme Variables */
 [data-theme="light"] {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --line-color: #000000;
-    --highlight-color: #f0f0f0;
-    --link-color: #000000;
+    /* Color Scheme */
+    --background-color: #000000;
+    --text-color: #ffffff;
+    --line-color: #ffffff;
+    --highlight-color: #333333;
+    --link-color: #ffffff;
 }
 
 /* Body Styles */

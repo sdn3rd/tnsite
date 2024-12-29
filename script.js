@@ -159,7 +159,7 @@ function updateAllIcons(theme) {
         // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
-                const altSrc = src.replace('.png', '_alt.png');
+                const altSrc = src.replace('.png', '.png');
                 img.setAttribute('src', altSrc);
                 console.log(`Switched ${src} to ${altSrc}`);
             }
