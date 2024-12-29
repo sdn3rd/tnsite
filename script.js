@@ -78,15 +78,11 @@ function initializePage() {
    THEME FUNCTIONS (MAIN SITE)
 ---------------------------------- */
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        console.log(`Applying saved theme: ${savedTheme}`);
-        applyTheme(savedTheme);
-    } else {
-        console.log('No saved theme found, detecting OS theme preference.');
-        detectOSTheme();
-    }
+    const theme = 'dark';
+    console.log(`Setting theme to ${theme}`);
+    applyTheme(theme);
 }
+
 
 function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
