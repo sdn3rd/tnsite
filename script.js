@@ -1,6 +1,8 @@
-// script.js is loaded and running.
 console.log('script.js is loaded and running.');
 
+/* ----------------------------------
+   DOMContentLoaded Initialization
+---------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded event fired.');
     initializePage();
@@ -8,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializePage() {
     console.log('Initializing page...');
-    initializeTheme();
-    addEventListeners();
-    loadSection('introduction'); // Load the default section
+    initializeTheme();           // from main site logic
+    addEventListeners();         // hamburger menu, footer toggles, etc.
+    loadSection('introduction'); // default section load
     updateYear();
     updatePatreonIcon();
-    duplicatePanes(); // Call the duplicatePanes function after initialization
-    adjustPaneImages(); // Adjust pane images on load
+    duplicatePanes();           // sets up right panes
+    adjustPaneImages();         // adjusts right pane images on load
 }
 
-/* ------------------ Theme functions ------------------ */
+/* ------------------ THEME FUNCTIONS (MAIN SITE) ------------------ */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -35,7 +37,7 @@ function applyTheme(theme) {
     localStorage.setItem('theme', theme);
     updateThemeIcon(theme);
     updatePatreonIcon();
-    updateAllIcons(theme); // Update all icons based on the current theme
+    updateAllIcons(theme);
 }
 
 function detectOSTheme() {
@@ -70,33 +72,32 @@ function updatePatreonIcon() {
     }
 }
 
-/* Update all icons based on the current theme */
+/* Update all icons based on theme (avoid changing pane images) */
 function updateAllIcons(theme) {
     console.log(`Updating all icons to ${theme} mode.`);
     const images = document.querySelectorAll('img');
 
     images.forEach(img => {
-        // Exclude images inside the theme toggle button
+        // Skip theme-toggle icon
         if (img.closest('#theme-toggle')) {
             return;
         }
-
-        // Exclude pane images by checking if the filename starts with 'pane' or has the 'pane-image' class
+        // Skip pane images
         const src = img.getAttribute('src');
         if (src && (src.includes('/pane') || src.match(/pane\\d+\\.png$/))) {
-            console.log(`Excluding pane image: ${src}`);
             return;
         }
 
         if (src) {
-            // Skip images that already have _alt in their filename when switching to light
+            // Switch to alt if light theme
             if (theme === 'light') {
                 if (!src.includes('_alt') && src.endsWith('.png')) {
                     const altSrc = src.replace('.png', '_alt.png');
                     img.setAttribute('src', altSrc);
                     console.log(`Switched ${src} to ${altSrc}`);
                 }
-            } else { // theme === 'dark'
+            } else {
+                // Switch back to dark if ends with _alt
                 if (src.includes('_alt') && src.endsWith('_alt.png')) {
                     const darkSrc = src.replace('_alt.png', '.png');
                     img.setAttribute('src', darkSrc);
@@ -107,17 +108,16 @@ function updateAllIcons(theme) {
     });
 }
 
-/* ------------------ Event Listeners ------------------ */
+/* ------------------ EVENT LISTENERS (MENU, FOOTER, ETC.) ------------------ */
 function addEventListeners() {
     // Theme Toggle in Footer
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
     if (themeToggleFooter) {
         themeToggleFooter.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent triggering footer collapse
+            event.stopPropagation();
             toggleTheme();
             console.log('Theme toggle in footer clicked.');
         });
-        console.log('Added event listener for theme toggle in footer.');
     } else {
         console.warn('Theme toggle in footer not found.');
     }
@@ -130,8 +130,6 @@ function addEventListeners() {
             document.body.classList.toggle('menu-open');
             console.log('Menu toggled: menu-open class added/removed.');
         });
-
-        // Enable keyboard accessibility for hamburger menu
         hamburgerMenu.addEventListener('keypress', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
@@ -163,17 +161,16 @@ function addEventListeners() {
             event.preventDefault();
             const section = this.getAttribute('data-section');
             loadSection(section);
-            document.body.classList.remove('menu-open'); // Close the menu
+            document.body.classList.remove('menu-open'); // close the menu
             console.log(`Menu item clicked: ${section}. Menu closed.`);
         });
-
-        // Enable keyboard accessibility for menu items
+        // Keyboard accessibility
         item.addEventListener('keypress', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 const section = this.getAttribute('data-section');
                 loadSection(section);
-                document.body.classList.remove('menu-open'); // Close the menu
+                document.body.classList.remove('menu-open');
                 console.log(`Menu item clicked via keyboard: ${section}. Menu closed.`);
             }
         });
@@ -183,16 +180,15 @@ function addEventListeners() {
     const footer = document.querySelector('footer');
     const footerToggle = document.getElementById('footer-toggle');
     const footerToggleIcon = document.getElementById('footer-toggle-icon');
-
     if (footer && footerToggle && footerToggleIcon) {
-        // Make entire footer clickable to collapse
         footer.addEventListener('click', (event) => {
-            // If the click is on the footer-toggle or theme toggle, do nothing
-            if (footerToggle.contains(event.target) || document.getElementById('theme-toggle').contains(event.target)) {
+            if (
+                footerToggle.contains(event.target) ||
+                document.getElementById('theme-toggle').contains(event.target)
+            ) {
                 return;
             }
             footer.classList.toggle('footer-collapsed');
-            // Toggle arrow direction
             if (footer.classList.contains('footer-collapsed')) {
                 footerToggleIcon.textContent = '^';
             } else {
@@ -201,11 +197,9 @@ function addEventListeners() {
             console.log('Footer toggled by clicking on footer.');
         });
 
-        // Ensure the toggle icon itself does not trigger the footer collapse when clicked
         footerToggle.addEventListener('click', (event) => {
             event.stopPropagation();
             footer.classList.toggle('footer-collapsed');
-            // Toggle arrow direction
             if (footer.classList.contains('footer-collapsed')) {
                 footerToggleIcon.textContent = '^';
             } else {
@@ -214,12 +208,10 @@ function addEventListeners() {
             console.log('Footer toggled by clicking on toggle icon.');
         });
 
-        // Enable keyboard accessibility for footer toggle
         footerToggle.addEventListener('keypress', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 footer.classList.toggle('footer-collapsed');
-                // Toggle arrow direction
                 if (footer.classList.contains('footer-collapsed')) {
                     footerToggleIcon.textContent = '^';
                 } else {
@@ -236,15 +228,18 @@ function addEventListeners() {
     window.addEventListener('resize', adjustPaneImages);
 }
 
-/* ------------------ Section Loading ------------------ */
+/* ------------------ SECTION LOADING ------------------ */
 function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
+    } else if (section === 'contact') {
+        loadContactSection();
     } else {
         loadContentSection(section);
     }
 }
 
+/* ------------------ LOAD REGULAR CONTENT SECTION FROM sections.json ------------------ */
 function loadContentSection(sectionId) {
     console.log(`Loading section: ${sectionId}`);
     fetch('sections.json')
@@ -254,7 +249,7 @@ function loadContentSection(sectionId) {
             const contentDiv = document.getElementById('main-content');
             if (section) {
                 contentDiv.innerHTML = markdownToHTML(section.content);
-                // Show the title section
+                // show the title section
                 document.querySelector('.title-section').style.display = 'block';
             } else {
                 contentDiv.innerHTML = '<p>Section not found.</p>';
@@ -267,7 +262,7 @@ function loadContentSection(sectionId) {
         });
 }
 
-/* ------------------ Poetry Section ------------------ */
+/* ------------------ POETRY SECTION ------------------ */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     const contentDiv = document.getElementById('main-content');
@@ -284,15 +279,13 @@ function loadPoetrySection() {
             displayPoetry(poemsByCategory, poetryContainer);
         } catch (parseError) {
             console.error('Error parsing cached poems:', parseError);
-            // Remove corrupted cache
             localStorage.removeItem('cached_poems');
-            console.warn('Corrupted cached poems removed.');
         }
     } else {
         console.log('No cached poems found.');
     }
 
-    // Attempt to fetch fresh poems
+    // Fetch fresh poems
     fetch('https://spectraltapestry.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
@@ -316,55 +309,40 @@ function loadPoetrySection() {
             console.log('Poems categorized:', poemsByCategory);
             displayPoetry(poemsByCategory, poetryContainer);
 
-            // Cache the fetched poems
-            try {
-                localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
-                console.log('Poems cached successfully.');
-            } catch (e) {
-                console.error('Failed to cache poems:', e);
-            }
+            // Cache them
+            localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+            console.log('Poems cached successfully.');
         })
         .catch(error => {
             console.error('Error loading poetry:', error);
-            // If no poems were loaded from cache, display error
             if (!cachedPoems) {
                 displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
             }
-            // Else, poems from cache are already displayed
         });
 }
 
 function categorizePoems(poems) {
     console.log('Categorizing poems...');
     const categories = {};
-
     poems.forEach(poem => {
         const category = poem.category || 'Throwetry';
-
         if (!categories[category]) {
             categories[category] = [];
         }
         categories[category].push(poem);
     });
-
-    console.log('Categorized poems:', categories);
     return categories;
 }
 
-/**
- * Display poetry with collapsible sections and poems.
- * Also adds a "reading popup" for mobile by tapping the poem text (if not matrix/puzzle).
- */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
         container.innerHTML = '<p>No poems found.</p>';
         return;
     }
+    container.innerHTML = '';
 
-    container.innerHTML = ''; // Clear container
-
-    // Sort the collections alphabetically, placing 'Throwetry' last if it exists
+    // Sort the collections
     const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
         if (a[0] === 'Throwetry') return 1;
         if (b[0] === 'Throwetry') return -1;
@@ -372,7 +350,7 @@ function displayPoetry(poemsByCategory, container) {
     });
 
     for (const [collectionName, poems] of sortedCollections) {
-        // Create collection wrapper
+        // Collection wrapper
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
 
@@ -386,11 +364,10 @@ function displayPoetry(poemsByCategory, container) {
         // Collection content
         const collectionContent = document.createElement('div');
         collectionContent.classList.add('collection-content');
-        collectionContent.style.display = 'none'; // collapsed initially
+        collectionContent.style.display = 'none';
 
-        // Sort poems alphabetically by title
+        // Sort poems by title
         const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
-
         sortedPoems.forEach(poem => {
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
@@ -405,17 +382,15 @@ function displayPoetry(poemsByCategory, container) {
             const poemContent = document.createElement('div');
             poemContent.classList.add('poem-content');
             poemContent.style.display = 'none';
-            // Insert poem text, replacing linebreaks
             poemContent.innerHTML = poem.content.replace(/\n/g, '<br>');
 
             poemWrapper.appendChild(poemHeader);
             poemWrapper.appendChild(poemContent);
+            collectionContent.appendChild(poemWrapper);
 
-            // Click handling for poem header
             poemHeader.addEventListener('click', () => {
                 const isVisible = poemContent.style.display === 'block';
-
-                // Collapse all poems in this collection
+                // Collapse all in this collection
                 const allPoemContents = collectionContent.querySelectorAll('.poem-content');
                 allPoemContents.forEach(pc => (pc.style.display = 'none'));
                 const allPoemHeaders = collectionContent.querySelectorAll('.poem-header .toggle-icon');
@@ -427,36 +402,32 @@ function displayPoetry(poemsByCategory, container) {
                 } else {
                     poemContent.style.display = 'block';
                     poemHeader.querySelector('.toggle-icon').textContent = '−';
-                    // Scroll poem to top in a way that leaves space for the footer
                     poemWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
 
-            // Keyboard accessibility for poem headers
+            // Keyboard accessibility
             poemHeader.setAttribute('tabindex', '0');
             poemHeader.addEventListener('keypress', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
-                    poemHeader.click(); // reuse the click handler
+                    poemHeader.click();
                 }
             });
 
-            // ADD READING POPUP FOR MOBILE
+            // Reading popup for mobile
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
-                // When tapping on the poem text itself, open reading mode
                 poemContent.addEventListener('click', (evt) => {
-                    evt.stopPropagation(); // Prevent collapsing
+                    evt.stopPropagation();
                     enterReadingMode(poem);
                 });
             }
-
-            collectionContent.appendChild(poemWrapper);
         });
 
         collectionWrapper.appendChild(collectionContent);
         container.appendChild(collectionWrapper);
 
-        // Collection header collapse/expand
+        // Expand/collapse entire collection
         collectionHeader.addEventListener('click', () => {
             const isVisible = collectionContent.style.display === 'block';
             if (isVisible) {
@@ -468,30 +439,212 @@ function displayPoetry(poemsByCategory, container) {
             }
         });
 
-        // Keyboard accessibility for collection headers
+        // Keyboard accessibility
         collectionHeader.setAttribute('tabindex', '0');
         collectionHeader.addEventListener('keypress', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                collectionHeader.click(); // reuse the click handler
+                collectionHeader.click();
             }
         });
     }
 }
 
-/* ------------------ Reading Popup for Mobile ------------------ */
+/* ------------------ CONTACT SECTION (MOVED FROM contact.html) ------------------ */
+function loadContactSection() {
+    console.log('Loading contact section...');
+    // Insert the contact form HTML into #main-content
+    const contentDiv = document.getElementById('main-content');
+    document.querySelector('.title-section').style.display = 'none'; // hide the main title if you prefer
+    contentDiv.innerHTML = `
+        <div id="contact-form-container">
+            <h1 id="page-title">Leave feedback or request for takedown</h1>
+            <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev">
+                <label for="email" id="email-label">Your Email (optional):</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com">
+
+                <label for="message" id="message-label">Your Message:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <!-- Cloudflare Turnstile Widget -->
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyqLP0723YQLCis"></div>
+
+                <button type="submit" id="submit-button">Send</button>
+            </form>
+        </div>
+
+        <!-- (Optional) Volume Slider -->
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
+    `;
+
+    // Call the initialization that was originally in contact.js
+    initializeContactPage();
+}
+
+/* The logic from contact.js, merged here */
+function initializeContactPage() {
+    console.log('Initializing Contact Page...');
+    initializeLanguageForContact();
+    initializeVolumeForContact();
+    addContactEventListeners();
+    contactFormCookieCheck();
+    // Re-apply current theme, to ensure correct toggles
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    updateThemeIcon(currentTheme);
+}
+
+/* ----- LANGUAGE ----- */
+let currentContactLanguage = 'en';
+
+function initializeLanguageForContact() {
+    let storedLanguage = localStorage.getItem('language');
+    if (!storedLanguage) {
+        const lang = navigator.language || navigator.userLanguage;
+        currentContactLanguage = lang.startsWith('it') ? 'it' : 'en';
+        localStorage.setItem('language', currentContactLanguage);
+    } else {
+        currentContactLanguage = storedLanguage;
+    }
+    setContactLanguage();
+}
+
+function setContactLanguage() {
+    document.documentElement.setAttribute('lang', currentContactLanguage);
+    const langToggleBtn = document.getElementById('lang-toggle');
+    if (langToggleBtn) {
+        langToggleBtn.innerText = currentContactLanguage === 'en' ? 'Ita' : 'Eng';
+    }
+    updateContactText(currentContactLanguage);
+}
+
+function toggleContactLanguage() {
+    currentContactLanguage = currentContactLanguage === 'en' ? 'it' : 'en';
+    localStorage.setItem('language', currentContactLanguage);
+    setContactLanguage();
+}
+
+function updateContactText(lang) {
+    const elementsToUpdate = [
+        { id: 'page-title', en: 'Leave feedback or request for takedown', it: 'Lascia un feedback o richiedi la rimozione' },
+        { id: 'email-label', en: 'Your Email (optional):', it: 'La tua email (opzionale):' },
+        { id: 'message-label', en: 'Your Message:', it: 'Il tuo messaggio:' },
+        { id: 'submit-button', en: 'Send', it: 'Invia' }
+    ];
+    elementsToUpdate.forEach(element => {
+        const el = document.getElementById(element.id);
+        if (el) {
+            el.textContent = (lang === 'en') ? element.en : element.it;
+        }
+    });
+}
+
+/* ----- VOLUME ----- */
+function initializeVolumeForContact() {
+    const volumeSlider = document.getElementById('volume-slider');
+    const backgroundAudio = document.getElementById('background-audio');
+    const savedVolume = localStorage.getItem('volume') || 0;
+    if (volumeSlider && backgroundAudio) {
+        volumeSlider.value = savedVolume;
+        backgroundAudio.volume = savedVolume;
+        if (savedVolume > 0) {
+            backgroundAudio.muted = false;
+            backgroundAudio.play();
+        }
+        volumeSlider.addEventListener('input', function () {
+            backgroundAudio.volume = this.value;
+            localStorage.setItem('volume', this.value);
+            if (this.value > 0) {
+                backgroundAudio.muted = false;
+                backgroundAudio.play();
+            } else {
+                backgroundAudio.muted = true;
+                backgroundAudio.pause();
+            }
+        });
+    }
+}
+
+/* ----- CONTACT EVENT LISTENERS ----- */
+function addContactEventListeners() {
+    // If you want a language toggle button inside the contact form, you can dynamically add it or store it in the menu
+    // For example, if you have a #lang-toggle button somewhere in the contact form, you can do:
+    const langToggleBtn = document.getElementById('lang-toggle');
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', toggleContactLanguage);
+    }
+}
+
+/* ----- COOKIE HANDLING / FORM SUBMISSION CHECK ----- */
+function contactFormCookieCheck() {
+    // This replicates the logic from your script in contact.html
+    function getQueryParams() {
+        const params = {};
+        window.location.search.substring(1).split("&").forEach(function(part) {
+            const [key, value] = part.split("=");
+            if (key) params[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return params;
+    }
+
+    function setCookie(name, value, hours) {
+        const d = new Date();
+        d.setTime(d.getTime() + (hours*60*60*1000));
+        const expires = "expires="+ d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    function getCookie(name) {
+        const cname = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(cname) === 0) {
+                return c.substring(cname.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function disableContactFormAndButton() {
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.style.display = 'none';
+            const message = document.createElement('p');
+            message.textContent = "You have already contacted us. Please try again in 24 hours.";
+            message.style.color = 'gray';
+            message.style.marginTop = '20px';
+            contactForm.parentNode.appendChild(message);
+        }
+    }
+
+    const params = getQueryParams();
+    if (params.submitted && params.submitted === "true") {
+        setCookie('formSubmitted', 'true', 24);
+        if (window.history.replaceState) {
+            const url = new URL(window.location);
+            url.searchParams.delete('submitted');
+            window.history.replaceState({}, document.title, url.pathname);
+        }
+        disableContactFormAndButton();
+    }
+
+    const formSubmitted = getCookie('formSubmitted');
+    if (formSubmitted === "true") {
+        disableContactFormAndButton();
+    }
+}
+
+/* ------------------ READING OVERLAY (MOBILE) ------------------ */
 function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 }
 
-// Creates an overlay to display poem text in reading mode
 function enterReadingMode(poem) {
-    // If an overlay already exists, remove it first
     const existingOverlay = document.getElementById('reading-overlay');
     if (existingOverlay) {
         existingOverlay.remove();
     }
-
     const overlay = document.createElement('div');
     overlay.id = 'reading-overlay';
     overlay.style.position = 'fixed';
@@ -499,7 +652,7 @@ function enterReadingMode(poem) {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'; // dark overlay
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
     overlay.style.color = '#fff';
     overlay.style.zIndex = '9999';
     overlay.style.overflowY = 'auto';
@@ -519,19 +672,17 @@ function enterReadingMode(poem) {
     const poemText = document.createElement('div');
     poemText.innerHTML = poem.content.replace(/\n/g, '<br>');
 
-    // Append everything
     overlay.appendChild(closeBtn);
     overlay.appendChild(poemTitle);
     overlay.appendChild(poemText);
     document.body.appendChild(overlay);
 
-    // Close button handler
     closeBtn.addEventListener('click', () => {
         overlay.remove();
     });
 }
 
-/* ------------------ Utility Functions ------------------ */
+/* ------------------ UTILITY FUNCTIONS ------------------ */
 function markdownToHTML(text) {
     return text
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
@@ -558,30 +709,27 @@ function updateYear() {
     }
 }
 
-/* Duplicate panes for the right side images */
+/* -------------- RIGHT PANES DUPLICATION & ADJUSTMENT -------------- */
 function duplicatePanes() {
     const panels = document.querySelector('.panels');
     if (!panels) {
         console.warn('Panels container not found.');
         return;
     }
-
     const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
     const initialPaneCount = masterPanes.length;
 
-    // Remove extra
+    // remove extra
     const allPanes = Array.from(panels.querySelectorAll('.pane'));
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
             panels.removeChild(pane);
-            console.log(`Removed extra pane: index ${index}`);
         }
     });
 
-    // Add up to desired
+    // ensure we have 8 total
     const currentPaneCount = panels.querySelectorAll('.pane').length;
     const desiredPaneCount = 8;
-
     for (let i = currentPaneCount; i < desiredPaneCount; i++) {
         const masterPane = masterPanes[i % masterPanes.length];
         const clone = masterPane.cloneNode(true);
@@ -589,16 +737,11 @@ function duplicatePanes() {
         const clonedImg = clone.querySelector('img');
         if (clonedImg) {
             clonedImg.classList.add('pane-image');
-            console.log(`Cloned pane image: ${clonedImg.src}`);
         }
         panels.appendChild(clone);
-        console.log(`Added cloned pane number ${i + 1}`);
     }
-
-    console.log('Duplicate panes have been reset to the master list.');
 }
 
-/* Adjust pane images based on viewport height */
 function adjustPaneImages() {
     console.log('Adjusting pane images based on viewport height.');
     const panesContainer = document.querySelector('.panels');
@@ -606,7 +749,6 @@ function adjustPaneImages() {
         console.warn('Panels container not found.');
         return;
     }
-
     const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8);
     const viewportHeight = window.innerHeight;
     const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720
@@ -614,11 +756,9 @@ function adjustPaneImages() {
 
     let extraHeight = viewportHeight - baseThreshold;
     let additionalPanes = 0;
-
     if (extraHeight > 0) {
         additionalPanes = Math.floor(extraHeight / extraPaneThreshold);
     }
-
     const totalPanesNeeded = 8 + additionalPanes;
     const currentPanes = panesContainer.querySelectorAll('.pane').length;
 
@@ -630,69 +770,28 @@ function adjustPaneImages() {
             const clonedImg = clone.querySelector('img');
             if (clonedImg) {
                 clonedImg.classList.add('pane-image');
-                console.log(`Cloned pane image: ${clonedImg.src}`);
             }
             panesContainer.appendChild(clone);
-            console.log(`Added pane clone number ${i + 1}`);
         }
     } else if (currentPanes > totalPanesNeeded) {
         for (let i = currentPanes; i > totalPanesNeeded; i--) {
             const paneToRemove = panesContainer.querySelectorAll('.pane')[i - 1];
             panesContainer.removeChild(paneToRemove);
-            console.log(`Removed pane clone number ${i}`);
         }
     }
 
     const paneImages = panesContainer.querySelectorAll('.pane img');
     const calculatedMaxHeight = (viewportHeight / 8) + 200;
-
     paneImages.forEach(img => {
         img.style.maxHeight = `${calculatedMaxHeight}px`;
         img.style.height = 'auto';
-        console.log(`Set image max-height to ${calculatedMaxHeight}px for viewport height ${viewportHeight}px.`);
     });
-
     panesContainer.style.justifyContent = 'flex-start';
 }
 
 function formatCollectionName(name) {
-    // Replace underscores with spaces and split into words
     return name
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
-}
-
-/* ------------------ Service Worker Registration ------------------ */
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('Service Worker registered with scope:', registration.scope);
-                
-                // Listen for updates
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    console.log('New Service Worker found:', newWorker);
-                    
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed') {
-                            if (navigator.serviceWorker.controller) {
-                                // New update available
-                                console.log('New Service Worker installed.');
-                                // Optionally, prompt
-                                if (confirm('New version available. Reload to update?')) {
-                                    window.location.reload();
-                                }
-                            } else {
-                                console.log('Content cached for offline use.');
-                            }
-                        }
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
 }

@@ -4,7 +4,7 @@
     <!-- Meta Tags and SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tristan Nuvola - Poetry & Reflections</title>
+    <title>Tristan Nuvola - Main</title>
     <meta name="description" content="Explore the profound and introspective poetry of Tristan Nuvola, weaving words like silk into a universe of emotion and depth.">
     <meta name="keywords" content="Tristan Nuvola, Poetry, Introspection, Emotion, Creative Writing, Autistic Poet, Cloud-Inspired, Literary Art">
     <meta name="author" content="Tristan Nuvola">
@@ -44,119 +44,159 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Include Dexie.js first -->
+    <!-- Dexie.js (only if needed) -->
     <script src="https://unpkg.com/dexie@3.0.3/dist/dexie.min.js"></script>
-    
-    <!-- Then include your main script with 'defer' -->
-    <script defer src="script.js"></script>
-    
+
+    <!-- Cloudflare Turnstile Widget (used for contact form) -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
+
 <body>
-    <!-- Menu Icon (Hamburger) -->
-    <div id="menu-icon-container" aria-label="Open Menu" role="button" tabindex="0">
-        <img src="icons/menu.png" alt="Menu Icon" id="hamburger-menu">
+    <!-- Hamburger menu icon -->
+    <div id="menu-icon-container" tabindex="0">
+        <img src="icons/menu.png" alt="Menu Icon">
+    </div>
+
+    <!-- Patreon icon container (top-right) -->
+    <div id="patreon-icon-container">
+        <img id="patreon-icon" src="icons/patreon.png" alt="Patreon Icon">
     </div>
 
     <!-- Side Menu -->
-    <nav id="side-menu" class="side-menu" aria-hidden="true">
+    <nav class="side-menu" id="side-menu">
         <ul>
+            <!-- Example: "Introduction" link using data-section -->
             <li>
-                <a href="#" data-section="introduction" id="introduction-link" aria-label="About Section">
-                    <img src="icons/about.png" alt="Introduction Icon" class="menu-icon">
+                <a href="#" data-section="introduction">
+                    <img class="menu-icon" src="icons/about.png" alt="About Icon">
                     <span class="menu-text">About</span>
                 </a>
             </li>
+            <!-- Poetry Section Link -->
             <li>
-                <a href="#" data-section="poetry" id="poetry-link" aria-label="Poetry Section">
-                    <img src="icons/poetry.png" alt="Poetry Icon" class="menu-icon">
+                <a href="#" data-section="poetry">
+                    <img class="menu-icon" src="icons/poetry.png" alt="Poetry Icon">
                     <span class="menu-text">Poetry</span>
                 </a>
             </li>
+            <!-- Contact Link: triggers loading of contact form from script.js -->
             <li>
-                <a href="#" data-section="books" id="books-link" aria-label="Books Section">
-                    <img src="icons/books.png" alt="Books Icon" class="menu-icon">
-                    <span class="menu-text">Books</span>
-                </a>
-            </li>
-            <li>
-                <!-- Changed from mailto: to contact.html -->
-                <a href="contact.html" id="contact-link" aria-label="Contact Section">
-                    <img src="icons/contact.png" alt="Contact Icon" class="menu-icon">
+                <a href="#" data-section="contact">
+                    <img class="menu-icon" src="icons/contact.png" alt="Contact Icon">
                     <span class="menu-text">Contact</span>
                 </a>
             </li>
         </ul>
+
+        <!-- Footer Logo in the side menu (optional) -->
+        <div id="footer-logo-container">
+            <img src="images/logo.png" alt="Footer Logo">
+        </div>
     </nav>
 
-    <!-- Panels (Pane Images) -->
-    <aside class="panels" role="complementary" aria-label="Additional Panels">
+    <!-- Right panels container (for side images) -->
+    <div class="panels">
         <div class="pane pane1">
-            <img src="images/pane1.png" alt="Pane 1" loading="lazy">
+            <img src="images/pane1.png" alt="Pane 1">
         </div>
         <div class="pane pane2">
-            <img src="images/pane2.png" alt="Pane 2" loading="lazy">
+            <img src="images/pane2.png" alt="Pane 2">
         </div>
         <div class="pane pane3">
-            <img src="images/pane3.png" alt="Pane 3" loading="lazy">
+            <img src="images/pane3.png" alt="Pane 3">
         </div>
         <div class="pane pane4">
-            <img src="images/pane4.png" alt="Pane 4" loading="lazy">
+            <img src="images/pane4.png" alt="Pane 4">
         </div>
         <div class="pane pane5">
-            <img src="images/pane5.png" alt="Pane 5" loading="lazy">
+            <img src="images/pane5.png" alt="Pane 5">
         </div>
         <div class="pane pane6">
-            <img src="images/pane6.png" alt="Pane 6" loading="lazy">
+            <img src="images/pane6.png" alt="Pane 6">
         </div>
         <div class="pane pane7">
-            <img src="images/pane7.png" alt="Pane 7" loading="lazy">
+            <img src="images/pane7.png" alt="Pane 7">
         </div>
         <div class="pane pane8">
-            <img src="images/pane8.png" alt="Pane 8" loading="lazy">
+            <img src="images/pane8.png" alt="Pane 8">
         </div>
-    </aside>
+    </div>
 
-    <!-- Title Section -->
-    <header class="title-section">
+    <!-- Title Section (you can hide/display as needed) -->
+    <div class="title-section">
         <div class="title-container">
-            <img src="images/title.png" alt="Title" class="title">
+            <img class="title" src="images/title.png" alt="Site Title">
         </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main id="main-content" tabindex="0" role="main">
-        <!-- Sections will be loaded here -->
-        <!-- Initially, the Introduction section will be displayed -->
-    </main>
-
-    <!-- Footer -->
-    <footer role="contentinfo">
-        <div id="footer-content">
-            <div class="social-media">
-                <a href="https://patreon.com/tristannuvola" target="_blank" id="patreon-link" aria-label="Patreon">
-                    <img src="icons/patreon.png" alt="Patreon Icon" id="patreon-icon" loading="lazy">
-                </a>
-                <a href="https://twitter.com/tristannuvola" target="_blank" aria-label="Twitter">
-                    <img src="icons/twitter.png" alt="Twitter Icon" loading="lazy">
-                </a>
-                <a href="https://www.instagram.com/adadandhismeat/" target="_blank" aria-label="Instagram">
-                    <img src="icons/instagram.png" alt="Instagram Icon" loading="lazy">
-                </a>
-            </div>
-            <p>&copy; <span id="year"></span> Tristan Nuvola. All rights reserved.</p>
-            <!-- Theme Toggle in Footer -->
-            <div id="theme-toggle" aria-label="Toggle Theme" role="button" tabindex="0">
-                <img src="icons/darkmode.png" alt="Toggle Theme Icon" loading="lazy">
-            </div>
+        <div class="title-text">
+            <h1>Tristan Nuvola</h1>
+            <p>Poetry & Reflections</p>
         </div>
-        <!-- Footer Toggle -->
-        <div id="footer-toggle" aria-label="Toggle Footer" role="button" tabindex="0">
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Content loaded dynamically from script.js (sections.json or contact form, etc.) -->
+    </div>
+
+    <!-- Floating Footer -->
+    <footer>
+        <div class="social-media">
+            <a href="https://twitter.com/tristannuvola" target="_blank"><img src="icons/twitter.png" alt="Twitter"></a>
+            <a href="https://instagram.com/tristannuvola" target="_blank"><img src="icons/instagram.png" alt="Instagram"></a>
+        </div>
+
+        <p>&copy; <span id="year"></span> Tristan Nuvola</p>
+
+        <!-- Toggle for theme in the footer -->
+        <div id="theme-toggle">
+            <img src="icons/lightmode.png" alt="Theme Toggle">
+        </div>
+
+        <!-- Footer collapse toggle -->
+        <div id="footer-toggle">
             <span id="footer-toggle-icon">v</span>
         </div>
-        <!-- Logo moved to Footer -->
-        <div id="footer-logo-container">
-            <img src="images/logo.png" alt="Logo" id="footer-logo" loading="lazy">
-        </div>
     </footer>
+
+    <!-- Audio element (optional) -->
+    <audio id="background-audio" loop muted></audio>
+
+    <!-- Main script (includes contact form logic) -->
+    <script src="script.js" defer></script>
+
+    <!-- Service Worker Registration (optional, can also be in script.js if you prefer) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                        
+                        // Listen for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            console.log('New Service Worker found:', newWorker);
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        // New update available
+                                        console.log('New Service Worker installed.');
+                                        if (confirm('New version available. Reload to update?')) {
+                                            window.location.reload();
+                                        }
+                                    } else {
+                                        console.log('Content cached for offline use.');
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-// sw.js
-
 const CACHE_NAME = 'site-cache-v1';
 const ASSETS_TO_CACHE = [
     '/',
@@ -43,7 +41,7 @@ const ASSETS_TO_CACHE = [
  */
 self.addEventListener('install', event => {
     console.log('[Service Worker] Install Event');
-    self.skipWaiting(); // Force the waiting Service Worker to become the active Service Worker
+    self.skipWaiting(); // Force the waiting Service Worker to become active
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
@@ -61,7 +59,7 @@ self.addEventListener('install', event => {
  */
 self.addEventListener('activate', event => {
     console.log('[Service Worker] Activate Event');
-    self.clients.claim(); // Become available to all pages
+    self.clients.claim();
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
@@ -127,17 +125,10 @@ self.addEventListener('fetch', event => {
     );
 });
 
-/**
- * Determines whether a given path should be cached.
- * @param {string} pathname - The path of the request.
- * @returns {boolean} - True if the path should be cached, false otherwise.
- */
 function shouldCache(pathname) {
-    // Define paths that should not be cached
+    // Define any paths that should NOT be cached
     const blacklist = [
-        '/sig', // Assuming /sig is an endpoint that shouldn't be cached
-        // Add more paths as needed
+        '/sig'
     ];
-
     return !blacklist.includes(pathname);
 }
