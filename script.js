@@ -1,3 +1,4 @@
+// script.js is loaded and running.
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -59,18 +60,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/* ----------------------------------
+   INITIALIZE PAGE
+---------------------------------- */
 function initializePage() {
     console.log('Initializing page...');
-    initializeTheme();           // from main site logic
-    addEventListeners();         // hamburger menu, footer toggles, etc.
+    initializeTheme();         // from main site logic
+    addEventListeners();       // hamburger menu, footer toggles, etc.
     loadSection('introduction'); // default section load
     updateYear();
     updatePatreonIcon();
-    duplicatePanes();           // sets up right panes
-    adjustPaneImages();         // adjusts right pane images on load
+    duplicatePanes();         // sets up right panes
+    adjustPaneImages();       // adjusts right pane images on load
 }
 
-/* ------------------ THEME FUNCTIONS (MAIN SITE) ------------------ */
+/* ----------------------------------
+   THEME FUNCTIONS (MAIN SITE)
+---------------------------------- */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -86,11 +92,11 @@ function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    // Removed the line that explicitly calls updateThemeIcon(theme)
-    // We'll rely on updateAllIcons(...) to handle the theme toggle icon now.
-
+    // Restore the old approach: set theme icon specifically,
+    // then update patreon, then run the skip-#theme-toggle logic
+    updateThemeIcon(theme);
     updatePatreonIcon();
-    updateAllIcons(theme);  // updates the theme toggle icon & others
+    updateAllIcons(theme);
 }
 
 function detectOSTheme() {
@@ -106,16 +112,32 @@ function toggleTheme() {
     applyTheme(newTheme);
 }
 
-/* 
-   Patreon icon: 
-   If data-theme=light => patreon_alt.png, else => patreon.png 
-*/
+/**
+ * updateThemeIcon(theme):
+ * If theme = 'light', set icon = 'icons/darkmode.png'
+ * If theme = 'dark',  set icon = 'icons/lightmode.png'
+ */
+function updateThemeIcon(theme) {
+    const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
+    themeToggleImages.forEach(themeIcon => {
+        themeIcon.src = (theme === 'light')
+            ? 'icons/darkmode.png'
+            : 'icons/lightmode.png';
+        console.log(`Theme toggle icon updated to: ${themeIcon.src}`);
+    });
+}
+
+/**
+ * updatePatreonIcon:
+ * If theme=light => patreon_alt.png
+ * else => patreon.png
+ */
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     if (patreonIcon) {
-        patreonIcon.src = currentTheme === 'light' 
-            ? 'icons/patreon_alt.png' 
+        patreonIcon.src = (currentTheme === 'light')
+            ? 'icons/patreon_alt.png'
             : 'icons/patreon.png';
         console.log(`Updated Patreon icon based on theme: ${currentTheme}`);
     } else {
@@ -133,24 +155,29 @@ function updateAllIcons(theme) {
     const images = document.querySelectorAll('img');
 
     images.forEach(img => {
-        const src = img.getAttribute('src');
-        if (!src) return;
-
-        // Skip pane images
-        if (src.includes('/pane') || src.match(/pane\\d+\\.png$/)) {
+        // Exclude images inside the theme toggle button
+        if (img.closest('#theme-toggle')) {
             return;
         }
 
-        // If theme=light => switch .png to _alt.png if not already
+        const src = img.getAttribute('src');
+        if (!src) return;
+
+        // Exclude pane images
+        if (src.includes('/pane') || src.match(/pane\d+\.png$/)) {
+            console.log(`Excluding pane image: ${src}`);
+            return;
+        }
+
+        // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
                 const altSrc = src.replace('.png', '_alt.png');
                 img.setAttribute('src', altSrc);
                 console.log(`Switched ${src} to ${altSrc}`);
             }
-        } 
-        // If theme=dark => switch _alt.png to .png
-        else {
+        } else {
+            // Switch back to dark if ends with _alt
             if (src.includes('_alt') && src.endsWith('_alt.png')) {
                 const darkSrc = src.replace('_alt.png', '.png');
                 img.setAttribute('src', darkSrc);
@@ -160,7 +187,9 @@ function updateAllIcons(theme) {
     });
 }
 
-/* ------------------ EVENT LISTENERS (MENU, FOOTER, ETC.) ------------------ */
+/* ----------------------------------
+   EVENT LISTENERS (MENU, FOOTER, ETC.)
+---------------------------------- */
 function addEventListeners() {
     // Theme Toggle in Footer
     const themeToggleFooter = document.querySelector('footer #theme-toggle');
@@ -258,7 +287,9 @@ function addEventListeners() {
     window.addEventListener('resize', adjustPaneImages);
 }
 
-/* ------------------ SECTION LOADING ------------------ */
+/* ----------------------------------
+   SECTION LOADING
+---------------------------------- */
 function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
@@ -271,7 +302,9 @@ function loadSection(section) {
     }
 }
 
-/* ------------------ LOAD REGULAR CONTENT SECTION FROM sections.json ------------------ */
+/* ----------------------------------
+   LOAD REGULAR CONTENT SECTION FROM sections.json
+---------------------------------- */
 function loadContentSection(sectionId) {
     console.log(`Loading section: ${sectionId}`);
     fetch('sections.json')
@@ -293,7 +326,9 @@ function loadContentSection(sectionId) {
         });
 }
 
-/* ------------------ POETRY SECTION ------------------ */
+/* ----------------------------------
+   POETRY SECTION
+---------------------------------- */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     const contentDiv = document.getElementById('main-content');
@@ -311,6 +346,7 @@ function loadPoetrySection() {
         } catch (parseError) {
             console.error('Error parsing cached poems:', parseError);
             localStorage.removeItem('cached_poems');
+            console.warn('Corrupted cached poems removed.');
         }
     } else {
         console.log('No cached poems found.');
@@ -341,28 +377,38 @@ function loadPoetrySection() {
             displayPoetry(poemsByCategory, poetryContainer);
 
             // Cache them
-            localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
-            console.log('Poems cached successfully.');
+            try {
+                localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+                console.log('Poems cached successfully.');
+            } catch (e) {
+                console.error('Failed to cache poems:', e);
+            }
         })
         .catch(error => {
             console.error('Error loading poetry:', error);
-            const cachedPoemsAgain = localStorage.getItem('cached_poems');
-            if (!cachedPoemsAgain) {
+            // If no poems were loaded from cache, display error
+            if (!cachedPoems) {
                 displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
             }
+            // Else, poems from cache are already displayed
         });
 }
 
 function categorizePoems(poems) {
     console.log('Categorizing poems...');
     const categories = {};
+
     poems.forEach(poem => {
         const category = poem.category || 'Throwetry';
+
         if (!categories[category]) {
             categories[category] = [];
         }
+
         categories[category].push(poem);
     });
+
+    console.log('Categorized poems:', categories);
     return categories;
 }
 
@@ -372,9 +418,10 @@ function displayPoetry(poemsByCategory, container) {
         container.innerHTML = '<p>No poems found.</p>';
         return;
     }
-    container.innerHTML = '';
 
-    // Sort the collections
+    container.innerHTML = ''; // Clear container
+
+    // Sort the collections alphabetically, placing 'Throwetry' last if it exists
     const sortedCollections = Object.entries(poemsByCategory).sort((a, b) => {
         if (a[0] === 'Throwetry') return 1;
         if (b[0] === 'Throwetry') return -1;
@@ -382,7 +429,7 @@ function displayPoetry(poemsByCategory, container) {
     });
 
     for (const [collectionName, poems] of sortedCollections) {
-        // Collection wrapper
+        // Create collection wrapper
         const collectionWrapper = document.createElement('div');
         collectionWrapper.classList.add('poetry-collection');
 
@@ -448,7 +495,7 @@ function displayPoetry(poemsByCategory, container) {
                 }
             });
 
-            // MOBILE-ONLY READING MODE
+            // MOBILE-ONLY READING OVERLAY
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
                 poemContent.addEventListener('click', evt => {
                     evt.stopPropagation();
@@ -483,7 +530,9 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/* ------------------ CONTACT SECTION (INJECTION) ------------------ */
+/* ----------------------------------
+   CONTACT SECTION (INJECTION)
+---------------------------------- */
 function loadContactSection() {
     console.log('Loading contact section...');
     const contentDiv = document.getElementById('main-content');
@@ -535,7 +584,6 @@ function initializeContactPage() {
    For instance, if you want the volume logic, do it below, 
    or remove it if you do not want a volume slider anymore.
 */
-
 function addContactEventListeners() {
     // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
@@ -676,6 +724,7 @@ function duplicatePanes() {
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
             panels.removeChild(pane);
+            console.log(`Removed extra pane: index ${index}`);
         }
     });
 
@@ -742,7 +791,7 @@ function adjustPaneImages() {
 }
 
 /**
- * formatCollectionName - For categories
+ * formatCollectionName - For categories or poem titles
  */
 function formatCollectionName(name) {
     return formatPoemTitle(name);
@@ -770,4 +819,41 @@ function formatPoemTitle(originalTitle) {
         }
     }
     return words.join(' ');
+}
+
+/* ----------------------------------
+   SERVICE WORKER REGISTRATION
+---------------------------------- */
+/* ------------------ Service Worker Registration ------------------
+ * Registers the Service Worker for caching static assets and enabling offline functionality.
+ * Ensure that 'sw.js' is placed in the root directory of your website.
+ */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+                
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    console.log('New Service Worker found:', newWorker);
+                    
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                console.log('New Service Worker installed.');
+                                if (confirm('New version available. Reload to update?')) {
+                                    window.location.reload();
+                                }
+                            } else {
+                                console.log('Content cached for offline use.');
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
 }
