@@ -1,36 +1,38 @@
-// contact.js
+/* contact.js */
 
 /**
  * loadContactSection:
- * Injects the Contact form HTML (including Turnstile widget) 
- * into #main-content, then initializes all page logic 
- * (theme, language, volume, cookies).
+ * Injects the Contact form HTML (including Turnstile) into #main-content,
+ * then runs all logic (theme, language, cookie submission check).
+ *
+ * Call loadContactSection() when user clicks "Contact" in your hamburger menu.
  */
 function loadContactSection() {
     console.log("Loading Contact Section...");
 
-    // 1) Insert the entire Contact Page markup into #main-content
+    // 1) Locate your main content container
     const mainContent = document.getElementById('main-content');
     if (!mainContent) {
-        console.error('#main-content not found. Cannot load contact section.');
+        console.error('No #main-content element found. Cannot load contact section.');
         return;
     }
 
-    // Optionally hide the site's title section if desired
+    // Optionally hide the site's title section
     const titleSection = document.querySelector('.title-section');
     if (titleSection) {
         titleSection.style.display = 'none';
     }
 
-    // Inject the form + Turnstile widget + volume slider if desired
+    // 2) Inject the form + Turnstile widget (NO volume slider/audio here)
     mainContent.innerHTML = `
-        <!-- Contact Form -->
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
             <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev">
+                <!-- Email -->
                 <label for="email" id="email-label">Your Email (optional):</label>
                 <input type="email" id="email" name="email" placeholder="you@example.com">
 
+                <!-- Message -->
                 <label for="message" id="message-label">Your Message:</label>
                 <textarea id="message" name="message" required></textarea>
 
@@ -40,38 +42,28 @@ function loadContactSection() {
                 <button type="submit" id="submit-button">Send</button>
             </form>
         </div>
-
-        <!-- Optional Volume Slider & Audio -->
-        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
-        <audio id="background-audio" loop muted></audio>
     `;
 
-    // 2) Run the initialization (just like DOMContentLoaded, but now dynamic)
+    // 3) Initialize all page logic
     initializeContactPage();
 
-    // 3) Check cookie to hide the form if user already submitted
+    // 4) Check cookie to hide the form if user already submitted
     checkSubmissionCookie();
 }
 
-/* 
-   --------------------------
-   CONTACT PAGE INITIALIZERS
-   --------------------------
-*/
-
+/* ----------------------------------------------------------------
+   CONTACT PAGE INITIALIZATION
+---------------------------------------------------------------- */
 function initializeContactPage() {
-    console.log('Initializing Contact Page (theme, language, volume, events)...');
-    initializeTheme();
-    initializeLanguage();
-    initializeVolume();
-    addContactEventListeners();
+    console.log('Initializing Contact Page...');
+    initializeTheme();       // Dark/Light theme
+    initializeLanguage();    // EN/IT language text
+    addContactEventListeners(); 
 }
 
-/* 
-   --------------------------
+/* ----------------------------------------------------------------
    THEME LOGIC
-   --------------------------
-*/
+---------------------------------------------------------------- */
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -80,7 +72,7 @@ function initializeTheme() {
         detectOSTheme();
     }
 
-    // If you have a <input type="checkbox" id="theme-toggle">
+    // If you have a checkbox #theme-toggle in your HTML:
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle && themeToggle.type === 'checkbox') {
         themeToggle.checked = (document.documentElement.getAttribute('data-theme') === 'dark');
@@ -103,25 +95,23 @@ function toggleTheme() {
     const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
     applyTheme(newTheme);
 
-    // Sync checkbox if exists
+    // If #theme-toggle is a checkbox, sync it
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle && themeToggle.type === 'checkbox') {
         themeToggle.checked = (newTheme === 'dark');
     }
 }
 
-/* 
-   --------------------------
+/* ----------------------------------------------------------------
    LANGUAGE LOGIC
-   --------------------------
-*/
-let currentLanguage = 'en'; // Default
+---------------------------------------------------------------- */
+let currentLanguage = 'en'; // default
 
 function initializeLanguage() {
     const storedLanguage = localStorage.getItem('language');
     if (!storedLanguage) {
         const lang = navigator.language || navigator.userLanguage;
-        currentLanguage = (lang.startsWith('it')) ? 'it' : 'en';
+        currentLanguage = lang.startsWith('it') ? 'it' : 'en';
         localStorage.setItem('language', currentLanguage);
     } else {
         currentLanguage = storedLanguage;
@@ -147,7 +137,7 @@ function toggleLanguage() {
     setLanguage();
 }
 
-// Adjust text elements in the contact form (and beyond) for the chosen language
+// Update text on the page (or just the contact section) for EN/IT
 function updateContentLanguage(lang) {
     const elementsToUpdate = [
         { id: 'page-title',     en: 'Leave feedback or request for takedown',  it: 'Lascia un feedback o richiedi la rimozione' },
@@ -167,11 +157,9 @@ function updateContentLanguage(lang) {
     });
 }
 
-/* 
-   --------------------------
-   EVENT LISTENERS
-   --------------------------
-*/
+/* ----------------------------------------------------------------
+   EVENT LISTENERS (LANG/ THEME)
+---------------------------------------------------------------- */
 function addContactEventListeners() {
     // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
@@ -179,50 +167,55 @@ function addContactEventListeners() {
         langToggleBtn.addEventListener('click', toggleLanguage);
     }
 
-    // Theme toggle
+    // Theme toggle (if checkbox #theme-toggle exists)
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle && themeToggle.type === 'checkbox') {
         themeToggle.addEventListener('change', toggleTheme);
     }
 }
 
-/* 
-   --------------------------
-   COOKIE / SUBMISSION LOGIC
-   --------------------------
-*/
+/* ----------------------------------------------------------------
+   COOKIE / FORM-SUBMISSION LOGIC
+---------------------------------------------------------------- */
 
-/**
- * If user already submitted form in last 24 hours, hide the form.
- * Also checks query param ?submitted=true.
+/** 
+ * checkSubmissionCookie:
+ *  - Checks ?submitted=true in the URL
+ *  - Sets a 'formSubmitted' cookie to block re-submission for 24 hrs
+ *  - If 'formSubmitted' cookie is found, hide the contact form
  */
 function checkSubmissionCookie() {
     console.log('Checking submission cookie...');
-    // Check query param "submitted"
+
+    // 1) Check query param
     const params = getQueryParams();
     if (params.submitted === 'true') {
         setCookie('formSubmitted', 'true', 24);
-        // Remove param from URL
+
+        // Remove 'submitted' param from URL
         if (window.history.replaceState) {
             const url = new URL(window.location);
             url.searchParams.delete('submitted');
             window.history.replaceState({}, document.title, url.pathname);
         }
+
         disableContactFormAndButton();
     }
 
-    // Check cookie
+    // 2) Check cookie
     if (getCookie('formSubmitted') === 'true') {
         disableContactFormAndButton();
     }
 }
 
-// Hide or disable contact form if user already submitted
+/** 
+ * Disables or hides the contact form if user already submitted 
+ */
 function disableContactFormAndButton() {
-    console.log('Disabling contact form due to prior submission...');
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.style.display = 'none';
+
         const msg = document.createElement('p');
         msg.textContent = "You have already contacted us. Please try again in 24 hours.";
         msg.style.color = 'gray';
@@ -230,7 +223,7 @@ function disableContactFormAndButton() {
         contactForm.parentNode.appendChild(msg);
     }
 
-    // Optionally hide a 'contact-link' if it exists in the header
+    // Optionally hide a #contact-link if it exists
     const contactLink = document.getElementById('contact-link');
     if (contactLink) {
         contactLink.style.display = 'none';
@@ -242,11 +235,11 @@ function disableContactFormAndButton() {
     }
 }
 
-// -------------- Cookie helpers --------------
+/* -------------- Cookie Helpers -------------- */
 function setCookie(name, value, hours) {
     const d = new Date();
-    d.setTime(d.getTime() + (hours*60*60*1000));
-    const expires = "expires="+ d.toUTCString();
+    d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
@@ -264,16 +257,19 @@ function getCookie(name) {
 }
 
 /**
- * Extracts query parameters as an object.
- * @return {Object} - key-value pairs from URL
+ * Extracts query parameters from the current URL
+ * and returns them as an object { key: value, ... }
  */
 function getQueryParams() {
     const params = {};
-    const query = window.location.search.slice(1); 
-    if (!query) return params;
-    query.split('&').forEach(part => {
-        const [k, v] = part.split('=');
-        if (k) params[decodeURIComponent(k)] = decodeURIComponent(v || '');
+    const queryStr = window.location.search.substring(1);
+    if (!queryStr) return params;
+
+    queryStr.split('&').forEach(part => {
+        const [key, val] = part.split('=');
+        if (key) {
+            params[decodeURIComponent(key)] = decodeURIComponent(val || '');
+        }
     });
     return params;
 }
