@@ -44,15 +44,15 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Dexie.js (only if needed) -->
+    <!-- Dexie.js (if needed) -->
     <script src="https://unpkg.com/dexie@3.0.3/dist/dexie.min.js"></script>
 
-    <!-- Cloudflare Turnstile Widget (used for contact form) -->
+    <!-- Cloudflare Turnstile Widget (for contact form) -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
-    <!-- Hamburger menu icon -->
+    <!-- Hamburger Menu Icon -->
     <div id="menu-icon-container" tabindex="0">
         <img src="icons/menu.png" alt="Menu Icon">
     </div>
@@ -60,7 +60,7 @@
     <!-- Side Menu (fixed) -->
     <nav class="side-menu" id="side-menu">
         <ul>
-            <!-- "Introduction" (About) -->
+            <!-- About (introduction) -->
             <li>
                 <a href="#" data-section="introduction">
                     <img class="menu-icon" src="icons/about.png" alt="About Icon">
@@ -96,7 +96,7 @@
         </div>
     </nav>
 
-    <!-- Right panels container (for side images) -->
+    <!-- Right Panels (images) -->
     <div class="panels">
         <div class="pane pane1">
             <img src="images/pane1.png" alt="Pane 1">
@@ -137,21 +137,27 @@
 
     <!-- Main Content (dynamic) -->
     <div id="main-content">
-        <!-- Content loaded dynamically from script.js (sections.json, poetry, contact form, etc.) -->
+        <!-- Sections loaded dynamically from script.js or contact.js -->
     </div>
 
-    <!-- Floating Footer -->
+    <!-- Footer (fixed) -->
     <footer>
-        <!-- Social icons (centered) -->
+        <!-- Social icons -->
         <div class="social-media">
-            <a href="https://patreon.com/tristannuvola" target="_blank"><img src="icons/patreon.png" alt="Patreon"></a>
-            <a href="https://twitter.com/tristannuvola" target="_blank"><img src="icons/twitter.png" alt="Twitter"></a>
-            <a href="https://instagram.com/tristannuvola" target="_blank"><img src="icons/instagram.png" alt="Instagram"></a>
+            <a href="https://patreon.com/tristannuvola" target="_blank">
+                <img src="icons/patreon.png" alt="Patreon">
+            </a>
+            <a href="https://twitter.com/tristannuvola" target="_blank">
+                <img src="icons/twitter.png" alt="Twitter">
+            </a>
+            <a href="https://instagram.com/tristannuvola" target="_blank">
+                <img src="icons/instagram.png" alt="Instagram">
+            </a>
         </div>
 
         <p>&copy; <span id="year"></span> Tristan Nuvola</p>
 
-        <!-- Toggle for theme in the footer -->
+        <!-- Theme Toggle (if you want a checkbox or icon) -->
         <div id="theme-toggle">
             <img src="icons/lightmode.png" alt="Theme Toggle">
         </div>
@@ -162,13 +168,39 @@
         </div>
     </footer>
 
-    <!-- Audio element (optional, for background/volume control) -->
+    <!-- (Optional) Background Audio element -->
     <audio id="background-audio" loop muted></audio>
 
-    <!-- Main script (includes contact form logic) -->
+    <!-- Main site script (e.g. sections, poetry, etc.) -->
     <script src="script.js" defer></script>
 
-    <!-- Service Worker Registration (unchanged) -->
+    <!-- Single-file Contact logic (injects the contact form) -->
+    <script src="contact.js" defer></script>
+
+    <!-- Small inline script to handle the Contact link -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuLinks = document.querySelectorAll('#side-menu a[data-section]');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+
+                if (section === 'contact') {
+                    // Call the function from contact.js
+                    loadContactSection();
+                } else {
+                    // Otherwise, pass to your main script logic
+                    // For example:
+                    // loadSection(section);  // If your script.js has loadSection
+                    window.loadSection(section); // or however you do it
+                }
+            });
+        });
+    });
+    </script>
+
+    <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
