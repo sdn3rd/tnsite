@@ -333,6 +333,12 @@ function categorizePoems(poems) {
     return categories;
 }
 
+/**
+ * Display poetry by category. 
+ * Poem titles are capitalized according to your requested logic:
+ *   - First word: always capital
+ *   - Subsequent words: capitalized unless they are "of" or "the".
+ */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -374,7 +380,10 @@ function displayPoetry(poemsByCategory, container) {
             // Poem header
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
-            const formattedTitle = formatCollectionName(poem.title);
+
+            // Format the poem title with the custom capitalization
+            const formattedTitle = formatPoemTitle(poem.title);
+
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
             // Poem content
@@ -414,10 +423,11 @@ function displayPoetry(poemsByCategory, container) {
                 }
             });
 
-            // Reading popup for mobile
+            // MOBILE-ONLY READING MODE
+            // If on mobile, and not a matrix/puzzle poem, click on poem text to open reading overlay
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
                 poemContent.addEventListener('click', (evt) => {
-                    evt.stopPropagation();
+                    evt.stopPropagation(); // Prevent collapsing
                     enterReadingMode(poem);
                 });
             }
@@ -636,11 +646,18 @@ function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 }
 
+/**
+ * Creates an overlay that shows the poem text in a mobile-friendly reading mode.
+ * Only triggered on mobile devices. 
+ */
 function enterReadingMode(poem) {
+    // If an overlay already exists, remove it
     const existingOverlay = document.getElementById('reading-overlay');
     if (existingOverlay) {
         existingOverlay.remove();
     }
+
+    // Build the overlay
     const overlay = document.createElement('div');
     overlay.id = 'reading-overlay';
     overlay.style.position = 'fixed';
@@ -648,12 +665,13 @@ function enterReadingMode(poem) {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'; // dark background
     overlay.style.color = '#fff';
     overlay.style.zIndex = '9999';
     overlay.style.overflowY = 'auto';
     overlay.style.padding = '20px';
 
+    // Close button
     const closeBtn = document.createElement('div');
     closeBtn.innerText = 'Close ✕';
     closeBtn.style.cursor = 'pointer';
@@ -661,18 +679,22 @@ function enterReadingMode(poem) {
     closeBtn.style.marginBottom = '20px';
     closeBtn.style.textAlign = 'right';
 
+    // Poem title
     const poemTitle = document.createElement('h2');
     poemTitle.textContent = poem.title;
     poemTitle.style.marginTop = '0';
 
+    // Poem text
     const poemText = document.createElement('div');
     poemText.innerHTML = poem.content.replace(/\n/g, '<br>');
 
+    // Append elements
     overlay.appendChild(closeBtn);
     overlay.appendChild(poemTitle);
     overlay.appendChild(poemText);
     document.body.appendChild(overlay);
 
+    // Close on click
     closeBtn.addEventListener('click', () => {
         overlay.remove();
     });
@@ -785,9 +807,37 @@ function adjustPaneImages() {
     panesContainer.style.justifyContent = 'flex-start';
 }
 
+/**
+ * formatCollectionName - For categories (like "Throwetry," etc.).
+ * You can keep or modify as needed if you want to unify all naming logic.
+ */
 function formatCollectionName(name) {
-    return name
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
+    // Use the same logic as poem titles if you want consistent behavior:
+    return formatPoemTitle(name);
+}
+
+/**
+ * formatPoemTitle - 
+ *  1) The first word: always capitalized (first letter uppercase, rest lowercase).
+ *  2) Subsequent words: capitalized unless they are 'of' or 'the'.
+ */
+function formatPoemTitle(originalTitle) {
+    if (!originalTitle || typeof originalTitle !== 'string') return '';
+
+    // Split on whitespace
+    const words = originalTitle.trim().split(/\s+/).map(w => w.toLowerCase());
+    const exclude = ['of', 'the'];
+
+    // First word: always capitalized
+    if (words[0]) {
+        words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    }
+    // Subsequent words
+    for (let i = 1; i < words.length; i++) {
+        if (!exclude.includes(words[i])) {
+            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+        }
+    }
+
+    return words.join(' ');
 }
