@@ -792,19 +792,28 @@ function formatCollectionName(name) {
 function formatPoemTitle(originalTitle) {
     if (!originalTitle || typeof originalTitle !== 'string') return '';
 
-    const words = originalTitle.trim().split(/\s+/).map(w => w.toLowerCase());
+    // 1. Replace all underscores with spaces
+    const titleWithSpaces = originalTitle.replace(/_/g, ' ');
+
+    // 2. Split the title into words and convert them to lowercase
+    const words = titleWithSpaces.trim().split(/\s+/).map(word => word.toLowerCase());
+
+    // 3. Define words to exclude from capitalization
     const exclude = ['of', 'the'];
 
-    // First word always capitalized
+    // 4. Capitalize the first word
     if (words[0]) {
         words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
     }
-    // Subsequent words
+
+    // 5. Capitalize subsequent words unless they are in the exclude list
     for (let i = 1; i < words.length; i++) {
         if (!exclude.includes(words[i])) {
             words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
         }
     }
+
+    // 6. Join the words back into a single string with spaces
     return words.join(' ');
 }
 
