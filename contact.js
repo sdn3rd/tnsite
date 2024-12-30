@@ -33,7 +33,7 @@ function loadContactSection() {
         <div id="contact-form-container">
             <h1 id="page-title">Leave feedback or request for takedown</h1>
 
-            <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev">
+            <form id="contact-form" method="POST" action="https://contact-form-worker.notaa.workers.dev/contact">
                 <label for="email" id="email-label">Your Email (optional):</label>
                 <input type="email" id="email" name="email" placeholder="you@example.com">
 
