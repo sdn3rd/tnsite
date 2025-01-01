@@ -340,7 +340,7 @@ function loadPoetrySection() {
     }
 
     // Fetch fresh poems
-    fetch('https://spectraltapestry.com/patreon-poetry')
+    fetch('https://tristannuvola.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
             if (!response.ok) {
