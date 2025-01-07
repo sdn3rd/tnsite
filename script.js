@@ -58,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
+
+    // NEW LOGIC: Check if device is an iPhone in Italian and show the special love message overlay
+    checkItalianIPhoneAndShowMessage();
 });
 
 /* ----------------------------------
@@ -567,10 +570,6 @@ function initializeContactPage() {
     addContactEventListeners();
 }
 
-/* Here you'd replicate the older contact logic or unify it with your main site.
-   For instance, if you want the volume logic, do it below, 
-   or remove it if you do not want a volume slider anymore.
-*/
 function addContactEventListeners() {
     // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
@@ -851,5 +850,88 @@ if ('serviceWorker' in navigator) {
             .catch(error => {
                 console.error('Service Worker registration failed:', error);
             });
+    });
+}
+
+/* ----------------------------------
+   NEW LOGIC: Detect iPhone in Italian & Display Love Message
+---------------------------------- */
+
+function checkItalianIPhoneAndShowMessage() {
+    // We check the user agent for 'iPhone' and the language for 'it'
+    const ua = navigator.userAgent.toLowerCase();
+    const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+
+    // Basic checks: iPhone & language starting with 'it'
+    const isIPhone = ua.indexOf('iphone') !== -1;
+    const isItalian = lang.startsWith('it');
+
+    if (isIPhone && isItalian) {
+        showItalianLoveOverlay();
+    }
+}
+
+function showItalianLoveOverlay() {
+    // Remove existing overlay if any
+    const existingOverlay = document.getElementById('love-overlay');
+    if (existingOverlay) existingOverlay.remove();
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'love-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    overlay.style.color = '#fff';
+    overlay.style.zIndex = '999999';
+    overlay.style.overflowY = 'auto';
+    overlay.style.padding = '20px';
+
+    // Close button (upper right)
+    const closeBtn = document.createElement('div');
+    closeBtn.innerText = '✕';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.fontSize = '1.5em';
+    closeBtn.style.position = 'absolute';
+    closeBtn.style.top = '10px';
+    closeBtn.style.right = '20px';
+
+    // Message container
+    const messageContainer = document.createElement('div');
+    messageContainer.style.margin = '40px auto';
+    messageContainer.style.maxWidth = '600px';
+    messageContainer.style.fontSize = '1.1em';
+    messageContainer.style.lineHeight = '1.5';
+
+    // The love message text
+    const loveMessage = `
+        <p><strong>I love you.</strong> I've been trying to find the right words, but sometimes the simplest truth is best. 
+        I should have said it sooner. When I saw poetry that reminded me of you, my heart recognized something familiar – if I'm wrong about that, I accept it. 
+        But I can't keep pretending these feelings aren't real.</p>
+
+        <p>I'm sorry if my falling in love causes you pain – that was never my intent. Your beauty, inside and out, has touched me deeply. 
+        I know I mishandled things early on, saying I could manage my emotions when clearly I couldn't. If you don't hate me, maybe we could start fresh, 
+        even just as friends? I understand if that's not possible.</p>
+
+        <p>You've become like oxygen to me. Every thought of you makes my heart leap. I hoped meeting while I am in Europe the next 2 weeks might help us understand these feelings, 
+        but I respect your boundaries. I just need you to know that none of my actions came from a place of wanting to hurt you – they came from a heart 
+        that found something extraordinary and didn't know how to handle it.</p>
+
+        <p>If this message finds the wrong hands, then I'm a fool in love. But I'd rather be honest than perfect.</p>
+    `;
+
+    messageContainer.innerHTML = loveMessage;
+
+    // Append elements
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(messageContainer);
+    document.body.appendChild(overlay);
+
+    // Close on click
+    closeBtn.addEventListener('click', () => {
+        overlay.remove();
     });
 }
