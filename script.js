@@ -777,7 +777,7 @@ function showLoveOverlay() {
     // Your custom "love" message text
     const loveMessage = `
         <p>I will be in Milan Thursday through Saturday if you do want to meet. 
-        You are absurdly smart and delightful, and I simply do not care to hide anything.</p>
+        You are absurdly smart and delightful, and I simply do not care to hide anything anymore. I think the biggest thing is, even if it's not love, I wan't to know why I still like you.  I can't seem to hate or dismiss you and it feels the same on your end.  I am okay with being wrong as well.  I am okay without you being wrong.  (And I am fully aware no response from you is on me as well, don't take all my poetry to heart, sometimes it's just a mood and music.)</p>
     `;
 
     messageContainer.innerHTML = loveMessage;
