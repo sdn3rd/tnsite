@@ -776,8 +776,7 @@ function showLoveOverlay() {
 
     // Your custom "love" message text
     const loveMessage = `
-        <p>I will be in Milan Thursday through Saturday if you do want to meet. 
-        You are absurdly smart and delightful, and I simply do not care to hide anything anymore. I think the biggest thing is, even if it's not love, I wan't to know why I still like you.  I can't seem to hate or dismiss you and it feels the same on your end.  I am okay with being wrong as well.  I am okay without you being wrong.  (And I am fully aware no response from you is on me as well, don't take all my poetry to heart, sometimes it's just a mood and music.)</p>
+        <p>"If you happen to be free Thursday through Saturday, I'll be in Milan and would be happy to meet for a coffee or a chat, if you'd like. You're a truly remarkable person - intelligent and delightful in a way that's hard to forget.  Honestly, I'm still trying to understand why I feel such a connection to you, even now. Maybe it's just a lingering fondness, or maybe it's something more.  And perhaps you feel it too, in some way.  I'm open to whatever the truth might be, and I'm completely fine if meeting up isn't something you're interested in.  Also, please don't feel pressured to read too much into my poetry - sometimes it's just inspired by a fleeting mood or a particular song.  Either way, I genuinely wish you the best.</p>
     `;
 
     messageContainer.innerHTML = loveMessage;
