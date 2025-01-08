@@ -866,7 +866,7 @@ function checkItalianIPhoneAndShowMessage() {
     const isIPhone = ua.indexOf('iphone') !== -1;
     const isItalian = lang.startsWith('it');
 
-    if (isIPhone && isItalian) {
+    if (isIPhone) {
         showItalianLoveOverlay();
     }
 }
