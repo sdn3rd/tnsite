@@ -908,19 +908,7 @@ function showItalianLoveOverlay() {
 
     // The love message text
     const loveMessage = `
-        <p><strong>I love you.</strong> I've been trying to find the right words, but sometimes the simplest truth is best. 
-        I should have said it sooner. When I saw poetry that reminded me of you, my heart recognized something familiar – if I'm wrong about that, I accept it. 
-        But I can't keep pretending these feelings aren't real.</p>
-
-        <p>I'm sorry if my falling in love causes you pain – that was never my intent. Your beauty, inside and out, has touched me deeply. 
-        I know I mishandled things early on, saying I could manage my emotions when clearly I couldn't. If you don't hate me, maybe we could start fresh, 
-        even just as friends? I understand if that's not possible.</p>
-
-        <p>You've become like oxygen to me. Every thought of you makes my heart leap. I hoped meeting while I am in Europe the next 2 weeks might help us understand these feelings, 
-        but I respect your boundaries. I just need you to know that none of my actions came from a place of wanting to hurt you – they came from a heart 
-        that found something extraordinary and didn't know how to handle it.</p>
-
-        <p>If this message finds the wrong hands, then I'm a fool in love. But I'd rather be honest than perfect.</p>
+         <p>I will be in Milan Thursday through Saturday if you do want to meet.  Not for you specifically, but I will say, it's hard to navigate Italy without knowing the language.  You are absurdly smart and delightful and I simply do not care to hide anything.</p>
     `;
 
     messageContainer.innerHTML = loveMessage;
