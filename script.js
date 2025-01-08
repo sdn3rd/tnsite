@@ -27,40 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                    
-                    // Listen for updates
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        console.log('New Service Worker found:', newWorker);
-                        
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed') {
-                                if (navigator.serviceWorker.controller) {
-                                    console.log('New Service Worker installed.');
-                                    if (confirm('New version available. Reload to update?')) {
-                                        window.location.reload();
-                                    }
-                                } else {
-                                    console.log('Content cached for offline use.');
-                                }
-                            }
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        });
-    }
-
-    // NEW LOGIC: Check if device is an iPhone in Italian and show the special love message overlay
-    checkItalianIPhoneAndShowMessage();
+    // NEW LOGIC: Show the love message if on a mobile device
+    checkMobileAndShowMessage();
 });
 
 /* ----------------------------------
@@ -89,8 +57,6 @@ function initializeTheme() {
 function applyTheme(theme) {
     console.log(`Applying theme: ${theme}`);
     document.documentElement.setAttribute('data-theme', theme);
-    // Removed: localStorage.setItem('theme', theme);
-    // Removed: updateThemeIcon(theme);
     updatePatreonIcon();
     updateAllIcons(theme);
 }
@@ -162,6 +128,7 @@ function updateAllIcons(theme) {
         // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
+                // Simple example: you could actually do src.replace('.png', '_alt.png') if you have that
                 const altSrc = src.replace('.png', '.png');
                 img.setAttribute('src', altSrc);
                 console.log(`Switched ${src} to ${altSrc}`);
@@ -181,18 +148,6 @@ function updateAllIcons(theme) {
    EVENT LISTENERS (MENU, FOOTER, ETC.)
 ---------------------------------- */
 function addEventListeners() {
-    // Theme Toggle in Footer
-    //const themeToggleFooter = document.querySelector('footer #theme-toggle');
-    //if (themeToggleFooter) {
-    //    themeToggleFooter.addEventListener('click', (event) => {
-    //        event.stopPropagation();
-    //        toggleTheme();
-    //        console.log('Theme toggle in footer clicked.');
-    //    });
-    //} else {
-    //    console.warn('Theme toggle in footer not found.');
-    //}
-
     // Hamburger Menu Toggle
     const hamburgerMenu = document.getElementById('menu-icon-container');
     if (hamburgerMenu) {
@@ -565,13 +520,12 @@ function loadContactSection() {
 /* -------------- CONTACT LOGIC (MERGED) -------------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
-    initializeTheme(); // or if you want a separate contact theme logic, your call
+    initializeTheme(); 
     initializeLanguage();
     addContactEventListeners();
 }
 
 function addContactEventListeners() {
-    // Language toggle
     const langToggleBtn = document.getElementById('lang-toggle');
     if (langToggleBtn) {
         langToggleBtn.addEventListener('click', toggleLanguage);
@@ -776,102 +730,16 @@ function adjustPaneImages() {
     panesContainer.style.justifyContent = 'flex-start';
 }
 
-/**
- * formatCollectionName - For categories or poem titles
- */
-function formatCollectionName(name) {
-    return formatPoemTitle(name);
-}
-
-/**
- * formatPoemTitle - 
- *  1) The first word: always capitalized 
- *  2) Subsequent words: capitalized unless they are 'of' or 'the'.
- */
-function formatPoemTitle(originalTitle) {
-    if (!originalTitle || typeof originalTitle !== 'string') return '';
-
-    // 1. Replace all underscores with spaces
-    const titleWithSpaces = originalTitle.replace(/_/g, ' ');
-
-    // 2. Split the title into words and convert them to lowercase
-    const words = titleWithSpaces.trim().split(/\s+/).map(word => word.toLowerCase());
-
-    // 3. Define words to exclude from capitalization
-    const exclude = ['of', 'the'];
-
-    // 4. Capitalize the first word
-    if (words[0]) {
-        words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
-    }
-
-    // 5. Capitalize subsequent words unless they are in the exclude list
-    for (let i = 1; i < words.length; i++) {
-        if (!exclude.includes(words[i])) {
-            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-        }
-    }
-
-    // 6. Join the words back into a single string with spaces
-    return words.join(' ');
-}
-
 /* ----------------------------------
-   SERVICE WORKER REGISTRATION
+   NEW LOGIC: Always show love message on mobile
 ---------------------------------- */
-/* ------------------ Service Worker Registration ------------------
- * Registers the Service Worker for caching static assets and enabling offline functionality.
- * Ensure that 'sw.js' is placed in the root directory of your website.
- */
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('Service Worker registered with scope:', registration.scope);
-                
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    console.log('New Service Worker found:', newWorker);
-                    
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed') {
-                            if (navigator.serviceWorker.controller) {
-                                console.log('New Service Worker installed.');
-                                if (confirm('New version available. Reload to update?')) {
-                                    window.location.reload();
-                                }
-                            } else {
-                                console.log('Content cached for offline use.');
-                            }
-                        }
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
-}
-
-/* ----------------------------------
-   NEW LOGIC: Detect iPhone in Italian & Display Love Message
----------------------------------- */
-
-function checkItalianIPhoneAndShowMessage() {
-    // We check the user agent for 'iPhone' and the language for 'it'
-    const ua = navigator.userAgent.toLowerCase();
-    const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-
-    // Basic checks: iPhone & language starting with 'it'
-    const isIPhone = ua.indexOf('iphone') !== -1;
-    const isItalian = lang.startsWith('it');
-
-    if (isIPhone) {
-        showItalianLoveOverlay();
+function checkMobileAndShowMessage() {
+    if (isMobileDevice()) {
+        showLoveOverlay();
     }
 }
 
-function showItalianLoveOverlay() {
+function showLoveOverlay() {
     // Remove existing overlay if any
     const existingOverlay = document.getElementById('love-overlay');
     if (existingOverlay) existingOverlay.remove();
@@ -906,9 +774,10 @@ function showItalianLoveOverlay() {
     messageContainer.style.fontSize = '1.1em';
     messageContainer.style.lineHeight = '1.5';
 
-    // The love message text
+    // Your custom "love" message text
     const loveMessage = `
-         <p>I will be in Milan Thursday through Saturday if you do want to meet.  Not for you specifically, but I will say, it's hard to navigate Italy without knowing the language.  You are absurdly smart and delightful and I simply do not care to hide anything.</p>
+        <p>I will be in Milan Thursday through Saturday if you do want to meet. 
+        You are absurdly smart and delightful, and I simply do not care to hide anything.</p>
     `;
 
     messageContainer.innerHTML = loveMessage;
