@@ -734,9 +734,9 @@ function adjustPaneImages() {
    NEW LOGIC: Always show love message on mobile
 ---------------------------------- */
 function checkMobileAndShowMessage() {
-    if (isMobileDevice()) {
+/*    if (isMobileDevice()) {
         showLoveOverlay();
-    }
+    }*/
 }
 
 function showLoveOverlay() {
