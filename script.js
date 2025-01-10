@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // NEW LOGIC: Show the love message if on a mobile device
+    // NEW LOGIC: Show the love message if on a mobile device (currently commented out)
     checkMobileAndShowMessage();
 });
 
@@ -128,7 +128,7 @@ function updateAllIcons(theme) {
         // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
-                // Simple example: you could actually do src.replace('.png', '_alt.png') if you have that
+                // In your real code, you might do a .replace('.png', '_alt.png')
                 const altSrc = src.replace('.png', '.png');
                 img.setAttribute('src', altSrc);
                 console.log(`Switched ${src} to ${altSrc}`);
@@ -475,6 +475,15 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
+function formatCollectionName(name) {
+    // Example: convert 'haiku' -> 'Haiku', 'Throwetry' -> 'Throwetry', etc.
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function formatPoemTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+}
+
 /* ----------------------------------
    CONTACT SECTION (INJECTION)
 ---------------------------------- */
@@ -731,14 +740,16 @@ function adjustPaneImages() {
 }
 
 /* ----------------------------------
-   NEW LOGIC: Always show love message on mobile
+   NEW LOGIC: Always show love message on mobile (currently commented out)
 ---------------------------------- */
 function checkMobileAndShowMessage() {
-/*    if (isMobileDevice()) {
-        showLoveOverlay();
-    }*/
+    // If you decide to enable, uncomment below:
+    // if (isMobileDevice()) {
+    //     showLoveOverlay();
+    // }
 }
 
+// The love overlay function (not called unless you uncomment it above)
 function showLoveOverlay() {
     // Remove existing overlay if any
     const existingOverlay = document.getElementById('love-overlay');
@@ -782,7 +793,6 @@ function showLoveOverlay() {
 
     messageContainer.innerHTML = loveMessage;
 
-    // Append elements
     overlay.appendChild(closeBtn);
     overlay.appendChild(messageContainer);
     document.body.appendChild(overlay);
@@ -791,4 +801,48 @@ function showLoveOverlay() {
     closeBtn.addEventListener('click', () => {
         overlay.remove();
     });
+}
+
+/* ----------------------------------
+   Language & Cookie Utilities (If used)
+---------------------------------- */
+function initializeLanguage() {
+    // Example placeholder, if you have language logic
+}
+
+function toggleLanguage() {
+    // Example placeholder for language toggle
+}
+
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.substring(1);
+    const queries = queryString.split('&');
+
+    for (let i = 0; i < queries.length; i++) {
+        const pair = queries[i].split('=');
+        const key = decodeURIComponent(pair[0]);
+        const value = decodeURIComponent(pair[1] || '');
+        params[key] = value;
+    }
+    return params;
+}
+
+function setCookie(name, value, hours) {
+    const d = new Date();
+    d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = `${name}=${value};${expires};path=/`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + '=';
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return null;
 }
