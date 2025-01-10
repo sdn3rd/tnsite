@@ -381,6 +381,8 @@ function displayPoetry(poemsByCategory, container) {
         // Collection header
         const collectionHeader = document.createElement('div');
         collectionHeader.classList.add('collection-header');
+
+        // Format the collection name with underscores replaced, each word capitalized
         const formattedName = formatCollectionName(collectionName);
         collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedName}`;
         collectionWrapper.appendChild(collectionHeader);
@@ -400,6 +402,7 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
+            // Format the poem title with underscores replaced, each word capitalized
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -475,13 +478,29 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
+/**
+ * Convert underscores to spaces, then capitalize each word
+ * for the collection (category) name.
+ */
 function formatCollectionName(name) {
-    // Example: convert 'haiku' -> 'Haiku', 'Throwetry' -> 'Throwetry', etc.
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return name
+        // Split on underscores
+        .split('_')
+        // Capitalize each part
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        // Join with spaces
+        .join(' ');
 }
 
+/**
+ * Convert underscores to spaces, then capitalize each word
+ * for the poem title.
+ */
 function formatPoemTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1);
+    return title
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
 
 /* ----------------------------------
