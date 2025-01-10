@@ -382,9 +382,9 @@ function displayPoetry(poemsByCategory, container) {
         const collectionHeader = document.createElement('div');
         collectionHeader.classList.add('collection-header');
 
-        // Format the collection name with underscores replaced, each word capitalized
-        const formattedName = formatCollectionName(collectionName);
-        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedName}`;
+        // Format the category name (can have underscores, remove #, etc.)
+        const formattedCategory = formatCollectionName(collectionName);
+        collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedCategory}`;
         collectionWrapper.appendChild(collectionHeader);
 
         // Collection content
@@ -402,7 +402,7 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-            // Format the poem title with underscores replaced, each word capitalized
+            // Format the poem title (no underscores, but remove # if any, apply rules)
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -478,29 +478,77 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/**
- * Convert underscores to spaces, then capitalize each word
- * for the collection (category) name.
- */
+/* 
+   For categories (which might have underscores):
+   1) Remove a leading '#' if present
+   2) Convert underscores to spaces
+   3) Split into words
+   4) The first word is always capitalized (even if it is 'the'/'of')
+   5) For subsequent words:
+      - if the word is exactly 'of' or 'the' => keep it lowercase
+      - otherwise, capitalize
+*/
 function formatCollectionName(name) {
-    return name
-        // Split on underscores
-        .split('_')
-        // Capitalize each part
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        // Join with spaces
+    // 1) Remove leading #
+    if (name.startsWith('#')) {
+        name = name.slice(1);
+    }
+    // 2) Convert underscores to spaces
+    name = name.replace(/_/g, ' ');
+
+    const words = name.split(/\s+/).filter(Boolean);
+    return words
+        .map((word, index) => {
+            if (index === 0) {
+                // Always capitalize first word
+                return capitalizeWord(word);
+            } else {
+                // 'of' and 'the' => keep them lowercase
+                if (['of', 'the'].includes(word.toLowerCase())) {
+                    return word.toLowerCase();
+                } else {
+                    return capitalizeWord(word);
+                }
+            }
+        })
         .join(' ');
 }
 
-/**
- * Convert underscores to spaces, then capitalize each word
- * for the poem title.
- */
+/*
+   For poem titles (which do NOT have underscores, but might start with '#'):
+   1) Remove a leading '#' if present
+   2) Split into words
+   3) The first word is always capitalized (even if it is 'the'/'of')
+   4) For subsequent words:
+      - if the word is exactly 'of' or 'the' => keep it lowercase
+      - otherwise, capitalize
+*/
 function formatPoemTitle(title) {
-    return title
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    if (title.startsWith('#')) {
+        title = title.slice(1);
+    }
+    const words = title.split(/\s+/).filter(Boolean);
+
+    return words
+        .map((word, index) => {
+            if (index === 0) {
+                // Always capitalize first word
+                return capitalizeWord(word);
+            } else {
+                if (['of', 'the'].includes(word.toLowerCase())) {
+                    return word.toLowerCase();
+                } else {
+                    return capitalizeWord(word);
+                }
+            }
+        })
         .join(' ');
+}
+
+// Capitalize first letter, rest lowercase
+function capitalizeWord(word) {
+    if (!word) return '';
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 /* ----------------------------------
@@ -718,6 +766,7 @@ function adjustPaneImages() {
         console.warn('Panels container not found.');
         return;
     }
+    // We keep logic for duplicating or removing extra panes
     const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8);
     const viewportHeight = window.innerHeight;
     const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720
