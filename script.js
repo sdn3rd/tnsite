@@ -272,7 +272,7 @@ function loadContentSection(sectionId) {
 }
 
 /* ----------------------------------
-   POETRY SECTION
+   POETRY SECTION (Fetch remote, if fails, fetch local)
 ---------------------------------- */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
@@ -297,7 +297,7 @@ function loadPoetrySection() {
         console.log('No cached poems found.');
     }
 
-    // Fetch fresh poems
+    // Fetch from remote first
     fetch('https://tristannuvola.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
@@ -329,13 +329,37 @@ function loadPoetrySection() {
                 console.error('Failed to cache poems:', e);
             }
         })
+        // If remote fails, try local poetry.json
         .catch(error => {
-            console.error('Error loading poetry:', error);
-            // If no poems were loaded from cache, display error
-            if (!cachedPoems) {
-                displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
-            }
-            // Else, poems from cache are already displayed
+            console.error('Error loading poetry from remote:', error);
+            console.log('Trying local poetry.json...');
+            fetch('poetry.json')
+                .then(localResp => {
+                    if (!localResp.ok) {
+                        throw new Error(`Failed to fetch local poetry.json: ${localResp.status} ${localResp.statusText}`);
+                    }
+                    return localResp.json();
+                })
+                .then(localData => {
+                    console.log('Poetry data loaded from local poetry.json:', localData);
+                    const poemsByCategory = categorizePoems(localData);
+                    displayPoetry(poemsByCategory, poetryContainer);
+
+                    // Cache them
+                    try {
+                        localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+                        console.log('Local poems cached successfully.');
+                    } catch (e) {
+                        console.error('Failed to cache local poems:', e);
+                    }
+                })
+                .catch(localErr => {
+                    console.error('Error loading local poetry.json:', localErr);
+                    // If no poems were loaded from cache, display error
+                    if (!cachedPoems) {
+                        displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
+                    }
+                });
         });
 }
 
@@ -345,11 +369,9 @@ function categorizePoems(poems) {
 
     poems.forEach(poem => {
         const category = poem.category || 'Throwetry';
-
         if (!categories[category]) {
             categories[category] = [];
         }
-
         categories[category].push(poem);
     });
 
@@ -357,6 +379,10 @@ function categorizePoems(poems) {
     return categories;
 }
 
+/**
+ * Sort by date DESC if date is present, fallback to title.
+ * Then display poems grouped by category.
+ */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -392,8 +418,25 @@ function displayPoetry(poemsByCategory, container) {
         collectionContent.classList.add('collection-content');
         collectionContent.style.display = 'none';
 
-        // Sort poems by title
-        const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
+        // SORT by date (desc). If no date, fallback to title
+        const sortedPoems = [...poems].sort((a, b) => {
+            const aDate = a.date ? new Date(a.date).getTime() : null;
+            const bDate = b.date ? new Date(b.date).getTime() : null;
+
+            if (aDate && bDate) {
+                // Descending by date
+                return bDate - aDate;
+            } else if (aDate && !bDate) {
+                return -1;
+            } else if (!aDate && bDate) {
+                return 1;
+            } else {
+                // If neither has date, fallback to title sort
+                return a.title.localeCompare(b.title);
+            }
+        });
+
+        // Build poems
         sortedPoems.forEach(poem => {
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
@@ -402,7 +445,7 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-            // Format the poem title (no underscores, but remove # if any, apply rules)
+            // Format the poem title (no underscores, remove # if any, etc.)
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -478,7 +521,7 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/* 
+/*
    For categories (which might have underscores):
    1) Remove a leading '#' if present
    2) Convert underscores to spaces
