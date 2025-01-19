@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // NEW LOGIC: Show the love message if on a mobile device (currently commented out)
-    checkMobileAndShowMessage();
+    // NEW LOGIC: Show the love message if on an iPhone
+    checkIphoneAndShowMessage();
 });
 
 /* ----------------------------------
@@ -402,7 +402,7 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-            // Format the poem title (no underscores, but remove # if any, apply rules)
+            // Format the poem title
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -673,14 +673,6 @@ function enterReadingMode(poem) {
     overlay.style.overflowY = 'auto';
     overlay.style.padding = '20px';
 
-    // Close button
-    const closeBtn = document.createElement('div');
-    closeBtn.innerText = 'Close ✕';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.style.fontSize = '1.2em';
-    closeBtn.style.marginBottom = '20px';
-    closeBtn.style.textAlign = 'right';
-
     const poemTitle = document.createElement('h2');
     poemTitle.textContent = poem.title || 'Untitled Poem';
     poemTitle.style.marginTop = '0';
@@ -688,14 +680,9 @@ function enterReadingMode(poem) {
     const poemText = document.createElement('div');
     poemText.innerHTML = poem.content.replace(/\n/g, '<br>');
 
-    overlay.appendChild(closeBtn);
     overlay.appendChild(poemTitle);
     overlay.appendChild(poemText);
     document.body.appendChild(overlay);
-
-    closeBtn.addEventListener('click', () => {
-        overlay.remove();
-    });
 }
 
 /* -------------- UTILITY FUNCTIONS -------------- */
@@ -808,16 +795,20 @@ function adjustPaneImages() {
 }
 
 /* ----------------------------------
-   NEW LOGIC: Always show love message on mobile (currently commented out)
+   ONLY ON iPHONE: Show the "love" message overlay
 ---------------------------------- */
-function checkMobileAndShowMessage() {
-    // If you decide to enable, uncomment below:
-    // if (isMobileDevice()) {
-    //     showLoveOverlay();
-    // }
+function isIphone() {
+    // Case-insensitive check for iPhone in the user agent
+    return /iPhone/i.test(navigator.userAgent);
 }
 
-// The love overlay function (not called unless you uncomment it above)
+function checkIphoneAndShowMessage() {
+    if (isIphone()) {
+        showLoveOverlay();
+    }
+}
+
+// The love overlay function (no close button, non-dismissable)
 function showLoveOverlay() {
     // Remove existing overlay if any
     const existingOverlay = document.getElementById('love-overlay');
@@ -837,15 +828,6 @@ function showLoveOverlay() {
     overlay.style.overflowY = 'auto';
     overlay.style.padding = '20px';
 
-    // Close button (upper right)
-    const closeBtn = document.createElement('div');
-    closeBtn.innerText = '✕';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.style.fontSize = '1.5em';
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '20px';
-
     // Message container
     const messageContainer = document.createElement('div');
     messageContainer.style.margin = '40px auto';
@@ -853,26 +835,23 @@ function showLoveOverlay() {
     messageContainer.style.fontSize = '1.1em';
     messageContainer.style.lineHeight = '1.5';
 
-    // Your custom "love" message text
+    // Your custom message here
     const loveMessage = `
-    <p>Nessuno controlla questo sito tranne te, quindi non mi preoccupo di lasciare messaggi qui per te da leggere. Farò in modo che questo sia l'ultimo e finalmente ti darò il rispetto che hai voluto. Lascerò andare e onorerò la tua richiesta. È difficile farmi entrare in testa qualcosa una volta che mi impegno su un obiettivo, ed era proprio essere gentile con te, anche se mi hai ferito. Credo di averti probabilmente ferito anch'io cercando di raggiungere quell'obiettivo. Ma accidenti, avevi ragione: sei grande. Però ti sbagliavi anche, non sei perfetta: sei disordinata e affascinante da morire. Mi dispiace che non sia andata bene tra noi incontrarci ed essere amici. Ti auguro comunque il meglio e lascerò questo qui per un po'.</p>
-    <p>Se mai volessi ricevere alcune poesie, crea un'email temporanea e inviami un messaggio indicando quali o tutte quelle di tuo interesse, e te le invierò direttamente, così potrai mantenere la tua privacy. Tuttavia, questo sito è ora qualcosa di permanente, quindi fammi sapere se hai problemi con QUALSIASI cosa qui sopra. Sostituire l'arte richiederà tempo se questa è la richiesta. Inoltre, puoi darmi il permesso di pubblicare il libro? Naturalmente renderò le poesie più universali, ma ho davvero bisogno di un editor per l'italiano e sono molto serio nel pubblicarlo. Ti procurerei anche una copia rilegata in pelle, facendo in modo che i profitti vadano a te per la tua ispirazione, e sì, folle è una descrizione valida per me.</p>
+        <h2 style="text-align:center;">Dear iPhone User</h2>
+        <p>
+            Hate is not an emotion I have in my heart.
+            Let me go.
+            I wish you the life you deserve.
+        </p>
     `;
-
     messageContainer.innerHTML = loveMessage;
 
-    overlay.appendChild(closeBtn);
     overlay.appendChild(messageContainer);
     document.body.appendChild(overlay);
-
-    // Close on click
-    closeBtn.addEventListener('click', () => {
-        overlay.remove();
-    });
 }
 
 /* ----------------------------------
-   Language & Cookie Utilities (If used)
+   Language & Cookie Utilities
 ---------------------------------- */
 function initializeLanguage() {
     // Example placeholder, if you have language logic
