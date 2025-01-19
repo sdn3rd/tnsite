@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', e => {
             e.preventDefault();
             const section = item.getAttribute('data-section');
-            // If "contact", call loadContactSection() from contact.js
+            // If "contact", call loadContactSection()
             if (section === 'contact') {
                 loadContactSection();
             } else {
@@ -26,9 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Menu item clicked: ${section}. Menu closed.`);
         });
     });
+<<<<<<< HEAD
 
     // NEW LOGIC: Show the love message if on an iPhone
     checkIphoneAndShowMessage();
+=======
+>>>>>>> main
 });
 
 /* ----------------------------------
@@ -68,11 +71,6 @@ function detectOSTheme() {
     applyTheme(theme);
 }
 
-/**
- * updateThemeIcon(theme):
- * If theme = 'light', set icon = 'icons/darkmode.png'
- * If theme = 'dark',  set icon = 'icons/lightmode.png'
- */
 function updateThemeIcon(theme) {
     const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
     themeToggleImages.forEach(themeIcon => {
@@ -83,11 +81,6 @@ function updateThemeIcon(theme) {
     });
 }
 
-/**
- * updatePatreonIcon:
- * If theme=light => patreon_alt.png
- * else => patreon.png
- */
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -103,7 +96,7 @@ function updatePatreonIcon() {
 
 /* 
    Update all icons based on theme (avoid changing pane images).
-   - If theme=light => .png -> _alt.png
+   - If theme=light => .png -> _alt.png  (placeholder logic)
    - If theme=dark  => _alt.png -> .png
 */
 function updateAllIcons(theme) {
@@ -128,10 +121,9 @@ function updateAllIcons(theme) {
         // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
-                // In your real code, you might do a .replace('.png', '_alt.png')
-                const altSrc = src.replace('.png', '.png');
-                img.setAttribute('src', altSrc);
-                console.log(`Switched ${src} to ${altSrc}`);
+                // Example placeholder if you have real "_alt" assets
+                // const altSrc = src.replace('.png', '_alt.png');
+                // img.setAttribute('src', altSrc);
             }
         } else {
             // Switch back to dark if ends with _alt
@@ -239,8 +231,6 @@ function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
     } else if (section === 'contact') {
-        // We'll call loadContactSection from contact.js,
-        // but we handle that in the side menu listener above.
         loadContactSection();
     } else {
         loadContentSection(section);
@@ -273,6 +263,7 @@ function loadContentSection(sectionId) {
 
 /* ----------------------------------
    POETRY SECTION
+   (Fetch from remote first; on error, fallback to local)
 ---------------------------------- */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
@@ -297,7 +288,7 @@ function loadPoetrySection() {
         console.log('No cached poems found.');
     }
 
-    // Fetch fresh poems
+    // Fetch from remote
     fetch('https://tristannuvola.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
@@ -329,13 +320,37 @@ function loadPoetrySection() {
                 console.error('Failed to cache poems:', e);
             }
         })
+        // If remote fails, try local poetry.json
         .catch(error => {
-            console.error('Error loading poetry:', error);
-            // If no poems were loaded from cache, display error
-            if (!cachedPoems) {
-                displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
-            }
-            // Else, poems from cache are already displayed
+            console.error('Error loading poetry from remote:', error);
+            console.log('Trying local poetry.json...');
+            fetch('poetry.json')
+                .then(localResp => {
+                    if (!localResp.ok) {
+                        throw new Error(`Failed to fetch local poetry.json: ${localResp.status} ${localResp.statusText}`);
+                    }
+                    return localResp.json();
+                })
+                .then(localData => {
+                    console.log('Poetry data loaded from local poetry.json:', localData);
+                    const poemsByCategory = categorizePoems(localData);
+                    displayPoetry(poemsByCategory, poetryContainer);
+
+                    // Cache them
+                    try {
+                        localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
+                        console.log('Local poems cached successfully.');
+                    } catch (e) {
+                        console.error('Failed to cache local poems:', e);
+                    }
+                })
+                .catch(localErr => {
+                    console.error('Error loading local poetry.json:', localErr);
+                    // If no poems were loaded from cache, display error
+                    if (!cachedPoems) {
+                        displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
+                    }
+                });
         });
 }
 
@@ -345,11 +360,9 @@ function categorizePoems(poems) {
 
     poems.forEach(poem => {
         const category = poem.category || 'Throwetry';
-
         if (!categories[category]) {
             categories[category] = [];
         }
-
         categories[category].push(poem);
     });
 
@@ -357,6 +370,10 @@ function categorizePoems(poems) {
     return categories;
 }
 
+/**
+ * Sort by date DESC if date is present, fallback to title.
+ * Then display poems grouped by category.
+ */
 function displayPoetry(poemsByCategory, container) {
     console.log('Displaying poetry by category...');
     if (Object.keys(poemsByCategory).length === 0) {
@@ -382,7 +399,7 @@ function displayPoetry(poemsByCategory, container) {
         const collectionHeader = document.createElement('div');
         collectionHeader.classList.add('collection-header');
 
-        // Format the category name (can have underscores, remove #, etc.)
+        // Format the category name
         const formattedCategory = formatCollectionName(collectionName);
         collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedCategory}`;
         collectionWrapper.appendChild(collectionHeader);
@@ -392,8 +409,24 @@ function displayPoetry(poemsByCategory, container) {
         collectionContent.classList.add('collection-content');
         collectionContent.style.display = 'none';
 
-        // Sort poems by title
-        const sortedPoems = [...poems].sort((a, b) => a.title.localeCompare(b.title));
+        // Sort poems by date (desc), fallback to title
+        const sortedPoems = [...poems].sort((a, b) => {
+            const aDate = a.date ? new Date(a.date).getTime() : null;
+            const bDate = b.date ? new Date(b.date).getTime() : null;
+
+            if (aDate && bDate) {
+                // Descending by date
+                return bDate - aDate;
+            } else if (aDate && !bDate) {
+                return -1;
+            } else if (!aDate && bDate) {
+                return 1;
+            } else {
+                return a.title.localeCompare(b.title);
+            }
+        });
+
+        // Build poem elements
         sortedPoems.forEach(poem => {
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
@@ -402,7 +435,10 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
+<<<<<<< HEAD
             // Format the poem title
+=======
+>>>>>>> main
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -444,6 +480,7 @@ function displayPoetry(poemsByCategory, container) {
             });
 
             // MOBILE-ONLY READING OVERLAY
+            // If the poem is not matrix/puzzle, show reading overlay on content click
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
                 poemContent.addEventListener('click', evt => {
                     evt.stopPropagation();
@@ -478,32 +515,18 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/* 
-   For categories (which might have underscores):
-   1) Remove a leading '#' if present
-   2) Convert underscores to spaces
-   3) Split into words
-   4) The first word is always capitalized (even if it is 'the'/'of')
-   5) For subsequent words:
-      - if the word is exactly 'of' or 'the' => keep it lowercase
-      - otherwise, capitalize
-*/
 function formatCollectionName(name) {
-    // 1) Remove leading #
     if (name.startsWith('#')) {
         name = name.slice(1);
     }
-    // 2) Convert underscores to spaces
     name = name.replace(/_/g, ' ');
 
     const words = name.split(/\s+/).filter(Boolean);
     return words
         .map((word, index) => {
             if (index === 0) {
-                // Always capitalize first word
                 return capitalizeWord(word);
             } else {
-                // 'of' and 'the' => keep them lowercase
                 if (['of', 'the'].includes(word.toLowerCase())) {
                     return word.toLowerCase();
                 } else {
@@ -514,15 +537,6 @@ function formatCollectionName(name) {
         .join(' ');
 }
 
-/*
-   For poem titles (which do NOT have underscores, but might start with '#'):
-   1) Remove a leading '#' if present
-   2) Split into words
-   3) The first word is always capitalized (even if it is 'the'/'of')
-   4) For subsequent words:
-      - if the word is exactly 'of' or 'the' => keep it lowercase
-      - otherwise, capitalize
-*/
 function formatPoemTitle(title) {
     if (title.startsWith('#')) {
         title = title.slice(1);
@@ -532,7 +546,6 @@ function formatPoemTitle(title) {
     return words
         .map((word, index) => {
             if (index === 0) {
-                // Always capitalize first word
                 return capitalizeWord(word);
             } else {
                 if (['of', 'the'].includes(word.toLowerCase())) {
@@ -545,14 +558,13 @@ function formatPoemTitle(title) {
         .join(' ');
 }
 
-// Capitalize first letter, rest lowercase
 function capitalizeWord(word) {
     if (!word) return '';
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 /* ----------------------------------
-   CONTACT SECTION (INJECTION)
+   CONTACT SECTION
 ---------------------------------- */
 function loadContactSection() {
     console.log('Loading contact section...');
@@ -562,7 +574,7 @@ function loadContactSection() {
         return;
     }
 
-    // Hide title if you want
+    // Optionally hide the title
     const titleSection = document.querySelector('.title-section');
     if (titleSection) {
         titleSection.style.display = 'none';
@@ -585,7 +597,7 @@ function loadContactSection() {
             </form>
         </div>
 
-        <!-- Optional volume slider (remove if you truly don't want it) -->
+        <!-- Optional volume slider; remove if you truly don't want it -->
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
     `;
 
@@ -593,7 +605,6 @@ function loadContactSection() {
     checkSubmissionCookie(); // Cookie check to block repeated submissions
 }
 
-/* -------------- CONTACT LOGIC (MERGED) -------------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
     initializeTheme(); 
@@ -615,7 +626,7 @@ function checkSubmissionCookie() {
     if (params.submitted === 'true') {
         setCookie('formSubmitted', 'true', 24);
 
-        // Remove param
+        // Remove param from URL
         if (window.history.replaceState) {
             const url = new URL(window.location);
             url.searchParams.delete('submitted');
@@ -722,7 +733,7 @@ function duplicatePanes() {
     const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
     const initialPaneCount = masterPanes.length;
 
-    // remove extra
+    // Remove extra
     const allPanes = Array.from(panels.querySelectorAll('.pane'));
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
@@ -731,7 +742,7 @@ function duplicatePanes() {
         }
     });
 
-    // ensure we have 8 total
+    // Ensure we have 8 total
     const currentPaneCount = panels.querySelectorAll('.pane').length;
     const desiredPaneCount = 8;
     for (let i = currentPaneCount; i < desiredPaneCount; i++) {
@@ -753,7 +764,6 @@ function adjustPaneImages() {
         console.warn('Panels container not found.');
         return;
     }
-    // We keep logic for duplicating or removing extra panes
     const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8);
     const viewportHeight = window.innerHeight;
     const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720
@@ -793,6 +803,7 @@ function adjustPaneImages() {
     });
     panesContainer.style.justifyContent = 'flex-start';
 }
+<<<<<<< HEAD
 
 /* ----------------------------------
    ONLY ON iPHONE: Show the "love" message overlay
@@ -892,3 +903,5 @@ function getCookie(name) {
     }
     return null;
 }
+=======
+>>>>>>> main
