@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', e => {
             e.preventDefault();
             const section = item.getAttribute('data-section');
-            // If "contact", call loadContactSection() from contact.js
+            // If "contact", call loadContactSection()
             if (section === 'contact') {
                 loadContactSection();
             } else {
@@ -26,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Menu item clicked: ${section}. Menu closed.`);
         });
     });
-
-    // NEW LOGIC: Show the love message if on a mobile device (currently commented out)
-    checkMobileAndShowMessage();
 });
 
 /* ----------------------------------
@@ -68,11 +65,6 @@ function detectOSTheme() {
     applyTheme(theme);
 }
 
-/**
- * updateThemeIcon(theme):
- * If theme = 'light', set icon = 'icons/darkmode.png'
- * If theme = 'dark',  set icon = 'icons/lightmode.png'
- */
 function updateThemeIcon(theme) {
     const themeToggleImages = document.querySelectorAll('footer #theme-toggle img');
     themeToggleImages.forEach(themeIcon => {
@@ -83,11 +75,6 @@ function updateThemeIcon(theme) {
     });
 }
 
-/**
- * updatePatreonIcon:
- * If theme=light => patreon_alt.png
- * else => patreon.png
- */
 function updatePatreonIcon() {
     const patreonIcon = document.getElementById('patreon-icon');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -103,7 +90,7 @@ function updatePatreonIcon() {
 
 /* 
    Update all icons based on theme (avoid changing pane images).
-   - If theme=light => .png -> _alt.png
+   - If theme=light => .png -> _alt.png  (placeholder logic)
    - If theme=dark  => _alt.png -> .png
 */
 function updateAllIcons(theme) {
@@ -128,10 +115,9 @@ function updateAllIcons(theme) {
         // Switch to alt if light theme
         if (theme === 'light') {
             if (!src.includes('_alt') && src.endsWith('.png')) {
-                // In your real code, you might do a .replace('.png', '_alt.png')
-                const altSrc = src.replace('.png', '.png');
-                img.setAttribute('src', altSrc);
-                console.log(`Switched ${src} to ${altSrc}`);
+                // Example placeholder if you have real "_alt" assets
+                // const altSrc = src.replace('.png', '_alt.png');
+                // img.setAttribute('src', altSrc);
             }
         } else {
             // Switch back to dark if ends with _alt
@@ -239,8 +225,6 @@ function loadSection(section) {
     if (section === 'poetry') {
         loadPoetrySection();
     } else if (section === 'contact') {
-        // We'll call loadContactSection from contact.js,
-        // but we handle that in the side menu listener above.
         loadContactSection();
     } else {
         loadContentSection(section);
@@ -272,7 +256,8 @@ function loadContentSection(sectionId) {
 }
 
 /* ----------------------------------
-   POETRY SECTION (Fetch remote, if fails, fetch local)
+   POETRY SECTION
+   (Fetch from remote first; on error, fallback to local)
 ---------------------------------- */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
@@ -297,7 +282,7 @@ function loadPoetrySection() {
         console.log('No cached poems found.');
     }
 
-    // Fetch from remote first
+    // Fetch from remote
     fetch('https://tristannuvola.com/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
@@ -408,7 +393,7 @@ function displayPoetry(poemsByCategory, container) {
         const collectionHeader = document.createElement('div');
         collectionHeader.classList.add('collection-header');
 
-        // Format the category name (can have underscores, remove #, etc.)
+        // Format the category name
         const formattedCategory = formatCollectionName(collectionName);
         collectionHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedCategory}`;
         collectionWrapper.appendChild(collectionHeader);
@@ -418,7 +403,7 @@ function displayPoetry(poemsByCategory, container) {
         collectionContent.classList.add('collection-content');
         collectionContent.style.display = 'none';
 
-        // SORT by date (desc). If no date, fallback to title
+        // Sort poems by date (desc), fallback to title
         const sortedPoems = [...poems].sort((a, b) => {
             const aDate = a.date ? new Date(a.date).getTime() : null;
             const bDate = b.date ? new Date(b.date).getTime() : null;
@@ -431,12 +416,11 @@ function displayPoetry(poemsByCategory, container) {
             } else if (!aDate && bDate) {
                 return 1;
             } else {
-                // If neither has date, fallback to title sort
                 return a.title.localeCompare(b.title);
             }
         });
 
-        // Build poems
+        // Build poem elements
         sortedPoems.forEach(poem => {
             const poemWrapper = document.createElement('div');
             poemWrapper.classList.add('poem');
@@ -445,7 +429,6 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-            // Format the poem title (no underscores, remove # if any, etc.)
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -487,6 +470,7 @@ function displayPoetry(poemsByCategory, container) {
             });
 
             // MOBILE-ONLY READING OVERLAY
+            // If the poem is not matrix/puzzle, show reading overlay on content click
             if (isMobileDevice() && !poem.matrix_poem && !poem.puzzle_content) {
                 poemContent.addEventListener('click', evt => {
                     evt.stopPropagation();
@@ -521,32 +505,18 @@ function displayPoetry(poemsByCategory, container) {
     }
 }
 
-/*
-   For categories (which might have underscores):
-   1) Remove a leading '#' if present
-   2) Convert underscores to spaces
-   3) Split into words
-   4) The first word is always capitalized (even if it is 'the'/'of')
-   5) For subsequent words:
-      - if the word is exactly 'of' or 'the' => keep it lowercase
-      - otherwise, capitalize
-*/
 function formatCollectionName(name) {
-    // 1) Remove leading #
     if (name.startsWith('#')) {
         name = name.slice(1);
     }
-    // 2) Convert underscores to spaces
     name = name.replace(/_/g, ' ');
 
     const words = name.split(/\s+/).filter(Boolean);
     return words
         .map((word, index) => {
             if (index === 0) {
-                // Always capitalize first word
                 return capitalizeWord(word);
             } else {
-                // 'of' and 'the' => keep them lowercase
                 if (['of', 'the'].includes(word.toLowerCase())) {
                     return word.toLowerCase();
                 } else {
@@ -557,15 +527,6 @@ function formatCollectionName(name) {
         .join(' ');
 }
 
-/*
-   For poem titles (which do NOT have underscores, but might start with '#'):
-   1) Remove a leading '#' if present
-   2) Split into words
-   3) The first word is always capitalized (even if it is 'the'/'of')
-   4) For subsequent words:
-      - if the word is exactly 'of' or 'the' => keep it lowercase
-      - otherwise, capitalize
-*/
 function formatPoemTitle(title) {
     if (title.startsWith('#')) {
         title = title.slice(1);
@@ -575,7 +536,6 @@ function formatPoemTitle(title) {
     return words
         .map((word, index) => {
             if (index === 0) {
-                // Always capitalize first word
                 return capitalizeWord(word);
             } else {
                 if (['of', 'the'].includes(word.toLowerCase())) {
@@ -588,14 +548,13 @@ function formatPoemTitle(title) {
         .join(' ');
 }
 
-// Capitalize first letter, rest lowercase
 function capitalizeWord(word) {
     if (!word) return '';
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 /* ----------------------------------
-   CONTACT SECTION (INJECTION)
+   CONTACT SECTION
 ---------------------------------- */
 function loadContactSection() {
     console.log('Loading contact section...');
@@ -605,7 +564,7 @@ function loadContactSection() {
         return;
     }
 
-    // Hide title if you want
+    // Optionally hide the title
     const titleSection = document.querySelector('.title-section');
     if (titleSection) {
         titleSection.style.display = 'none';
@@ -628,7 +587,7 @@ function loadContactSection() {
             </form>
         </div>
 
-        <!-- Optional volume slider (remove if you truly don't want it) -->
+        <!-- Optional volume slider; remove if you truly don't want it -->
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
     `;
 
@@ -636,7 +595,6 @@ function loadContactSection() {
     checkSubmissionCookie(); // Cookie check to block repeated submissions
 }
 
-/* -------------- CONTACT LOGIC (MERGED) -------------- */
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
     initializeTheme(); 
@@ -658,7 +616,7 @@ function checkSubmissionCookie() {
     if (params.submitted === 'true') {
         setCookie('formSubmitted', 'true', 24);
 
-        // Remove param
+        // Remove param from URL
         if (window.history.replaceState) {
             const url = new URL(window.location);
             url.searchParams.delete('submitted');
@@ -778,7 +736,7 @@ function duplicatePanes() {
     const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
     const initialPaneCount = masterPanes.length;
 
-    // remove extra
+    // Remove extra
     const allPanes = Array.from(panels.querySelectorAll('.pane'));
     allPanes.forEach((pane, index) => {
         if (index >= initialPaneCount) {
@@ -787,7 +745,7 @@ function duplicatePanes() {
         }
     });
 
-    // ensure we have 8 total
+    // Ensure we have 8 total
     const currentPaneCount = panels.querySelectorAll('.pane').length;
     const desiredPaneCount = 8;
     for (let i = currentPaneCount; i < desiredPaneCount; i++) {
@@ -809,7 +767,6 @@ function adjustPaneImages() {
         console.warn('Panels container not found.');
         return;
     }
-    // We keep logic for duplicating or removing extra panes
     const masterPanes = Array.from(panesContainer.querySelectorAll('.pane')).slice(0, 8);
     const viewportHeight = window.innerHeight;
     const baseThreshold = (315 * 8) + 200; // 2520 + 200 = 2720
@@ -848,112 +805,4 @@ function adjustPaneImages() {
         img.style.height = 'auto';
     });
     panesContainer.style.justifyContent = 'flex-start';
-}
-
-/* ----------------------------------
-   NEW LOGIC: Always show love message on mobile (currently commented out)
----------------------------------- */
-function checkMobileAndShowMessage() {
-    // If you decide to enable, uncomment below:
-    // if (isMobileDevice()) {
-    //     showLoveOverlay();
-    // }
-}
-
-// The love overlay function (not called unless you uncomment it above)
-function showLoveOverlay() {
-    // Remove existing overlay if any
-    const existingOverlay = document.getElementById('love-overlay');
-    if (existingOverlay) existingOverlay.remove();
-
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'love-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    overlay.style.color = '#fff';
-    overlay.style.zIndex = '999999';
-    overlay.style.overflowY = 'auto';
-    overlay.style.padding = '20px';
-
-    // Close button (upper right)
-    const closeBtn = document.createElement('div');
-    closeBtn.innerText = '✕';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.style.fontSize = '1.5em';
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '20px';
-
-    // Message container
-    const messageContainer = document.createElement('div');
-    messageContainer.style.margin = '40px auto';
-    messageContainer.style.maxWidth = '600px';
-    messageContainer.style.fontSize = '1.1em';
-    messageContainer.style.lineHeight = '1.5';
-
-    // Your custom "love" message text
-    const loveMessage = `
-    <p>Nessuno controlla questo sito tranne te, quindi non mi preoccupo di lasciare messaggi qui per te da leggere. Farò in modo che questo sia l'ultimo e finalmente ti darò il rispetto che hai voluto. Lascerò andare e onorerò la tua richiesta. È difficile farmi entrare in testa qualcosa una volta che mi impegno su un obiettivo, ed era proprio essere gentile con te, anche se mi hai ferito. Credo di averti probabilmente ferito anch'io cercando di raggiungere quell'obiettivo. Ma accidenti, avevi ragione: sei grande. Però ti sbagliavi anche, non sei perfetta: sei disordinata e affascinante da morire. Mi dispiace che non sia andata bene tra noi incontrarci ed essere amici. Ti auguro comunque il meglio e lascerò questo qui per un po'.</p>
-    <p>Se mai volessi ricevere alcune poesie, crea un'email temporanea e inviami un messaggio indicando quali o tutte quelle di tuo interesse, e te le invierò direttamente, così potrai mantenere la tua privacy. Tuttavia, questo sito è ora qualcosa di permanente, quindi fammi sapere se hai problemi con QUALSIASI cosa qui sopra. Sostituire l'arte richiederà tempo se questa è la richiesta. Inoltre, puoi darmi il permesso di pubblicare il libro? Naturalmente renderò le poesie più universali, ma ho davvero bisogno di un editor per l'italiano e sono molto serio nel pubblicarlo. Ti procurerei anche una copia rilegata in pelle, facendo in modo che i profitti vadano a te per la tua ispirazione, e sì, folle è una descrizione valida per me.</p>
-    `;
-
-    messageContainer.innerHTML = loveMessage;
-
-    overlay.appendChild(closeBtn);
-    overlay.appendChild(messageContainer);
-    document.body.appendChild(overlay);
-
-    // Close on click
-    closeBtn.addEventListener('click', () => {
-        overlay.remove();
-    });
-}
-
-/* ----------------------------------
-   Language & Cookie Utilities (If used)
----------------------------------- */
-function initializeLanguage() {
-    // Example placeholder, if you have language logic
-}
-
-function toggleLanguage() {
-    // Example placeholder for language toggle
-}
-
-function getQueryParams() {
-    const params = {};
-    const queryString = window.location.search.substring(1);
-    const queries = queryString.split('&');
-
-    for (let i = 0; i < queries.length; i++) {
-        const pair = queries[i].split('=');
-        const key = decodeURIComponent(pair[0]);
-        const value = decodeURIComponent(pair[1] || '');
-        params[key] = value;
-    }
-    return params;
-}
-
-function setCookie(name, value, hours) {
-    const d = new Date();
-    d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
-    const expires = 'expires=' + d.toUTCString();
-    document.cookie = `${name}=${value};${expires};path=/`;
-}
-
-function getCookie(name) {
-    const nameEQ = name + '=';
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-            return c.substring(nameEQ.length, c.length);
-        }
-    }
-    return null;
 }
