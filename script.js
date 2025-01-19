@@ -837,12 +837,11 @@ function showLoveOverlay() {
 
     // Your custom message here
     const loveMessage = `
-        <h2 style="text-align:center;">Dear iPhone User</h2>
-        <p>
+        <h2>
             Hate is not an emotion I have in my heart.
             Let me go.
             I wish you the life you deserve.
-        </p>
+        </h2>
     `;
     messageContainer.innerHTML = loveMessage;
 
