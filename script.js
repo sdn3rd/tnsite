@@ -837,11 +837,11 @@ function showLoveOverlay() {
 
     // Your custom message here
     const loveMessage = `
-        <h2>
-            Hate is not an emotion I have in my heart.
-            Let me go.
-            I wish you the life you deserve.
-        </h2>
+        <h3>
+            Hate is not an emotion I have in my heart.<br>
+            Let me go.<br>
+            I wish you the life you deserve.<br>
+        </h3>
     `;
     messageContainer.innerHTML = loveMessage;
 
