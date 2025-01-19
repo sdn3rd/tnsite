@@ -26,12 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Menu item clicked: ${section}. Menu closed.`);
         });
     });
-<<<<<<< HEAD
-
-    // NEW LOGIC: Show the love message if on an iPhone
-    checkIphoneAndShowMessage();
-=======
->>>>>>> main
 });
 
 /* ----------------------------------
@@ -435,10 +429,6 @@ function displayPoetry(poemsByCategory, container) {
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
 
-<<<<<<< HEAD
-            // Format the poem title
-=======
->>>>>>> main
             const formattedTitle = formatPoemTitle(poem.title);
             poemHeader.innerHTML = `<span class="toggle-icon">+</span> ${formattedTitle}`;
 
@@ -684,6 +674,14 @@ function enterReadingMode(poem) {
     overlay.style.overflowY = 'auto';
     overlay.style.padding = '20px';
 
+    // Close button
+    const closeBtn = document.createElement('div');
+    closeBtn.innerText = 'Close ✕';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.fontSize = '1.2em';
+    closeBtn.style.marginBottom = '20px';
+    closeBtn.style.textAlign = 'right';
+
     const poemTitle = document.createElement('h2');
     poemTitle.textContent = poem.title || 'Untitled Poem';
     poemTitle.style.marginTop = '0';
@@ -691,9 +689,14 @@ function enterReadingMode(poem) {
     const poemText = document.createElement('div');
     poemText.innerHTML = poem.content.replace(/\n/g, '<br>');
 
+    overlay.appendChild(closeBtn);
     overlay.appendChild(poemTitle);
     overlay.appendChild(poemText);
     document.body.appendChild(overlay);
+
+    closeBtn.addEventListener('click', () => {
+        overlay.remove();
+    });
 }
 
 /* -------------- UTILITY FUNCTIONS -------------- */
@@ -803,105 +806,3 @@ function adjustPaneImages() {
     });
     panesContainer.style.justifyContent = 'flex-start';
 }
-<<<<<<< HEAD
-
-/* ----------------------------------
-   ONLY ON iPHONE: Show the "love" message overlay
----------------------------------- */
-function isIphone() {
-    // Case-insensitive check for iPhone in the user agent
-    return /iPhone/i.test(navigator.userAgent);
-}
-
-function checkIphoneAndShowMessage() {
-    if (isIphone()) {
-        showLoveOverlay();
-    }
-}
-
-// The love overlay function (no close button, non-dismissable)
-function showLoveOverlay() {
-    // Remove existing overlay if any
-    const existingOverlay = document.getElementById('love-overlay');
-    if (existingOverlay) existingOverlay.remove();
-
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'love-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    overlay.style.color = '#fff';
-    overlay.style.zIndex = '999999';
-    overlay.style.overflowY = 'auto';
-    overlay.style.padding = '20px';
-
-    // Message container
-    const messageContainer = document.createElement('div');
-    messageContainer.style.margin = '40px auto';
-    messageContainer.style.maxWidth = '600px';
-    messageContainer.style.fontSize = '1.1em';
-    messageContainer.style.lineHeight = '1.5';
-
-    // Your custom message here
-    const loveMessage = `
-        <h3>
-            Hate is not an emotion I have in my heart.<br>
-            Let me go.<br>
-            I wish you the life you deserve.<br>
-        </h3>
-    `;
-    messageContainer.innerHTML = loveMessage;
-
-    overlay.appendChild(messageContainer);
-    document.body.appendChild(overlay);
-}
-
-/* ----------------------------------
-   Language & Cookie Utilities
----------------------------------- */
-function initializeLanguage() {
-    // Example placeholder, if you have language logic
-}
-
-function toggleLanguage() {
-    // Example placeholder for language toggle
-}
-
-function getQueryParams() {
-    const params = {};
-    const queryString = window.location.search.substring(1);
-    const queries = queryString.split('&');
-
-    for (let i = 0; i < queries.length; i++) {
-        const pair = queries[i].split('=');
-        const key = decodeURIComponent(pair[0]);
-        const value = decodeURIComponent(pair[1] || '');
-        params[key] = value;
-    }
-    return params;
-}
-
-function setCookie(name, value, hours) {
-    const d = new Date();
-    d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
-    const expires = 'expires=' + d.toUTCString();
-    document.cookie = `${name}=${value};${expires};path=/`;
-}
-
-function getCookie(name) {
-    const nameEQ = name + '=';
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-            return c.substring(nameEQ.length, c.length);
-        }
-    }
-    return null;
-}
-=======
->>>>>>> main
