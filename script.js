@@ -283,7 +283,7 @@ function loadPoetrySection() {
     }
 
     // Fetch from remote
-    fetch('https://tristannuvola.com/patreon-poetry')
+    fetch('https://tristannuvo.la/patreon-poetry')
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
             if (!response.ok) {
