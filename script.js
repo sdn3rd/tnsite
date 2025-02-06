@@ -263,10 +263,9 @@ function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     const contentDiv = document.getElementById('main-content');
     contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
-
     const poetryContainer = document.getElementById('poetry-container');
 
-    // Attempt to load poems from cache first
+    // Load from cache first for fast display
     const cachedPoems = localStorage.getItem('cached_poems');
     if (cachedPoems) {
         try {
@@ -282,31 +281,24 @@ function loadPoetrySection() {
         console.log('No cached poems found.');
     }
 
-    // Fetch from remote
-    fetch('https://tristannuvo.la/patreon-poetry')
+    // Always fetch the latest version from remote
+    fetch(`https://tristannuvo.la/patreon-poetry?cacheBust=${Date.now()}`)
         .then(response => {
             console.log('Received response from /patreon-poetry:', response);
             if (!response.ok) {
                 throw new Error(`Failed to fetch /patreon-poetry: ${response.status} ${response.statusText}`);
             }
-            return response.text();
+            return response.json();
         })
-        .then(text => {
-            console.log('Raw response text received.');
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (error) {
-                console.error('Invalid JSON response from /patreon-poetry:', error);
-                console.error('Response text:', text);
-                throw new Error('Invalid JSON response from /patreon-poetry');
-            }
+        .then(data => {
             console.log('Poetry data received:', data);
             const poemsByCategory = categorizePoems(data);
             console.log('Poems categorized:', poemsByCategory);
+
+            // Display fresh content
             displayPoetry(poemsByCategory, poetryContainer);
 
-            // Cache them
+            // Update the cache with the latest data
             try {
                 localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
                 console.log('Poems cached successfully.');
@@ -314,39 +306,14 @@ function loadPoetrySection() {
                 console.error('Failed to cache poems:', e);
             }
         })
-        // If remote fails, try local poetry.json
         .catch(error => {
             console.error('Error loading poetry from remote:', error);
-            console.log('Trying local poetry.json...');
-            fetch('poetry.json')
-                .then(localResp => {
-                    if (!localResp.ok) {
-                        throw new Error(`Failed to fetch local poetry.json: ${localResp.status} ${localResp.statusText}`);
-                    }
-                    return localResp.json();
-                })
-                .then(localData => {
-                    console.log('Poetry data loaded from local poetry.json:', localData);
-                    const poemsByCategory = categorizePoems(localData);
-                    displayPoetry(poemsByCategory, poetryContainer);
-
-                    // Cache them
-                    try {
-                        localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
-                        console.log('Local poems cached successfully.');
-                    } catch (e) {
-                        console.error('Failed to cache local poems:', e);
-                    }
-                })
-                .catch(localErr => {
-                    console.error('Error loading local poetry.json:', localErr);
-                    // If no poems were loaded from cache, display error
-                    if (!cachedPoems) {
-                        displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
-                    }
-                });
+            if (!cachedPoems) {
+                displayError('No cache, no connection.<br>We cannot display the poetry, try when you are connected.');
+            }
         });
 }
+
 
 function categorizePoems(poems) {
     console.log('Categorizing poems...');
