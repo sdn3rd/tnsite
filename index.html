@@ -40,14 +40,11 @@
     <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Dexie.js (if needed) -->
-    <script src="https://unpkg.com/dexie@3.0.3/dist/dexie.min.js"></script>
 
-    <!-- Cloudflare Turnstile Widget (for contact form) -->
+    <!-- Cloudflare Turnstile Widget (if needed for contact) -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
@@ -86,6 +83,14 @@
                 <a href="#" data-section="contact">
                     <img class="menu-icon" src="icons/contact.png" alt="Contact Icon">
                     <span class="menu-text">Contact</span>
+                </a>
+            </li>
+
+            <!-- NEW ICON FOR SPECTRAL (below the others) -->
+            <li>
+                <a href="#" data-section="spectral">
+                    <img class="menu-icon" src="icons/spectral.png" alt="Spectral Icon">
+                    <span class="menu-text">Spectral</span>
                 </a>
             </li>
         </ul>
@@ -145,7 +150,7 @@
         <!-- Social icons -->
         <div class="social-media">
             <a href="https://patreon.com/tristannuvola" target="_blank">
-                <img src="icons/patreon.png" alt="Patreon">
+                <img id="patreon-icon" src="icons/patreon.png" alt="Patreon">
             </a>
             <a href="https://bsky.app/profile/tristannuvola.bsky.social" target="_blank">
                 <img src="icons/twitter.png" alt="Bluesky">
@@ -154,18 +159,20 @@
                 <img src="icons/instagram.png" alt="Instagram">
             </a>
         </div>
-
         <p>&copy; <span id="year"></span> Tristan Nuvola</p>
-
     </footer>
 
     <!-- (Optional) Background Audio element -->
     <audio id="background-audio" loop muted></audio>
 
-    <!-- Main site script (e.g. sections, poetry, etc.) -->
+    <!-- Main site script -->
     <script src="script.js" defer></script>
-
     <!-- Single-file Contact logic (injects the contact form) -->
     <script src="contact.js" defer></script>
+
+    <!-- The newly updated /js files (puzzle.js and poems.js) -->
+    <script src="/js/puzzle.js" defer></script>
+    <script src="/js/poems.js" defer></script>
+    <!-- No cache.js reference since we removed all caching -->
 </body>
 </html>
