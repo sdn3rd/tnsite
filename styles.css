@@ -778,38 +778,38 @@
        margin: 20px 0;
    }
    
-   /* --- SPECTRAL ICONS: Updated for smaller mobile size & center --- */
-
+   /* ------------------------------------------------------------------
+      SPECTRAL ICONS (CENTERED + FORCED MOBILE SIZING)
+      ------------------------------------------------------------------ */
+   
    #spectral-icons {
-       /* Make sure we can center them with flexbox */
-       display: flex !important;
-       flex-wrap: wrap;          /* allow wrapping if needed */
-       justify-content: center;  /* center horizontally */
-       align-items: center;      /* center vertically in one row if there's enough space */
+       display: none;
        width: 100%;
-       margin: 20px auto 10px auto; /* top/bottom spacing */
-       text-align: center;       
+       margin-top: 20px;
+       margin-bottom: 10px;
+       margin-left: 40px;
+       text-align: center;
+       transform: scale(.8);
    }
    
    #spectral-icons img {
-       /* On desktop: smaller than your previous 50px */
-       width: 40px !important;
-       height: 40px !important;
-       margin: 5px;
+       display: inline-block;
+       margin: 0 10px;
+   
+       /* Force them to respect desktop vs mobile sizes */
+       width: var(--menu-icon-size-desktop) !important;
+       height: var(--menu-icon-size-desktop) !important;
        cursor: pointer;
        object-fit: contain;
        transition: transform 0.2s ease;
        background: none !important;
    }
    
-   /* If you want an even smaller size, just lower 40px -> 32px or 28px, etc. */
-   
-   /* Scale down further on smaller screens if needed */
+   /* Ensure on smaller screens, the icons definitely shrink */
    @media (max-width: 768px) {
        #spectral-icons img {
-           width: 32px !important; 
-           height: 32px !important;
-           margin: 5px;
+           width: var(--menu-icon-size-mobile) !important;
+           height: var(--menu-icon-size-mobile) !important;
        }
    }
    
