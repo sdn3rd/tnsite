@@ -59,7 +59,7 @@ function initializePage() {
 async function handleSpectralAccess() {
     try {
         // 1) Fetch a random question from Worker
-        const workerUrl = 'https://YOURWORKERNAME.workers.dev'; // adjust to your Worker endpoint
+        const workerUrl = 'https://validate-pat.notaa.workers.dev'; // adjust to your Worker endpoint
         const questionResp = await fetch(`${workerUrl}/question`);
         if (!questionResp.ok) throw new Error('No question from Worker');
 
