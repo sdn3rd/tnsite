@@ -1,4 +1,4 @@
-// script.js (ROOT) - Updated with Q/A gating + Patreon poetry expand/collapse
+// script.js (ROOT) - Final with Q/A gating + Patreon poetry expand/collapse + reading mode triggers
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -407,21 +407,31 @@ function displayPoetry(poemsByCategory, container) {
             // Title
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
-            // We'll just put the poem's title (or date) here
-            poemHeader.innerHTML = `<span class="poem-date">${poem.date || ''}</span> 
-                                    <span class="poem-title">${poem.title}</span>`;
+            // We'll put the poem's date (if any) and title
+            poemHeader.innerHTML = `
+                <span class="poem-date">${poem.date || ''}</span>
+                <span class="poem-title">${poem.title}</span>
+            `;
 
             // Poem content
             const poemContent = document.createElement('div');
             poemContent.classList.add('poem-content');
             poemContent.innerHTML = poem.content ? poem.content.replace(/\n/g, '<br>') : '';
 
-            // Click to expand/collapse
+            // Expand/collapse the poem
             poemHeader.addEventListener('click', () => {
                 if (poemContent.style.display === 'block') {
                     poemContent.style.display = 'none';
                 } else {
                     poemContent.style.display = 'block';
+                }
+            });
+
+            // On mobile, tapping the poem content => reading mode
+            poemContent.addEventListener('click', evt => {
+                evt.stopPropagation();
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    enterReadingMode(poem);
                 }
             });
 
@@ -433,7 +443,7 @@ function displayPoetry(poemsByCategory, container) {
         catWrapper.appendChild(header);
         catWrapper.appendChild(contentDiv);
 
-        // Category header click
+        // Category header click => expand/collapse
         header.addEventListener('click', () => {
             const icon = header.querySelector('.toggle-icon');
             if (contentDiv.classList.contains('active')) {

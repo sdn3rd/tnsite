@@ -1,4 +1,5 @@
 (() => {
+  // Global state for poems
   let currentLanguage = 'en';
   let currentPoemSet = 'main';
   let currentPoems = [];
@@ -6,19 +7,22 @@
   let savedVolume = 0.3;
   let lastViewedPoemId = null;
   let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
-  let isShowingImage = false;
+  let isShowingImage = false; // used if you show daycount images
   let currentAudio = null;
   let currentPlayingPoem = null;
   let currentExpandedPoem = null;
 
-  // minimal fallback for poem history
+  // Minimal fallback for poem history
   let fallbackPoemHistory = [];
 
+  /* ------------------------------------------------------------
+     LOCAL STORAGE CHECK & POEM HISTORY
+  ------------------------------------------------------------ */
   function isLocalStorageAvailable() {
     const testKey = '__storage_test__';
     try {
-      window.localStorage.setItem(testKey, '1');
-      window.localStorage.removeItem(testKey);
+      localStorage.setItem(testKey, '1');
+      localStorage.removeItem(testKey);
       return true;
     } catch (e) {
       return false;
@@ -27,8 +31,8 @@
 
   function storePoemHistoryEntry(poemId, title, timestamp) {
     if (isLocalStorageAvailable()) {
-      let existing = localStorage.getItem('poemHistory');
-      let history = existing ? JSON.parse(existing) : [];
+      const existing = localStorage.getItem('poemHistory');
+      const history = existing ? JSON.parse(existing) : [];
       history.push({ poemId, title, timestamp });
       localStorage.setItem('poemHistory', JSON.stringify(history));
     } else {
@@ -38,11 +42,10 @@
 
   function getPoemHistory() {
     if (isLocalStorageAvailable()) {
-      let existing = localStorage.getItem('poemHistory');
+      const existing = localStorage.getItem('poemHistory');
       return existing ? JSON.parse(existing) : [];
-    } else {
-      return fallbackPoemHistory;
     }
+    return fallbackPoemHistory;
   }
 
   function clearPoemHistory() {
@@ -52,22 +55,20 @@
     fallbackPoemHistory = [];
   }
 
+  /* ------------------------------------------------------------
+     POEM IDENTIFICATION
+  ------------------------------------------------------------ */
   function generatePoemId(poem) {
+    // Prefer date_en, else title_en, else snippet of poem_en
     if (poem.date_en) {
-      return (
-        'poem-' +
-        poem.date_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '')
-      );
+      return 'poem-' + poem.date_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
     } else if (poem.title_en) {
-      return (
-        'poem-' +
-        poem.title_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '')
-      );
+      return 'poem-' + poem.title_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
     } else if (poem.poem_en) {
-      const poemContent = Array.isArray(poem.poem_en)
+      const snippet = (Array.isArray(poem.poem_en)
         ? poem.poem_en.join(' ')
-        : poem.poem_en;
-      const snippet = poemContent
+        : poem.poem_en
+      )
         .slice(0, 10)
         .replace(/\s+/g, '_')
         .replace(/[^a-zA-Z0-9_-]/g, '');
@@ -79,12 +80,14 @@
   function getPoemById(poemId) {
     return currentPoems.find((poem) => generatePoemId(poem) === poemId);
   }
-
   function getPoemByWrapper(wrapper) {
     const poemId = wrapper.getAttribute('id');
     return getPoemById(poemId);
   }
 
+  /* ------------------------------------------------------------
+     LOADING POEMS
+  ------------------------------------------------------------ */
   async function loadPoemsFromSet(jsonFile) {
     try {
       const response = await fetch(`json/${jsonFile}`);
@@ -94,15 +97,21 @@
       }
       const data = await response.json();
       currentPoems = data;
+
+      // Insert puzzle poem if needed
       if (jsonFile === 'experiments.json' && !isPuzzlePoemInserted()) {
         insertPuzzlePoem();
       }
       await displayPoems(currentPoems, jsonFile);
+
     } catch (error) {
       console.error('Error loading poems:', error);
     }
   }
 
+  /* ------------------------------------------------------------
+     PUZZLE INSERTION
+  ------------------------------------------------------------ */
   function insertPuzzlePoem() {
     const puzzlePoem = {
       title_en: '15 Puzzle',
@@ -115,13 +124,15 @@
     };
     currentPoems.unshift(puzzlePoem);
   }
-
   function isPuzzlePoemInserted() {
     return currentPoems.some(
       (poem) => poem.date_en === '14 December 2024' && poem.puzzle_content
     );
   }
 
+  /* ------------------------------------------------------------
+     DATE PARSING & FILTERING
+  ------------------------------------------------------------ */
   function parseDateString(dateStr) {
     if (!dateStr) return null;
     const [dayStr, monthStr, yearStr] = dateStr.split(' ');
@@ -147,9 +158,10 @@
   }
 
   function filterPoemsByDate(data) {
+    // Filter out future dates beyond today
     const today = new Date();
     today.setHours(0,0,0,0);
-    return data.filter((poem) => {
+    return data.filter(poem => {
       if (poem.date_en) {
         const poemDate = parseDateString(poem.date_en);
         return poemDate ? poemDate <= today : true;
@@ -159,12 +171,16 @@
   }
 
   function onPoemClicked(poem) {
+    // Log poem click
     const poemId = generatePoemId(poem);
     const title = poem.title_en || poem.title_it || poem.date_en || 'No Title';
     const timestamp = new Date().toISOString();
     storePoemHistoryEntry(poemId, title, timestamp);
   }
 
+  /* ------------------------------------------------------------
+     DISPLAY POEMS
+  ------------------------------------------------------------ */
   async function displayPoems(poems, jsonFile) {
     const container = document.getElementById('poems-container');
     if (!container) {
@@ -172,33 +188,37 @@
       return;
     }
     container.innerHTML = '';
-  
+
+    // Sort logic
     const currentSortOrder = sortOrders[currentPoemSet] || 'desc';
-    poems = poems.filter((p) => p.poem_en || p.poem_it);
+    poems = poems.filter(p => p.poem_en || p.poem_it);
     poems = filterPoemsByDate(poems);
-  
-    // Sorting logic
+
+    // If "poetry.json", sort by date
     if (jsonFile === 'poetry.json') {
       poems.sort((a, b) => {
         if (a.date_en && b.date_en) {
           const dateA = parseDateString(a.date_en);
           const dateB = parseDateString(b.date_en);
-          return currentSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+          return (currentSortOrder === 'asc')
+            ? dateA - dateB
+            : dateB - dateA;
         }
         return 0;
       });
     } else {
+      // For other sets, reverse if "desc"
       if (currentSortOrder === 'desc') {
         poems = poems.slice().reverse();
       }
     }
-  
+
     if (poems.length === 0) {
       console.warn('No poems available to display.');
       return;
     }
-  
-    // Determine max columns for potential matrix poems
+
+    // For matrix-poem, find max columns
     let maxColumns = 0;
     poems.forEach(poem => {
       const lines = Array.isArray(poem.poem_en) ? poem.poem_en : [poem.poem_en];
@@ -208,71 +228,70 @@
         }
       });
     });
-  
-    for (let rowIndex = 0; rowIndex < poems.length; rowIndex++) {
-      const poem = poems[rowIndex];
+
+    for (let i = 0; i < poems.length; i++) {
+      const poem = poems[i];
       const poemId = generatePoemId(poem);
-  
+
       const poemWrapper = document.createElement('div');
       poemWrapper.classList.add('poem-wrapper');
       poemWrapper.setAttribute('id', poemId);
       poemWrapper.style.cursor = 'default';
-  
+
       const content = document.createElement('div');
       content.classList.add('poem-content');
-  
+
+      // If it's a "matrix" poem
       if (poem.matrix_poem) {
         poemWrapper.classList.add('matrix-poem-wrapper');
       }
-  
+
+      // Build the header
       let header = null;
       if (poem.title_en || poem.title_it || poem.date_en) {
         header = document.createElement('div');
         header.classList.add('poem-header');
-  
-        // ---- DATE ON THE LEFT (hide if in spectral sets) ----
+
+        // Date on the left, but hidden for spectral sets
         const dateSpan = document.createElement('span');
         dateSpan.classList.add('poem-date');
-  
+
         const spectralSets = ['main','caliope','lupa','experiment','strands'];
         if (spectralSets.includes(currentPoemSet)) {
-          // Hide the date for these sets
+          // hide date in spectral sets
           dateSpan.textContent = '';
         } else {
-          // Show the date as normal
           dateSpan.textContent = poem.date_en || '';
         }
-  
-        // TITLE ON THE RIGHT
+
+        // Title on the right
         const titleSpan = document.createElement('span');
         titleSpan.classList.add('poem-title');
-        titleSpan.textContent = (currentLanguage === 'en') 
-          ? (poem.title_en || '') 
+        titleSpan.textContent = (currentLanguage === 'en')
+          ? (poem.title_en || '')
           : (poem.title_it || '');
-  
+
         header.appendChild(dateSpan);
         header.appendChild(titleSpan);
-  
+
         poemWrapper.appendChild(header);
         content.style.display = 'none';
-  
-        header.addEventListener('click', async (event) => {
-          // If user clicked audio controls, ignore
+
+        header.addEventListener('click', (evt) => {
+          // If user clicked audio controls, do nothing
           if (
-            event.target.closest('.play-pause-button') ||
-            event.target.closest('.volume-slider')
+            evt.target.closest('.play-pause-button') ||
+            evt.target.closest('.volume-slider')
           ) {
             return;
           }
           collapseAllPoemsExcept(poemId);
-  
           if (content.style.display === 'none' || content.style.display === '') {
-            // Log poem click, apply background, etc.
             onPoemClicked(poem);
             content.style.display = 'block';
             applyCustomBackground(poem, poemWrapper);
             removeMediaControls(poemWrapper);
-  
+
             if (audioDirectories.hasOwnProperty(currentPoemSet)) {
               const result = createAudioControls(poemWrapper, poem, header);
               if (!result) {
@@ -282,8 +301,8 @@
               removeMediaControls(poemWrapper);
             }
             scrollToHeader(header);
-  
-            // If puzzle poem (only in experiments.json)
+
+            // If puzzle poem
             if (jsonFile === 'experiments.json' && poem.puzzle_content) {
               window.PuzzleManager.initializePuzzleGame(poem, poemWrapper, currentLanguage);
             }
@@ -295,16 +314,17 @@
           }
         });
       } else {
-        // If no title/date, show content by default
+        // If no title => always visible
         content.style.display = 'block';
       }
-  
+
+      // Poem text area
       const poemText = document.createElement('div');
       poemText.classList.add('poem-text');
       poemText.style.cursor = 'auto';
-  
+
       if (poem.matrix_poem) {
-        // Matrix poem => table layout
+        // Build matrix table
         const table = document.createElement('table');
         const lines = Array.isArray(poem.poem_en) ? poem.poem_en : [poem.poem_en];
         lines.forEach((line, row) => {
@@ -313,8 +333,7 @@
             const char = line[col] || ' ';
             const td = document.createElement('td');
             td.textContent = (char === ' ') ? '\u00A0' : char;
-  
-            // Ribbon classes
+
             if (col === Math.floor(maxColumns / 2)) {
               td.classList.add('vertical-ribbon');
             }
@@ -331,9 +350,9 @@
           table.appendChild(tr);
         });
         poemText.appendChild(table);
-  
-        // If first matrix poem, add bow
-        if (rowIndex === 0) {
+
+        // Bow, if first matrix poem
+        if (i === 0) {
           const bowContainer = document.createElement('div');
           bowContainer.classList.add('bow-container');
           const bowLeft = document.createElement('div');
@@ -342,37 +361,37 @@
           bowRight.classList.add('bow-right');
           const bowKnot = document.createElement('div');
           bowKnot.classList.add('bow-knot');
-  
           bowContainer.appendChild(bowLeft);
           bowContainer.appendChild(bowRight);
           bowContainer.appendChild(bowKnot);
           poemWrapper.appendChild(bowContainer);
         }
       } else if (!poem.puzzle_content) {
-        // Normal poem => text content
+        // Normal poem
         const poemContent = (currentLanguage === 'en') ? poem.poem_en : poem.poem_it;
         poemText.innerHTML = poemContent.replace(/\n/g, '<br>');
       }
-  
+
       content.appendChild(poemText);
       poemWrapper.appendChild(content);
       container.appendChild(poemWrapper);
-  
-      // On mobile, tapping text => reading mode
-      if (isMobileDevice && !poem.matrix_poem && !poem.puzzle_content) {
-        poemText.addEventListener('click', (evt) => {
-          evt.stopPropagation();
+
+      // Reading mode on mobile
+      poemText.addEventListener('click', (evt) => {
+        evt.stopPropagation();
+        if (isMobileDevice && !poem.matrix_poem && !poem.puzzle_content) {
           enterReadingMode(poem);
-        });
-      }
+        }
+      });
     }
-  
-    // Center final container if needed
+
+    // Center container
     centerContent();
   }
-  
 
-  // audio logic
+  /* ------------------------------------------------------------
+     AUDIO LOGIC
+  ------------------------------------------------------------ */
   const audioDirectories = {
     main: '/audio/',
     strands: '/audio/strands/'
@@ -411,6 +430,7 @@
     playPauseButton.addEventListener('click', (evt) => {
       evt.stopPropagation();
       if (audioElement.paused) {
+        // Pause any other current audio
         if (currentAudio && currentAudio !== audioElement) {
           currentAudio.pause();
           updatePlayPauseButton(currentPlayingPoem, false);
@@ -433,7 +453,8 @@
       evt.stopPropagation();
       audioElement.volume = volumeSlider.value;
       savedVolume = parseFloat(volumeSlider.value);
-      window.script.saveState?.();
+      // If your root script has a saveState, call it
+      window.script?.saveState?.();
     });
 
     audioElement.addEventListener('ended', () => {
@@ -452,6 +473,7 @@
       currentPlayingPoem = poem;
     });
 
+    // Insert controls after the header
     if (header) {
       header.parentNode.insertBefore(controlsContainer, header.nextSibling);
     } else {
@@ -481,14 +503,18 @@
   function getAudioFileName(poem) {
     if (!audioDirectories[currentPoemSet]) return null;
     const dir = audioDirectories[currentPoemSet];
+
+    // If "main" set & poem has date => use date
     if (currentPoemSet === 'main' && poem.date_en) {
       const fileName = poem.date_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
       return `${dir}${fileName}.m4a`;
     }
+    // Otherwise, try title
     if (poem.title_en) {
       const titleFileName = poem.title_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
       return `${dir}${titleFileName}.m4a`;
     }
+    // If that fails, fallback to date
     if (poem.date_en) {
       const fallback = poem.date_en.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
       return `${dir}${fallback}.m4a`;
@@ -504,21 +530,24 @@
     const btn = poemWrapper.querySelector('.play-pause-button');
     if (!btn) return;
     const iconType = isPlaying ? 'pause' : 'play';
-    btn.innerHTML = `<img src="${getIcon(iconType)}" alt="${isPlaying?'Pause':'Play'}">`;
+    btn.innerHTML = `<img src="${getIcon(iconType)}" alt="${iconType}">`;
   }
 
   function getIcon(type) {
+    // Use light/dark theme alt if you want
     const theme = document.documentElement.getAttribute('data-theme');
     if (theme === 'light') {
       return `/icons/${type}_alt.png`;
-    } else {
-      return `/icons/${type}.png`;
     }
+    return `/icons/${type}.png`;
   }
 
+  /* ------------------------------------------------------------
+     COLLAPSE ALL / EXCEPT
+  ------------------------------------------------------------ */
   function collapseAllPoems() {
     const contents = document.querySelectorAll('.poem-content');
-    contents.forEach((content) => {
+    contents.forEach(content => {
       const wrapper = content.parentElement;
       if (wrapper && wrapper.querySelector('.poem-header')) {
         content.style.display = 'none';
@@ -537,7 +566,7 @@
 
   function collapseAllPoemsExcept(exceptPoemId) {
     const contents = document.querySelectorAll('.poem-content');
-    contents.forEach((content) => {
+    contents.forEach(content => {
       const wrapper = content.parentElement;
       if (!wrapper) return;
       if (wrapper.id !== exceptPoemId && wrapper.querySelector('.poem-header')) {
@@ -557,6 +586,9 @@
     }
   }
 
+  /* ------------------------------------------------------------
+     CUSTOM BACKGROUNDS
+  ------------------------------------------------------------ */
   const customBackgrounds = {
     '15 November 2024': {
       light: 'images/skipping_alt.jpg',
@@ -578,10 +610,8 @@
 
   function applyCustomBackground(poem, poemWrapper) {
     if (poem.date_en && customBackgrounds[poem.date_en]) {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const bgUrl =
-        customBackgrounds[poem.date_en][currentTheme] ||
-        customBackgrounds[poem.date_en].dark;
+      const theme = document.documentElement.getAttribute('data-theme');
+      const bgUrl = customBackgrounds[poem.date_en][theme] || customBackgrounds[poem.date_en].dark;
       poemWrapper.classList.add('custom-background');
       poemWrapper.style.backgroundImage = `url('${bgUrl}')`;
       currentExpandedPoem = { poem, wrapper: poemWrapper };
@@ -597,10 +627,12 @@
     currentExpandedPoem = null;
   }
 
+  /* ------------------------------------------------------------
+     HIGHLIGHT / SCROLL
+  ------------------------------------------------------------ */
   function highlightPoem(poemWrapper) {
     poemWrapper.classList.add('highlight');
   }
-
   function unhighlightPoem(poemWrapper) {
     poemWrapper.classList.remove('highlight');
   }
@@ -622,46 +654,68 @@
     }
   }
 
+  /* ------------------------------------------------------------
+     READING MODE ON MOBILE
+  ------------------------------------------------------------ */
   function enterReadingMode(poem) {
     if (!isMobileDevice) return;
     const overlay = document.createElement('div');
     overlay.classList.add('reading-mode-overlay');
-    const readingWrapper = document.createElement('div');
-    readingWrapper.classList.add('reading-mode-content-wrapper');
-    const readingText = document.createElement('div');
-    readingText.classList.add('reading-mode-content');
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.9)',
+      color: '#fff',
+      zIndex: '9999',
+      overflowY: 'auto',
+      padding: '20px'
+    });
 
+    // close button
+    const closeBtn = document.createElement('div');
+    closeBtn.innerText = 'Close ✕';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.fontSize = '1.2em';
+    closeBtn.style.marginBottom = '20px';
+    closeBtn.style.textAlign = 'right';
+
+    const poemTitle = document.createElement('h2');
+    poemTitle.textContent = poem.title_en || poem.title_it || 'Untitled Poem';
+
+    const poemText = document.createElement('div');
     const poemContent = (currentLanguage === 'en') ? poem.poem_en : poem.poem_it;
-    readingText.innerHTML = poemContent.replace(/\n/g, '<br>');
+    poemText.innerHTML = poemContent.replace(/\n/g, '<br>');
 
-    readingWrapper.appendChild(readingText);
-    overlay.appendChild(readingWrapper);
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(poemTitle);
+    overlay.appendChild(poemText);
     document.body.appendChild(overlay);
 
-    overlay.addEventListener('click', () => exitReadingMode());
-    document.body.classList.add('reading-mode-active');
+    closeBtn.addEventListener('click', () => {
+      overlay.remove();
+    });
   }
 
-  function exitReadingMode() {
-    const overlay = document.querySelector('.reading-mode-overlay');
-    if (overlay) overlay.remove();
-    document.body.classList.remove('reading-mode-active');
-  }
-
+  /* ------------------------------------------------------------
+     SORT ORDER / LANG
+  ------------------------------------------------------------ */
   function toggleSortOrder() {
     const currentSortOrder = sortOrders[currentPoemSet] || 'desc';
-    const newSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+    const newSortOrder = (currentSortOrder === 'asc') ? 'desc' : 'asc';
     sortOrders[currentPoemSet] = newSortOrder;
     updateSortToggleLabel();
     loadPoemsFromSet(getJsonFileForCurrentSet());
-    window.script.saveState?.();
+    // If your root script has a saveState, call it
+    window.script?.saveState?.();
   }
-
   function updateSortToggleLabel() {
     const sortToggleBtn = document.getElementById('sort-toggle');
     if (!sortToggleBtn) return;
     const currentSortOrder = sortOrders[currentPoemSet] || 'desc';
-    sortToggleBtn.innerText = currentSortOrder === 'asc' ? '↑' : '↓';
+    sortToggleBtn.innerText = (currentSortOrder === 'asc') ? '↑' : '↓';
   }
 
   function getJsonFileForCurrentSet() {
@@ -678,9 +732,10 @@
     currentLanguage = (currentLanguage === 'en') ? 'it' : 'en';
     localStorage.setItem('language', currentLanguage);
     setLanguage();
-    window.script.saveState?.();
+    window.script?.saveState?.();
     await loadPoemsFromSet(getJsonFileForCurrentSet());
-    window.PuzzleManager.setLanguage(currentLanguage);
+    // Update puzzle manager
+    window.PuzzleManager?.setLanguage(currentLanguage);
   }
 
   function setLanguage() {
@@ -698,56 +753,22 @@
   }
 
   function updateSideMenuTexts() {
-    const homeLinkText = document.querySelector('#home-link .menu-item-text');
-    const caliopeLinkText = document.querySelector('#caliope-link .menu-item-text');
-    const lupaLinkText = document.querySelector('#lupa-link .menu-item-text');
-    const experimentsLinkText = document.querySelector('#experiments-link .menu-item-text');
-    const strandsLinkText = document.querySelector('#strands-link .menu-item-text');
-    if (homeLinkText) {
-      homeLinkText.textContent = (currentLanguage === 'en') ? 'Home' : 'Inizio';
-    }
-    if (caliopeLinkText) caliopeLinkText.textContent = 'Calliope';
-    if (lupaLinkText) lupaLinkText.textContent = 'La Lupa';
-    if (experimentsLinkText) {
-      experimentsLinkText.textContent = (currentLanguage === 'en') ? 'Experiments' : 'Esperimenti';
-    }
-    if (strandsLinkText) {
-      strandsLinkText.textContent = (currentLanguage === 'en') ? 'Strands' : 'Fili';
-    }
+    // adapt to your actual side menu
   }
 
   function updateFooterText() {
-    const footerTextElement = document.getElementById('footer-text');
-    if (footerTextElement) {
-      footerTextElement.innerText = (currentLanguage === 'en')
-        ? '© 2024 All Rights Reserved Spectral Tapestry'
-        : '© 2024 Tutti i Diritti Riservati Spectral Tapestry';
-    }
+    // if you have #footer-text
   }
 
-  const startDate = new Date('2024-10-24');
-  function updateDayCount() {
-    // ...
-  }
-
-  let overlayHideTimer = null;
-  function showLaughingManOverlay() { /* ... */ }
-  function hideLaughingManOverlay() { /* ... */ }
-  function showLaughingManIcon() { /* ... */ }
-  function revertDayCountToDate() { /* ... */ }
-  function addPulsing() { /* ... */ }
-  function removePulsing() { /* ... */ }
-  function startPulsing() { /* ... */ }
-  function stopPulsing() { /* ... */ }
-  function updateDayCountImage() { /* ... */ }
-  function updateCloudIconState() { /* ... */ }
-
+  /* ------------------------------------------------------------
+     SWITCH POEM SET
+  ------------------------------------------------------------ */
   function switchPoemSet(setName, jsonFile) {
     currentPoemSet = setName;
     loadPoemsFromSet(jsonFile);
-    closeSideMenu();
+    // close side menu
+    PoemsManager.closeSideMenu();
     updateSortToggleLabel();
-    window.script.saveState?.();
     if (currentAudio) {
       currentAudio.pause();
       updatePlayPauseButton(currentPlayingPoem, false);
@@ -756,48 +777,40 @@
     }
   }
 
-  function updateIconsForTheme(theme) { /* ... */ }
-  function updateSideMenuIcons(theme) { /* ... */ }
-  function updatePlayPauseIcons() { /* ... */ }
-
-  function setCurrentLanguage(lang) { currentLanguage = lang; }
-  function setCurrentPoemSet(set) { currentPoemSet = set; }
-  function setSortOrders(obj) { sortOrders = obj; }
-  function setSavedVolume(vol) { savedVolume = vol; }
-  function setLastViewedPoemId(id) { lastViewedPoemId = id; }
-  function initDefaultSortOrders() {
-    const sets = ['main','lupa','caliope','experiment','strands'];
-    sets.forEach((s) => {
-      if (!sortOrders[s]) {
-        sortOrders[s] = 'desc';
-      }
-    });
-  }
-
+  /* ------------------------------------------------------------
+     EXPOSE THE MANAGER
+  ------------------------------------------------------------ */
   window.PoemsManager = {
-    setCurrentLanguage,
-    setCurrentPoemSet,
-    setSortOrders,
-    setSavedVolume,
-    setLastViewedPoemId,
-    initDefaultSortOrders,
+    // Basic state
+    setCurrentLanguage(lang) { currentLanguage = lang; },
+    setCurrentPoemSet(set) { currentPoemSet = set; },
+    setSortOrders(obj) { sortOrders = obj; },
+    setSavedVolume(vol) { savedVolume = vol; },
+    setLastViewedPoemId(id) { lastViewedPoemId = id; },
+    initDefaultSortOrders() {
+      const sets = ['main','lupa','caliope','experiment','strands'];
+      sets.forEach(s => {
+        if (!sortOrders[s]) {
+          sortOrders[s] = 'desc';
+        }
+      });
+    },
+
+    // Puzzle
     insertPuzzlePoem,
     isPuzzlePoemInserted,
+
+    // Loading & display
     loadPoemsFromSet,
     getPoemById,
     generatePoemId,
+
+    // Expand/collapse
     collapseAllPoems,
     collapseAllPoemsExcept,
-    removeMediaControls,
-    removeCustomBackground,
-    highlightPoem,
-    unhighlightPoem,
-    scrollToHeader,
-    centerContent,
-    applyCustomBackground,
-    expandAllPoems: function() {
-      const poemWrappers = document.querySelectorAll('.poem-wrapper');
-      poemWrappers.forEach((wrapper) => {
+    expandAllPoems() {
+      const wrappers = document.querySelectorAll('.poem-wrapper');
+      wrappers.forEach(wrapper => {
         const content = wrapper.querySelector('.poem-content');
         if (content && content.style.display === 'none') {
           content.style.display = 'block';
@@ -805,28 +818,49 @@
         }
       });
     },
+
+    // Audio
+    removeMediaControls,
+    removeCustomBackground,
+    highlightPoem,
+    unhighlightPoem,
+    scrollToHeader,
+    centerContent,
+    applyCustomBackground,
+    createAudioControls,
+    updatePlayPauseButton,
+
+    // Sort & language
     toggleSortOrder,
     updateSortToggleLabel,
     getJsonFileForCurrentSet,
-    createAudioControls,
-    updatePlayPauseButton,
-    updateDayCount,
-    startPulsing,
-    stopPulsing,
-    showLaughingManOverlay,
-    hideLaughingManOverlay,
-    showLaughingManIcon,
-    revertDayCountToDate,
-    addPulsing,
-    removePulsing,
-    isShowingImage,
-    updateDayCountImage,
-    updateCloudIconState,
     toggleLanguage,
     setLanguage,
     updateContentLanguage,
     updateSideMenuTexts,
     updateFooterText,
+
+    // Poem set switch
+    switchPoemSet,
+
+    // Icons (if you want to override them for theme, etc.)
+    updateIconsForTheme() {},
+    updateSideMenuIcons() {},
+    updatePlayPauseIcons() {},
+
+    // Poem history
+    getPoemHistory,
+    clearPoemHistory,
+
+    // dayCount or laughingman logic if you want
+    // isNewDay() { return false; },
+
+    // Provide current expanded poem
+    get currentExpandedPoem() {
+      return currentExpandedPoem;
+    },
+
+    // closeSideMenu
     closeSideMenu() {
       const sideMenu = document.getElementById('side-menu');
       const hamburgerMenu = document.getElementById('menu-icon-container');
@@ -841,14 +875,6 @@
         currentAudio = null;
         currentPlayingPoem = null;
       }
-    },
-    switchPoemSet,
-    updateIconsForTheme,
-    updateSideMenuIcons,
-    updatePlayPauseIcons,
-    getPoemHistory,
-    clearPoemHistory,
-    isNewDay() { return false; },
-    get currentExpandedPoem() { return currentExpandedPoem; }
+    }
   };
 })();
