@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   BEGIN: Your Original ~900-Line styles.css
+   BEGIN: UNIVERSAL / ROOT VARIABLES
    ------------------------------------------------------------------ */
 
 /* Universal Box Sizing */
@@ -23,12 +23,12 @@
     --transition-speed: 0.3s;
 
     /* Side Menu Widths (Percentage of viewport width) */
-    --side-menu-width-desktop: 15%; /* Adjusted to 15% for better desktop sizing */
-    --side-menu-width-mobile: 50px;  /* Fixed width for mobile for usability */
+    --side-menu-width-desktop: 15%;
+    --side-menu-width-mobile: 50px;  /* For mobile menu */
 
     /* Right Panels Widths (Percentage of viewport width) */
-    --right-panels-width-desktop: 15%; /* Reduced from 20% to 15% for desktop */
-    --right-panels-width-mobile: 70px; /* Increased from 50px to 70px for better visibility on mobile */
+    --right-panels-width-desktop: 15%;
+    --right-panels-width-mobile: 70px;
 
     /* Section Spacing (Percentage of viewport width) */
     --section-margin-left: 5%; 
@@ -64,7 +64,6 @@
 
 /* Light Theme Variables */
 [data-theme="light"] {
-    /* Color Scheme */
     --background-color: #000000;
     --text-color: #ffffff;
     --line-color: #ffffff;
@@ -72,7 +71,10 @@
     --link-color: #ffffff;
 }
 
-/* Body Styles */
+/* ------------------------------------------------------------------
+   BEGIN: BODY / BASE STYLES
+   ------------------------------------------------------------------ */
+
 body {
     margin: 0;
     padding: 0;
@@ -81,14 +83,14 @@ body {
     font-family: 'Roboto', sans-serif;
     position: relative;
     overflow-x: hidden;
-    font-size: 16px; /* Base font size */
+    font-size: 16px;
     transition: 
         font-size var(--transition-speed) ease, 
         background-color var(--transition-speed) ease, 
         color var(--transition-speed) ease;
 }
 
-/* Font Size Adjustments */
+/* Font Size Adjustments for Responsiveness */
 @media (max-width: 768px) {
     body {
         font-size: 14px;
@@ -101,12 +103,20 @@ body {
     }
 }
 
-/* Menu Icon Container */
+/* No Horizontal Overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------
+   MENU ICON (HAMBURGER) CONTAINER
+   ------------------------------------------------------------------ */
+
 #menu-icon-container {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 1004; /* Higher z-index to stay above other elements */
+    z-index: 1006; /* ensure it's on top */
     cursor: pointer;
 }
 
@@ -123,7 +133,10 @@ body {
     }
 }
 
-/* Patreon Icon Container */
+/* ------------------------------------------------------------------
+   PATREON ICON CONTAINER (OPTIONAL)
+   ------------------------------------------------------------------ */
+
 #patreon-icon-container {
     position: fixed;
     top: 10px;
@@ -143,21 +156,23 @@ body {
     }
 }
 
-/* Side Menu */
+/* ------------------------------------------------------------------
+   SIDE MENU
+   ------------------------------------------------------------------ */
+
 .side-menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--side-menu-width-desktop); 
+    width: var(--side-menu-width-desktop);
     height: 100%;
     background-color: var(--background-color);
-    z-index: 1002;
+    z-index: 1005; 
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
     padding-left: 15px; 
     padding-top: 50px; 
-    padding-right: 0px;
     margin-right: 0;
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
@@ -208,10 +223,18 @@ body.menu-open .side-menu {
     transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
 }
 
+/* Adjust for mobile */
 @media (max-width: 768px) {
+    .side-menu {
+        width: var(--side-menu-width-mobile); 
+        align-items: center; 
+        padding-left: 0; 
+    }
+
     .side-menu a {
         flex-direction: column; 
         align-items: center; 
+        justify-content: center;
     }
 
     .side-menu a img.menu-icon {
@@ -233,7 +256,7 @@ body.menu-open .side-menu {
     font-weight: 500; 
 }
 
-/* Logo Container in Footer */
+/* Logo in the side menu footer */
 #footer-logo-container {
     position: absolute;
     bottom: 20px;
@@ -256,7 +279,10 @@ body.menu-open .side-menu {
     z-index: 1005;
 }
 
-/* Panels Container (Right Side) */
+/* ------------------------------------------------------------------
+   RIGHT PANELS (IMAGES)
+   ------------------------------------------------------------------ */
+
 .panels {
     position: fixed;
     right: 0;
@@ -278,7 +304,6 @@ body.menu-open .panels {
     transform: translateX(0); 
 }
 
-/* Individual Panel */
 .pane {
     width: 100%; 
     height: auto; 
@@ -299,7 +324,37 @@ body.menu-open .panels {
     padding: 0; 
 }
 
-/* Title Section */
+/* Responsive adjustments for panels */
+@media (max-width: 768px) {
+    .panels {
+        width: var(--right-panels-width-mobile);
+    }
+
+    .pane {
+        width: 100%;
+        height: auto;
+    }
+
+    body.menu-open .panels {
+        transform: translateX(0); 
+    }
+}
+
+@media (max-width: 480px) {
+    .panels {
+        transform: translateX(100%); 
+        width: var(--right-panels-width-mobile); 
+        overflow: hidden; 
+    }
+    body.menu-open .panels {
+        transform: translateX(0);
+    }
+}
+
+/* ------------------------------------------------------------------
+   TITLE SECTION (DEFAULT)
+   ------------------------------------------------------------------ */
+
 .title-section {
     text-align: center;
     position: relative;
@@ -335,7 +390,48 @@ body.menu-open .panels {
     margin: 5px 0 0 0;
 }
 
-/* Adjust Section Contents Positioning */
+/* ------------------------------------------------------------------
+   MAIN CONTENT WRAPPER
+   ------------------------------------------------------------------ */
+
+#main-content {
+    position: relative;
+    z-index: 50; 
+    width: 80%; 
+    max-width: 800px; 
+    padding: 20px;
+    padding-bottom: calc(var(--footer-height) + 100px);
+    transition: 
+        margin-left var(--transition-speed) ease, 
+        margin-right var(--transition-speed) ease,
+        padding-left var(--transition-speed) ease,
+        padding-right var(--transition-speed) ease;
+    color: var(--text-color);
+    margin: 40px auto 60px auto; 
+    text-align: var(--section-text-align-desktop); 
+    font-size: 1em;
+}
+
+@media (min-width: 769px) {
+    body.menu-open #main-content {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        width: 90%; 
+        margin: 40px auto 60px auto; 
+        padding: 10px 5%; 
+        max-width: 100%; 
+    }
+}
+
+/* ------------------------------------------------------------------
+   SECTION CLASS
+   ------------------------------------------------------------------ */
+
 .section {
     margin-top: 10px; 
     padding-top: 0; 
@@ -363,137 +459,150 @@ body.menu-open {
     --section-padding-right: 10px;
 }
 
-/* Ensure Section Contents are 10px Below Title */
-#main-content {
-    position: relative;
-    z-index: 50; 
-    width: 80%; 
-    max-width: 800px; 
-    padding: 20px;
-    padding-bottom: var(--footer-height);
+@media (max-width: 768px) {
+    .section {
+        padding-left: var(--section-padding-left-mobile);
+        margin-left: var(--section-margin-left-mobile);
+        padding-right: var(--section-padding-right-mobile);
+        margin-right: var(--section-margin-right-mobile);
+    }
+}
+
+/* ------------------------------------------------------------------
+   READING OVERLAY (if inlined, fine)
+   ------------------------------------------------------------------ */
+
+#reading-overlay {
+    /* Potentially styled in script; left minimal here */
+}
+
+/* ------------------------------------------------------------------
+   FOOTER (FIXED)
+   ------------------------------------------------------------------ */
+
+footer {
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid var(--line-color); 
+    background-color: var(--background-color);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
     transition: 
-        margin-left var(--transition-speed) ease, 
-        margin-right var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
-        padding-right var(--transition-speed) ease;
-    color: var(--text-color);
-    margin: 40px auto 60px auto; 
-    text-align: var(--section-text-align-desktop); 
+        transform var(--transition-speed) ease,
+        background-color var(--transition-speed) ease;
+    cursor: pointer; 
+    transform: translateY(0);
+}
+
+body.menu-open footer {
+    transform: translateY(100%);
+}
+
+footer p {
+    margin: 0.5em 0 0 0;
     font-size: 1em;
 }
 
-/* Corrected: Adjust main content without shifting on desktop */
-@media (min-width: 769px) {
-    body.menu-open #main-content {
-        margin-left: auto;
-        margin-right: auto;
+/* Social icons in footer */
+.social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.social-media a {
+    margin: 0 0.5em;
+}
+
+.social-media img {
+    width: var(--social-icon-size-desktop);
+    height: var(--social-icon-size-desktop);
+}
+
+@media screen and (max-width: 768px) {
+    .social-media img {
+        width: var(--social-icon-size-mobile);
+        height: var(--social-icon-size-mobile);
+    }
+}
+@media screen and (min-width: 769px) {
+    .social-media img {
+        width: var(--social-icon-size-desktop);
+        height: var(--social-icon-size-desktop);
     }
 }
 
-/* Adjustments for Mobile */
-@media (max-width: 768px) {
-    #main-content {
-        width: 90%; 
-        margin: 40px auto 60px auto; 
-        padding: 10px 5%; 
-        max-width: 100%; 
-    }
+/* Footer Toggle (if any) */
+.footer-collapsed #footer-content {
+    display: none;
+}
 
-    .title-section .title-container img.title {
-        width: 80px; 
-    }
+#footer-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1003;
+}
 
-    .title-text h1 {
-        font-size: 1.5em;
-    }
+#footer-toggle-icon {
+    font-size: 1.5em;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed) ease;
+}
 
-    .title-text p {
-        font-size: 0.9em;
-    }
+.footer-collapsed #footer-toggle-icon {
+    transform: rotate(180deg);
+}
 
-    .side-menu {
-        width: var(--side-menu-width-mobile); 
-    }
+/* Footer Theme Toggle */
+footer #theme-toggle {
+    margin-top: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1004;
+}
 
-    .side-menu a {
-        align-items: center; 
-    }
+footer #theme-toggle img {
+    width: var(--theme-toggle-icon-size-desktop);
+    height: var(--theme-toggle-icon-size-desktop);
+}
 
-    #menu-icon-container img {
-        width: var(--menu-icon-size-mobile); 
-        height: var(--menu-icon-size-mobile);
+@media screen and (max-width: 768px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-mobile);
+        height: var(--theme-toggle-icon-size-mobile);
     }
-
-    body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2%); 
-        margin-right: calc(var(--right-panels-width-mobile) + 2%);
-        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4%);
-    }
-
-    .panels {
-        width: var(--right-panels-width-mobile);
-    }
-
-    .pane {
-        width: 100%;
-        height: auto;
-    }
-
-    body.menu-open .section {
-        margin-left: var(--section-margin-left-mobile);
-        padding-left: var(--section-padding-left-mobile);  
-        margin-right: var(--section-margin-right-mobile);
-        padding-right: var(--section-padding-right-mobile);
-    }
-
-    body {
-        overflow-x: hidden;
+}
+@media screen and (min-width: 769px) {
+    footer #theme-toggle img {
+        width: var(--theme-toggle-icon-size-desktop);
+        height: var(--theme-toggle-icon-size-desktop);
     }
 }
 
-/* Additional Media Query for Mobile (<480px) */
-@media (max-width: 480px) {
-    .panels {
-        transform: translateX(100%); 
-        width: var(--right-panels-width-mobile);
-        overflow: hidden; 
-    }
-
-    body.menu-open .panels {
-        transform: translateX(0); 
-    }
-
-    body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2px); 
-        margin-right: calc(var(--right-panels-width-mobile) + 2px); 
-        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
-    }
-
-    #main-content {
-        max-width: 100%;
-    }
+/* Footer Hover Effects */
+footer:hover {
+    background-color: var(--highlight-color);
 }
 
-/* Content Styling */
-#main-content h1 {
-    margin-top: 0;
-    font-size: 2em;
+/* Focus outline for accessibility */
+#menu-icon-container:focus,
+#footer-toggle:focus,
+#theme-toggle:focus {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 2px;
 }
 
-#main-content img {
-    max-width: 100%;
-    height: auto;
-}
+/* ------------------------------------------------------------------
+   POEMS / POETRY-CONTAINER STYLES
+   ------------------------------------------------------------------ */
 
-#main-content a {
-    color: var(--link-color);
-}
-
-#main-content a:hover {
-    color: var(--highlight-color);
-}
-
-/* Poetry Section Styling */
 #poems-container {
     padding: 20px;
     max-width: 1200px;
@@ -604,260 +713,31 @@ body.menu-open {
     padding: 2px 2px;
 }
 
-/* Floating Footer */
-footer {
-    padding: 1em 0;
-    text-align: center;
-    border-top: 1px solid var(--line-color); 
-    background-color: var(--background-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1002;
-    transition: 
-        transform var(--transition-speed) ease,
-        background-color var(--transition-speed) ease;
-    cursor: pointer; 
-    transform: translateY(0);
-}
-
-body.menu-open footer {
-    transform: translateY(100%);
-}
-
-footer p {
-    margin: 0.5em 0 0 0;
-    font-size: 1em;
-}
-
-.social-media {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
-}
-
-.social-media a {
-    margin: 0 0.5em;
-}
-
-.social-media img {
-    width: var(--social-icon-size-desktop);
-    height: var(--social-icon-size-desktop);
-}
-
-@media screen and (max-width: 768px) {
-    .social-media img {
-        width: var(--social-icon-size-mobile);
-        height: var(--social-icon-size-mobile);
-    }
-}
-@media screen and (min-width: 769px) {
-    .social-media img {
-        width: var(--social-icon-size-desktop);
-        height: var(--social-icon-size-desktop);
-    }
-}
-
-/* Remove text labels from social icons if any */
-.social-media a span {
-    display: none;
-}
-
-.footer-collapsed #footer-content {
-    display: none;
-}
-
-#footer-toggle {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-    z-index: 1003;
-}
-
-#footer-toggle-icon {
-    font-size: 1.5em;
-    display: inline-block;
-    transform: rotate(0deg);
-    transition: transform var(--transition-speed) ease;
-}
-
-.footer-collapsed #footer-toggle-icon {
-    transform: rotate(180deg);
-}
-
-/* Footer Theme Toggle */
-footer #theme-toggle {
-    margin-top: 1em;
-    cursor: pointer;
-    position: relative;
-    z-index: 1004;
-}
-
-footer #theme-toggle img {
-    width: var(--theme-toggle-icon-size-desktop);
-    height: var(--theme-toggle-icon-size-desktop);
-}
-
-@media screen and (max-width: 768px) {
-    footer #theme-toggle img {
-        width: var(--theme-toggle-icon-size-mobile);
-        height: var(--theme-toggle-icon-size-mobile);
-    }
-}
-@media screen and (min-width: 769px) {
-    footer #theme-toggle img {
-        width: var(--theme-toggle-icon-size-desktop);
-        height: var(--theme-toggle-icon-size-desktop);
-    }
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .section {
-        padding-left: var(--section-padding-left-mobile);
-        margin-left: var(--section-margin-left-mobile);
-        padding-right: var(--section-padding-right-mobile);
-        margin-right: var(--section-margin-right-mobile);
-    }
-}
-
-@media (max-width: 480px) {
-    .panels {
-        transform: translateX(100%); 
-        width: var(--right-panels-width-mobile); 
-        overflow: hidden; 
-    }
-
-    body.menu-open .panels {
-        transform: translateX(0);
-    }
-
-    body.menu-open #main-content {
-        margin-left: calc(var(--side-menu-width-mobile) + 2px);
-        margin-right: calc(var(--right-panels-width-mobile) + 2px);
-        width: calc(100% - var(--side-menu-width-mobile) - var(--right-panels-width-mobile) - 4px);
-    }
-
-    #main-content {
-        max-width: 100%;
-    }
-}
-
-/* Ensure No Horizontal Overflow */
-body {
-    overflow-x: hidden;
-}
-
-/* Optional: Adjust Poetry Headers and Lines */
-.poetry-collection {
-    border-bottom: 2px solid var(--line-color);
-}
-
+/* Expand/Collapse icons */
 .collection-header,
 .poem-header {
-    font-size: 1.75em; 
+    font-size: 1.75em;
 }
 
 .toggle-icon {
-    font-size: 2em; 
+    font-size: 2em;
 }
 
-/* Adjust Main Content Font Size */
-#main-content {
-    font-size: 1em;
-}
-
+/* Adjust Main Content Font Size Further on Large Screens */
 @media (min-width: 1200px) {
     #main-content {
         font-size: 1.2em;
     }
 }
 
-/* Ensure Sections Transition Smoothly */
-.section {
-    transition: 
-        margin-left var(--transition-speed) ease,
-        padding-left var(--transition-speed) ease,
-        margin-right var(--transition-speed) ease,
-        padding-right var(--transition-speed) ease;
-}
-
-/* Footer Hover Effects */
-footer:hover {
-    background-color: var(--highlight-color);
-}
-
-/* Focus Styles for Interactive Elements */
-#menu-icon-container:focus,
-#footer-toggle:focus,
-#theme-toggle:focus {
-    outline: 2px solid var(--highlight-color);
-    outline-offset: 2px;
-}
-
-/* ... your existing CSS ... */
-
-/* Side Menu (duplicate but with higher z-index) */
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: var(--side-menu-width-desktop);
-    height: 100%;
-    background-color: var(--background-color);
-    z-index: 1005; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 15px;
-    padding-top: 50px;
-    padding-right: 0px;
-    margin-right: 0;
-    transition: transform var(--transition-speed) ease;
-    overflow-y: auto;
-    transform: translateX(-100%);
-}
-
-/* The hamburger menu container can stay with a high z-index */
-#menu-icon-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1006; 
-    cursor: pointer;
-}
-
-/* Ensure #main-content has sufficient bottom space so poems don’t hide behind the footer */
-#main-content {
-    padding-bottom: calc(var(--footer-height) + 100px);
-}
-
-/* Reading Overlay (added a minimal style here) */
-#reading-overlay {
-    /* intentionally left blank here, as it’s inlined in script */
-}
-
-
 /* ------------------------------------------------------------------
-   END: Your Original ~900-Line styles
+   CONTACT FORM ENHANCEMENTS
    ------------------------------------------------------------------ */
-
-/* ------------------------------------------------------------------
-   BEGIN: Contact Form Enhancements
-   ------------------------------------------------------------------ */
-
-/* 
-   Ensures the contact form fields are stacked nicely
-   and the Turnstile widget has proper spacing.
-*/
 
 #contact-form-container {
-    max-width: 600px; /* nicer width on desktop */
-    margin: 0 auto;   /* center horizontally */
-    padding: 20px;    /* some spacing */
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 #contact-form {
@@ -883,7 +763,7 @@ footer:hover {
 }
 
 #contact-form textarea {
-    min-height: 120px; /* give the textarea some height */
+    min-height: 120px;
 }
 
 #contact-form button[type="submit"] {
@@ -901,12 +781,39 @@ footer:hover {
     background-color: var(--line-color);
 }
 
-/* Ensure Turnstile widget is displayed properly (normal size) */
+/* Turnstile widget spacing */
 .cf-turnstile {
     display: block;
     margin: 20px 0;
 }
 
 /* ------------------------------------------------------------------
-   END: Contact Form Enhancements
+   NEW: #SPECTRAL-ICONS STYLING
    ------------------------------------------------------------------ */
+
+#spectral-icons {
+    /* Hidden by default; shown via script */
+    display: none;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    /* Center them horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#spectral-icons img {
+    width: var(--menu-icon-size-desktop);
+    height: var(--menu-icon-size-desktop);
+    cursor: pointer;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    #spectral-icons img {
+        width: var(--menu-icon-size-mobile);
+        height: var(--menu-icon-size-mobile);
+    }
+}
