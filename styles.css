@@ -803,3 +803,13 @@
        }
    }
    
+   /* Enlarge Spectral Icons on Hover or Touch */
+#spectral-icons img {
+    transition: transform 0.2s ease;
+}
+#spectral-icons img:hover {
+    transform: scale(1.2);
+}
+#spectral-icons img:active {
+    transform: scale(1.25);
+}

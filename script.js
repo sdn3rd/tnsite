@@ -1,4 +1,4 @@
-// script.js (ROOT) - Updated to show/hide spectral icons and call poems.js sets
+// script.js (ROOT) - Updated so icons change the header & enlarge on hover
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -55,8 +55,7 @@ function initializePage() {
    THEME FUNCTIONS (MAIN SITE)
 ---------------------------------- */
 function initializeTheme() {
-    // Force "dark" or detect OS; your choice
-    const theme = 'dark';
+    const theme = 'dark';  // or detect OS
     console.log(`Setting theme to ${theme}`);
     applyTheme(theme);
 }
@@ -68,14 +67,14 @@ function applyTheme(theme) {
 }
 
 function detectOSTheme() {
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = prefersDarkScheme ? 'dark' : 'light';
-    console.log(`Detected OS theme preference: ${theme}`);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = prefersDark ? 'dark' : 'light';
+    console.log(`Detected OS theme: ${theme}`);
     applyTheme(theme);
 }
 
 function updateThemeIcon(theme) {
-    // If you have a theme toggle icon in the footer, update it
+    // If you have a theme toggle, update it here
 }
 
 function updatePatreonIcon() {
@@ -89,32 +88,31 @@ function updatePatreonIcon() {
 }
 
 /* 
-   Update all icons based on theme (avoid changing pane images).
-   Placeholder logic if you have real alternate icons in light mode.
+   Update all icons based on theme 
+   (Placeholder logic if you have “_alt” versions for light mode)
 */
 function updateAllIcons(theme) {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
-        // Exclude images in .panes or theme toggles, etc.
+        // Skip pane images or specialized images
         if (img.closest('#theme-toggle')) return;
         if (/pane\d+\.png$/.test(img.src)) return;
 
-        // If you want to swap to _alt in light mode, do it here
-        // For example:
+        // Example: swap `.png` => `_alt.png` in light mode
         // if (theme === 'light' && img.src.endsWith('.png') && !img.src.includes('_alt')) {
         //     img.src = img.src.replace('.png', '_alt.png');
         // }
-        // if (theme === 'dark' && img.src.includes('_alt.png')) {
+        // else if (theme === 'dark' && img.src.includes('_alt.png')) {
         //     img.src = img.src.replace('_alt.png', '.png');
         // }
     });
 }
 
 /* ----------------------------------
-   EVENT LISTENERS (MENU, FOOTER, ETC.)
+   EVENT LISTENERS
 ---------------------------------- */
 function addEventListeners() {
-    // Hamburger Menu Toggle
+    // Hamburger Menu
     const hamburgerMenu = document.getElementById('menu-icon-container');
     if (hamburgerMenu) {
         hamburgerMenu.addEventListener('click', (event) => {
@@ -139,71 +137,70 @@ function addEventListeners() {
         }
     });
 
-    // Now add event listeners for the spectral icons (hidden by default):
+    // Spectral Icons at top (initially hidden)
     const spectralIconsContainer = document.getElementById('spectral-icons');
     if (spectralIconsContainer) {
-        // Each icon triggers poems.js logic with the appropriate set
         const homeIcon = document.getElementById('spectral-home');
         const caliopeIcon = document.getElementById('spectral-caliope');
         const lupaIcon = document.getElementById('spectral-lupa');
         const experimentsIcon = document.getElementById('spectral-experiments');
         const strandsIcon = document.getElementById('spectral-strands');
 
-        if (homeIcon) {
-            homeIcon.addEventListener('click', () => {
-                PoemsManager.switchPoemSet('main', 'poetry.json');
-            });
-        }
-        if (caliopeIcon) {
-            caliopeIcon.addEventListener('click', () => {
-                PoemsManager.switchPoemSet('caliope', 'caliope.json');
-            });
-        }
-        if (lupaIcon) {
-            lupaIcon.addEventListener('click', () => {
-                PoemsManager.switchPoemSet('lupa', 'lupa.json');
-            });
-        }
-        if (experimentsIcon) {
-            experimentsIcon.addEventListener('click', () => {
-                PoemsManager.switchPoemSet('experiment', 'experiments.json');
-            });
-        }
-        if (strandsIcon) {
-            strandsIcon.addEventListener('click', () => {
-                PoemsManager.switchPoemSet('strands', 'strands.json');
-            });
-        }
+        homeIcon?.addEventListener('click', () => {
+            setSpectralHeading("Home (Spectral Poems)");
+            PoemsManager.switchPoemSet('main', 'poetry.json');
+        });
+        caliopeIcon?.addEventListener('click', () => {
+            setSpectralHeading("Calliope");
+            PoemsManager.switchPoemSet('caliope', 'caliope.json');
+        });
+        lupaIcon?.addEventListener('click', () => {
+            setSpectralHeading("La Lupa");
+            PoemsManager.switchPoemSet('lupa', 'lupa.json');
+        });
+        experimentsIcon?.addEventListener('click', () => {
+            setSpectralHeading("Experiments");
+            PoemsManager.switchPoemSet('experiment', 'experiments.json');
+        });
+        strandsIcon?.addEventListener('click', () => {
+            setSpectralHeading("Strands");
+            PoemsManager.switchPoemSet('strands', 'strands.json');
+        });
     }
 
-    // You can also add a footer toggle if you have #footer-toggle / #footer-toggle-icon
-    // etc.
+    // If you have a footer toggle or theme toggle, handle them similarly
     window.addEventListener('resize', adjustPaneImages);
+}
+
+/**
+ * Updates the #main-content heading to the specified text,
+ * while preserving <div id="poems-container"></div>
+ */
+function setSpectralHeading(headingText) {
+    const contentDiv = document.getElementById('main-content');
+    if (!contentDiv) return;
+    contentDiv.innerHTML = `<h1>${headingText}</h1><div id="poems-container"></div>`;
 }
 
 /* ----------------------------------
    SECTION LOADING
 ---------------------------------- */
 function loadSection(sectionId) {
-    // If not "poetry" or "contact" or "spectral," load from sections.json
     if (sectionId === 'poetry') {
         loadPoetrySection();
     } else if (sectionId === 'contact') {
         loadContactSection();
     } else {
-        // Normal content
         loadContentSection(sectionId);
     }
 }
 
 function loadContentSection(sectionId) {
-    console.log(`Loading section: ${sectionId}`);
-    // Always revert to normal title
     showTitleSection();
     hideSpectralIcons();
 
     fetch('sections.json')
-        .then(response => response.json())
+        .then(r => r.json())
         .then(sections => {
             const section = sections.find(s => s.id === sectionId);
             const contentDiv = document.getElementById('main-content');
@@ -233,7 +230,6 @@ function loadPoetrySection() {
     contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
     const poetryContainer = document.getElementById('poetry-container');
 
-    // Your existing remote fetch logic, or local fallback:
     const cachedPoems = localStorage.getItem('cached_poems');
     if (cachedPoems) {
         try {
@@ -246,11 +242,9 @@ function loadPoetrySection() {
     }
 
     fetch(`https://tristannuvo.la/patreon-poetry?cacheBust=${Date.now()}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch /patreon-poetry: ${response.status}`);
-            }
-            return response.json();
+        .then(resp => {
+            if (!resp.ok) throw new Error(`Failed to fetch /patreon-poetry: ${resp.status}`);
+            return resp.json();
         })
         .then(data => {
             const poemsByCategory = categorizePoems(data);
@@ -266,9 +260,7 @@ function categorizePoems(poems) {
     const categories = {};
     poems.forEach(poem => {
         const cat = poem.category || 'Throwetry';
-        if (!categories[cat]) {
-            categories[cat] = [];
-        }
+        if (!categories[cat]) categories[cat] = [];
         categories[cat].push(poem);
     });
     return categories;
@@ -280,27 +272,25 @@ function displayPoetry(poemsByCategory, container) {
         return;
     }
     container.innerHTML = '';
-    // Sort & display them (your existing expand/collapse logic)
+    // Your existing expand/collapse logic
     // ...
 }
 
 /* ----------------------------------
-   NEW: SPECTRAL SECTION
-   (Hide normal title, show spectral icons, load poetry.json)
+   SPECTRAL SECTION
 ---------------------------------- */
 function loadSpectralSection() {
     console.log('Loading spectral section...');
     hideTitleSection();
     showSpectralIcons();
 
-    // Clear main-content or set up a default
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
+        // Default heading
         contentDiv.innerHTML = '<h1>Spectral Poems</h1><div id="poems-container"></div>';
     }
 
-    // Default to main set => "poetry.json"
-    // Actually load via poems.js
+    // Default: main => poetry.json
     PoemsManager.switchPoemSet('main','poetry.json');
 }
 
@@ -313,10 +303,7 @@ function loadContactSection() {
     hideSpectralIcons();
 
     const contentDiv = document.getElementById('main-content');
-    if (!contentDiv) {
-        console.warn('#main-content not found.');
-        return;
-    }
+    if (!contentDiv) return;
 
     contentDiv.innerHTML = `
         <div id="contact-form-container">
@@ -328,7 +315,7 @@ function loadContactSection() {
                 <label for="message" id="message-label">Your Message:</label>
                 <textarea id="message" name="message" required></textarea>
 
-                <!-- Cloudflare Turnstile Widget -->
+                <!-- Turnstile -->
                 <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyqLP0723YQLCis"></div>
 
                 <button type="submit" id="submit-button">Send</button>
@@ -336,7 +323,6 @@ function loadContactSection() {
         </div>
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0" style="width:100%; margin-top:10px;">
     `;
-    // If you need language or cookie checks here, do so...
 }
 
 /* ----------------------------------
@@ -344,15 +330,11 @@ function loadContactSection() {
 ---------------------------------- */
 function showTitleSection() {
     const titleSection = document.querySelector('.title-section');
-    if (titleSection) {
-        titleSection.style.display = 'block';
-    }
+    if (titleSection) titleSection.style.display = 'block';
 }
 function hideTitleSection() {
     const titleSection = document.querySelector('.title-section');
-    if (titleSection) {
-        titleSection.style.display = 'none';
-    }
+    if (titleSection) titleSection.style.display = 'none';
 }
 function showSpectralIcons() {
     const iconsDiv = document.getElementById('spectral-icons');
@@ -363,21 +345,7 @@ function hideSpectralIcons() {
     if (iconsDiv) iconsDiv.style.display = 'none';
 }
 
-/* -------------- READING OVERLAY (MOBILE) -------------- */
-function isMobileDevice() {
-    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-}
-
-function enterReadingMode(poem) {
-    // ...
-}
-
 /* -------------- UTILITY -------------- */
-function markdownToHTML(text) {
-    return text
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-        .replace(/\n/g, '<br>');
-}
 
 function displayError(message) {
     const contentDiv = document.getElementById('main-content');
@@ -385,6 +353,12 @@ function displayError(message) {
         contentDiv.innerHTML = `<p class="error-message">${message}</p>`;
     }
     console.error(`[script.js] ${message}`);
+}
+
+function markdownToHTML(text) {
+    return text
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\n/g, '<br>');
 }
 
 function updateYear() {
@@ -395,14 +369,14 @@ function updateYear() {
 }
 
 /* -------------- RIGHT PANES DUPLICATION & ADJUSTMENT -------------- */
+
 function duplicatePanes() {
     const panels = document.querySelector('.panels');
     if (!panels) return;
-
     const masterPanes = Array.from(panels.querySelectorAll('.pane')).slice(0, 8);
     const allPanes = Array.from(panels.querySelectorAll('.pane'));
-    allPanes.forEach((pane, index) => {
-        if (index >= 8) {
+    allPanes.forEach((pane, i) => {
+        if (i >= 8) {
             panels.removeChild(pane);
         }
     });
@@ -446,9 +420,9 @@ function adjustPaneImages() {
     }
 
     const paneImages = panesContainer.querySelectorAll('.pane img');
-    const calculatedMaxHeight = (viewportHeight / 8) + 200;
+    const calcMaxHeight = (viewportHeight / 8) + 200;
     paneImages.forEach(img => {
-        img.style.maxHeight = `${calculatedMaxHeight}px`;
+        img.style.maxHeight = `${calcMaxHeight}px`;
         img.style.height = 'auto';
     });
     panesContainer.style.justifyContent = 'flex-start';
