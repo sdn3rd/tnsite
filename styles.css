@@ -312,7 +312,6 @@
    .pane img {
        width: 100%;
        height: auto;
-       /* Reduced from +200px to +100px to make them smaller on desktop */
        max-height: calc((100vh / 8) + 100px);
        object-fit: contain;
        display: block;
@@ -780,7 +779,7 @@
    }
    
    /* ------------------------------------------------------------------
-      SPECTRAL ICONS (CENTERED + HOVER ENLARGE)
+      SPECTRAL ICONS (CENTERED + FORCED MOBILE SIZING)
       ------------------------------------------------------------------ */
    
    #spectral-icons {
@@ -794,11 +793,22 @@
    #spectral-icons img {
        display: inline-block;
        margin: 0 10px;
-       width: var(--menu-icon-size-desktop);
-       height: var(--menu-icon-size-desktop);
+   
+       /* Force them to respect desktop vs mobile sizes */
+       width: var(--menu-icon-size-desktop) !important;
+       height: var(--menu-icon-size-desktop) !important;
        cursor: pointer;
        object-fit: contain;
        transition: transform 0.2s ease;
+       background: none !important;
+   }
+   
+   /* Ensure on smaller screens, the icons definitely shrink */
+   @media (max-width: 768px) {
+       #spectral-icons img {
+           width: var(--menu-icon-size-mobile) !important;
+           height: var(--menu-icon-size-mobile) !important;
+       }
    }
    
    #spectral-icons img:hover {
@@ -808,74 +818,61 @@
        transform: scale(1.25);
    }
    
-   @media (max-width: 768px) {
-       #spectral-icons img {
-           width: var(--menu-icon-size-mobile);
-           height: var(--menu-icon-size-mobile);
-       }
-   }
-
    /* ------------------------------------------
-   MEDIA CONTROLS (Play/Pause + Volume)
------------------------------------------- */
-
-/* The container for media controls (if not already styled) */
-.media-controls {
-    display: flex;
-    align-items: center;
-    gap: 1em;                /* spacing between button and slider */
-    background: transparent; /* no background color */
-    padding: 0.5em;          /* optional */
-    margin-top: 0.5em;       /* optional */
-    border: none;            /* optional */
-}
-
-/* The play/pause button itself */
-.play-pause-button {
-    background: none;        /* no background color */
-    border: none;            /* remove default button border */
-    cursor: pointer;
-    padding: 0;              /* no extra padding */
-    outline: none;           /* remove focus outline if needed */
-    display: inline-flex;    /* keep icon inline, or inline-block */
-    align-items: center;
-    justify-content: center;
-}
-
-/* The icon inside the play/pause button */
-.play-pause-button img {
-    width: 24px;             /* control size on desktop here */
-    height: 24px;            /* match width */
-    object-fit: contain;     /* ensure the PNG remains transparent */
-    /* if you want them bigger or smaller, adjust 24px. */
-}
-
-/* If you want a hover effect (e.g. scale up slightly) */
-.play-pause-button:hover img {
-    transform: scale(1.1);
-}
-
-/* The volume slider */
-.volume-slider {
-    width: 100px;            /* or whatever size you like */
-    background: transparent; /* no background */
-    outline: none;           /* remove focus outline in some browsers */
-    -webkit-appearance: none;/* remove default styles in Chrome/Safari */
-}
-
-/* Some basic styling for the slider track and thumb (Chrome/Safari) */
-.volume-slider::-webkit-slider-runnable-track {
-    background: var(--line-color);
-    height: 4px;
-}
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: var(--text-color);
-    margin-top: -6px;  /* center the thumb on track */
-    cursor: pointer;
-}
-
+      MEDIA CONTROLS (Play/Pause + Volume)
+   ------------------------------------------ */
+   
+   .media-controls {
+       display: flex;
+       align-items: center;
+       gap: 1em;
+       background: transparent;
+       padding: 0.5em;
+       margin-top: 0.5em;
+       border: none;
+   }
+   
+   .play-pause-button {
+       background: none;
+       border: none;
+       cursor: pointer;
+       padding: 0;
+       outline: none;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+   }
+   
+   /* Force smaller icons for play/pause */
+   .play-pause-button img {
+       width: 24px;
+       height: 24px;
+       object-fit: contain;
+   }
+   
+   .play-pause-button:hover img {
+       transform: scale(1.1);
+   }
+   
+   .volume-slider {
+       width: 100px;
+       background: transparent;
+       outline: none;
+       -webkit-appearance: none;
+   }
+   
+   .volume-slider::-webkit-slider-runnable-track {
+       background: var(--line-color);
+       height: 4px;
+   }
+   
+   .volume-slider::-webkit-slider-thumb {
+       -webkit-appearance: none;
+       height: 16px;
+       width: 16px;
+       border-radius: 50%;
+       background: var(--text-color);
+       margin-top: -6px;
+       cursor: pointer;
+   }
    
