@@ -1,4 +1,4 @@
-// script.js (ROOT) - Updated so icons change the header & enlarge on hover
+// script.js (ROOT) - with Worker-based Q/A popup for "Spectral"
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -23,10 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadPoetrySection();
             }
             else if (section === 'spectral') {
-                loadSpectralSection();
+                // Instead of loadingSpectralSection directly,
+                // we do Q/A popup logic:
+                handleSpectralAccess();
             }
             else {
-                // Otherwise load a normal content section
+                // Otherwise load normal content
                 loadSection(section);
             }
 
@@ -44,7 +46,7 @@ function initializePage() {
     console.log('Initializing page...');
     initializeTheme();
     addEventListeners();
-    loadSection('introduction'); // default load
+    loadSection('introduction'); // default
     updateYear();
     updatePatreonIcon();
     duplicatePanes();
@@ -52,10 +54,122 @@ function initializePage() {
 }
 
 /* ----------------------------------
-   THEME FUNCTIONS (MAIN SITE)
+   WORKER Q/A POPUP FOR SPECTRAL
+---------------------------------- */
+async function handleSpectralAccess() {
+    try {
+        // 1) Fetch a random question from Worker
+        const workerUrl = 'https://YOURWORKERNAME.workers.dev'; // adjust to your Worker endpoint
+        const questionResp = await fetch(`${workerUrl}/question`);
+        if (!questionResp.ok) throw new Error('No question from Worker');
+
+        const questionData = await questionResp.json();
+        const { id, question } = questionData;
+
+        // 2) Show popup with question => user enters answer
+        showQAPopup(question, async (userAnswer) => {
+            // when user clicks "Submit" in popup:
+            const checkResp = await fetch(`${workerUrl}/check`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, userAnswer })
+            });
+            if (!checkResp.ok) throw new Error('Check request failed');
+
+            const checkData = await checkResp.json();
+            if (checkData.correct) {
+                console.log('User answered Q/A correctly.');
+                hideQAPopup();
+                // Now load the spectral section
+                loadSpectralSection();
+            } else {
+                console.warn('Incorrect answer. Reverting to main site.');
+                hideQAPopup();
+                loadSection('introduction');
+            }
+        });
+
+    } catch (err) {
+        console.error('Q/A logic error:', err);
+        // fallback: just show main site
+        loadSection('introduction');
+    }
+}
+
+/**
+ * Show a basic Q/A overlay with question, text input, and submit
+ */
+function showQAPopup(questionText, onSubmit) {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'qa-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    overlay.style.color = '#fff';
+    overlay.style.zIndex = '9999';
+    overlay.style.display = 'flex';
+    overlay.style.flexDirection = 'column';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+
+    // Container
+    const container = document.createElement('div');
+    container.style.backgroundColor = '#111';
+    container.style.padding = '20px';
+    container.style.border = '2px solid #fff';
+    container.style.borderRadius = '5px';
+    container.style.width = '80%';
+    container.style.maxWidth = '400px';
+    container.style.textAlign = 'center';
+
+    // Question
+    const qEl = document.createElement('p');
+    qEl.innerText = questionText;
+    qEl.style.marginBottom = '1em';
+
+    // Input
+    const answerInput = document.createElement('input');
+    answerInput.type = 'text';
+    answerInput.style.width = '100%';
+    answerInput.style.padding = '0.5em';
+    answerInput.style.marginBottom = '1em';
+
+    // Submit button
+    const submitBtn = document.createElement('button');
+    submitBtn.innerText = 'Submit';
+    submitBtn.style.padding = '0.5em 1em';
+    submitBtn.style.cursor = 'pointer';
+
+    submitBtn.addEventListener('click', () => {
+        const userAnswer = answerInput.value;
+        onSubmit(userAnswer);
+    });
+
+    // Append
+    container.appendChild(qEl);
+    container.appendChild(answerInput);
+    container.appendChild(submitBtn);
+    overlay.appendChild(container);
+    document.body.appendChild(overlay);
+}
+
+/**
+ * Hide the Q/A overlay if it exists
+ */
+function hideQAPopup() {
+    const overlay = document.getElementById('qa-overlay');
+    if (overlay) overlay.remove();
+}
+
+/* ----------------------------------
+   THEME FUNCTIONS
 ---------------------------------- */
 function initializeTheme() {
-    const theme = 'dark';  // or detect OS
+    const theme = 'dark';
     console.log(`Setting theme to ${theme}`);
     applyTheme(theme);
 }
@@ -74,7 +188,7 @@ function detectOSTheme() {
 }
 
 function updateThemeIcon(theme) {
-    // If you have a theme toggle, update it here
+    // ...
 }
 
 function updatePatreonIcon() {
@@ -87,24 +201,13 @@ function updatePatreonIcon() {
     }
 }
 
-/* 
-   Update all icons based on theme 
-   (Placeholder logic if you have “_alt” versions for light mode)
-*/
 function updateAllIcons(theme) {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
-        // Skip pane images or specialized images
         if (img.closest('#theme-toggle')) return;
         if (/pane\d+\.png$/.test(img.src)) return;
-
-        // Example: swap `.png` => `_alt.png` in light mode
-        // if (theme === 'light' && img.src.endsWith('.png') && !img.src.includes('_alt')) {
-        //     img.src = img.src.replace('.png', '_alt.png');
-        // }
-        // else if (theme === 'dark' && img.src.includes('_alt.png')) {
-        //     img.src = img.src.replace('_alt.png', '.png');
-        // }
+        // If you want to swap .png => _alt.png in light mode
+        // do so here
     });
 }
 
@@ -112,7 +215,6 @@ function updateAllIcons(theme) {
    EVENT LISTENERS
 ---------------------------------- */
 function addEventListeners() {
-    // Hamburger Menu
     const hamburgerMenu = document.getElementById('menu-icon-container');
     if (hamburgerMenu) {
         hamburgerMenu.addEventListener('click', (event) => {
@@ -137,7 +239,8 @@ function addEventListeners() {
         }
     });
 
-    // Spectral Icons at top (initially hidden)
+    // Spectral Icons at top (hidden by default) – once user has passed Q/A,
+    // we call loadSpectralSection() which reveals them.
     const spectralIconsContainer = document.getElementById('spectral-icons');
     if (spectralIconsContainer) {
         const homeIcon = document.getElementById('spectral-home');
@@ -168,14 +271,24 @@ function addEventListeners() {
         });
     }
 
-    // If you have a footer toggle or theme toggle, handle them similarly
     window.addEventListener('resize', adjustPaneImages);
 }
 
 /**
- * Updates the #main-content heading to the specified text,
- * while preserving <div id="poems-container"></div>
+ * Once Q/A is correct, we show the spectral icons and set default heading
  */
+function loadSpectralSection() {
+    console.log('Loading spectral section (after Q/A).');
+    hideTitleSection();
+    showSpectralIcons();
+
+    const contentDiv = document.getElementById('main-content');
+    if (contentDiv) {
+        contentDiv.innerHTML = '<h1>Spectral Home</h1><div id="poems-container"></div>';
+    }
+    PoemsManager.switchPoemSet('main','poetry.json');
+}
+
 function setSpectralHeading(headingText) {
     const contentDiv = document.getElementById('main-content');
     if (!contentDiv) return;
@@ -216,9 +329,7 @@ function loadContentSection(sectionId) {
         });
 }
 
-/* ----------------------------------
-   POETRY SECTION (Patreon-based)
----------------------------------- */
+/* POETRY SECTION (Patreon-based) */
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     showTitleSection();
@@ -272,31 +383,11 @@ function displayPoetry(poemsByCategory, container) {
         return;
     }
     container.innerHTML = '';
-    // Your existing expand/collapse logic
+    // Your expand/collapse logic
     // ...
 }
 
-/* ----------------------------------
-   SPECTRAL SECTION
----------------------------------- */
-function loadSpectralSection() {
-    console.log('Loading spectral section...');
-    hideTitleSection();
-    showSpectralIcons();
-
-    const contentDiv = document.getElementById('main-content');
-    if (contentDiv) {
-        // Default heading
-        contentDiv.innerHTML = '<h1>Spectral Poems</h1><div id="poems-container"></div>';
-    }
-
-    // Default: main => poetry.json
-    PoemsManager.switchPoemSet('main','poetry.json');
-}
-
-/* ----------------------------------
-   CONTACT SECTION
----------------------------------- */
+/* CONTACT SECTION */
 function loadContactSection() {
     console.log('Loading contact section...');
     showTitleSection();
@@ -346,7 +437,6 @@ function hideSpectralIcons() {
 }
 
 /* -------------- UTILITY -------------- */
-
 function displayError(message) {
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
@@ -420,7 +510,9 @@ function adjustPaneImages() {
     }
 
     const paneImages = panesContainer.querySelectorAll('.pane img');
-    const calcMaxHeight = (viewportHeight / 8) + 200;
+    // We want them smaller to display more => we do +100px in styles
+    // so here we just recalc
+    const calcMaxHeight = (viewportHeight / 8) + 100;
     paneImages.forEach(img => {
         img.style.maxHeight = `${calcMaxHeight}px`;
         img.style.height = 'auto';
