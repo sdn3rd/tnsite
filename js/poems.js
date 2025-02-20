@@ -172,11 +172,11 @@
       return;
     }
     container.innerHTML = '';
-
+  
     const currentSortOrder = sortOrders[currentPoemSet] || 'desc';
     poems = poems.filter((p) => p.poem_en || p.poem_it);
     poems = filterPoemsByDate(poems);
-
+  
     // Sorting logic
     if (jsonFile === 'poetry.json') {
       poems.sort((a, b) => {
@@ -192,12 +192,13 @@
         poems = poems.slice().reverse();
       }
     }
-
+  
     if (poems.length === 0) {
       console.warn('No poems available to display.');
       return;
     }
-
+  
+    // Determine max columns for potential matrix poems
     let maxColumns = 0;
     poems.forEach(poem => {
       const lines = Array.isArray(poem.poem_en) ? poem.poem_en : [poem.poem_en];
@@ -207,47 +208,56 @@
         }
       });
     });
-
+  
     for (let rowIndex = 0; rowIndex < poems.length; rowIndex++) {
       const poem = poems[rowIndex];
       const poemId = generatePoemId(poem);
+  
       const poemWrapper = document.createElement('div');
       poemWrapper.classList.add('poem-wrapper');
       poemWrapper.setAttribute('id', poemId);
       poemWrapper.style.cursor = 'default';
-
+  
       const content = document.createElement('div');
       content.classList.add('poem-content');
-
+  
       if (poem.matrix_poem) {
         poemWrapper.classList.add('matrix-poem-wrapper');
       }
-
+  
       let header = null;
       if (poem.title_en || poem.title_it || poem.date_en) {
         header = document.createElement('div');
         header.classList.add('poem-header');
-
-        // DATE on the left
+  
+        // ---- DATE ON THE LEFT (hide if in spectral sets) ----
         const dateSpan = document.createElement('span');
         dateSpan.classList.add('poem-date');
-        dateSpan.textContent = poem.date_en || '';
-
-        // TITLE on the right
+  
+        const spectralSets = ['main','caliope','lupa','experiment','strands'];
+        if (spectralSets.includes(currentPoemSet)) {
+          // Hide the date for these sets
+          dateSpan.textContent = '';
+        } else {
+          // Show the date as normal
+          dateSpan.textContent = poem.date_en || '';
+        }
+  
+        // TITLE ON THE RIGHT
         const titleSpan = document.createElement('span');
         titleSpan.classList.add('poem-title');
         titleSpan.textContent = (currentLanguage === 'en') 
           ? (poem.title_en || '') 
           : (poem.title_it || '');
-
+  
         header.appendChild(dateSpan);
         header.appendChild(titleSpan);
-
+  
         poemWrapper.appendChild(header);
         content.style.display = 'none';
-
+  
         header.addEventListener('click', async (event) => {
-          // If user clicked audio controls, do nothing
+          // If user clicked audio controls, ignore
           if (
             event.target.closest('.play-pause-button') ||
             event.target.closest('.volume-slider')
@@ -255,12 +265,14 @@
             return;
           }
           collapseAllPoemsExcept(poemId);
+  
           if (content.style.display === 'none' || content.style.display === '') {
+            // Log poem click, apply background, etc.
             onPoemClicked(poem);
             content.style.display = 'block';
             applyCustomBackground(poem, poemWrapper);
             removeMediaControls(poemWrapper);
-
+  
             if (audioDirectories.hasOwnProperty(currentPoemSet)) {
               const result = createAudioControls(poemWrapper, poem, header);
               if (!result) {
@@ -270,8 +282,8 @@
               removeMediaControls(poemWrapper);
             }
             scrollToHeader(header);
-
-            // Puzzle poem
+  
+            // If puzzle poem (only in experiments.json)
             if (jsonFile === 'experiments.json' && poem.puzzle_content) {
               window.PuzzleManager.initializePuzzleGame(poem, poemWrapper, currentLanguage);
             }
@@ -283,15 +295,16 @@
           }
         });
       } else {
+        // If no title/date, show content by default
         content.style.display = 'block';
       }
-
+  
       const poemText = document.createElement('div');
       poemText.classList.add('poem-text');
       poemText.style.cursor = 'auto';
-
+  
       if (poem.matrix_poem) {
-        // matrix as table
+        // Matrix poem => table layout
         const table = document.createElement('table');
         const lines = Array.isArray(poem.poem_en) ? poem.poem_en : [poem.poem_en];
         lines.forEach((line, row) => {
@@ -299,7 +312,9 @@
           for (let col = 0; col < maxColumns; col++) {
             const char = line[col] || ' ';
             const td = document.createElement('td');
-            td.textContent = char === ' ' ? '\u00A0' : char;
+            td.textContent = (char === ' ') ? '\u00A0' : char;
+  
+            // Ribbon classes
             if (col === Math.floor(maxColumns / 2)) {
               td.classList.add('vertical-ribbon');
             }
@@ -316,7 +331,8 @@
           table.appendChild(tr);
         });
         poemText.appendChild(table);
-
+  
+        // If first matrix poem, add bow
         if (rowIndex === 0) {
           const bowContainer = document.createElement('div');
           bowContainer.classList.add('bow-container');
@@ -326,20 +342,23 @@
           bowRight.classList.add('bow-right');
           const bowKnot = document.createElement('div');
           bowKnot.classList.add('bow-knot');
+  
           bowContainer.appendChild(bowLeft);
           bowContainer.appendChild(bowRight);
           bowContainer.appendChild(bowKnot);
           poemWrapper.appendChild(bowContainer);
         }
       } else if (!poem.puzzle_content) {
+        // Normal poem => text content
         const poemContent = (currentLanguage === 'en') ? poem.poem_en : poem.poem_it;
         poemText.innerHTML = poemContent.replace(/\n/g, '<br>');
       }
-
+  
       content.appendChild(poemText);
       poemWrapper.appendChild(content);
       container.appendChild(poemWrapper);
-
+  
+      // On mobile, tapping text => reading mode
       if (isMobileDevice && !poem.matrix_poem && !poem.puzzle_content) {
         poemText.addEventListener('click', (evt) => {
           evt.stopPropagation();
@@ -347,8 +366,11 @@
         });
       }
     }
+  
+    // Center final container if needed
     centerContent();
   }
+  
 
   // audio logic
   const audioDirectories = {
