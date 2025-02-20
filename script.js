@@ -1,4 +1,4 @@
-// script.js (ROOT) - Final with Q/A gating + Patreon poetry expand/collapse + reading mode triggers
+// script.js (ROOT) - Final with Q/A gating + Patreon poetry + unified reading mode via poems.js
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadContactSection();
             }
             else if (section === 'poetry') {
-                loadPoetrySection();
+                loadPoetrySection(); 
             }
             else if (section === 'spectral') {
                 // Q/A popup logic for gating
@@ -319,7 +319,10 @@ function loadContentSection(sectionId) {
         });
 }
 
-/* POETRY SECTION (Patreon-based) */
+/* 
+   POETRY SECTION (Patreon-based)
+   with reading mode calling window.enterReadingModeGlobal
+*/
 function loadPoetrySection() {
     console.log('Loading poetry from /patreon-poetry...');
     showTitleSection();
@@ -376,7 +379,8 @@ function categorizePoems(poems) {
 }
 
 /**
- * A simple expand/collapse display for poemsByCategory:
+ * A simple expand/collapse display for poemsByCategory
+ * + reading mode on mobile via window.enterReadingModeGlobal(...)
  */
 function displayPoetry(poemsByCategory, container) {
     if (!poemsByCategory || !Object.keys(poemsByCategory).length) {
@@ -404,10 +408,10 @@ function displayPoetry(poemsByCategory, container) {
             const poemDiv = document.createElement('div');
             poemDiv.classList.add('poem-wrapper');
 
-            // Title
+            // Poem header
             const poemHeader = document.createElement('div');
             poemHeader.classList.add('poem-header');
-            // We'll put the poem's date (if any) and title
+            // We'll put date & title here
             poemHeader.innerHTML = `
                 <span class="poem-date">${poem.date || ''}</span>
                 <span class="poem-title">${poem.title}</span>
@@ -416,9 +420,11 @@ function displayPoetry(poemsByCategory, container) {
             // Poem content
             const poemContent = document.createElement('div');
             poemContent.classList.add('poem-content');
-            poemContent.innerHTML = poem.content ? poem.content.replace(/\n/g, '<br>') : '';
+            poemContent.innerHTML = poem.content 
+                ? poem.content.replace(/\n/g, '<br>')
+                : '';
 
-            // Expand/collapse the poem
+            // Expand/collapse
             poemHeader.addEventListener('click', () => {
                 if (poemContent.style.display === 'block') {
                     poemContent.style.display = 'none';
@@ -427,11 +433,16 @@ function displayPoetry(poemsByCategory, container) {
                 }
             });
 
-            // On mobile, tapping the poem content => reading mode
-            poemContent.addEventListener('click', evt => {
+            // Reading mode on mobile
+            poemContent.addEventListener('click', (evt) => {
                 evt.stopPropagation();
+                // If on mobile, call the global reading mode from poems.js
                 if (/Mobi|Android/i.test(navigator.userAgent)) {
-                    enterReadingMode(poem);
+                    if (window.enterReadingModeGlobal) {
+                        const poemTitle = poem.title || 'Untitled Poem';
+                        const poemText = poem.content || '';
+                        window.enterReadingModeGlobal(poemTitle, poemText);
+                    }
                 }
             });
 
