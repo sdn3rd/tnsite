@@ -673,12 +673,15 @@
        display: block;
    }
    
+   /* Adjust font size on mobile to keep date & title smaller */
    @media (max-width: 768px) {
        .poem-header h2 {
-           font-size: 1.2em;
+           font-size: 1em;
        }
-       .poem-header span {
-           font-size: 0.8em;
+       .poem-date,
+       .poem-title {
+           font-size: 0.9em;
+           line-height: 1.2em;
        }
        .poem-content {
            margin-top: 10px;

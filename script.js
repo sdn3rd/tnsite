@@ -1,4 +1,4 @@
-// script.js (ROOT) - with Worker-based Q/A popup for "Spectral"
+// script.js (ROOT) - Updated with Q/A gating + Patreon poetry expand/collapse
 console.log('script.js is loaded and running.');
 
 /* ----------------------------------
@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadPoetrySection();
             }
             else if (section === 'spectral') {
-                // Instead of loadingSpectralSection directly,
-                // we do Q/A popup logic:
+                // Q/A popup logic for gating
                 handleSpectralAccess();
             }
             else {
@@ -46,7 +45,7 @@ function initializePage() {
     console.log('Initializing page...');
     initializeTheme();
     addEventListeners();
-    loadSection('introduction'); // default
+    loadSection('introduction'); // default section
     updateYear();
     updatePatreonIcon();
     duplicatePanes();
@@ -58,17 +57,17 @@ function initializePage() {
 ---------------------------------- */
 async function handleSpectralAccess() {
     try {
-        // 1) Fetch a random question from Worker
-        const workerUrl = 'https://validate-pat.tristannuvo.la'; // adjust to your Worker endpoint
+        // 1) Fetch a random question from your Worker
+        const workerUrl = 'https://validate-pat.tristannuvo.la'; // your Worker domain
         const questionResp = await fetch(`${workerUrl}/question`);
         if (!questionResp.ok) throw new Error('No question from Worker');
 
         const questionData = await questionResp.json();
         const { id, question } = questionData;
 
-        // 2) Show popup with question => user enters answer
+        // 2) Show popup
         showQAPopup(question, async (userAnswer) => {
-            // when user clicks "Submit" in popup:
+            // On "Submit"
             const checkResp = await fetch(`${workerUrl}/check`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -80,7 +79,6 @@ async function handleSpectralAccess() {
             if (checkData.correct) {
                 console.log('User answered Q/A correctly.');
                 hideQAPopup();
-                // Now load the spectral section
                 loadSpectralSection();
             } else {
                 console.warn('Incorrect answer. Reverting to main site.');
@@ -91,65 +89,63 @@ async function handleSpectralAccess() {
 
     } catch (err) {
         console.error('Q/A logic error:', err);
-        // fallback: just show main site
+        // fallback to main site
         loadSection('introduction');
     }
 }
 
-/**
- * Show a basic Q/A overlay with question, text input, and submit
- */
 function showQAPopup(questionText, onSubmit) {
-    // Create overlay
     const overlay = document.createElement('div');
     overlay.id = 'qa-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
-    overlay.style.color = '#fff';
-    overlay.style.zIndex = '9999';
-    overlay.style.display = 'flex';
-    overlay.style.flexDirection = 'column';
-    overlay.style.alignItems = 'center';
-    overlay.style.justifyContent = 'center';
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        color: '#fff',
+        zIndex: '9999',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    });
 
-    // Container
     const container = document.createElement('div');
-    container.style.backgroundColor = '#111';
-    container.style.padding = '20px';
-    container.style.border = '2px solid #fff';
-    container.style.borderRadius = '5px';
-    container.style.width = '80%';
-    container.style.maxWidth = '400px';
-    container.style.textAlign = 'center';
+    Object.assign(container.style, {
+        backgroundColor: '#111',
+        padding: '20px',
+        border: '2px solid #fff',
+        borderRadius: '5px',
+        width: '80%',
+        maxWidth: '400px',
+        textAlign: 'center'
+    });
 
-    // Question
     const qEl = document.createElement('p');
     qEl.innerText = questionText;
     qEl.style.marginBottom = '1em';
 
-    // Input
     const answerInput = document.createElement('input');
+    Object.assign(answerInput.style, {
+        width: '100%',
+        padding: '0.5em',
+        marginBottom: '1em'
+    });
     answerInput.type = 'text';
-    answerInput.style.width = '100%';
-    answerInput.style.padding = '0.5em';
-    answerInput.style.marginBottom = '1em';
 
-    // Submit button
     const submitBtn = document.createElement('button');
     submitBtn.innerText = 'Submit';
-    submitBtn.style.padding = '0.5em 1em';
-    submitBtn.style.cursor = 'pointer';
-
+    Object.assign(submitBtn.style, {
+        padding: '0.5em 1em',
+        cursor: 'pointer'
+    });
     submitBtn.addEventListener('click', () => {
         const userAnswer = answerInput.value;
         onSubmit(userAnswer);
     });
 
-    // Append
     container.appendChild(qEl);
     container.appendChild(answerInput);
     container.appendChild(submitBtn);
@@ -157,16 +153,13 @@ function showQAPopup(questionText, onSubmit) {
     document.body.appendChild(overlay);
 }
 
-/**
- * Hide the Q/A overlay if it exists
- */
 function hideQAPopup() {
     const overlay = document.getElementById('qa-overlay');
     if (overlay) overlay.remove();
 }
 
 /* ----------------------------------
-   THEME FUNCTIONS
+   THEME / SETUP
 ---------------------------------- */
 function initializeTheme() {
     const theme = 'dark';
@@ -183,12 +176,11 @@ function applyTheme(theme) {
 function detectOSTheme() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const theme = prefersDark ? 'dark' : 'light';
-    console.log(`Detected OS theme: ${theme}`);
     applyTheme(theme);
 }
 
 function updateThemeIcon(theme) {
-    // ...
+    // If you have a theme toggle icon, do logic here
 }
 
 function updatePatreonIcon() {
@@ -204,10 +196,10 @@ function updatePatreonIcon() {
 function updateAllIcons(theme) {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
+        // skip certain images
         if (img.closest('#theme-toggle')) return;
         if (/pane\d+\.png$/.test(img.src)) return;
-        // If you want to swap .png => _alt.png in light mode
-        // do so here
+        // If you want .png => _alt.png in light mode, do it here
     });
 }
 
@@ -229,7 +221,7 @@ function addEventListeners() {
         });
     }
 
-    // Close menu when clicking outside
+    // Close side menu on outside click
     document.addEventListener('click', (event) => {
         const sideMenu = document.getElementById('side-menu');
         if (document.body.classList.contains('menu-open')) {
@@ -239,8 +231,7 @@ function addEventListeners() {
         }
     });
 
-    // Spectral Icons at top (hidden by default) – once user has passed Q/A,
-    // we call loadSpectralSection() which reveals them.
+    // Spectral icons
     const spectralIconsContainer = document.getElementById('spectral-icons');
     if (spectralIconsContainer) {
         const homeIcon = document.getElementById('spectral-home');
@@ -275,13 +266,12 @@ function addEventListeners() {
 }
 
 /**
- * Once Q/A is correct, we show the spectral icons and set default heading
+ * Called after correct Q/A answer. 
  */
 function loadSpectralSection() {
     console.log('Loading spectral section (after Q/A).');
     hideTitleSection();
     showSpectralIcons();
-
     const contentDiv = document.getElementById('main-content');
     if (contentDiv) {
         contentDiv.innerHTML = '<h1>Spectral Home</h1><div id="poems-container"></div>';
@@ -341,6 +331,7 @@ function loadPoetrySection() {
     contentDiv.innerHTML = '<h1>Poetry</h1><div id="poetry-container"></div>';
     const poetryContainer = document.getElementById('poetry-container');
 
+    // Load from localStorage if cached
     const cachedPoems = localStorage.getItem('cached_poems');
     if (cachedPoems) {
         try {
@@ -352,14 +343,19 @@ function loadPoetrySection() {
         }
     }
 
+    // Always fetch the latest from remote
     fetch(`https://tristannuvo.la/patreon-poetry?cacheBust=${Date.now()}`)
         .then(resp => {
-            if (!resp.ok) throw new Error(`Failed to fetch /patreon-poetry: ${resp.status}`);
+            if (!resp.ok) {
+                throw new Error(`Failed to fetch /patreon-poetry: ${resp.status}`);
+            }
             return resp.json();
         })
         .then(data => {
             const poemsByCategory = categorizePoems(data);
             displayPoetry(poemsByCategory, poetryContainer);
+
+            // Update cache
             localStorage.setItem('cached_poems', JSON.stringify(poemsByCategory));
         })
         .catch(error => {
@@ -370,21 +366,87 @@ function loadPoetrySection() {
 function categorizePoems(poems) {
     const categories = {};
     poems.forEach(poem => {
-        const cat = poem.category || 'Throwetry';
-        if (!categories[cat]) categories[cat] = [];
+        const cat = poem.category || 'Misc';
+        if (!categories[cat]) {
+            categories[cat] = [];
+        }
         categories[cat].push(poem);
     });
     return categories;
 }
 
+/**
+ * A simple expand/collapse display for poemsByCategory:
+ */
 function displayPoetry(poemsByCategory, container) {
     if (!poemsByCategory || !Object.keys(poemsByCategory).length) {
         container.innerHTML = '<p>No poems found.</p>';
         return;
     }
-    container.innerHTML = '';
-    // Your expand/collapse logic
-    // ...
+    container.innerHTML = ''; // Clear
+
+    // Sort categories alphabetically
+    const categoryNames = Object.keys(poemsByCategory).sort();
+
+    categoryNames.forEach(cat => {
+        const catWrapper = document.createElement('div');
+        catWrapper.classList.add('poetry-collection');
+
+        const header = document.createElement('div');
+        header.classList.add('collection-header');
+        header.innerHTML = `<span class="toggle-icon">+</span> ${cat}`;
+
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('collection-content');
+
+        // Build each poem in this category
+        poemsByCategory[cat].forEach(poem => {
+            const poemDiv = document.createElement('div');
+            poemDiv.classList.add('poem-wrapper');
+
+            // Title
+            const poemHeader = document.createElement('div');
+            poemHeader.classList.add('poem-header');
+            // We'll just put the poem's title (or date) here
+            poemHeader.innerHTML = `<span class="poem-date">${poem.date || ''}</span> 
+                                    <span class="poem-title">${poem.title}</span>`;
+
+            // Poem content
+            const poemContent = document.createElement('div');
+            poemContent.classList.add('poem-content');
+            poemContent.innerHTML = poem.content ? poem.content.replace(/\n/g, '<br>') : '';
+
+            // Click to expand/collapse
+            poemHeader.addEventListener('click', () => {
+                if (poemContent.style.display === 'block') {
+                    poemContent.style.display = 'none';
+                } else {
+                    poemContent.style.display = 'block';
+                }
+            });
+
+            poemDiv.appendChild(poemHeader);
+            poemDiv.appendChild(poemContent);
+            contentDiv.appendChild(poemDiv);
+        });
+
+        catWrapper.appendChild(header);
+        catWrapper.appendChild(contentDiv);
+
+        // Category header click
+        header.addEventListener('click', () => {
+            const icon = header.querySelector('.toggle-icon');
+            if (contentDiv.classList.contains('active')) {
+                contentDiv.classList.remove('active');
+                icon.textContent = '+';
+            } else {
+                contentDiv.classList.add('active');
+                icon.textContent = '−';
+            }
+        });
+
+        container.appendChild(catWrapper);
+    });
 }
 
 /* CONTACT SECTION */
@@ -510,8 +572,7 @@ function adjustPaneImages() {
     }
 
     const paneImages = panesContainer.querySelectorAll('.pane img');
-    // We want them smaller to display more => we do +100px in styles
-    // so here we just recalc
+    // We do +100px in the CSS. We'll re-calc here if needed:
     const calcMaxHeight = (viewportHeight / 8) + 100;
     paneImages.forEach(img => {
         img.style.maxHeight = `${calcMaxHeight}px`;
