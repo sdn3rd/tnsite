@@ -44,7 +44,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Cloudflare Turnstile Widget (if needed for contact) -->
+    <!-- Cloudflare Turnstile Widget (if needed for contact form) -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
@@ -85,8 +85,7 @@
                     <span class="menu-text">Contact</span>
                 </a>
             </li>
-
-            <!-- NEW ICON FOR SPECTRAL (below the others) -->
+            <!-- Spectral -->
             <li>
                 <a href="#" data-section="spectral">
                     <img class="menu-icon" src="icons/spectral.png" alt="Spectral Icon">
@@ -129,7 +128,7 @@
         </div>
     </div>
 
-    <!-- Title Section -->
+    <!-- Title Section (normal) -->
     <div class="title-section">
         <div class="title-container">
             <img class="title" src="images/title.png" alt="Site Title">
@@ -138,6 +137,15 @@
             <h1>Tristan Nuvola</h1>
             <p>Poetry & Reflections</p>
         </div>
+    </div>
+
+    <!-- NEW: Spectral Icons (hidden by default) -->
+    <div id="spectral-icons" style="display: none;">
+        <img id="spectral-home" src="icons/home.png" alt="Home Icon">
+        <img id="spectral-caliope" src="icons/caliope.png" alt="Caliope Icon">
+        <img id="spectral-lupa" src="icons/lupa.png" alt="Lupa Icon">
+        <img id="spectral-experiments" src="icons/experiments.png" alt="Experiments Icon">
+        <img id="spectral-strands" src="icons/strands.png" alt="Strands Icon">
     </div>
 
     <!-- Main Content (dynamic) -->
@@ -162,17 +170,15 @@
         <p>&copy; <span id="year"></span> Tristan Nuvola</p>
     </footer>
 
-    <!-- (Optional) Background Audio element -->
+    <!-- Optional Background Audio element -->
     <audio id="background-audio" loop muted></audio>
 
-    <!-- Main site script -->
+    <!-- Main site script (root) -->
     <script src="script.js" defer></script>
-    <!-- Single-file Contact logic (injects the contact form) -->
+    <!-- Contact logic (if used) -->
     <script src="contact.js" defer></script>
-
-    <!-- The newly updated /js files (puzzle.js and poems.js) -->
-    <script src="/js/puzzle.js" defer></script>
-    <script src="/js/poems.js" defer></script>
-    <!-- No cache.js reference since we removed all caching -->
+    <!-- Puzzle + Poems logic (no caching) -->
+    <script src="js/puzzle.js" defer></script>
+    <script src="js/poems.js" defer></script>
 </body>
 </html>
