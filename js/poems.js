@@ -510,9 +510,9 @@
   function getIcon(type) {
     const theme = document.documentElement.getAttribute('data-theme');
     if (theme === 'light') {
-      return `/icons/${type}_alt.png`;
+      return `icons/${type}_alt.png`;
     } else {
-      return `/icons/${type}.png`;
+      return `icons/${type}.png`;
     }
   }
 
