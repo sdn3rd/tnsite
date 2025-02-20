@@ -61,7 +61,7 @@
        --title-section-margin-bottom: 10px; 
    }
    
-   /* Light Theme Variables (still black/white in your snippet) */
+   /* Light Theme Variables */
    [data-theme="light"] {
        --background-color: #000000;
        --text-color: #ffffff;
@@ -131,7 +131,7 @@
    }
    
    /* ------------------------------------------------------------------
-      PATREON ICON CONTAINER (OPTIONAL)
+      PATREON ICON CONTAINER
       ------------------------------------------------------------------ */
    
    #patreon-icon-container {
@@ -251,7 +251,7 @@
        font-weight: 500; 
    }
    
-   /* Logo in the side menu footer */
+   /* Logo in side menu footer */
    #footer-logo-container {
        position: absolute;
        bottom: 20px;
@@ -312,7 +312,8 @@
    .pane img {
        width: 100%;
        height: auto;
-       max-height: calc((100vh / 8) + 200px);
+       /* Reduced from +200px to +100px to make them smaller on desktop */
+       max-height: calc((100vh / 8) + 100px);
        object-fit: contain;
        display: block;
        margin: 0; 
@@ -323,7 +324,6 @@
        .panels {
            width: var(--right-panels-width-mobile);
        }
-   
        .pane {
            width: 100%;
            height: auto;
@@ -342,7 +342,7 @@
    }
    
    /* ------------------------------------------------------------------
-      TITLE SECTION (DEFAULT)
+      TITLE SECTION
       ------------------------------------------------------------------ */
    
    .title-section {
@@ -419,7 +419,7 @@
    }
    
    /* ------------------------------------------------------------------
-      SECTION CLASS
+      .section
       ------------------------------------------------------------------ */
    
    .section {
@@ -456,14 +456,6 @@
            padding-right: var(--section-padding-right-mobile);
            margin-right: var(--section-margin-right-mobile);
        }
-   }
-   
-   /* ------------------------------------------------------------------
-      READING OVERLAY (IF ANY)
-      ------------------------------------------------------------------ */
-   
-   #reading-overlay {
-       /* Possibly defined in your scripts */
    }
    
    /* ------------------------------------------------------------------
@@ -549,7 +541,6 @@
        transform: rotate(180deg);
    }
    
-   /* Footer Theme Toggle */
    footer #theme-toggle {
        margin-top: 1em;
        cursor: pointer;
@@ -575,12 +566,10 @@
        }
    }
    
-   /* Footer Hover Effects */
    footer:hover {
        background-color: var(--highlight-color);
    }
    
-   /* Accessibility focus outline */
    #menu-icon-container:focus,
    #footer-toggle:focus,
    #theme-toggle:focus {
@@ -589,7 +578,7 @@
    }
    
    /* ------------------------------------------------------------------
-      POEMS / POETRY-CONTAINER STYLES
+      POEMS / POETRY-CONTAINER
       ------------------------------------------------------------------ */
    
    #poems-container {
@@ -642,6 +631,12 @@
        background-color: var(--highlight-color);
    }
    
+   /* 
+      We want the date on the LEFT, title on the RIGHT:
+      .poem-header => display flex
+      .poem-date => left
+      .poem-title => right
+   */
    .poem-header {
        display: flex;
        justify-content: space-between;
@@ -650,6 +645,14 @@
        padding-bottom: 10px;
        border-bottom: 1px solid var(--line-color);
    }
+   .poem-date {
+       margin-right: auto; 
+       font-weight: bold;
+       padding-right: 10px;
+   }
+   .poem-title {
+       margin-left: auto; 
+   }
    
    .poem-header h2 {
        margin: 0;
@@ -657,7 +660,6 @@
    }
    
    .poem-header span {
-       font-size: 0.9em;
        color: var(--link-color);
    }
    
@@ -711,7 +713,7 @@
        font-size: 2em;
    }
    
-   /* Larger screens -> bigger font in #main-content */
+   /* Larger screens => bigger font in #main-content */
    @media (min-width: 1200px) {
        #main-content {
            font-size: 1.2em;
@@ -719,7 +721,7 @@
    }
    
    /* ------------------------------------------------------------------
-      CONTACT FORM ENHANCEMENTS
+      CONTACT FORM
       ------------------------------------------------------------------ */
    
    #contact-form-container {
@@ -775,11 +777,10 @@
    }
    
    /* ------------------------------------------------------------------
-      SPECTRAL ICONS (CENTERED)
+      SPECTRAL ICONS (CENTERED + HOVER ENLARGE)
       ------------------------------------------------------------------ */
    
    #spectral-icons {
-       /* Hidden by default; shown via script. */
        display: none;
        width: 100%;
        margin-top: 20px;
@@ -794,6 +795,14 @@
        height: var(--menu-icon-size-desktop);
        cursor: pointer;
        object-fit: contain;
+       transition: transform 0.2s ease;
+   }
+   
+   #spectral-icons img:hover {
+       transform: scale(1.2);
+   }
+   #spectral-icons img:active {
+       transform: scale(1.25);
    }
    
    @media (max-width: 768px) {
@@ -803,13 +812,3 @@
        }
    }
    
-   /* Enlarge Spectral Icons on Hover or Touch */
-#spectral-icons img {
-    transition: transform 0.2s ease;
-}
-#spectral-icons img:hover {
-    transform: scale(1.2);
-}
-#spectral-icons img:active {
-    transform: scale(1.25);
-}

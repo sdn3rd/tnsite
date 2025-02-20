@@ -147,7 +147,7 @@ function addEventListeners() {
         const strandsIcon = document.getElementById('spectral-strands');
 
         homeIcon?.addEventListener('click', () => {
-            setSpectralHeading("Home (Spectral Poems)");
+            setSpectralHeading("Spectral Home");
             PoemsManager.switchPoemSet('main', 'poetry.json');
         });
         caliopeIcon?.addEventListener('click', () => {
