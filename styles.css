@@ -792,16 +792,18 @@ footer:hover {
    ------------------------------------------------------------------ */
 
 #spectral-icons {
-    /* Hidden by default; shown via script */
+    /* Hidden by default; shown via script. */
     display: none;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    /* Give it full width so it can center across screen. */
+    width: 100%;
+    margin: 20px auto 10px auto;
+    padding: 0 20px;
 
-    /* Center them horizontally */
+    /* Center horizontally via flex. */
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 10px; /* spacing between icons */
 }
 
 #spectral-icons img {
