@@ -1,314 +1,392 @@
-(() => {
-  let currentLanguage = 'en';
-  let currentPoemSet = 'main';
-  let lastViewedPoemId = null;
-  let savedVolume = 0.3;
-  let sortOrders = {};
-  let lastTapTime = 0;
-  const doubleTapThreshold = 500;
-  let tapTimeout = null;
-  const stateKey = 'spectralTapestryState'; // Used for storing user prefs in localStorage/sessionStorage
+/* ------------------------------------------------------------------
+   script.js - Single file with:
+   - Hamburger menu (top-left)
+   - Language toggle (top-right, auto-detect OS lang)
+   - Date-based poetry from Oct 24, 2024 to today
+   - Mobile reading mode
+------------------------------------------------------------------ */
 
-  // Expose scriptState for debugging or minor reference
-  window.scriptState = {
-      currentLanguage,
-      currentPoemSet,
-      lastViewedPoemId,
-      savedVolume,
-      sortOrders
-  };
+console.log("script.js loaded.");
 
-  document.addEventListener('DOMContentLoaded', initializePage);
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded.");
+  initializePage();
 
-  function initializePage() {
-      try {
-          // Initialize theme first
-          initializeTheme();
-          // Initialize language
-          initializeLanguage();
+  // Side menu link clicks
+  const menuItems = document.querySelectorAll("#side-menu a[data-section]");
+  menuItems.forEach(item => {
+    item.addEventListener("click", e => {
+      e.preventDefault();
+      const section = item.getAttribute("data-section");
+      console.log(`Menu item clicked: ${section}`);
 
-          // Load user preferences from local storage if available
-          loadState();
-
-          // Update PoemsManager with loaded states
-          PoemsManager.setCurrentLanguage(currentLanguage);
-          PoemsManager.setCurrentPoemSet(currentPoemSet);
-          PoemsManager.setSavedVolume(savedVolume);
-          PoemsManager.initDefaultSortOrders();
-          PoemsManager.setSortOrders(sortOrders);
-
-          // Ensure day-count element and set
-          ensureDayCountElement();
-          PoemsManager.updateDayCount();
-
-          // Add event listeners
-          addEventListeners();
-
-          // Start the pulsing (for day count overlay effect)
-          PoemsManager.startPulsing();
-      } catch (error) {
-          console.error('Error during initialization:', error);
+      if (section === "poetry") {
+        loadPoetrySection();
       }
+      else if (section === "contact") {
+        loadContactSection();
+      }
+      else if (section === "spectral") {
+        loadSpectralSection();  
+      }
+      else {
+        loadSection(section);
+      }
+
+      closeMenu();
+    });
+  });
+});
+
+/* ------------------------------------------------------------------
+   GLOBAL STATE
+------------------------------------------------------------------ */
+let currentTheme = "dark";    // or detect OS theme if you like
+let currentLanguage = "en";   // will detect from OS, or load from localStorage
+let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+
+/**
+ * Initialization
+ */
+function initializePage() {
+  console.log("initializePage() called.");
+
+  // 1) Setup hamburger & side menu
+  setupHamburger();
+  setupSideMenu();
+
+  // 2) Theme
+  applyTheme(currentTheme);
+
+  // 3) Language
+  loadOrDetectLanguage();
+  updateLanguageToggle();
+
+  // 4) Load default "introduction" section
+  loadSection("introduction");
+}
+
+/* ------------------------------------------------------------------
+   THEME
+------------------------------------------------------------------ */
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  currentTheme = theme;
+}
+
+/* ------------------------------------------------------------------
+   LANGUAGE DETECTION & TOGGLE
+------------------------------------------------------------------ */
+/**
+ * On first load, check localStorage. If no language saved,
+ * detect from navigator.language => "it" or "en". Then store.
+ */
+function loadOrDetectLanguage() {
+  const savedLang = localStorage.getItem("preferredLang");
+  if (savedLang) {
+    currentLanguage = savedLang;
+  } else {
+    const userLang = (navigator.language || "en").toLowerCase();
+    if (userLang.startsWith("it")) {
+      currentLanguage = "it";
+    } else {
+      currentLanguage = "en";
+    }
+    localStorage.setItem("preferredLang", currentLanguage);
+  }
+}
+
+/**
+ * Toggle between "en" and "it" then store in localStorage
+ * Optionally re-load any displayed content if needed
+ */
+function toggleLanguage() {
+  currentLanguage = (currentLanguage === "en") ? "it" : "en";
+  localStorage.setItem("preferredLang", currentLanguage);
+  console.log("Language toggled =>", currentLanguage);
+
+  updateLanguageToggle();
+
+  // If you want to refresh an existing displayed section 
+  // (like "Poetry" if it's open) you can re-run the function here
+  // For example, if user is in Poetry, re-run loadPoetrySection();
+  // or if user is in introduction, re-run loadSection("introduction");
+  // Skipped for brevity
+}
+
+/**
+ * Update the top-right button text: "ENG" or "ITA"
+ */
+function updateLanguageToggle() {
+  const langToggle = document.getElementById("language-toggle");
+  if (!langToggle) return;
+  if (currentLanguage === "en") {
+    langToggle.textContent = "ENG";
+  } else {
+    langToggle.textContent = "ITA";
+  }
+}
+
+/* ------------------------------------------------------------------
+   HAMBURGER MENU + SIDE MENU
+------------------------------------------------------------------ */
+function setupHamburger() {
+  const hamburger = document.getElementById("menu-icon-container");
+  if (!hamburger) return;
+
+  hamburger.addEventListener("click", e => {
+    e.stopPropagation();
+    document.body.classList.toggle("menu-open");
+  });
+
+  hamburger.addEventListener("keypress", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      document.body.classList.toggle("menu-open");
+    }
+  });
+
+  // Close menu if user clicks outside
+  document.addEventListener("click", e => {
+    const sideMenu = document.getElementById("side-menu");
+    if (document.body.classList.contains("menu-open")) {
+      if (!sideMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+}
+
+function setupSideMenu() {
+  const sideMenu = document.getElementById("side-menu");
+  if (!sideMenu) return;
+  // Additional side-menu logic if needed
+}
+
+function closeMenu() {
+  document.body.classList.remove("menu-open");
+  console.log("Side menu closed.");
+}
+
+/* ------------------------------------------------------------------
+   SECTIONS / NAVIGATION
+------------------------------------------------------------------ */
+function loadSection(sectionId) {
+  console.log(`Loading section: ${sectionId}`);
+  const mainContent = document.getElementById("main-content");
+  if (!mainContent) return;
+
+  if (sectionId === "introduction") {
+    if (currentLanguage === "en") {
+      mainContent.innerHTML = "<h1>Introduction</h1><p>Welcome to the site!</p>";
+    } else {
+      mainContent.innerHTML = "<h1>Introduzione</h1><p>Benvenuto/a nel sito!</p>";
+    }
+  }
+  else {
+    mainContent.innerHTML = `<h1>${sectionId}</h1><p>Placeholder content for "${sectionId}".</p>`;
+  }
+}
+
+function loadPoetrySection() {
+  console.log("Loading Poetry section => date list from 2024-10-24 to today.");
+  const mainContent = document.getElementById("main-content");
+  if (!mainContent) return;
+
+  // Title depends on language
+  const heading = (currentLanguage === "en") ? "Poetry" : "Poesia";
+  mainContent.innerHTML = `<h1>${heading}</h1><div id='poems-container'></div>`;
+
+  const poemsContainer = document.getElementById("poems-container");
+  if (!poemsContainer) return;
+
+  const dateList = generateDateList(new Date("2024-10-24"), new Date());
+  // Render a simple UL (descending order)
+  let html = "<ul>";
+  dateList.forEach(d => {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    const label = `${yyyy}-${mm}-${dd}`;
+    html += `<li><a href="#" data-date="${label}">${label}</a></li>`;
+  });
+  html += "</ul>";
+  poemsContainer.innerHTML = html;
+
+  // Listen for date clicks
+  const dateLinks = poemsContainer.querySelectorAll("a[data-date]");
+  dateLinks.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const dateStr = link.getAttribute("data-date");
+      loadPoemByDate(dateStr);
+    });
+  });
+}
+
+/**
+ * Generate array of Dates from startDate to endDate (inclusive) in descending order
+ */
+function generateDateList(startDate, endDate) {
+  const list = [];
+  let d = new Date(endDate.getTime());
+  d.setHours(0,0,0,0);
+  const s = new Date(startDate.getTime());
+  s.setHours(0,0,0,0);
+
+  while (d >= s) {
+    list.push(new Date(d));
+    d.setDate(d.getDate() - 1);
+  }
+  return list; // descending
+}
+
+/**
+ * For a given date (YYYY-MM-DD), fetch "json/YYYY-MM-DD.json" 
+ */
+function loadPoemByDate(dateStr) {
+  console.log(`Loading poem for date ${dateStr} => "json/${dateStr}.json"`);
+  const url = `json/${dateStr}.json`;
+  fetch(url)
+    .then(resp => {
+      if (!resp.ok) {
+        throw new Error(`No poem for date: ${dateStr}`);
+      }
+      return resp.json();
+    })
+    .then(data => {
+      displaySinglePoem(data);
+    })
+    .catch(err => {
+      console.warn(err);
+      const mainContent = document.getElementById("main-content");
+      if (mainContent) {
+        const fallbackMsg = (currentLanguage === "en")
+          ? `No poem found for ${dateStr}`
+          : `Nessuna poesia trovata per ${dateStr}`;
+        mainContent.insertAdjacentHTML("beforeend", `<p style="color:red;">${fallbackMsg}</p>`);
+      }
+    });
+}
+
+/**
+ * data is either a single object or an array with one object
+ */
+function displaySinglePoem(poemOrArray) {
+  console.log("displaySinglePoem", poemOrArray);
+  const poemsContainer = document.getElementById("poems-container");
+  if (!poemsContainer) return;
+
+  // Clear
+  poemsContainer.innerHTML = "";
+
+  // If array, take first item
+  let poem;
+  if (Array.isArray(poemOrArray)) {
+    poem = poemOrArray[0];
+  } else {
+    poem = poemOrArray;
+  }
+  if (!poem) {
+    poemsContainer.innerHTML = "<p>No data in JSON.</p>";
+    return;
   }
 
-  /**
-   * Load saved user preferences from local/session storage
-   */
-  function loadState() {
-      try {
-          // Try localStorage first
-          const savedStateString = localStorage.getItem(stateKey);
-          if (savedStateString) {
-              const savedState = JSON.parse(savedStateString);
-              if (savedState.preferredLanguage) currentLanguage = savedState.preferredLanguage;
-              if (savedState.sortOrders) sortOrders = savedState.sortOrders;
-              if (savedState.lastViewedPoemId) lastViewedPoemId = savedState.lastViewedPoemId;
-              if (savedState.currentPoemSet) currentPoemSet = savedState.currentPoemSet;
-              if (savedState.savedVolume !== undefined) savedVolume = savedState.savedVolume;
-          } else {
-              // Otherwise initialize default sort orders
-              const sets = ['main','lupa','caliope','experiment','strands'];
-              sets.forEach((s) => {
-                  if (!sortOrders[s]) {
-                      sortOrders[s] = 'desc';
-                  }
-              });
-          }
-      } catch (error) {
-          console.warn(`Error loading state from localStorage:`, error);
+  const poemDiv = document.createElement("div");
+  poemDiv.classList.add("poem-wrapper");
+
+  // Decide which fields to show based on language
+  const dateEn = poem.date_en || "";
+  const dateIt = poem.date_it || "";
+  const titleEn = poem.title_en || "";
+  const titleIt = poem.title_it || "";
+  const textEn = poem.poem_en || "";
+  const textIt = poem.poem_it || "";
+
+  const usedDate = (currentLanguage === "en") ? dateEn : dateIt;
+  const usedTitle = (currentLanguage === "en") ? titleEn : titleIt;
+  const usedText = (currentLanguage === "en") ? textEn : textIt;
+
+  poemDiv.innerHTML = `
+    <div class="poem-header">
+      <span class="poem-date">${usedDate}</span>
+      <span class="poem-title">${usedTitle}</span>
+    </div>
+    <div class="poem-content" style="display:block;">
+      <div class="poem-text">${usedText.replace(/\n/g, "<br>")}</div>
+    </div>
+  `;
+  poemsContainer.appendChild(poemDiv);
+
+  // Reading mode on mobile
+  const poemText = poemDiv.querySelector(".poem-text");
+  if (poemText) {
+    poemText.addEventListener("click", (evt) => {
+      evt.stopPropagation();
+      if (isMobileDevice) {
+        enterReadingMode(usedTitle, usedText);
       }
+    });
   }
+}
 
-  /**
-   * Save current user preferences to localStorage (fallback to session if that fails)
-   */
-  function saveState() {
-      const state = {
-          preferredLanguage: currentLanguage,
-          sortOrders,
-          lastViewedPoemId,
-          currentPoemSet,
-          savedVolume
-      };
-      try {
-          localStorage.setItem(stateKey, JSON.stringify(state));
-          // console.log(`[script.js] State saved successfully to localStorage.`);
-      } catch (error) {
-          console.warn(`[script.js] localStorage failed, trying sessionStorage...`, error);
-          try {
-              sessionStorage.setItem(stateKey, JSON.stringify(state));
-          } catch (err) {
-              console.error(`[script.js] All storage methods failed.`, err);
-          }
-      }
+/**
+ * Show overlay reading mode
+ */
+function enterReadingMode(title, poemText) {
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.backgroundColor = "rgba(0,0,0,0.9)";
+  overlay.style.color = "#fff";
+  overlay.style.zIndex = "9999";
+  overlay.style.overflowY = "auto";
+  overlay.style.padding = "20px";
+
+  const closeBtn = document.createElement("div");
+  closeBtn.textContent = (currentLanguage === "en") ? "Close ✕" : "Chiudi ✕";
+  closeBtn.style.cursor = "pointer";
+  closeBtn.style.textAlign = "right";
+  closeBtn.style.fontSize = "1.2em";
+  closeBtn.style.marginBottom = "20px";
+
+  const h2 = document.createElement("h2");
+  h2.textContent = title || ((currentLanguage === "en") ? "Untitled Poem" : "Senza titolo");
+
+  const textDiv = document.createElement("div");
+  textDiv.innerHTML = poemText.replace(/\n/g, "<br>");
+
+  overlay.appendChild(closeBtn);
+  overlay.appendChild(h2);
+  overlay.appendChild(textDiv);
+  document.body.appendChild(overlay);
+
+  closeBtn.addEventListener("click", () => {
+    overlay.remove();
+  });
+}
+
+/* 
+   CONTACT + SPECTRAL SECTIONS (Placeholder logic)
+*/
+function loadContactSection() {
+  const mainContent = document.getElementById("main-content");
+  if (!mainContent) return;
+  if (currentLanguage === "en") {
+    mainContent.innerHTML = "<h1>Contact</h1><p>Contact form placeholder.</p>";
+  } else {
+    mainContent.innerHTML = "<h1>Contatto</h1><p>Modulo di contatto segnaposto.</p>";
   }
-
-  /**
-   * Initialize theme based on saved preference or OS setting
-   */
-  function initializeTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-          applyTheme(savedTheme);
-      } else {
-          detectOSTheme();
-      }
+}
+function loadSpectralSection() {
+  const mainContent = document.getElementById("main-content");
+  if (!mainContent) return;
+  if (currentLanguage === "en") {
+    mainContent.innerHTML = "<h1>Spectral</h1><p>Spectral placeholder content.</p>";
+  } else {
+    mainContent.innerHTML = "<h1>Spettrale</h1><p>Contenuto segnaposto spettrale.</p>";
   }
-
-  /**
-   * Apply the specified theme
-   * @param {string} theme - 'dark' or 'light'
-   */
-  function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-
-      PoemsManager.updateIconsForTheme(theme);
-
-      // If a poem is currently expanded with a custom background
-      if (PoemsManager.currentExpandedPoem && PoemsManager.currentExpandedPoem.wrapper) {
-          PoemsManager.applyCustomBackground(
-              PoemsManager.currentExpandedPoem.poem,
-              PoemsManager.currentExpandedPoem.wrapper
-          );
-      }
-      PoemsManager.updatePlayPauseIcons();
-      PoemsManager.updateDayCountImage();
-  }
-
-  /**
-   * Detect OS theme preference
-   */
-  function detectOSTheme() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = prefersDark ? 'dark' : 'light';
-      applyTheme(theme);
-  }
-
-  /**
-   * Initialize language based on saved preference or browser setting
-   */
-  function initializeLanguage() {
-      const storedLanguage = localStorage.getItem('language');
-      if (storedLanguage) {
-          currentLanguage = storedLanguage;
-      } else {
-          const lang = navigator.language || navigator.userLanguage;
-          currentLanguage = lang.startsWith('it') ? 'it' : 'en';
-          localStorage.setItem('language', currentLanguage);
-      }
-  }
-
-  /**
-   * Add various event listeners to the page elements
-   */
-  function addEventListeners() {
-      const hamburgerMenu = document.getElementById('hamburger-menu');
-      const sideMenu = document.getElementById('side-menu');
-      if (hamburgerMenu && sideMenu) {
-          hamburgerMenu.addEventListener('click', (evt) => {
-              evt.stopPropagation();
-              sideMenu.classList.add('visible');
-              hamburgerMenu.classList.add('hidden');
-              const patreonIcon = document.getElementById('patreon-icon-container');
-              if (patreonIcon) patreonIcon.classList.add('hidden');
-          });
-
-          document.addEventListener('click', (evt) => {
-              if (!sideMenu.contains(evt.target) && !hamburgerMenu.contains(evt.target)) {
-                  PoemsManager.closeSideMenu();
-              }
-          });
-      }
-
-      // Menu links
-      const homeLink = document.getElementById('home-link');
-      const caliopeLink = document.getElementById('caliope-link');
-      const lupaLink = document.getElementById('lupa-link');
-      const experimentsLink = document.getElementById('experiments-link');
-      const strandsLink = document.getElementById('strands-link');
-      if (homeLink) {
-          homeLink.addEventListener('click', () =>
-              PoemsManager.switchPoemSet('main','poetry.json')
-          );
-      }
-      if (caliopeLink) {
-          caliopeLink.addEventListener('click', () =>
-              PoemsManager.switchPoemSet('caliope','caliope.json')
-          );
-      }
-      if (lupaLink) {
-          lupaLink.addEventListener('click', () =>
-              PoemsManager.switchPoemSet('lupa','lupa.json')
-          );
-      }
-      if (experimentsLink) {
-          experimentsLink.addEventListener('click', () =>
-              PoemsManager.switchPoemSet('experiment','experiments.json')
-          );
-      }
-      if (strandsLink) {
-          strandsLink.addEventListener('click', () =>
-              PoemsManager.switchPoemSet('strands','strands.json')
-          );
-      }
-
-      // Language toggle
-      const langToggleBtn = document.getElementById('lang-toggle');
-      if (langToggleBtn) {
-          langToggleBtn.addEventListener('click', () => {
-              PoemsManager.toggleLanguage();
-              PoemsManager.updateFooterText();
-              saveState();
-          });
-      }
-
-      // Dark mode toggle
-      const darkModeToggle = document.getElementById('dark-mode-toggle');
-      if (darkModeToggle) {
-          darkModeToggle.addEventListener('click', toggleTheme);
-      }
-
-      // Expand/Collapse All
-      const expandAllBtn = document.getElementById('expand-all');
-      const collapseAllBtn = document.getElementById('collapse-all');
-      if (expandAllBtn && PoemsManager.expandAllPoems) {
-          expandAllBtn.addEventListener('click', () => PoemsManager.expandAllPoems());
-      }
-      if (collapseAllBtn && PoemsManager.collapseAllPoems) {
-          collapseAllBtn.addEventListener('click', () => PoemsManager.collapseAllPoems());
-      }
-
-      // Sort toggle
-      const sortToggleBtn = document.getElementById('sort-toggle');
-      if (sortToggleBtn) {
-          sortToggleBtn.addEventListener('click', () => {
-              PoemsManager.toggleSortOrder();
-              saveState();
-          });
-      }
-
-      // "day-count" double-tap logic
-      const dayCountElement = document.getElementById('day-count');
-      if (dayCountElement) {
-          dayCountElement.addEventListener('click', handleDayCountTap);
-          dayCountElement.addEventListener('touchstart', handleDayCountTap);
-      }
-
-      // Laughing Man overlay
-      const overlay = document.getElementById('laughingman-overlay');
-      if (overlay) {
-          overlay.addEventListener('click', PoemsManager.hideLaughingManOverlay);
-          overlay.addEventListener('touchstart', PoemsManager.hideLaughingManOverlay);
-      }
-
-      // Poem click logging: we rely on poems.js to handle that if needed
-  }
-
-  /**
-   * Handle double tap on day count element
-   */
-  function handleDayCountTap() {
-      const now = Date.now();
-      const timeSinceLastTap = now - lastTapTime;
-      lastTapTime = now;
-      if (timeSinceLastTap < doubleTapThreshold && tapTimeout) {
-          clearTimeout(tapTimeout);
-          tapTimeout = null;
-          PoemsManager.showLaughingManOverlay();
-          PoemsManager.stopPulsing();
-      } else {
-          tapTimeout = setTimeout(() => {
-              PoemsManager.showLaughingManIcon();
-              PoemsManager.stopPulsing();
-              tapTimeout = null;
-          }, doubleTapThreshold);
-      }
-  }
-
-  /**
-   * Toggle between dark and light themes
-   */
-  function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      applyTheme(newTheme);
-  }
-
-  /**
-   * Ensure 'day-count' element exists
-   */
-  function ensureDayCountElement() {
-      const dayCountElement = document.getElementById('day-count');
-      if (!dayCountElement) {
-          const newDayCount = document.createElement('div');
-          newDayCount.id = 'day-count';
-          document.body.prepend(newDayCount);
-      }
-  }
-
-  // Expose a minimal script interface
-  window.script = {
-      saveState
-  };
-})();
+}

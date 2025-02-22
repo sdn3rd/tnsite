@@ -40,7 +40,7 @@
     <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://34dd6268.tnsite-ava.pages.dev/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
@@ -49,43 +49,45 @@
 </head>
 
 <body>
-    <!-- Hamburger Menu Icon -->
+    <!-- Hamburger Menu Icon (top-left) -->
     <div id="menu-icon-container" tabindex="0">
         <img src="icons/menu.png" alt="Menu Icon">
     </div>
 
-    <!-- Side Menu (fixed) -->
+    <!-- Language Toggle (top-right) -->
+    <div id="language-toggle" style="
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1002;
+        cursor: pointer;
+        font-weight: bold;
+    ">
+        ENG
+    </div>
+
+    <!-- Side Menu (sliding from left) -->
     <nav class="side-menu" id="side-menu">
         <ul>
-            <!-- About (introduction) -->
+            <!-- Example Items -->
             <li>
                 <a href="#" data-section="introduction">
                     <img class="menu-icon" src="icons/about.png" alt="About Icon">
                     <span class="menu-text">About</span>
                 </a>
             </li>
-            <!-- Poetry -->
             <li>
                 <a href="#" data-section="poetry">
                     <img class="menu-icon" src="icons/poetry.png" alt="Poetry Icon">
                     <span class="menu-text">Poetry</span>
                 </a>
             </li>
-            <!-- Books -->
-            <li>
-                <a href="#" data-section="books">
-                    <img class="menu-icon" src="icons/books.png" alt="Books Icon">
-                    <span class="menu-text">Books</span>
-                </a>
-            </li>
-            <!-- Contact -->
             <li>
                 <a href="#" data-section="contact">
                     <img class="menu-icon" src="icons/contact.png" alt="Contact Icon">
                     <span class="menu-text">Contact</span>
                 </a>
             </li>
-            <!-- Spectral -->
             <li>
                 <a href="#" data-section="spectral">
                     <img class="menu-icon" src="icons/spectral.png" alt="Spectral Icon">
@@ -93,69 +95,13 @@
                 </a>
             </li>
         </ul>
-
-        <!-- Footer Logo in the side menu (optional) -->
-        <div id="footer-logo-container">
-            <img src="images/logo.png" alt="Footer Logo">
-        </div>
     </nav>
 
-    <!-- Right Panels (images) -->
-    <div class="panels">
-        <div class="pane pane1">
-            <img src="images/pane1.png" alt="Pane 1">
-        </div>
-        <div class="pane pane2">
-            <img src="images/pane2.png" alt="Pane 2">
-        </div>
-        <div class="pane pane3">
-            <img src="images/pane3.png" alt="Pane 3">
-        </div>
-        <div class="pane pane4">
-            <img src="images/pane4.png" alt="Pane 4">
-        </div>
-        <div class="pane pane5">
-            <img src="images/pane5.png" alt="Pane 5">
-        </div>
-        <div class="pane pane6">
-            <img src="images/pane6.png" alt="Pane 6">
-        </div>
-        <div class="pane pane7">
-            <img src="images/pane7.png" alt="Pane 7">
-        </div>
-        <div class="pane pane8">
-            <img src="images/pane8.png" alt="Pane 8">
-        </div>
-    </div>
-
-    <!-- Title Section (normal) -->
-    <div class="title-section">
-        <div class="title-container">
-            <img class="title" src="images/title.png" alt="Site Title">
-        </div>
-        <div class="title-text">
-            <h1>Tristan Nuvola</h1>
-            <p>Poetry & Reflections</p>
-        </div>
-    </div>
-
-    <!-- NEW: Spectral Icons (hidden by default) -->
-    <div id="spectral-icons" style="display: none;">
-        <img id="spectral-home" src="icons/home.png" alt="Home Icon">
-        <img id="spectral-caliope" src="icons/caliope.png" alt="Caliope Icon">
-        <img id="spectral-lupa" src="icons/lupa.png" alt="Lupa Icon">
-        <img id="spectral-experiments" src="icons/experiments.png" alt="Experiments Icon">
-        <img id="spectral-strands" src="icons/strands.png" alt="Strands Icon">
-    </div>
-
-    <!-- Main Content (dynamic) -->
-    <div id="main-content">
-        <!-- Sections loaded dynamically from script.js or contact.js -->
-    </div>
+    <!-- Main Content (will be filled by script.js) -->
+    <div id="main-content"></div>
 
     <!-- Footer (fixed) -->
     <footer>
-        <!-- Social icons -->
         <div class="social-media">
             <a href="https://patreon.com/tristannuvola" target="_blank">
                 <img id="patreon-icon" src="icons/patreon.png" alt="Patreon">
@@ -170,15 +116,7 @@
         <p>&copy; <span id="year"></span> Tristan Nuvola</p>
     </footer>
 
-    <!-- Optional Background Audio element -->
-    <audio id="background-audio" loop muted></audio>
-
-    <!-- Main site script (root) -->
+    <!-- Single Script (Unified) -->
     <script src="script.js" defer></script>
-    <!-- Contact logic (if used) -->
-    <script src="contact.js" defer></script>
-    <!-- Puzzle + Poems logic (no caching) -->
-    <script src="js/puzzle.js" defer></script>
-    <script src="js/poems.js" defer></script>
 </body>
 </html>
