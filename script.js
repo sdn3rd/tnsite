@@ -366,29 +366,64 @@ function getDayNames() {
 /* ------------------------------------------------------------------
    LOAD POEMS => SHOW INFINITE WHEEL
 ------------------------------------------------------------------ */
-function loadPoemsByDate(dateStr) {
-  const url = `poetry/${dateStr}.json`;
-  fetch(url)
-    .then(resp => {
-      if (!resp.ok) throw new Error("Not found");
-      return resp.json();
-    })
-    .then(data => {
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error("Empty array");
+async function loadPoemsByDate(dateStr) {
+  const dateFolder = dateStr.replace(/-/g, ""); // Convert YYYY-MM-DD to YYYYMMDD
+  const folderUrl = `poetry/${dateFolder}/`;
+
+  try {
+    // Simulate fetching a list of filenames from the date folder.
+    // In a real application, you would need a server-side component
+    // to list the files in the directory, or pre-generate an index.
+    // For this example, let's hardcode some filenames for demonstration
+    const filenames = await getPoemFilenamesForDate(dateFolder); // Simulate fetching filenames
+
+    if (!filenames || filenames.length === 0) {
+      throw new Error("No poems found in folder");
+    }
+
+    poemsForWheel = []; // Reset poemsForWheel
+    for (const filename of filenames) {
+      const poemUrl = `${folderUrl}${filename}`;
+      const resp = await fetch(poemUrl);
+      if (!resp.ok) {
+        console.warn(`Failed to fetch poem: ${poemUrl}`);
+        continue; // Skip to the next poem if fetch fails
       }
-      if (data.length === 1) {
-        displaySinglePoem(data[0]);
-      } else {
-        poemsForWheel = data.slice();
-        showInfiniteWheelOverlay();
-      }
-    })
-    .catch(err => {
-      console.warn("No poem found for", dateStr, err);
-      alert(`${t("errors.noPoemFound")}: ${dateStr}`);
-    });
+      const poemData = await resp.json();
+      poemsForWheel.push(poemData);
+    }
+
+
+    if (poemsForWheel.length === 0) {
+      throw new Error("No valid poem data loaded");
+    }
+
+    if (poemsForWheel.length === 1) {
+      displaySinglePoem(poemsForWheel[0]);
+    } else {
+      showInfiniteWheelOverlay();
+    }
+
+  } catch (err) {
+    console.warn("Error loading poems for", dateStr, err);
+    alert(`${t("errors.noPoemFound")}: ${dateStr}`);
+  }
 }
+
+// Simulate fetching filenames for a given date folder
+// **IMPORTANT:** In a real application, this would need to be replaced
+// with a server-side call to list files or use a pre-generated index.
+async function getPoemFilenamesForDate(dateFolder) {
+  // Example: Hardcoded filenames for demonstration
+  if (dateFolder === "20241031") {
+    return ["All_American.json", "Another_Poem_Example.json"]; // Example of multiple poems
+  }
+  if (dateFolder === "20241116") {
+      return ["Simple_Poem.json"]; // Example of a single poem
+  }
+  return []; // No poems for other dates in this example
+}
+
 
 function displaySinglePoem(poem) {
   const titleUsed = (currentLanguage === "en")
@@ -574,7 +609,7 @@ function onWheelPointerDown(e) {
   startPointerY = e.clientY;
 
   lastPointerY = e.clientY;       // For velocity calc
-  lastMoveTime = performance.now(); 
+  lastMoveTime = performance.now();
   flingVelocity = 0;              // Reset velocity
   stopFlingAnimation();           // Stop any active fling
 
@@ -616,7 +651,7 @@ function onWheelPointerMove(e) {
 
     // Velocity in px/ms
     const speedY = (e.clientY - lastPointerY) / (deltaTime || 1);
-    flingVelocity = speedY; 
+    flingVelocity = speedY;
     lastPointerY = e.clientY;
   }
 }
