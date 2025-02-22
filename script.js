@@ -618,10 +618,15 @@ function buildInfiniteList(poems, repeatCount) {
 
     clearTimeout(wheelSnapTimeout);
     e.target.setPointerCapture(e.pointerId);
+
+    e.stopPropagation(); // Prevent event from bubbling up
+    e.preventDefault();  // Prevent default touch behavior (like page scroll)
   }
 
   function onWheelPointerMove(e) {
     if (!isPointerDown) return;
+    e.stopPropagation(); // Prevent event from bubbling up
+    e.preventDefault();  // Prevent default touch behavior (like page scroll)
 
     // Check if we've moved enough to consider it a drag
     const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
