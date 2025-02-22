@@ -78,9 +78,12 @@ async function loadGuiData() {
 async function loadPoemIndex() {
   try {
     const resp = await fetch("poetryIndex.json");
-    if (!resp.ok) throw new Error("Could not load poetryIndex.json");
+    if (!resp.ok) {
+      console.error("poetryIndex.json response not OK:", resp);
+      throw new Error("Could not load poetryIndex.json");
+    }
     poemIndex = await resp.json();
-    console.log("poemIndex loaded:", poemIndex);
+    console.log("poemIndex loaded successfully:", poemIndex);
   } catch (err) {
     console.error("Error loading poemIndex:", err);
     poemIndex = {};
@@ -394,7 +397,9 @@ function getDayNames() {
 async function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
   const folderName = dateStr.replace(/-/g, ""); // e.g. "20241201"
+  console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName); // ADDED LOG
   const filenames = poemIndex[folderName] || [];
+  console.log("filenames from poemIndex:", filenames); // ADDED LOG
 
   if (filenames.length === 0) {
     console.warn("No poems for date:", dateStr);
@@ -408,11 +413,16 @@ async function loadPoemsByDate(dateStr) {
   // Fetch each poem file from the folder
   for (const filename of filenames) {
     const poemUrl = folderUrl + filename;
+    console.log("Fetching poem:", poemUrl); // ADDED LOG
     try {
       const resp = await fetch(poemUrl);
-      if (!resp.ok) throw new Error(`Failed to fetch poem: ${poemUrl}`);
+      if (!resp.ok) {
+        console.error("Poem fetch not OK:", poemUrl, resp); // ADDED LOG
+        throw new Error(`Failed to fetch poem: ${poemUrl}`);
+      }
       const poemData = await resp.json();
       poemsForWheel.push(poemData);
+      console.log("Poem data loaded:", poemUrl, poemData); // ADDED LOG
     } catch (err) {
       console.warn("Skipping poem fetch error:", poemUrl, err);
     }
