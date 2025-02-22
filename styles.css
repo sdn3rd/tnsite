@@ -1,4 +1,6 @@
-/* Reset / Universal */
+/* style.css ---------------------------------------------------------
+   UNIVERSAL / ROOT VARIABLES
+------------------------------------------------------------------ */
 *,
 *::before,
 *::after {
@@ -25,10 +27,9 @@
     --menu-icon-size-desktop: 50px;
     --menu-icon-size-mobile: 40px;
 
-    /* Wheel Variables */
-    --wheel-item-height: 60px; /* Fixed height per poem line */
-    --wheel-marquee-min-height: 180px; /* 3 items * 60px */
-    --wheel-marquee-max-height: 70vh;   /* 70% of viewport */
+    --wheel-item-height: 60px; /* Fixed height for each poem title in wheel */
+    --wheel-marquee-min-height: 180px; /* Minimum height of the central marquee area (3 items) */
+    --wheel-marquee-max-height: 70vh; /* Maximum height of the central marquee area (70% of viewport height) */
 }
 
 /* Light Theme Variables */
@@ -280,29 +281,28 @@ body.menu-open .side-menu {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 400px;
-  min-height: var(--wheel-marquee-min-height);
-  max-height: var(--wheel-marquee-max-height);
+  min-height: var(--wheel-marquee-min-height); /* Minimum height (3 items) */
+  max-height: var(--wheel-marquee-max-height); /* Maximum height (70% of viewport) */
   background: var(--background-color);
   overflow: hidden; /* Clip content to marquee */
-  border: 1px solid var(--line-color);
+  border: 1px solid var(--line-color); /* Border to visually contain the marquee */
 }
 
 /* Track that scrolls vertically */
 #wheel-track {
-  position: relative;
+  position: relative; /* Needed for vertical positioning of items */
   top: 0;
   left: 0;
   width: 100%;
-  /* We'll do smooth transitions for snapping */
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease; /* For smooth scrolling */
 }
 
 /* Styles for each poem item in the wheel */
 .wheel-item {
-  display: block; /* stacked vertically */
+  display: block; /* Stack items vertically */
   width: 100%;
   height: var(--wheel-item-height);
-  line-height: var(--wheel-item-height); /* center text vertically */
+  line-height: var(--wheel-item-height); /* Vertical centering of text */
   text-align: center;
   border-bottom: 1px solid var(--line-color);
   cursor: pointer;
@@ -312,15 +312,23 @@ body.menu-open .side-menu {
   white-space: nowrap;
   font-size: 1rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
-  color: var(--text-color);
+  color: var(--text-color); /* Default text color */
 }
 
-/* Visually highlight the item at center */
+/* Center item style - BOLD and WHITE now */
 .wheel-item.active {
   font-weight: bold;
-  color: var(--text-color);
-  font-size: 1.2rem;
+  color: var(--text-color); /* White text color */
+  text-shadow: none; /* Remove gold shadow */
+  animation: none;      /* Remove pulse animation */
+  font-size: 1.2rem;    /* Keep slightly larger for active item */
 }
+
+/* Remove border from last item in track to avoid double border */
+.wheel-item:last-child {
+  border-bottom: none;
+}
+
 
 /* Close Button */
 #wheel-close-btn {
@@ -351,7 +359,7 @@ body.menu-open .side-menu {
   padding: 20px;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow-y: auto; /* scroll vertically if the poem is long */
+  overflow-y: auto; /* no horizontal scroll if poem lines are longer */
   overflow-x: hidden;
 }
 
