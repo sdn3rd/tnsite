@@ -519,23 +519,28 @@ function findCenterIndex(wheelTrack, totalCount) {
   const cy = wheelInnerRect.height / 2;
 
   let minDist = Infinity;
-  let centerI = 0;
-  let closestItemIndex = 0; // Track index of closest item
+  let centerI = -1; // Initialize to -1 to indicate no center item yet
+  let closestItemIndex = -1;
 
   for (let i = 0; i < totalCount; i++) {
+    const item = wheelTrack.children[i];
+    if (!item) continue; // Defensive check
+
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + i * WHEEL_ITEM_HEIGHT / 2;
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
+
     if (dist < minDist) {
       minDist = dist;
       centerI = i;
-      closestItemIndex = i; // Update closest item index
+      closestItemIndex = i;
     }
   }
 
-  console.log("findCenterIndex - totalCount:", totalCount, "wheelTrackOffsetY:", wheelTrackOffsetY, "closestItemIndex:", closestItemIndex, "centerI:", centerI); // *** DEBUG ***
-  return centerI;
+  console.log("findCenterIndex - totalCount:", totalCount, "wheelTrackOffsetY:", wheelTrackOffsetY, "closestItemIndex:", closestItemIndex, "centerI:", centerI);
+  return centerI; // Returns index of closest item, or -1 if none found
 }
+
 
 /**
  * Scale & fade items based on distance from center
@@ -547,8 +552,10 @@ function updateWheelLayout(wheelTrack, totalCount) {
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
+    if (!item) continue; // Defensive check
+
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + item.offsetHeight / 2; // Use item.offsetHeight for actual height
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
 
     // scale in [0.8..1.3], fade in [0.5..1.0]
@@ -560,14 +567,15 @@ function updateWheelLayout(wheelTrack, totalCount) {
 
     item.style.transform = `scale(${scale})`;
     item.style.opacity = String(0.5 + (scale - minScale));
-    item.classList.remove("active");
+    item.classList.remove("active"); // Remove active class from all items
   }
 
   const cIndex = findCenterIndex(wheelTrack, totalCount);
-  if (wheelTrack.children[cIndex]) {
-    wheelTrack.children[cIndex].classList.add("active");
+  if (cIndex >= 0 && wheelTrack.children[cIndex]) { // Check if a valid center index is found
+    wheelTrack.children[cIndex].classList.add("active"); // Add active class to the *correct* center item
   }
 }
+
 
 /* ------------------------------------------------------------------
    DRAG SCROLL: pointer events (with tap vs. drag)
@@ -665,6 +673,11 @@ function snapToClosestRow(wheelTrack) {
   const centerIndex = findCenterIndex(wheelTrack, totalCount);
   console.log("snapToClosestRow - START - centerIndex:", centerIndex, "wheelTrackOffsetY:", wheelTrackOffsetY);
 
+  if (centerIndex === -1) { // Defensive check: no center item found
+    console.warn("snapToClosestRow: No center item found, skipping snap.");
+    return;
+  }
+
   const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
   const cy = wheelInnerRect.height / 2;
   const targetOffsetY = cy - WHEEL_ITEM_HEIGHT / 2 - centerIndex * WHEEL_ITEM_HEIGHT;
@@ -689,7 +702,7 @@ function onMouseWheelScroll(e) {
 
   // Basic: move one item up/down
   const delta = Math.max(-1, Math.min(1, e.deltaY)); // -1 or 1
-  wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT;
+  wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT * -delta; // Invert delta for natural scroll
 
   wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   updateWheelLayout(wheelTrack, wheelTrack.children.length);
