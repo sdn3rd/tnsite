@@ -1,122 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <!-- Meta Tags and SEO -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tristan Nuvola - Main</title>
-    <meta name="description" content="Explore the profound and introspective poetry of Tristan Nuvola, weaving words like silk into a universe of emotion and depth.">
-    <meta name="keywords" content="Tristan Nuvola, Poetry, Introspection, Emotion, Creative Writing, Autistic Poet, Cloud-Inspired, Literary Art">
-    <meta name="author" content="Tristan Nuvola">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://tristannuvola.com/">
-    
-    <!-- Robots Meta Tag -->
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Tristan Nuvola - Poetry & Reflections">
-    <meta property="og:description" content="Explore the profound and introspective poetry of Tristan Nuvola, weaving words like silk into a universe of emotion and depth.">
-    <meta property="og:image" content="https://tristannuvola.com/images/preview.jpg"> 
-    <meta property="og:url" content="https://tristannuvola.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:site_name" content="Tristan Nuvola">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tristannuvola">
-    <meta name="twitter:creator" content="@tristannuvola">
-    <meta name="twitter:title" content="Tristan Nuvola - Poetry & Reflections">
-    <meta name="twitter:description" content="Explore the profound and introspective poetry of Tristan Nuvola, weaving words like silk into a universe of emotion and depth.">
-    <meta name="twitter:image" content="https://tristannuvola.com/images/preview.jpg">
-    
-    <!-- oEmbed Discovery Links -->
-    <link rel="alternate" type="application/json+oembed" href="https://tristannuvola.com/oembed?format=json" title="Tristan Nuvola oEmbed">
-    <link rel="alternate" type="application/xml+oembed" href="https://tristannuvola.com/oembed?format=xml" title="Tristan Nuvola oEmbed">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tristan Nuvola</title>
 
-    <!-- Cloudflare Turnstile Widget (if needed for contact form) -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <!-- Basic SEO Tags -->
+  <meta name="description" content="Explore Tristan Nuvola's poetry.">
+  <meta name="keywords" content="Tristan Nuvola, Poetry, Introspection, Autistic Poet">
+  <meta name="author" content="Tristan Nuvola">
+
+  <!-- Example OG/Twitter Meta (optional) -->
+  <meta property="og:title" content="Tristan Nuvola"/>
+  <meta property="og:description" content="Poetry & Reflection"/>
+  <meta property="og:image" content="icons/favicon.ico"/>
+  <meta name="twitter:card" content="summary"/>
+
+  <!-- Favicon -->
+  <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
 </head>
-
 <body>
-    <!-- Hamburger Menu Icon (top-left) -->
-    <div id="menu-icon-container" tabindex="0">
-        <img src="icons/menu.png" alt="Menu Icon">
-    </div>
 
-    <!-- Language Toggle (top-right) -->
-    <div id="language-toggle" style="
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1002;
-        cursor: pointer;
-        font-weight: bold;
-    ">
-        ENG
-    </div>
+  <!-- Hamburger (top-left) -->
+  <div id="menu-icon-container" tabindex="0">
+    <img src="icons/menu.png" alt="Menu Icon"/>
+  </div>
 
-    <!-- Side Menu (sliding from left) -->
-    <nav class="side-menu" id="side-menu">
-        <ul>
-            <!-- Example Items -->
-            <li>
-                <a href="#" data-section="introduction">
-                    <img class="menu-icon" src="icons/about.png" alt="About Icon">
-                    <span class="menu-text">About</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" data-section="poetry">
-                    <img class="menu-icon" src="icons/poetry.png" alt="Poetry Icon">
-                    <span class="menu-text">Poetry</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" data-section="contact">
-                    <img class="menu-icon" src="icons/contact.png" alt="Contact Icon">
-                    <span class="menu-text">Contact</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" data-section="spectral">
-                    <img class="menu-icon" src="icons/spectral.png" alt="Spectral Icon">
-                    <span class="menu-text">Spectral</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+  <!-- Language Toggle (top-right) -->
+  <div id="language-toggle" style="
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1002;
+    cursor: pointer;
+    font-weight: bold;
+  ">
+    ENG
+  </div>
 
-    <!-- Main Content (will be filled by script.js) -->
-    <div id="main-content"></div>
+  <!-- Side Menu -->
+  <nav id="side-menu" class="side-menu">
+    <ul>
+      <li>
+        <a href="#" data-section="about">About</a>
+      </li>
+      <li>
+        <a href="#" data-section="poetry">Poetry</a>
+      </li>
+    </ul>
+  </nav>
 
-    <!-- Footer (fixed) -->
-    <footer>
-        <div class="social-media">
-            <a href="https://patreon.com/tristannuvola" target="_blank">
-                <img id="patreon-icon" src="icons/patreon.png" alt="Patreon">
-            </a>
-            <a href="https://bsky.app/profile/tristannuvola.bsky.social" target="_blank">
-                <img src="icons/twitter.png" alt="Bluesky">
-            </a>
-            <a href="https://instagram.com/adadandhismeat" target="_blank">
-                <img src="icons/instagram.png" alt="Instagram">
-            </a>
-        </div>
-        <p>&copy; <span id="year"></span> Tristan Nuvola</p>
-    </footer>
+  <!-- Main Content -->
+  <div id="main-content"></div>
 
-    <!-- Single Script (Unified) -->
-    <script src="script.js" defer></script>
+  <!-- Script -->
+  <script src="script.js" defer></script>
 </body>
 </html>
