@@ -10,7 +10,7 @@
     --background-color: #000000;
     --text-color: #ffffff;
     --line-color: #ffffff;
-    --highlight-color: #333333; /* Original highlight color - we will use a darker one for active wheel item */
+    --highlight-color: #333333;
     --link-color: #ffffff;
 
     --footer-height: 60px;
@@ -363,33 +363,6 @@ body.menu-open .side-menu {
   justify-content: center; /* Center items vertically */
 }
 
-/* Mobile - Fullscreen */
-@media (max-width: 768px) {
-    #poem-reading-overlay {
-        padding: 10px; /* Reduce padding on mobile */
-    }
-    #poem-overlay-content {
-        font-size: 1.1rem; /* Slightly larger poem text on mobile */
-    }
-}
-
-/* Desktop - Centered Panel */
-@media (min-width: 769px) {
-    #poem-reading-overlay {
-        position: fixed; /* Important to reset position from mobile fullscreen */
-        /* Flexbox centering already applied in the base style */
-        width: 80%;
-        max-width: 700px; /* Limit width on desktop */
-        height: auto; /* Adjust height to content */
-        max-height: 90vh; /* Max height to prevent going off screen */
-        overflow-y: auto; /* Enable scroll if content is too tall */
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-    }
-}
-
-
 #poem-reading-overlay.show {
   display: block;
   opacity: 1;
@@ -423,4 +396,49 @@ body.menu-open .side-menu {
   text-align: left; /* Left align poem text */
   width: 100%;      /* Take full width of container */
   max-width: 600px; /* Limit poem text width for readability */
+}
+
+
+/* Portrait Orientation Styles */
+@media (orientation: portrait) {
+    #poem-reading-overlay {
+        padding: 15px; /* Slightly more padding in portrait */
+        width: 100vw;    /* Full viewport width */
+        height: 100vh;   /* Full viewport height */
+        max-width: none; /* Remove max-width for fullscreen */
+        max-height: none;/* Remove max-height for fullscreen */
+        border-radius: 0; /* No rounded corners in fullscreen */
+        box-shadow: none; /* Remove shadow in fullscreen */
+    }
+    #poem-overlay-content {
+        font-size: 1.2rem; /* Slightly larger text in portrait */
+        max-width: 95%;    /* Let text take almost full width in portrait */
+    }
+    #poem-overlay-close {
+        top: 20px;      /* Adjust close button position in portrait */
+        right: 25px;
+    }
+}
+
+/* Landscape Orientation Styles (Desktop and Landscape Mobile) */
+@media (orientation: landscape) {
+    #poem-reading-overlay {
+        position: fixed;     /* Ensure fixed positioning in landscape */
+        width: 80%;          /* Original desktop width */
+        max-width: 700px;    /* Original max-width */
+        height: auto;         /* Adjust height to content */
+        max-height: 90vh;    /* Max height to prevent going off screen */
+        overflow-y: auto;     /* Enable scroll if content is too tall */
+        padding: 30px;        /* Original desktop padding */
+        border-radius: 8px;   /* Original rounded corners */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.7); /* Original shadow */
+    }
+    #poem-overlay-content {
+        font-size: 1.2rem; /* Original text size */
+        max-width: 600px; /* Original max text width */
+    }
+    #poem-overlay-close {
+        top: 15px;         /* Original close button position */
+        right: 20px;
+    }
 }
