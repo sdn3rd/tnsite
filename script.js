@@ -366,27 +366,28 @@ function getDayNames() {
    LOAD POEMS => SHOW INFINITE WHEEL
 ------------------------------------------------------------------ */
 function loadPoemsByDate(dateStr) {
-  const url = `poetry/${dateStr}.json`;
-  fetch(url)
-    .then(resp => {
-      if (!resp.ok) throw new Error("Not found");
-      return resp.json();
-    })
-    .then(data => {
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error("Empty array");
-      }
-      if (data.length === 1) {
-        displaySinglePoem(data[0]);
-      } else {
-        poemsForWheel = data.slice();
-        showInfiniteWheelOverlay();
-      }
-    })
-    .catch(err => {
-      console.warn("No poem found for", dateStr, err);
-      alert(t("errors.noPoemFound") + ": " + dateStr);
-    });
+    const url = `poetry/${dateStr}.json`;
+    fetch(url)
+      .then(resp => {
+        if (!resp.ok) throw new Error("Not found");
+        return resp.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error("Empty array");
+        }
+        if (data.length === 1) {
+          displaySinglePoem(data[0]);
+        } else {
+          poemsForWheel = data.slice();
+          showInfiniteWheelOverlay();
+        }
+      })
+      .catch(err => {
+        console.warn("No poem found for", dateStr, err);
+        // alert(t("errors.noPoemFound") + ": " + dateStr); // Original, incorrect line
+        alert(`${t("errors.noPoemFound")}: ${dateStr}`); // Corrected line
+      });
 }
 
 function displaySinglePoem(poem) {
