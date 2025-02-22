@@ -1,6 +1,6 @@
 console.log("script.js loaded.");
 
-/** 
+/**
  * Global state
  */
 let currentLanguage = "en";
@@ -14,7 +14,7 @@ let calendarMonth = 0; // 0-based
 // If you have localized strings in a "gui.json", load them; else skip
 let guiData = null;
 
-/** 
+/**
  * For the infinite vertical spinner
  */
 let poemsForWheel = [];     // array of poem objects from JSON
@@ -205,7 +205,7 @@ function loadPoetrySection() {
 }
 
 function renderCalendarView(year, month, container) {
-  container.innerHTML = ""; 
+  container.innerHTML = "";
 
   // Nav
   const navDiv = document.createElement("div");
@@ -499,7 +499,7 @@ function centerScrollAtMiddle(wheelBody, totalCount) {
 function checkLoopEdges(wheelBody, totalCount) {
   const rowHeight = 60;
   const fullHeight = totalCount * rowHeight;
-  const buffer = 3 * rowHeight; 
+  const buffer = 3 * rowHeight;
 
   if (wheelBody.scrollTop < buffer) {
     wheelBody.scrollTop += fullHeight/2;
