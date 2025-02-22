@@ -18,22 +18,17 @@ let guiData = null;
 
 /* For the new wheel logic */
 let poemsForWheel = [];      // poems for the current day
-let offsetY = 0;             // the current scroll offset for the wheel
 let isDraggingWheel = false;
 let startPointerY = 0;
-let rowHeight = 60;          // each row’s “base” height in px (approx for scaling)
+let rowHeight = 60;          // base row height (in px)
 let snapEnabled = true;      // snap to nearest row on pointer up
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
 
-  // 1) Load all language data from gui.json
   await loadGuiData();
-
-  // 2) Initialize the rest
   initializePage();
 
-  // 3) Setup side menu link clicks
   const menuItems = document.querySelectorAll("#side-menu a[data-section]");
   menuItems.forEach(item => {
     item.addEventListener("click", e => {
@@ -50,12 +45,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // 4) Update side menu text immediately
   updateSideMenuLabels();
 });
 
 /* ------------------------------------------------------------------
-   1) Load the gui.json data
+   Load gui.json Data
 ------------------------------------------------------------------ */
 async function loadGuiData() {
   try {
@@ -70,7 +64,7 @@ async function loadGuiData() {
 }
 
 /* ------------------------------------------------------------------
-   HELPER: t(path)
+   Helper: t(path)
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path;
@@ -113,11 +107,9 @@ function initializePage() {
     });
   }
 
-  // Load About by default
   activeSection = "about";
   loadAboutSection();
 
-  // Back button from wheel => show calendar
   const backToCalendarBtn = document.getElementById("back-to-calendar-btn");
   if (backToCalendarBtn) {
     backToCalendarBtn.addEventListener("click", () => {
@@ -128,7 +120,6 @@ function initializePage() {
     });
   }
 
-  // Set up reading mode close event
   const overlayClose = document.getElementById("poem-overlay-close");
   if (overlayClose) {
     overlayClose.addEventListener("click", () => {
@@ -137,7 +128,6 @@ function initializePage() {
     });
   }
 
-  // Wheel pointer events
   const wheelBody = document.getElementById("wheel-list-body");
   if (wheelBody) {
     wheelBody.addEventListener("pointerdown", onWheelPointerDown);
@@ -145,14 +135,12 @@ function initializePage() {
     wheelBody.addEventListener("pointerup", onWheelPointerUp);
     wheelBody.addEventListener("pointercancel", onWheelPointerUp);
     wheelBody.addEventListener("pointerleave", onWheelPointerUp);
-
-    // If you want to block text highlighting:
     wheelBody.style.userSelect = "none";
   }
 }
 
 /* ------------------------------------------------------------------
-   LANGUAGE DETECTION
+   LANGUAGE DETECTION & TOGGLE
 ------------------------------------------------------------------ */
 function detectOrLoadLanguage() {
   const savedLang = localStorage.getItem("preferredLang");
@@ -164,6 +152,7 @@ function detectOrLoadLanguage() {
     localStorage.setItem("preferredLang", currentLanguage);
   }
 }
+
 function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
@@ -171,6 +160,7 @@ function toggleLanguage() {
   updateSideMenuLabels();
   console.log("Language toggled =>", currentLanguage);
 }
+
 function updateLanguageToggle() {
   const langToggle = document.getElementById("language-toggle");
   if (!langToggle) return;
@@ -178,12 +168,11 @@ function updateLanguageToggle() {
 }
 
 /* ------------------------------------------------------------------
-   SIDE MENU
+   SIDE MENU FUNCTIONS
 ------------------------------------------------------------------ */
 function setupHamburgerMenu() {
   const hamburger = document.getElementById("menu-icon-container");
   if (!hamburger) return;
-
   hamburger.addEventListener("click", e => {
     e.stopPropagation();
     document.body.classList.toggle("menu-open");
@@ -194,7 +183,6 @@ function setupHamburgerMenu() {
       document.body.classList.toggle("menu-open");
     }
   });
-
   document.addEventListener("click", e => {
     const sideMenu = document.getElementById("side-menu");
     if (document.body.classList.contains("menu-open")) {
@@ -204,12 +192,14 @@ function setupHamburgerMenu() {
     }
   });
 }
+
 function updateSideMenuLabels() {
   const aboutLink = document.querySelector('#side-menu a[data-section="about"]');
   const poetryLink = document.querySelector('#side-menu a[data-section="poetry"]');
   if (aboutLink) aboutLink.textContent = t("menu.about");
   if (poetryLink) poetryLink.textContent = t("menu.poetry");
 }
+
 function closeMenu() {
   document.body.classList.remove("menu-open");
   console.log("Side menu closed.");
@@ -225,15 +215,13 @@ function loadAboutSection() {
 }
 
 /* ------------------------------------------------------------------
-   POETRY SECTION => Monthly Calendar
+   POETRY SECTION => CALENDAR & POEM WHEEL
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
-
   const heading = t("poetryHeading");
   mainContent.innerHTML = `<h1>${heading}</h1><div id="poems-container"></div>`;
-
   if (!calendarYear || !calendarMonth) {
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
@@ -244,7 +232,6 @@ function loadPoetrySection() {
 function renderCalendarView(year, month) {
   const poemsContainer = document.getElementById("poems-container");
   if (!poemsContainer) return;
-
   poemsContainer.innerHTML = "";
 
   const navDiv = document.createElement("div");
@@ -401,7 +388,6 @@ function loadPoemByDate(dateStr) {
         displaySinglePoem(data[0]);
       } else {
         poemsForWheel = data.slice();
-        offsetY = 0;
         showPoemWheel();
       }
     })
@@ -457,7 +443,6 @@ function displaySinglePoem(poemObj) {
     });
   }
 
-  // If mobile => reading overlay on click
   poemDiv.addEventListener("click", e => {
     if (e.target.id === "single-poem-back-btn") return;
     if (isMobileDevice) {
@@ -489,27 +474,18 @@ function showPoemWheel() {
   poemsForWheel.forEach((poem, idx) => {
     const tr = document.createElement("tr");
     tr.dataset.index = String(idx);
-
-    const titleUsed = (currentLanguage === "en")
-      ? (poem.title_en || "Untitled")
-      : (poem.title_it || poem.title_en || "Untitled");
+    const titleUsed = currentLanguage === "en" ? (poem.title_en || "Untitled") : (poem.title_it || poem.title_en || "Untitled");
     tr.innerHTML = `<td>${titleUsed}</td>`;
-
-    // Clicking row => open reading overlay only if it's the "center" item
     tr.addEventListener("click", () => {
       const selectedIndex = findCenterIndex();
       if (parseInt(tr.dataset.index) === selectedIndex) {
-        const textUsed = currentLanguage === "en"
-          ? (poem.poem_en || "")
-          : (poem.poem_it || poem.poem_en || "");
+        const textUsed = currentLanguage === "en" ? (poem.poem_en || "") : (poem.poem_it || poem.poem_en || "");
         showReadingOverlay(titleUsed, textUsed);
       }
     });
-
     wheelBody.appendChild(tr);
   });
 
-  // Render initial
   updateWheelLayout();
 }
 
@@ -519,70 +495,56 @@ function removeWheel() {
   if (wheelContainer) wheelContainer.style.display = "none";
 }
 
-/** Returns the index of the row that is currently at the center. */
+/** Returns the index of the row closest to the center of the wheel container. */
 function findCenterIndex() {
-  // The center is simply the poem with minimal distance from the midpoint
-  // We'll measure each item’s absolute offset from center and pick the minimum.
   const wheelBody = document.getElementById("wheel-list-body");
   if (!wheelBody) return 0;
-
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return 0;
-
-  let minDist = Infinity;
-  let centerIndex = 0;
-  const container = wheelBody.getBoundingClientRect();
-  const containerCenterY = container.height / 2;
-
+  let minDist = Infinity, centerIndex = 0;
+  const containerRect = wheelBody.getBoundingClientRect();
+  const containerCenterY = containerRect.height / 2;
   rows.forEach((row, i) => {
     const rect = row.getBoundingClientRect();
-    const rowCenter = rect.top + rect.height / 2 - container.top;
+    const rowCenter = rect.top + rect.height / 2 - containerRect.top;
     const dist = Math.abs(rowCenter - containerCenterY);
     if (dist < minDist) {
       minDist = dist;
       centerIndex = i;
     }
   });
-
   return centerIndex;
 }
 
-/** Called whenever we move or release the pointer => positions & scales items. */
+/** Update wheel layout: scale rows based on distance from center and mark the active row. */
 function updateWheelLayout() {
   const wheelBody = document.getElementById("wheel-list-body");
   if (!wheelBody) return;
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
-
-  // We'll measure container in client coords
   const containerRect = wheelBody.getBoundingClientRect();
   const containerCenterY = containerRect.height / 2;
-
-  rows.forEach((row, i) => {
-    // "Visual" Y position = i*rowHeight - offsetY
-    // We don’t absolutely position them, but we can measure how far from center they are.
-    // We'll compute the row’s center in container coords
+  rows.forEach((row) => {
     const rect = row.getBoundingClientRect();
     const rowMid = rect.top + rect.height / 2 - containerRect.top;
     const dist = Math.abs(rowMid - containerCenterY);
-
-    // Distance-based scale
-    // If dist=0 => scale=1.3 or so, if dist grows => scale shrinks
     const maxScale = 1.3;
     const minScale = 0.8;
-    // A quick linear approach: scale = maxScale - (dist / (containerCenterY * someFactor))
-    // Let's define a range: if dist > containerCenterY => min scale
-    let scale = maxScale - (dist / containerCenterY) * 0.5; 
+    let scale = maxScale - (dist / containerCenterY) * 0.5;
     if (scale < minScale) scale = minScale;
     if (scale > maxScale) scale = maxScale;
-
-    // Apply transform
     row.style.transform = `scale(${scale})`;
-    row.style.opacity = `${0.5 + (scale - minScale)}`; // crude fade, 0.5 ~ min scale, 1.0 ~ max scale
+    row.style.opacity = `${0.5 + (scale - minScale)}`;
+    row.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+    row.classList.remove("active");
   });
+  const centerIndex = findCenterIndex();
+  if (rows[centerIndex]) {
+    rows[centerIndex].classList.add("active");
+  }
 }
 
-/* Pointer events for the wheel drag scrolling */
+/* Pointer event handlers for the wheel */
 function onWheelPointerDown(e) {
   isDraggingWheel = true;
   e.target.setPointerCapture(e.pointerId);
@@ -590,51 +552,33 @@ function onWheelPointerDown(e) {
 }
 function onWheelPointerMove(e) {
   if (!isDraggingWheel) return;
-
   const deltaY = e.clientY - startPointerY;
   startPointerY = e.clientY;
-
-  // We'll scroll the container. Rather than physically offset elements,
-  // we just use the browser's default scrolling if the container is scrollable.
-  // But we can manually scroll by adjusting top, or rely on any standard approach.
-  // Easiest: use the parent's scrollTop if we wrap it in a container with overflow.
-
-  // However, your existing code has <tbody> with no scrolling. We'll artificially scroll:
   const wheelBody = document.getElementById("wheel-list-body");
   if (!wheelBody) return;
-
-  // We can shift the parent via scrollTop:
   let newScrollTop = wheelBody.parentElement.scrollTop - deltaY;
   if (newScrollTop < 0) newScrollTop = 0;
   wheelBody.parentElement.scrollTop = newScrollTop;
-
   updateWheelLayout();
 }
 function onWheelPointerUp(e) {
   if (isDraggingWheel) {
     e.target.releasePointerCapture(e.pointerId);
     isDraggingWheel = false;
-
-    // Optionally snap to the closest row
     if (snapEnabled) {
       snapToClosestRow();
     }
   }
 }
-
 function snapToClosestRow() {
   const wheelBody = document.getElementById("wheel-list-body");
   if (!wheelBody) return;
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
-
-  // We find the row that is currently "closest to center" & scroll so that row is centered
-  const container = wheelBody.parentElement; // the table element
+  const container = wheelBody.parentElement;
   const containerRect = container.getBoundingClientRect();
   const containerCenterY = containerRect.height / 2;
-
-  let minDist = Infinity;
-  let closestRow = rows[0];
+  let minDist = Infinity, closestRow = rows[0];
   rows.forEach(row => {
     const rect = row.getBoundingClientRect();
     const rowCenter = rect.top + rect.height / 2 - containerRect.top;
@@ -644,27 +588,22 @@ function snapToClosestRow() {
       closestRow = row;
     }
   });
-
   if (closestRow) {
     const rowRect = closestRow.getBoundingClientRect();
     const rowCenter = rowRect.top + rowRect.height / 2 - containerRect.top;
     const distToCenter = rowCenter - containerCenterY;
-
-    // Adjust the container's scroll so that we shift by distToCenter
     container.scrollTop += distToCenter;
     updateWheelLayout();
   }
 }
 
-/** Show reading overlay (for single poem or center item in wheel). */
+/** Show reading overlay (for the center item or single poem) */
 function showReadingOverlay(title, text) {
   const overlay = document.getElementById("poem-overlay");
   if (!overlay) return;
   overlay.style.display = "block";
-
   const overlayTitle = document.getElementById("poem-overlay-title");
   if (overlayTitle) overlayTitle.textContent = title || "";
-
   const overlayContent = document.getElementById("poem-overlay-content");
   if (overlayContent) overlayContent.innerHTML = (text || "").replace(/\n/g, "<br>");
 }
