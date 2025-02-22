@@ -33,6 +33,13 @@ let pointerDownItem = null;
 const TAP_THRESHOLD = 6; // px threshold for deciding a tap vs. drag
 const snapEnabled = true;
 
+// Fling Velocity Tracking
+let lastPointerY = 0;
+let lastMoveTime = 0;
+let flingVelocity = 0;
+let decelerationFactor = 0.95; // Adjust for faster/slower deceleration
+let animationFrameID = null;
+
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
@@ -413,9 +420,11 @@ function showInfiniteWheelOverlay() {
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
     clearTimeout(wheelSnapTimeout);
+    stopFlingAnimation(); // Stop any fling animation
     setTimeout(() => {
       overlay.style.display = "none";
       wheelTrackOffsetY = 0;
+      flingVelocity = 0; // Reset velocity
     }, 400);
   };
 
@@ -499,17 +508,20 @@ function checkLoopEdges(wheelTrack, totalCount) {
   const fullHeight = totalCount * WHEEL_ITEM_HEIGHT;
   // We'll wrap if we pass half the track
   const halfHeight = fullHeight / 2;
+  const wrapThresholdUp = halfHeight;
+  const wrapThresholdDown = -halfHeight;
 
-  if (wheelTrackOffsetY > halfHeight) {
-    // Move track downward by fullHeight so the user sees the same "middle" region
-    wheelTrackOffsetY -= fullHeight;
-    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  } else if (wheelTrackOffsetY < -halfHeight) {
-    // Move track upward by fullHeight
-    wheelTrackOffsetY += fullHeight;
-    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+  if (wheelTrackOffsetY > wrapThresholdUp) {
+      // Scrolling down too far, wrap upwards
+      wheelTrackOffsetY -= fullHeight;
+      wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+  } else if (wheelTrackOffsetY < wrapThresholdDown) {
+      // Scrolling up too far, wrap downwards
+      wheelTrackOffsetY += fullHeight;
+      wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   }
 }
+
 
 /**
  * Find center row index based on track offset
@@ -578,7 +590,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
 
 
 /* ------------------------------------------------------------------
-   DRAG SCROLL: pointer events (with tap vs. drag)
+   DRAG SCROLL: pointer events (with tap vs. drag & FLING)
 ------------------------------------------------------------------ */
 function onWheelPointerDown(e) {
   // Only left click or touch
@@ -590,6 +602,11 @@ function onWheelPointerDown(e) {
   pointerDownX = e.clientX;
   pointerDownY = e.clientY;
   startPointerY = e.clientY;
+
+  lastPointerY = e.clientY; // For velocity calculation
+  lastMoveTime = performance.now(); // For velocity calculation
+  flingVelocity = 0; // Reset velocity on new pointer down
+  stopFlingAnimation(); // Stop any existing fling animation
 
   // Capture the .wheel-item row (if any)
   pointerDownItem = e.target.closest(".wheel-item") || null;
@@ -618,6 +635,15 @@ function onWheelPointerMove(e) {
 
     updateWheelLayout(wheelTrack, wheelTrack.children.length);
     checkLoopEdges(wheelTrack, wheelTrack.children.length);
+
+    // Velocity calculation
+    const currentTime = performance.now();
+    const timeDiff = currentTime - lastMoveTime;
+    if (timeDiff > 0) {
+        flingVelocity = (e.clientY - lastPointerY) / timeDiff; // pixels per millisecond
+    }
+    lastPointerY = e.clientY;
+    lastMoveTime = currentTime;
   }
 }
 
@@ -638,14 +664,19 @@ function onWheelPointerUp(e) {
       openPoemFromCenterItem(centerItem);
     }
   } else {
-    // We dragged => snap after short delay
+    // We dragged => SNAP + FLING
     if (snapEnabled) {
-      wheelSnapTimeout = setTimeout(() => {
-        snapToClosestRow(wheelTrack);
-        console.log("onWheelPointerUp - calling snapToClosestRow"); // *** DEBUG ***
-      }, 100);
+      if (Math.abs(flingVelocity) > 0.1) { // Threshold for fling
+          startFlingAnimation();
+      } else {
+          wheelSnapTimeout = setTimeout(() => {
+              snapToClosestRow(wheelTrack);
+              console.log("onWheelPointerUp - calling snapToClosestRow (no fling)"); // *** DEBUG ***
+          }, 100);
+      }
     }
   }
+  flingVelocity = 0; // Reset velocity after pointer up
 }
 
 /**
@@ -701,8 +732,8 @@ function onMouseWheelScroll(e) {
   if (!wheelTrack) return;
 
   // Basic: move one item up/down
-  const delta = Math.max(-1, Math.min(1, e.deltaY)); // -1 or 1
-  wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT * -delta; // Invert delta for natural scroll
+  const delta = Math.max(-1, Math.min(1, e.deltaY)); // -1, 0, or 1
+  wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT * -1; // Invert delta for natural scroll
 
   wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   updateWheelLayout(wheelTrack, wheelTrack.children.length);
@@ -711,11 +742,49 @@ function onMouseWheelScroll(e) {
   // Snap after scroll
   if (!isPointerDown && snapEnabled) {
     clearTimeout(wheelSnapTimeout);
+    stopFlingAnimation(); // Stop any fling animation
     wheelSnapTimeout = setTimeout(() => {
       snapToClosestRow(wheelTrack);
     }, 100);
   }
 }
+
+/* ------------------------------------------------------------------
+   FLING ANIMATION
+------------------------------------------------------------------ */
+function startFlingAnimation() {
+    stopFlingAnimation(); // Stop any existing animation
+
+    animationFrameID = requestAnimationFrame(function animateFling() {
+        wheelTrackOffsetY += flingVelocity;
+        const wheelTrack = document.querySelector('#wheel-track'); // Or however you access it
+        if (wheelTrack) {
+            wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+            updateWheelLayout(wheelTrack, wheelTrack.children.length);
+            checkLoopEdges(wheelTrack, wheelTrack.children.length);
+        }
+
+        flingVelocity *= decelerationFactor; // Decrease velocity
+        if (Math.abs(flingVelocity) > 0.01) { // Still moving, continue animation
+            animationFrameID = requestAnimationFrame(animateFling);
+        } else {
+            stopFlingAnimation(); // Stop animation
+            const wheelTrack = document.querySelector('#wheel-track');
+            if (wheelTrack) {
+                snapToClosestRow(wheelTrack); // Snap to row when fling ends
+                console.log("Fling animation ended - calling snapToClosestRow"); // *** DEBUG ***
+            }
+        }
+    });
+}
+
+function stopFlingAnimation() {
+    if (animationFrameID) {
+        cancelAnimationFrame(animationFrameID);
+        animationFrameID = null;
+    }
+}
+
 
 /* ------------------------------------------------------------------
    READING OVERLAY
