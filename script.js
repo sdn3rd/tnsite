@@ -575,6 +575,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
  * DRAG SCROLL, now adjusts track offset
  */
 function onWheelPointerDown(e) {
+  console.log("onWheelPointerDown", e); // *** DEBUG ***
   isDraggingWheel = true;
   wheelIsSpinning = true; // Wheel is spinning on drag start
   clearTimeout(wheelSnapTimeout); // Clear any pending snap if dragging again
@@ -584,6 +585,7 @@ function onWheelPointerDown(e) {
 
 function onWheelPointerMove(e) {
   if (!isDraggingWheel) return;
+  console.log("onWheelPointerMove", e); // *** DEBUG ***
   const deltaY = e.clientY - startPointerY;
   startPointerY = e.clientY;
   const wheelTrack = e.currentTarget;
@@ -596,6 +598,7 @@ function onWheelPointerMove(e) {
 }
 
 function onWheelPointerUp(e) {
+  console.log("onWheelPointerUp", e); // *** DEBUG ***
   if (isDraggingWheel) {
     e.target.releasePointerCapture(e.pointerId);
     isDraggingWheel = false;
@@ -614,18 +617,26 @@ function onWheelPointerUp(e) {
  * CLICK/TAP TO STOP & OPEN
  */
 function onWheelClick(e) {
+    console.log("onWheelClick - START", e); // *** DEBUG ***
+    console.log("  wheelIsSpinning:", wheelIsSpinning); // *** DEBUG ***
     if (wheelIsSpinning) {
+        console.log("  Wheel was spinning, stopping it."); // *** DEBUG ***
         wheelIsSpinning = false; // Stop spinning immediately on click
         clearTimeout(wheelSnapTimeout); // If it was snapping, stop it
         snapToClosestRow(e.currentTarget); // Snap to row when stopped by click
     } else {
+        console.log("  Wheel was NOT spinning, opening poem."); // *** DEBUG ***
         // If not spinning, open the selected poem
         const wheelTrack = e.currentTarget;
         const centerIdx = findCenterIndex(wheelTrack, wheelTrack.children.length);
+        console.log("  centerIdx:", centerIdx); // *** DEBUG ***
         const activeItem = wheelTrack.children[centerIdx];
+        console.log("  activeItem:", activeItem); // *** DEBUG ***
         if (activeItem) {
           const originalIndex = parseInt(activeItem.dataset.index) % poemsForWheel.length; // Correct original index
+          console.log("  originalIndex:", originalIndex); // *** DEBUG ***
           const actualPoem = poemsForWheel[originalIndex];
+          console.log("  actualPoem:", actualPoem); // *** DEBUG ***
           if (actualPoem) {
               const tUsed = (currentLanguage === "en")
                 ? (actualPoem.title_en || "Untitled")
@@ -633,10 +644,16 @@ function onWheelClick(e) {
               const pUsed = (currentLanguage === "en")
                 ? (actualPoem.poem_en || "")
                 : (actualPoem.poem_it || actualPoem.poem_en || "");
+              console.log("  tUsed:", tUsed, "pUsed:", pUsed); // *** DEBUG ***
               showReadingOverlay(tUsed, pUsed);
+          } else {
+            console.warn("  actualPoem is null/undefined for index:", originalIndex); // *** DEBUG ***
           }
+        } else {
+          console.warn("  activeItem is null/undefined for centerIdx:", centerIdx); // *** DEBUG ***
         }
     }
+    console.log("onWheelClick - END"); // *** DEBUG ***
 }
 
 
