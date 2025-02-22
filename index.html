@@ -196,11 +196,16 @@
     </div>
   </div>
 
-  <!-- A hidden container for the poem "wheel" -->
-  <div id="wheel-container">
-    <button class="wheel-close-btn" id="wheel-close-btn">X</button>
-    <div class="wheel-list" id="wheel-list"></div>
+  <!-- Wheel container (initially hidden) for multiple poems in a single day -->
+  <div id="poems-wheel-container" style="display:none; margin-top:1em;">
+    <table style="width:100%; border-collapse:collapse; position:relative;">
+      <tbody id="wheel-list-body"></tbody>
+    </table>
+    <div style="text-align:center; margin-top:20px;">
+      <button id="back-to-calendar-btn" style="padding:0.5em 1em;">Back</button>
+    </div>
   </div>
+  
 
   <!-- Reading Mode Overlay -->
   <div id="poem-overlay">
