@@ -21,7 +21,6 @@ let poemsForWheel = [];       // array of poem objects from JSON
 const WHEEL_REPEAT_COUNT = 7; // Replicate poems for smooth looping
 const WHEEL_ITEM_HEIGHT = 60; // px, match CSS
 let wheelTrackOffsetY = 0; 
-let wheelIsSpinning = false; 
 let wheelSnapTimeout = null;
 
 // Drag/tap detection
@@ -413,7 +412,6 @@ function showInfiniteWheelOverlay() {
   const closeBtn = overlay.querySelector("#wheel-close-btn");
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
-    wheelIsSpinning = false;
     clearTimeout(wheelSnapTimeout);
     setTimeout(() => { 
       overlay.style.display = "none"; 
@@ -427,7 +425,6 @@ function showInfiniteWheelOverlay() {
   wheelTrack.innerHTML = "";
   wheelTrack.style.transform = `translateY(0px)`; 
   wheelTrackOffsetY = 0; 
-  wheelIsSpinning = false;
 
   extendedPoems.forEach((info, idx) => {
     const item = document.createElement("div");
@@ -437,7 +434,7 @@ function showInfiniteWheelOverlay() {
     wheelTrack.appendChild(item);
   });
 
-  // Remove old event listeners if any, then re-inject them
+  // Replace old event listeners
   const newWheelTrack = wheelTrack.cloneNode(true);
   wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
 
@@ -465,7 +462,6 @@ function showInfiniteWheelOverlay() {
 
 /**
  * Build infinite list by repeating poems N times
- * Return: [ {title: string, originalIndex: number}, ... ]
  */
 function buildInfiniteList(poems, repeatCount) {
   const out = [];
@@ -487,7 +483,7 @@ function buildInfiniteList(poems, repeatCount) {
 }
 
 /**
- * Place scroll at the middle by adjusting track offset
+ * Center the scroll on the middle item
  */
 function centerScrollAtMiddle(wheelTrack, totalCount) {
   const middleIndex = Math.floor(totalCount / 2);
@@ -496,20 +492,21 @@ function centerScrollAtMiddle(wheelTrack, totalCount) {
 }
 
 /**
- * If near top/bottom, jump to middle => infinite effect
+ * If user scrolls well beyond top/bottom => jump by the entire track height
+ * so we remain "centered" in the repeated list
  */
 function checkLoopEdges(wheelTrack, totalCount) {
   const fullHeight = totalCount * WHEEL_ITEM_HEIGHT;
-  const bufferHeight = 3 * WHEEL_ITEM_HEIGHT; // how far from top/bottom
+  // We'll wrap if we pass half the track
+  const halfHeight = fullHeight / 2;
 
-  // If user scrolls up beyond buffer => shift down half the entire list
-  if (wheelTrackOffsetY > bufferHeight) {
-    wheelTrackOffsetY -= fullHeight / 2;
+  if (wheelTrackOffsetY > halfHeight) {
+    // Move track downward by fullHeight so the user sees the same "middle" region
+    wheelTrackOffsetY -= fullHeight;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  }
-  // If user scrolls way down => shift up half the entire list
-  else if (wheelTrackOffsetY < -(fullHeight - bufferHeight)) {
-    wheelTrackOffsetY += fullHeight / 2;
+  } else if (wheelTrackOffsetY < -halfHeight) {
+    // Move track upward by fullHeight
+    wheelTrackOffsetY += fullHeight;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   }
 }
@@ -537,7 +534,7 @@ function findCenterIndex(wheelTrack, totalCount) {
 }
 
 /**
- * Scale/opacity items based on distance from center
+ * Scale & fade items based on distance from center
  */
 function updateWheelLayout(wheelTrack, totalCount) {
   const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
@@ -569,7 +566,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
 }
 
 /* ------------------------------------------------------------------
-   DRAG SCROLL: pointer events (with tap vs drag)
+   DRAG SCROLL: pointer events (with tap vs. drag)
 ------------------------------------------------------------------ */
 function onWheelPointerDown(e) {
   // Only left click or touch
@@ -597,6 +594,7 @@ function onWheelPointerMove(e) {
   if (!hasDragged && moveDist > TAP_THRESHOLD) {
     hasDragged = true;
   }
+
   // Only move the track if we've started a real drag
   if (hasDragged) {
     const deltaY = e.clientY - startPointerY;
@@ -625,17 +623,7 @@ function onWheelPointerUp(e) {
     const centerItem = wheelTrack.children[centerIdx];
     if (centerItem && pointerDownItem && centerItem === pointerDownItem) {
       // We tapped on the center item => open poem
-      const originalIndex = parseInt(centerItem.dataset.index) % poemsForWheel.length;
-      const actualPoem = poemsForWheel[originalIndex];
-      if (actualPoem) {
-        const tUsed = (currentLanguage === "en")
-          ? (actualPoem.title_en || "Untitled")
-          : (actualPoem.title_it || actualPoem.title_en || "Untitled");
-        const pUsed = (currentLanguage === "en")
-          ? (actualPoem.poem_en || "")
-          : (actualPoem.poem_it || actualPoem.poem_en || "");
-        showReadingOverlay(tUsed, pUsed);
-      }
+      openPoemFromCenterItem(centerItem);
     }
   } else {
     // We dragged => snap after short delay
@@ -644,6 +632,23 @@ function onWheelPointerUp(e) {
         snapToClosestRow(wheelTrack);
       }, 100);
     }
+  }
+}
+
+/**
+ * Open the poem from the center item
+ */
+function openPoemFromCenterItem(itemEl) {
+  const originalIndex = parseInt(itemEl.dataset.index) % poemsForWheel.length;
+  const actualPoem = poemsForWheel[originalIndex];
+  if (actualPoem) {
+    const tUsed = (currentLanguage === "en")
+      ? (actualPoem.title_en || "Untitled")
+      : (actualPoem.title_it || actualPoem.title_en || "Untitled");
+    const pUsed = (currentLanguage === "en")
+      ? (actualPoem.poem_en || "")
+      : (actualPoem.poem_it || actualPoem.poem_en || "");
+    showReadingOverlay(tUsed, pUsed);
   }
 }
 
