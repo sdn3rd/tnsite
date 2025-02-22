@@ -1,118 +1,892 @@
-/* ----------------------------------------------------
-   UNIVERSAL & ROOT VARIABLES
----------------------------------------------------- */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+/* ------------------------------------------------------------------
+   UNIVERSAL / ROOT VARIABLES
+   ------------------------------------------------------------------ */
 
-:root {
-    --background-color: #000000;
-    --text-color: #ffffff;
-    --line-color: #ffffff;
-    --highlight-color: #333333;
-    --link-color: #ffffff;
-
-    /* Layout spacing / sizing */
-    --transition-speed: 0.3s;
-    --max-content-width: 800px; /* Maximum width for main content (desktop) */
-    --mobile-font-size: 14px;
-    --desktop-font-size: 16px;
-}
-
-/* Light Theme example (optional). Just in case: */
-[data-theme="light"] {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --line-color: #000000;
-    --highlight-color: #ccc;
-    --link-color: #000000;
-}
-
-/* ----------------------------------------------------
-   BODY (BASE)
----------------------------------------------------- */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
-    font-size: var(--desktop-font-size);
-    transition: 
-        font-size var(--transition-speed) ease,
-        background-color var(--transition-speed) ease,
-        color var(--transition-speed) ease;
-}
-
-/* Mobile adjusts down the font size */
-@media (max-width: 768px) {
-    body {
-        font-size: var(--mobile-font-size);
-    }
-}
-
-/* ----------------------------------------------------
-   MAIN CONTENT (CENTERING)
----------------------------------------------------- */
-#main-content {
-    width: 90%;
-    max-width: var(--max-content-width);
-    margin: 40px auto; /* auto centers horizontally */
-    padding: 20px;
-    /* If you need to force a square aspect ratio, e.g. 1:1, you can do:
-       height: 0;
-       padding-bottom: 100%; 
-       position: relative; 
-       (Then put calendar absolutely inside. But that's optional.)
-    */
-}
-
-/* Example: If you want a border or a “square” look:
-#main-content {
-    width: 90%;
-    max-width: 500px;
-    margin: 40px auto;
-    background-color: #111;
-    aspect-ratio: 1 / 1;  (Modern CSS approach for a square)
-}
-*/
-
-/* ----------------------------------------------------
-   HEADERS, LINKS, ETC. (Optional Minimal)
----------------------------------------------------- */
-h1, h2, h3, h4, h5, h6 {
-    margin-top: 0;
-    color: var(--text-color);
-}
-
-a {
-    color: var(--link-color);
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-
-/* ----------------------------------------------------
-   (Optional) FOOTER
----------------------------------------------------- */
-footer {
-    text-align: center;
-    padding: 1em 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    border-top: 1px solid var(--line-color);
-}
-
-/* ----------------------------------------------------
-   OPTIONAL: .calendar or .day-count example
----------------------------------------------------- */
-.day-count {
-    font-size: 2em;
-    text-align: center;
-    margin: 20px auto;
-    /* place it within #main-content or your container. */
-}
+   *,
+   *::before,
+   *::after {
+       box-sizing: border-box;
+   }
+   
+   /* Root Variables */
+   :root {
+       /* Color Scheme */
+       --background-color: #000000;
+       --text-color: #ffffff;
+       --line-color: #ffffff;
+       --highlight-color: #333333;
+       --link-color: #ffffff;
+   
+       /* Layout */
+       --footer-height: 60px;
+       --transition-speed: 0.3s;
+   
+       /* Side Menu Widths */
+       --side-menu-width-desktop: 15%;
+       --side-menu-width-mobile: 50px;  /* For mobile hamburger menu */
+   
+       /* Right Panels Widths */
+       --right-panels-width-desktop: 15%;
+       --right-panels-width-mobile: 70px;
+   
+       /* Section Spacing */
+       --section-margin-left: 5%; 
+       --section-padding-left: 2%; 
+       --section-margin-right: 5%; 
+       --section-padding-right: 2%; 
+   
+       /* Mobile Section Spacing */
+       --section-margin-left-mobile: 2%;  
+       --section-padding-left-mobile: 1%; 
+       --section-margin-right-mobile: 2%;
+       --section-padding-right-mobile: 1%;
+   
+       /* Icon Sizes (for hamburger & spectral icons) */
+       --menu-icon-size-desktop: 50px; 
+       --menu-icon-size-mobile: 40px;  
+   
+       /* Social Icons Sizes */
+       --social-icon-size-desktop: 32px;
+       --social-icon-size-mobile: 24px;
+   
+       /* Theme Toggle Icon Sizes */
+       --theme-toggle-icon-size-desktop: 50px;
+       --theme-toggle-icon-size-mobile: 40px;
+   
+       /* Section Text Alignment */
+       --section-text-align-desktop: left; 
+       --section-text-align-mobile: left;  
+   
+       /* Spacing Between Title and Sections */
+       --title-section-margin-bottom: 10px; 
+   }
+   
+   /* Light Theme Variables */
+   [data-theme="light"] {
+       --background-color: #000000;
+       --text-color: #ffffff;
+       --line-color: #ffffff;
+       --highlight-color: #333333;
+       --link-color: #ffffff;
+   }
+   
+   /* ------------------------------------------------------------------
+      BODY / BASE
+   ------------------------------------------------------------------ */
+   
+   body {
+       margin: 0;
+       padding: 0;
+       background-color: var(--background-color);
+       color: var(--text-color);
+       font-family: 'Roboto', sans-serif;
+       position: relative;
+       overflow-x: hidden;
+       font-size: 16px;
+       transition: 
+           font-size var(--transition-speed) ease, 
+           background-color var(--transition-speed) ease, 
+           color var(--transition-speed) ease;
+   }
+   
+   @media (max-width: 768px) {
+       body {
+           font-size: 14px;
+       }
+   }
+   
+   @media (min-width: 1200px) {
+       body {
+           font-size: 18px;
+       }
+   }
+   
+   body {
+       overflow-x: hidden;
+   }
+   
+   /* ------------------------------------------------------------------
+      MENU ICON (HAMBURGER)
+   ------------------------------------------------------------------ */
+   
+   #menu-icon-container {
+       position: fixed;
+       top: 10px;
+       left: 10px;
+       z-index: 1006; 
+       cursor: pointer;
+   }
+   
+   #menu-icon-container img {
+       width: var(--menu-icon-size-desktop);
+       height: var(--menu-icon-size-desktop);
+       transition: transform var(--transition-speed) ease;
+   }
+   
+   @media (max-width: 768px) {
+       #menu-icon-container img {
+           width: var(--menu-icon-size-mobile);
+           height: var(--menu-icon-size-mobile);
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      PATREON ICON CONTAINER
+   ------------------------------------------------------------------ */
+   
+   #patreon-icon-container {
+       position: fixed;
+       top: 10px;
+       right: 10px;
+       z-index: 1002;
+   }
+   
+   #patreon-icon-container img {
+       width: 50px;
+       height: 50px;
+   }
+   
+   @media (max-width: 768px) {
+       #patreon-icon-container img {
+           width: 40px;
+           height: 40px;
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      SIDE MENU
+   ------------------------------------------------------------------ */
+   
+   .side-menu {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: var(--side-menu-width-desktop);
+       height: 100%;
+       background-color: var(--background-color);
+       z-index: 1005; 
+       display: flex;
+       flex-direction: column;
+       align-items: flex-start; 
+       padding-left: 15px; 
+       padding-top: 50px; 
+       margin-right: 0;
+       transition: transform var(--transition-speed) ease;
+       overflow-y: auto;
+       transform: translateX(-100%); 
+   }
+   
+   body.menu-open .side-menu {
+       transform: translateX(0); 
+   }
+   
+   .side-menu ul {
+       list-style: none;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+   }
+   
+   .side-menu li {
+       width: 100%;
+       text-align: center;
+       margin: 10px 0; 
+   }
+   
+   .side-menu a {
+       color: var(--text-color);
+       text-decoration: none;
+       display: flex;
+       flex-direction: row; 
+       align-items: center; 
+       padding: 10px 0; 
+       border-radius: 5px; 
+       transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+       width: 100%;
+       box-sizing: border-box; 
+   }
+   
+   .side-menu a:hover {
+       background-color: var(--highlight-color); 
+       transform: scale(1.05); 
+   }
+   
+   .side-menu a img.menu-icon {
+       width: var(--menu-icon-size-desktop); 
+       height: var(--menu-icon-size-desktop);
+       margin-right: 10px; 
+       object-fit: contain;
+       transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
+   }
+   
+   @media (max-width: 768px) {
+       .side-menu {
+           width: var(--side-menu-width-mobile); 
+           align-items: center; 
+           padding-left: 0; 
+       }
+   
+       .side-menu a {
+           flex-direction: column; 
+           align-items: center; 
+           justify-content: center;
+       }
+   
+       .side-menu a img.menu-icon {
+           width: var(--menu-icon-size-mobile);
+           height: var(--menu-icon-size-mobile);
+           margin-right: 0; 
+           margin-bottom: 5px; 
+       }
+   
+       .menu-text {
+           font-size: 0.9em; 
+           margin: 0; 
+       }
+   }
+   
+   .menu-text {
+       font-size: 1em; 
+       white-space: nowrap; 
+       font-weight: 500; 
+   }
+   
+   /* Logo in side menu footer */
+   #footer-logo-container {
+       position: absolute;
+       bottom: 20px;
+       left: 0px;
+       width: 90px; 
+       z-index: 1003;   
+       padding-bottom: 10px; 
+   }
+   
+   @media (max-width: 768px) {
+       #footer-logo-container {
+           width: 70px; 
+       }
+   }
+   
+   #footer-logo-container img {
+       width: 100%;
+       height: 100%;
+       object-fit: contain; 
+       z-index: 1005;
+   }
+   
+   /* ------------------------------------------------------------------
+      RIGHT PANELS (IMAGES)
+   ------------------------------------------------------------------ */
+   
+   .panels {
+       position: fixed;
+       right: 0;
+       top: 0;
+       width: var(--right-panels-width-desktop);
+       height: 100vh;
+       z-index: 1001; 
+       display: flex;
+       flex-direction: column;
+       align-items: flex-start; 
+       background-color: transparent; 
+       padding: 10px 0;
+       transform: translateX(0); 
+       transition: transform var(--transition-speed) ease;
+       overflow: hidden; 
+   }
+   
+   body.menu-open .panels {
+       transform: translateX(0); 
+   }
+   
+   .pane {
+       width: 100%; 
+       height: auto; 
+       margin: 10px 0;  
+       background-size: contain;  
+       background-repeat: no-repeat;
+       background-position: center;
+       background-color: transparent; 
+   }
+   
+   .pane img {
+       width: 100%;
+       height: auto;
+       max-height: calc((100vh / 8) + 100px);
+       object-fit: contain;
+       display: block;
+       margin: 0; 
+       padding: 0; 
+   }
+   
+   @media (max-width: 768px) {
+       .panels {
+           width: var(--right-panels-width-mobile);
+       }
+       .pane {
+           width: 100%;
+           height: auto;
+       }
+   }
+   
+   @media (max-width: 480px) {
+       .panels {
+           transform: translateX(100%); 
+           width: var(--right-panels-width-mobile); 
+           overflow: hidden; 
+       }
+       body.menu-open .panels {
+           transform: translateX(0);
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      TITLE SECTION
+   ------------------------------------------------------------------ */
+   
+   .title-section {
+       text-align: center;
+       position: relative;
+       z-index: 100;
+       margin-top: 20px;
+       padding: 0 20px;
+       margin-bottom: var(--title-section-margin-bottom);
+   }
+   
+   .title-container {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+   
+   .title {
+       width: 100px; 
+       height: auto;
+       transition: transform var(--transition-speed) ease;
+   }
+   
+   .title-text {
+       margin-top: 10px;
+   }
+   
+   .title-text h1 {
+       font-size: 2em;
+       margin: 0;
+   }
+   
+   .title-text p {
+       font-size: 1em;
+       margin: 5px 0 0 0;
+   }
+   
+   /* ------------------------------------------------------------------
+      MAIN CONTENT WRAPPER
+   ------------------------------------------------------------------ */
+   
+   #main-content {
+       position: relative;
+       z-index: 50; 
+       width: 80%; 
+       max-width: 800px; 
+       padding: 20px;
+       padding-bottom: calc(var(--footer-height) + 100px);
+       transition: 
+           margin-left var(--transition-speed) ease, 
+           margin-right var(--transition-speed) ease,
+           padding-left var(--transition-speed) ease,
+           padding-right var(--transition-speed) ease;
+       color: var(--text-color);
+       margin: 40px auto 60px auto; 
+       text-align: var(--section-text-align-desktop); 
+       font-size: 1em;
+   }
+   
+   @media (min-width: 769px) {
+       body.menu-open #main-content {
+           margin-left: auto;
+           margin-right: auto;
+       }
+   }
+   
+   @media (max-width: 768px) {
+       #main-content {
+           width: 90%; 
+           margin: 40px auto 60px auto; 
+           padding: 10px 5%; 
+           max-width: 100%; 
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      .section
+   ------------------------------------------------------------------ */
+   
+   .section {
+       margin-top: 10px; 
+       padding-top: 0; 
+       border-bottom: 1px solid var(--line-color);
+       padding-bottom: 1em;
+       margin-bottom: 1em;
+   
+       margin-left: var(--section-margin-left);
+       padding-left: var(--section-padding-left);
+       margin-right: var(--section-margin-right);
+       padding-right: var(--section-padding-right);
+       transition: 
+           margin-left var(--transition-speed) ease,
+           padding-left var(--transition-speed) ease,
+           margin-right var(--transition-speed) ease,
+           padding-right var(--transition-speed) ease;
+   
+       text-align: var(--section-text-align-desktop);
+   }
+   
+   body.menu-open {
+       --section-margin-left: 10px; 
+       --section-padding-left: 10px;
+       --section-margin-right: 10px;
+       --section-padding-right: 10px;
+   }
+   
+   @media (max-width: 768px) {
+       .section {
+           padding-left: var(--section-padding-left-mobile);
+           margin-left: var(--section-margin-left-mobile);
+           padding-right: var(--section-padding-right-mobile);
+           margin-right: var(--section-margin-right-mobile);
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      FOOTER (FIXED)
+   ------------------------------------------------------------------ */
+   
+   footer {
+       padding: 1em 0;
+       text-align: center;
+       border-top: 1px solid var(--line-color); 
+       background-color: var(--background-color);
+       position: fixed;
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       z-index: 1002;
+       transition: 
+           transform var(--transition-speed) ease,
+           background-color var(--transition-speed) ease;
+       cursor: pointer; 
+       transform: translateY(0);
+   }
+   
+   body.menu-open footer {
+       transform: translateY(100%);
+   }
+   
+   footer p {
+       margin: 0.5em 0 0 0;
+       font-size: 1em;
+   }
+   
+   .social-media {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       margin-bottom: 1em;
+   }
+   
+   .social-media a {
+       margin: 0 0.5em;
+   }
+   
+   .social-media img {
+       width: var(--social-icon-size-desktop);
+       height: var(--social-icon-size-desktop);
+   }
+   
+   @media screen and (max-width: 768px) {
+       .social-media img {
+           width: var(--social-icon-size-mobile);
+           height: var(--social-icon-size-mobile);
+       }
+   }
+   @media screen and (min-width: 769px) {
+       .social-media img {
+           width: var(--social-icon-size-desktop);
+           height: var(--social-icon-size-desktop);
+       }
+   }
+   
+   /* Footer Toggle (if any) */
+   .footer-collapsed #footer-content {
+       display: none;
+   }
+   
+   #footer-toggle {
+       position: absolute;
+       top: 10px;
+       right: 20px;
+       cursor: pointer;
+       z-index: 1003;
+   }
+   
+   #footer-toggle-icon {
+       font-size: 1.5em;
+       display: inline-block;
+       transform: rotate(0deg);
+       transition: transform var(--transition-speed) ease;
+   }
+   
+   .footer-collapsed #footer-toggle-icon {
+       transform: rotate(180deg);
+   }
+   
+   footer #theme-toggle {
+       margin-top: 1em;
+       cursor: pointer;
+       position: relative;
+       z-index: 1004;
+   }
+   
+   footer #theme-toggle img {
+       width: var(--theme-toggle-icon-size-desktop);
+       height: var(--theme-toggle-icon-size-desktop);
+   }
+   
+   @media screen and (max-width: 768px) {
+       footer #theme-toggle img {
+           width: var(--theme-toggle-icon-size-mobile);
+           height: var(--theme-toggle-icon-size-mobile);
+       }
+   }
+   @media screen and (min-width: 769px) {
+       footer #theme-toggle img {
+           width: var(--theme-toggle-icon-size-desktop);
+           height: var(--theme-toggle-icon-size-desktop);
+       }
+   }
+   
+   footer:hover {
+       background-color: var(--highlight-color);
+   }
+   
+   #menu-icon-container:focus,
+   #footer-toggle:focus,
+   #theme-toggle:focus {
+       outline: 2px solid var(--highlight-color);
+       outline-offset: 2px;
+   }
+   
+   /* ------------------------------------------------------------------
+      POEMS / POETRY-CONTAINER
+   ------------------------------------------------------------------ */
+   
+   #poems-container {
+       padding: 20px;
+       max-width: 1200px;
+       margin: 0 auto;
+   }
+   
+   .poetry-collection {
+       margin-bottom: 30px;
+       border-bottom: 2px solid var(--line-color);
+   }
+   
+   .collection-header {
+       font-size: 2em;
+       margin-bottom: 15px;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       transition: transform var(--transition-speed) ease;
+   }
+   
+   .collection-header .toggle-icon {
+       margin-right: 10px;
+       font-size: 1.5em;
+       transition: transform var(--transition-speed) ease;
+   }
+   
+   .collection-header.expanded .toggle-icon {
+       transform: rotate(45deg);
+   }
+   
+   .collection-content {
+       display: none;
+       padding-left: 20px;
+       transition: max-height var(--transition-speed) ease;
+   }
+   
+   .collection-content.active {
+       display: block;
+   }
+   
+   .poem-wrapper {
+       border-bottom: 1px solid var(--line-color);
+       padding: 20px 0;
+       transition: background-color var(--transition-speed) ease;
+   }
+   
+   .poem-wrapper:hover {
+       background-color: var(--highlight-color);
+   }
+   
+   /* 
+      We want the date on the LEFT, title on the RIGHT:
+      .poem-header => display flex
+      .poem-date => left
+      .poem-title => right
+   */
+   .poem-header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       cursor: pointer;
+       padding-bottom: 10px;
+       border-bottom: 1px solid var(--line-color);
+   }
+   .poem-date {
+       margin-right: auto; 
+       font-weight: bold;
+       padding-right: 10px;
+   }
+   .poem-title {
+       margin-left: auto; 
+   }
+   
+   .poem-header h2 {
+       margin: 0;
+       font-size: 1.5em;
+   }
+   
+   .poem-header span {
+       color: var(--link-color);
+   }
+   
+   .poem-content {
+       margin-top: 15px;
+       display: none;
+       transition: max-height var(--transition-speed) ease;
+   }
+   
+   .poem-content.active {
+       display: block;
+   }
+   
+   /* Adjust font size on mobile to keep date & title smaller */
+   @media (max-width: 768px) {
+       .poem-header h2 {
+           font-size: 1em;
+       }
+       .poem-date,
+       .poem-title {
+           font-size: 0.9em;
+           line-height: 1.2em;
+       }
+       .poem-content {
+           margin-top: 10px;
+       }
+   }
+   
+   /* Matrix Poem Styling */
+   .matrix-poem-wrapper {
+       display: flex;
+       justify-content: center;
+   }
+   
+   .matrix-poem-wrapper .poem-text {
+       text-align: center;
+   }
+   
+   .matrix-poem-wrapper table {
+       margin: 0 auto;
+   }
+   
+   .matrix-poem-wrapper td {
+       font-size: 1em;
+       padding: 2px 2px;
+   }
+   
+   /* Expand/Collapse icons */
+   .collection-header,
+   .poem-header {
+       font-size: 1.75em;
+   }
+   .toggle-icon {
+       font-size: 2em;
+   }
+   
+   @media (min-width: 1200px) {
+       #main-content {
+           font-size: 1.2em;
+       }
+   }
+   
+   /* ------------------------------------------------------------------
+      CONTACT FORM
+   ------------------------------------------------------------------ */
+   
+   #contact-form-container {
+       max-width: 600px;
+       margin: 0 auto;
+       padding: 20px;
+   }
+   
+   #contact-form {
+       display: block;
+   }
+   
+   #contact-form label {
+       display: block;
+       margin-bottom: 0.5em;
+       font-weight: 500;
+   }
+   
+   #contact-form input[type="email"],
+   #contact-form textarea {
+       width: 100%;
+       margin-bottom: 1em;
+       padding: 0.5em;
+       font-size: 1em;
+       color: var(--text-color);
+       background-color: var(--background-color);
+       border: 1px solid var(--line-color);
+       border-radius: 3px;
+   }
+   
+   #contact-form textarea {
+       min-height: 120px;
+   }
+   
+   #contact-form button[type="submit"] {
+       cursor: pointer;
+       padding: 0.75em 1.5em;
+       font-size: 1em;
+       background-color: var(--highlight-color);
+       color: var(--text-color);
+       border: none;
+       border-radius: 3px;
+       transition: background-color var(--transition-speed) ease;
+   }
+   
+   #contact-form button[type="submit"]:hover {
+       background-color: var(--line-color);
+   }
+   
+   .cf-turnstile {
+       display: block;
+       margin: 20px 0;
+   }
+   
+   /* ------------------------------------------------------------------
+      SPECTRAL ICONS (CENTERED + FORCED MOBILE SIZING)
+   ------------------------------------------------------------------ */
+   
+   #spectral-icons {
+       display: none;
+       width: 100%;
+       margin-top: 20px;
+       margin-bottom: 10px;
+       margin-left: 40px;
+       text-align: center;
+       transform: scale(.8);
+   }
+   
+   #spectral-icons img {
+       display: inline-block;
+       margin: 0 10px;
+   
+       /* Force them to respect desktop vs mobile sizes */
+       width: var(--menu-icon-size-desktop) !important;
+       height: var(--menu-icon-size-desktop) !important;
+       cursor: pointer;
+       object-fit: contain;
+       transition: transform 0.2s ease;
+       background: none !important;
+   }
+   
+   /* Ensure on smaller screens, the icons definitely shrink */
+   @media (max-width: 768px) {
+       #spectral-icons img {
+           width: var(--menu-icon-size-mobile) !important;
+           height: var(--menu-icon-size-mobile) !important;
+       }
+   }
+   
+   #spectral-icons img:hover {
+       transform: scale(1.2);
+   }
+   #spectral-icons img:active {
+       transform: scale(1.25);
+   }
+   
+   /* ------------------------------------------
+      MEDIA CONTROLS (Play/Pause + Volume)
+   ------------------------------------------ */
+   .media-controls {
+       display: flex;
+       align-items: center;
+       gap: 1em;
+       background: transparent;
+       padding: 0.5em;
+       margin-top: 0.5em;
+       border: none;
+   }
+   
+   .play-pause-button {
+       background: none;
+       border: none;
+       cursor: pointer;
+       padding: 0;
+       outline: none;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+   }
+   
+   /* Force smaller icons for play/pause */
+   .play-pause-button img {
+       width: 24px;
+       height: 24px;
+       object-fit: contain;
+   }
+   
+   .play-pause-button:hover img {
+       transform: scale(1.1);
+   }
+   
+   .volume-slider {
+       width: 100px;
+       background: transparent;
+       outline: none;
+       -webkit-appearance: none;
+   }
+   
+   .volume-slider::-webkit-slider-runnable-track {
+       background: var(--line-color);
+       height: 4px;
+   }
+   
+   .volume-slider::-webkit-slider-thumb {
+       -webkit-appearance: none;
+       height: 16px;
+       width: 16px;
+       border-radius: 50%;
+       background: var(--text-color);
+       margin-top: -6px;
+       cursor: pointer;
+   }
+   
+   
+   /* ------------------------------------------------------------------
+      ADDED FOR CALENDAR
+      Example: A .calendar-container that is horizontally centered
+   ------------------------------------------------------------------ */
+   
+   .calendar-container {
+       margin: 0 auto;        /* center horizontally */
+       max-width: 600px;      /* or any width you want for the calendar */
+       text-align: center;    /* center its text/content if needed */
+       padding: 20px;         /* spacing around it */
+       /* optional: background-color: #111; or border */
+   }
+   
