@@ -782,11 +782,13 @@ footer:hover { background-color: var(--highlight-color); }
 /* ------------------------------------------------------------------
    WHEEL CONTAINER & READING OVERLAY
 ------------------------------------------------------------------ */
+/* The wheel container holds the list of poem titles in a vertical, single‐column layout.
+   On mobile it takes full width; on desktop it is centered and max-width: 500px. */
 #poems-wheel-container {
   display: none;
   margin-top: 1em;
   max-height: 70vh;
-  overflow: auto;
+  overflow-y: auto;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--line-color);
@@ -870,7 +872,6 @@ footer:hover { background-color: var(--highlight-color); }
   line-height: 1.4em;
 }
 
-/* Pulse Animation for Active Wheel Row */
 @keyframes pulse {
   0% { text-shadow: 0 0 5px #ffd700; }
   50% { text-shadow: 0 0 15px #ffd700; }
