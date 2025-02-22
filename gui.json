@@ -1,0 +1,37 @@
+{
+    "en": {
+      "menu": {
+        "about": "About",
+        "poetry": "Poetry"
+      },
+      "aboutSection": "<h1>About</h1><p>Welcome to Tristan Nuvola's minimal site. Enjoy the poetry in calendar form!</p>",
+      "poetryHeading": "Poetry",
+      "labels": {
+        "prev": "Prev",
+        "next": "Next",
+        "close": "Close ✕",
+        "untitledPoem": "Untitled Poem"
+      },
+      "errors": {
+        "noPoemFound": "No poem found for"
+      }
+    },
+    "it": {
+      "menu": {
+        "about": "Informazioni",
+        "poetry": "Poesia"
+      },
+      "aboutSection": "<h1>Informazioni</h1><p>Benvenuto/a nel sito minimal di Tristan Nuvola. Goditi la poesia in formato calendario!</p>",
+      "poetryHeading": "Poesia",
+      "labels": {
+        "prev": "Prec",
+        "next": "Succ",
+        "close": "Chiudi ✕",
+        "untitledPoem": "Senza titolo"
+      },
+      "errors": {
+        "noPoemFound": "Nessuna poesia trovata per"
+      }
+    }
+  }
+  

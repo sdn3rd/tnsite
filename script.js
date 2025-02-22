@@ -1,21 +1,38 @@
 /* ------------------------------------------------------------------
    script.js
-   Minimal example with:
+   Minimal example with dynamic language from gui.json:
    - Hamburger (left) for side menu
    - Language toggle (EN/IT) auto-detect
-   - Only "About" and "Poetry" sections
-   - Poetry => Calendar with Prev/Next, highlight current day,
-               no future days clickable, no days before 2024-10-24
-   - Fetch "poetry/YYYY-MM-DD.json" on day click
+   - "About" and "Poetry" sections are loaded from gui.json
+   - Poetry => Calendar with Prev/Next from gui.json
+   - Immediately toggles language on button click
 ------------------------------------------------------------------ */
 
 console.log("script.js loaded.");
 
-document.addEventListener("DOMContentLoaded", () => {
+/** Global state **/
+let currentLanguage = "en";
+let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+
+// For the calendar
+let calendarYear = 0;
+let calendarMonth = 0; // 0-based
+const earliestDate = new Date(2024, 9, 24); // 2024-10-24
+const today = new Date();
+
+// Holds the parsed "gui.json" data
+let guiData = null;
+
+document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
+
+  // 1) Load all language data from gui.json
+  await loadGuiData();
+
+  // 2) Initialize the rest
   initializePage();
 
-  // Side menu links
+  // 3) Setup side menu link clicks
   const menuItems = document.querySelectorAll("#side-menu a[data-section]");
   menuItems.forEach(item => {
     item.addEventListener("click", e => {
@@ -29,19 +46,52 @@ document.addEventListener("DOMContentLoaded", () => {
       closeMenu();
     });
   });
+
+  // 4) Update side menu text immediately
+  updateSideMenuLabels();
 });
 
 /* ------------------------------------------------------------------
-   GLOBAL STATE
+   1) Load the gui.json data
 ------------------------------------------------------------------ */
-let currentLanguage = "en";
-let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+async function loadGuiData() {
+  try {
+    const resp = await fetch("gui.json");
+    if (!resp.ok) throw new Error(`Failed to load gui.json: ${resp.status}`);
+    guiData = await resp.json();
+    console.log("guiData loaded:", guiData);
+  } catch (err) {
+    console.error("Error loading gui.json:", err);
+    guiData = null;
+  }
+}
 
-// For the calendar
-let calendarYear = 0;
-let calendarMonth = 0; // 0-based
-const earliestDate = new Date(2024, 9, 24);  // 2024-10-24
-const today = new Date();
+/* ------------------------------------------------------------------
+   HELPER: t(path) => fetch string from guiData with fallback
+   E.g. t("menu.about") => "About" or "Informazioni"
+------------------------------------------------------------------ */
+function t(path) {
+  if (!guiData) return path; // if not loaded, show path as fallback
+  const segs = path.split(".");
+  // We try currentLanguage => fallback to "en"
+  let langObj = guiData[currentLanguage] || guiData["en"] || {};
+  let val = langObj;
+  for (let s of segs) {
+    if (val[s] === undefined) {
+      // fallback to en
+      val = guiData["en"] || {};
+      for (let s2 of segs) {
+        if (val[s2] === undefined) {
+          return path; // final fallback
+        }
+        val = val[s2];
+      }
+      return val;
+    }
+    val = val[s];
+  }
+  return val;
+}
 
 /* ------------------------------------------------------------------
    MAIN INIT
@@ -51,9 +101,25 @@ function initializePage() {
   
   detectOrLoadLanguage();
   updateLanguageToggle();
+  
   const langToggle = document.getElementById("language-toggle");
   if (langToggle) {
-    langToggle.addEventListener("click", toggleLanguage);
+    langToggle.addEventListener("click", () => {
+      toggleLanguage();
+      // Re-render if on "Poetry" or "About"
+      // But simpler approach: always call loadAboutSection by default or do nothing
+      const currentH1 = document.querySelector("#main-content h1")?.textContent || "";
+      if (currentH1.includes(t("menu.poetry")) || currentH1.includes(t("menu.about"))) {
+        // If the user is on "About" or "Poetry", reload:
+        if (currentH1.includes(t("menu.poetry")) ||
+            currentH1.includes(t("menu.poetry").toUpperCase()) // just in case
+           ) {
+          loadPoetrySection();
+        } else {
+          loadAboutSection();
+        }
+      }
+    });
   }
 
   // By default => load About
@@ -78,19 +144,23 @@ function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
   updateLanguageToggle();
-  
-  // If user is currently in Poetry, we could re-render the calendar
-  // e.g. if (document.querySelector("h1")?.textContent.includes("Poetry" or "Poesia")) { loadPoetrySection(); }
+  updateSideMenuLabels();
+  console.log("Language toggled =>", currentLanguage);
 }
 
+/* Update the top-right toggle text from gui.json or fallback "ENG"/"ITA" */
 function updateLanguageToggle() {
   const langToggle = document.getElementById("language-toggle");
   if (!langToggle) return;
-  langToggle.textContent = (currentLanguage === "en") ? "ENG" : "ITA";
+  if (currentLanguage === "en") {
+    langToggle.textContent = "ENG";
+  } else {
+    langToggle.textContent = "ITA";
+  }
 }
 
 /* ------------------------------------------------------------------
-   HAMBURGER MENU
+   SIDE MENU
 ------------------------------------------------------------------ */
 function setupHamburgerMenu() {
   const hamburger = document.getElementById("menu-icon-container");
@@ -118,28 +188,26 @@ function setupHamburgerMenu() {
   });
 }
 
+function updateSideMenuLabels() {
+  // We have 2 items: about, poetry
+  const aboutLink = document.querySelector('#side-menu a[data-section="about"]');
+  const poetryLink = document.querySelector('#side-menu a[data-section="poetry"]');
+  if (aboutLink) aboutLink.textContent = t("menu.about");
+  if (poetryLink) poetryLink.textContent = t("menu.poetry");
+}
+
 function closeMenu() {
   document.body.classList.remove("menu-open");
   console.log("Side menu closed.");
 }
 
 /* ------------------------------------------------------------------
-   ABOUT SECTION
+   ABOUT SECTION (from gui.json => aboutSection)
 ------------------------------------------------------------------ */
 function loadAboutSection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
-  if (currentLanguage === "en") {
-    mainContent.innerHTML = `
-      <h1>About</h1>
-      <p>Welcome to Tristan Nuvola's minimal site. Enjoy the poetry in calendar form!</p>
-    `;
-  } else {
-    mainContent.innerHTML = `
-      <h1>Informazioni</h1>
-      <p>Benvenuto/a nel sito minimal di Tristan Nuvola. Goditi la poesia in formato calendario!</p>
-    `;
-  }
+  mainContent.innerHTML = t("aboutSection");
 }
 
 /* ------------------------------------------------------------------
@@ -149,7 +217,8 @@ function loadPoetrySection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
 
-  const heading = (currentLanguage === "en") ? "Poetry" : "Poesia";
+  // The heading is in "poetryHeading"
+  const heading = t("poetryHeading");
   mainContent.innerHTML = `<h1>${heading}</h1><div id="poems-container"></div>`;
 
   // Set calendar to current month/year if not set
@@ -182,24 +251,18 @@ function renderCalendarView(year, month) {
   const monthName = getMonthName(month);
   const title = document.createElement("span");
   title.style.fontWeight = "bold";
-  if (currentLanguage === "en") {
-    title.textContent = `${monthName} ${year}`;
-  } else {
-    // For Italian, you can have an array of months in Italian if you want
-    // or just keep the same
-    title.textContent = `${monthName} ${year}`;
-  }
+  // We won't attempt month translations, just keep them in English
+  title.textContent = `${monthName} ${year}`;
 
-  // Prev button
+  // Prev button => t("labels.prev") or t("labels.next")
   const prevBtn = document.createElement("button");
-  prevBtn.textContent = (currentLanguage === "en") ? "Prev" : "Prec";
+  prevBtn.textContent = t("labels.prev");
   prevBtn.addEventListener("click", () => {
     goToPrevMonth();
   });
 
-  // Next button
   const nextBtn = document.createElement("button");
-  nextBtn.textContent = (currentLanguage === "en") ? "Next" : "Succ";
+  nextBtn.textContent = t("labels.next");
   nextBtn.addEventListener("click", () => {
     goToNextMonth();
   });
@@ -209,11 +272,9 @@ function renderCalendarView(year, month) {
   if (prevMonthDate < earliestDate) {
     prevBtn.disabled = true;
   }
-  
+
   // Check if next is allowed
   const nextMonthDate = new Date(year, month + 1, 1);
-  // next is disabled if nextMonthDate > last day of currentMonth or > today (Month/Year)
-  // We'll allow next until we reach the current month/year
   if (nextMonthDate > new Date(today.getFullYear(), today.getMonth(), 1)) {
     nextBtn.disabled = true;
   }
@@ -221,18 +282,15 @@ function renderCalendarView(year, month) {
   navDiv.appendChild(prevBtn);
   navDiv.appendChild(title);
   navDiv.appendChild(nextBtn);
-
   poemsContainer.appendChild(navDiv);
 
   // Create a table for days
   const table = document.createElement("table");
   table.classList.add("calendar-table");
 
-  // Optional: show day names if you want (e.g. S, M, T, W, T, F, S)
+  // Day-of-week row
   const dayRow = document.createElement("tr");
   const dayNamesEn = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  // If you want italian day names: ["Dom","Lun","Mar","Mer","Gio","Ven","Sab"]
-  // or skip entirely
   dayNamesEn.forEach(dn => {
     const th = document.createElement("th");
     th.textContent = dn;
@@ -240,43 +298,33 @@ function renderCalendarView(year, month) {
   });
   table.appendChild(dayRow);
 
-  // figure out the first day of month & last day
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month+1, 0); // 0 => last day of prev month
-
-  const startWeekday = firstDayOfMonth.getDay(); // 0=Sun,1=Mon,...
+  const lastDayOfMonth = new Date(year, month+1, 0); // day=0 => last day prev month
+  const startWeekday = firstDayOfMonth.getDay(); // 0=Sun, 1=Mon...
   const totalDays = lastDayOfMonth.getDate();
 
-  // We'll build rows. The first row might start with blank cells
   let row = document.createElement("tr");
-  // Add empty cells for days before startWeekday
-  for (let i = 0; i < startWeekday; i++) {
+  // Empty cells
+  for (let i=0; i<startWeekday; i++) {
     const emptyCell = document.createElement("td");
-    emptyCell.textContent = "";
     row.appendChild(emptyCell);
   }
 
-  // Fill day cells
-  for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
-    const current = new Date(year, month, dayNum);
-    
-    // if 7 columns, start new row
+  for (let dayNum=1; dayNum<=totalDays; dayNum++) {
     if (row.children.length >= 7) {
       table.appendChild(row);
       row = document.createElement("tr");
     }
-    
+    const current = new Date(year, month, dayNum);
     const cell = document.createElement("td");
     cell.textContent = String(dayNum);
     cell.style.textAlign = "center";
     cell.style.cursor = "pointer";
 
-    // If date < earliest or date > today => disable
     if (current < earliestDate || current > today) {
       cell.style.opacity = "0.3";
       cell.style.cursor = "default";
     } else {
-      // clickable
       cell.addEventListener("click", () => {
         const yyyy = current.getFullYear();
         const mm = String(current.getMonth() + 1).padStart(2,"0");
@@ -288,7 +336,7 @@ function renderCalendarView(year, month) {
 
     // highlight if it's "today"
     if (year === today.getFullYear() && month === today.getMonth() && dayNum === today.getDate()) {
-      cell.style.backgroundColor = "#555"; // or any highlight
+      cell.style.backgroundColor = "#555";
       cell.style.color = "#fff";
       cell.style.borderRadius = "50%";
     }
@@ -296,9 +344,8 @@ function renderCalendarView(year, month) {
     row.appendChild(cell);
   }
 
-  // finish last row if not empty
   if (row.children.length > 0) {
-    // fill remainder with empty cells if needed
+    // fill remainder
     while (row.children.length < 7) {
       const emptyCell = document.createElement("td");
       row.appendChild(emptyCell);
@@ -308,10 +355,7 @@ function renderCalendarView(year, month) {
 
   poemsContainer.appendChild(table);
 
-  // functions for nav
   function goToPrevMonth() {
-    // subtract 1 from month
-    // if month < 0 => month=11, year--
     if (month === 0) {
       calendarYear = year - 1;
       calendarMonth = 11;
@@ -322,8 +366,6 @@ function renderCalendarView(year, month) {
     renderCalendarView(calendarYear, calendarMonth);
   }
   function goToNextMonth() {
-    // add 1 to month
-    // if month > 11 => month=0, year++
     if (month === 11) {
       calendarYear = year + 1;
       calendarMonth = 0;
@@ -335,8 +377,8 @@ function renderCalendarView(year, month) {
   }
 }
 
+/* English month names only; adjust if you want Italian months */
 function getMonthName(mIndex) {
-  // English months
   const en = ["January","February","March","April","May","June",
               "July","August","September","October","November","December"];
   return en[mIndex] || "";
@@ -354,24 +396,20 @@ function loadPoemByDate(dateStr) {
       return resp.json();
     })
     .then(data => {
-      displayPoemData(data);
+      displayPoemData(data, dateStr);
     })
     .catch(err => {
       console.warn(err);
       const mainContent = document.getElementById("main-content");
       if (mainContent) {
-        const msg = (currentLanguage === "en")
-          ? `<p style="color:red;">No poem found for ${dateStr}</p>`
-          : `<p style="color:red;">Nessuna poesia trovata per ${dateStr}</p>`;
-        mainContent.insertAdjacentHTML("beforeend", msg);
+        // e.g. "No poem found for 2025-03-01"
+        mainContent.insertAdjacentHTML("beforeend", 
+          `<p style="color:red;">${t("errors.noPoemFound")} ${dateStr}</p>`);
       }
     });
 }
 
-/**
- * Poem JSON is an array with one object
- */
-function displayPoemData(poemArray) {
+function displayPoemData(poemArray, dateStr) {
   const poemObj = (Array.isArray(poemArray) && poemArray.length > 0) 
     ? poemArray[0]
     : null;
@@ -380,17 +418,10 @@ function displayPoemData(poemArray) {
     return;
   }
 
-  const mainContent = document.getElementById("main-content");
-  if (!mainContent) return;
-
-  // We'll re-use #poems-container
   const poemsContainer = document.getElementById("poems-container");
   if (!poemsContainer) return;
 
-  // Clear any old display
-  // (But we keep the calendar above it, so maybe we append below or 
-  //  partially clear the container)
-  // For clarity, let's show the poem below the calendar
+  // Clear old poem if any
   const existingPoemDiv = document.getElementById("displayed-poem");
   if (existingPoemDiv) existingPoemDiv.remove();
 
@@ -401,9 +432,16 @@ function displayPoemData(poemArray) {
   poemDiv.style.border = "1px solid #666";
 
   // Language-specific fields
-  const dateUsed = (currentLanguage === "en") ? poemObj.date_en : poemObj.date_it;
-  const titleUsed = (currentLanguage === "en") ? poemObj.title_en : poemObj.title_it;
-  const textUsed = (currentLanguage === "en") ? poemObj.poem_en : poemObj.poem_it;
+  const dateEn = poemObj.date_en || "";
+  const dateIt = poemObj.date_it || "";
+  const titleEn = poemObj.title_en || "";
+  const titleIt = poemObj.title_it || "";
+  const textEn = poemObj.poem_en || "";
+  const textIt = poemObj.poem_it || "";
+
+  const dateUsed = (currentLanguage === "en") ? dateEn : (dateIt || dateEn);
+  const titleUsed = (currentLanguage === "en") ? titleEn : (titleIt || titleEn);
+  const textUsed = (currentLanguage === "en") ? textEn : (textIt || textEn);
 
   poemDiv.innerHTML = `
     <h2>${titleUsed || ""}</h2>
@@ -418,13 +456,15 @@ function displayPoemData(poemArray) {
   // If mobile => reading mode on click
   poemDiv.addEventListener("click", e => {
     if (isMobileDevice) {
-      enterReadingMode(titleUsed, textUsed);
+      const closeLabel = t("labels.close");         // e.g. "Close ✕" or "Chiudi ✕"
+      const untitled = t("labels.untitledPoem");   // fallback for missing titles
+      enterReadingMode(titleUsed || untitled, textUsed, closeLabel);
     }
   });
 }
 
 /* Minimal reading mode overlay */
-function enterReadingMode(title, text) {
+function enterReadingMode(title, text, closeLabel) {
   const overlay = document.createElement("div");
   Object.assign(overlay.style, {
     position: "fixed",
@@ -442,10 +482,10 @@ function enterReadingMode(title, text) {
   closeBtn.style.textAlign = "right";
   closeBtn.style.fontSize = "1.2em";
   closeBtn.style.marginBottom = "20px";
-  closeBtn.textContent = (currentLanguage === "en") ? "Close ✕" : "Chiudi ✕";
+  closeBtn.textContent = closeLabel || "Close ✕";
 
   const h2 = document.createElement("h2");
-  h2.textContent = title || ((currentLanguage === "en") ? "Untitled Poem" : "Senza titolo");
+  h2.textContent = title || "";
 
   const textDiv = document.createElement("div");
   textDiv.innerHTML = (text||"").replace(/\n/g,"<br>");
