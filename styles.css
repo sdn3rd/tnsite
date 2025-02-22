@@ -28,8 +28,7 @@
     --menu-icon-size-mobile: 40px;
 
     --wheel-item-height: 60px; /* Fixed height for each poem title in wheel */
-    --wheel-marquee-min-height: 180px; /* Minimum height of the central marquee area (3 items) */
-    --wheel-marquee-max-height: 420px; /* Maximum height of the central marquee area (7 items for larger screens) */
+    --wheel-marquee-height: 180px; /* Height of the central marquee area */
 }
 
 /* Light Theme Variables */
@@ -281,10 +280,10 @@ body.menu-open .side-menu {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 400px;
-  min-height: var(--wheel-marquee-min-height); /* Minimum height (3 items) */
+  height: var(--wheel-marquee-height); /* Marquee height */
+  border: 1px solid var(--line-color);
   background: var(--background-color);
   overflow: hidden; /* Clip content to marquee */
-  border: 1px solid var(--line-color); /* Border to visually contain the marquee */
 }
 
 /* Track that scrolls vertically */
@@ -311,16 +310,13 @@ body.menu-open .side-menu {
   white-space: nowrap;
   font-size: 1rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
-  color: var(--text-color); /* Default text color */
 }
 
-/* Center item style - BOLD and WHITE now */
+/* Center item style */
 .wheel-item.active {
-  font-weight: bold;
-  color: var(--text-color); /* White text color */
-  text-shadow: none; /* Remove gold shadow */
-  animation: none;      /* Remove pulse animation */
-  font-size: 1.2rem;    /* Keep slightly larger for active item */
+  animation: pulse 1.5s infinite;
+  color: #ffd700;
+  font-size: 1.2rem; /* Slightly larger for active item */
 }
 
 /* Remove border from last item in track to avoid double border */
