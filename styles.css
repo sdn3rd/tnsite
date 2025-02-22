@@ -317,13 +317,10 @@ body.menu-open .side-menu {
 
 /* Visually highlight the item at center */
 .wheel-item.active {
-    font-weight: 900; /* Very Bold */
-    color: var(--text-color);
-    font-size: 1.3rem; /* Slightly larger */
-    background-color: var(--highlight-color); /* Highlight background */
-    text-shadow: 0 0 5px var(--text-color); /* Optional: glow effect */
+  font-weight: bold;
+  color: var(--text-color);
+  font-size: 1.2rem;
 }
-
 
 /* Close Button */
 #wheel-close-btn {
