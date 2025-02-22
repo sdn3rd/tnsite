@@ -74,8 +74,7 @@ body {
       font-size var(--transition-speed) ease, 
       background-color var(--transition-speed) ease, 
       color var(--transition-speed) ease;
-    /* We leave a little top margin so the hamburger & language toggle
-       can float above. Adjust if desired. */
+    /* Keep some top space so the hamburger & language toggle are accessible. */
     margin-top: 60px;
 }
 
@@ -97,7 +96,7 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   MENU ICON (HAMBURGER) - TOP LEFT
+   HAMBURGER MENU (TOP-LEFT)
 ------------------------------------------------------------------ */
 #menu-icon-container {
     position: fixed;
@@ -121,7 +120,7 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   LANGUAGE TOGGLE - TOP RIGHT
+   LANGUAGE TOGGLE (TOP-RIGHT)
 ------------------------------------------------------------------ */
 #language-toggle {
     position: fixed;
@@ -162,7 +161,7 @@ body {
     flex-direction: column;
     align-items: flex-start; 
     padding-left: 15px; 
-    padding-top: 60px; /* so it doesn't overlap hamburger */
+    padding-top: 60px; /* ensure it doesn't overlap hamburger */
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
     transform: translateX(-100%);
@@ -240,7 +239,7 @@ body.menu-open .side-menu {
 }
 
 /* ------------------------------------------------------------------
-   MAIN CONTENT
+   MAIN CONTENT WRAPPER
 ------------------------------------------------------------------ */
 #main-content {
     position: relative;
@@ -270,43 +269,6 @@ body.menu-open .side-menu {
     }
 }
 
-/* ------------------------------------------------------------------
-   FOOTER (IF NEEDED, OR LATER)
------------------------------------------------------------------- */
-/* (Not currently displayed; can be restored if needed)
-footer {
-    padding: 1em 0;
-    text-align: center;
-    border-top: 1px solid var(--line-color);
-    background-color: var(--background-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1002;
-    transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
-    cursor: pointer;
-    transform: translateY(0);
-}
-*/
-
-/* ------------------------------------------------------------------
-   POEMS / POETRY-CONTAINER
------------------------------------------------------------------- */
-#poems-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Expand/Collapse icons */
-.collection-header,
-.poem-header {
-    font-size: 1.75em;
-}
-.toggle-icon {
-    font-size: 2em;
-}
-
 @media (min-width: 1200px) {
     #main-content {
         font-size: 1.2em;
@@ -314,20 +276,8 @@ footer {
 }
 
 /* ------------------------------------------------------------------
-   CONTACT FORM (IF NEEDED)
------------------------------------------------------------------- */
-/* (Kept for reference – not currently used in the new layout)
-#contact-form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
-*/
-
-/* ------------------------------------------------------------------
    CALENDAR STYLES
 ------------------------------------------------------------------ */
-/* (Calendar will be injected by JS, but you can style it as needed) */
 .calendar-container {
   margin: 20px auto;
   max-width: 600px;
@@ -344,22 +294,24 @@ footer {
   table-layout: fixed;
 }
 
+.calendar-table th,
+.calendar-table td {
+  border: 1px solid var(--line-color);
+}
+
 .calendar-header th {
   padding: 10px;
   text-align: center;
-  border: 1px solid var(--line-color);
 }
 
 .calendar-weekdays th {
   padding: 8px;
-  border: 1px solid var(--line-color);
   font-weight: normal;
   text-align: center;
 }
 
 .calendar-table td {
   padding: 10px;
-  border: 1px solid var(--line-color);
   text-align: center;
   vertical-align: middle;
 }
@@ -386,10 +338,10 @@ footer {
 }
 
 /* ------------------------------------------------------------------
-   PRICE-IS-RIGHT POEM WHEEL OVERLAY
+   PRICE-IS-RIGHT WHEEL OVERLAY (INFINITE SCROLL)
 ------------------------------------------------------------------ */
 #poem-wheel-overlay {
-  display: none; /* hidden by default */
+  display: none; /* hidden by default, then .show => visible */
   position: fixed;
   top: 0;
   left: 0;
@@ -397,19 +349,18 @@ footer {
   height: 100vh;
   background: rgba(0,0,0,0.8);
   color: #fff;
-  z-index: 9998; /* below reading overlay if they overlap */
+  z-index: 9998;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow: hidden; /* we will scroll an inner container */
+  overflow: hidden; 
 }
 
-/* Shown state triggers fade in */
 #poem-wheel-overlay.show {
   display: block;
   opacity: 1;
 }
 
-/* The wheel container inside the overlay */
+/* Container in the middle for the poem titles */
 #wheel-inner {
   position: absolute;
   top: 50%;
@@ -424,16 +375,17 @@ footer {
   transition: transform 0.3s ease;
 }
 
-/* Table that holds poem titles */
 #wheel-inner table {
   width: 100%;
   border-collapse: collapse;
   margin: 0;
 }
+
 #wheel-list-body {
   position: relative;
 }
 
+/* Each row in the wheel */
 #wheel-list-body tr {
   border-bottom: 1px solid var(--line-color);
   text-align: center;
@@ -446,6 +398,8 @@ footer {
   padding: 5px;
   font-size: 1rem;
 }
+
+/* Active (center) row pulses with gold glow */
 #wheel-list-body tr.active {
   animation: pulse 1.5s infinite;
   color: #ffd700;
@@ -465,7 +419,7 @@ footer {
 }
 
 /* ------------------------------------------------------------------
-   READING OVERLAY FOR POEM TEXT
+   READING OVERLAY
 ------------------------------------------------------------------ */
 #poem-reading-overlay {
   display: none;
@@ -518,60 +472,4 @@ footer {
   100% {
     text-shadow: 0 0 5px #ffd700;
   }
-}
-
-/* ------------------------------------------------------------------
-   MEDIA CONTROLS (OPTIONAL)
------------------------------------------------------------------- */
-.media-controls {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    background: transparent;
-    padding: 0.5em;
-    margin-top: 0.5em;
-    border: none;
-}
-
-.play-pause-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    outline: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.play-pause-button img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-}
-
-.play-pause-button:hover img {
-    transform: scale(1.1);
-}
-
-.volume-slider {
-    width: 100px;
-    background: transparent;
-    outline: none;
-    -webkit-appearance: none;
-}
-
-.volume-slider::-webkit-slider-runnable-track {
-    background: var(--line-color);
-    height: 4px;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: var(--text-color);
-    margin-top: -6px;
-    cursor: pointer;
 }

@@ -12,76 +12,47 @@ const today = new Date();
 let calendarYear = 0;
 let calendarMonth = 0; // 0-based
 
-// Holds the parsed "gui.json" data
+// If you have localized strings in "gui.json", we load them. Otherwise can skip.
 let guiData = null;
 
 /** 
- * For the "Price Is Right" wheel 
+ * For the "Price Is Right" infinite wheel 
  */
-let poemsForWheel = [];
+let poemsForWheel = [];  // The original set of poems for a given day
 let isDraggingWheel = false;
 let startPointerY = 0;
-let snapEnabled = true; // snap to center row on pointer up
+let snapEnabled = true; 
+const WHEEL_REPEAT_COUNT = 5; 
+// We'll replicate poemsForWheel WHEEL_REPEAT_COUNT times, 
+// so user can scroll/drag seamlessly in a large list.
 
+/** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
 
-  // 1) Load GUI data (if you have a gui.json; otherwise skip)
   await loadGuiData();
-
-  // 2) Initialize the page
   initializePage();
-
-  // 3) Setup side menu link clicks
-  const menu = document.getElementById("side-menu");
-  if (menu) {
-    const menuItems = menu.querySelectorAll("a[data-section]");
-    menuItems.forEach(item => {
-      item.addEventListener("click", e => {
-        e.preventDefault();
-        const section = item.getAttribute("data-section");
-        if (section === "about") {
-          loadAboutSection();
-        } else if (section === "poetry") {
-          loadPoetrySection();
-        }
-        closeMenu();
-      });
-    });
-  }
-
-  // 4) Language toggle
-  const langToggle = document.getElementById("language-toggle");
-  if (langToggle) {
-    langToggle.addEventListener("click", toggleLanguage);
-    langToggle.addEventListener("keypress", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleLanguage();
-      }
-    });
-  }
+  setupSideMenu();
+  setupLanguageToggle();
 });
 
 /* ------------------------------------------------------------------
-   Load the gui.json (if applicable)
+   LOAD GUI JSON (IF APPLICABLE)
 ------------------------------------------------------------------ */
 async function loadGuiData() {
-  // If you have a "gui.json" for translations, fetch it:
   try {
     const resp = await fetch("gui.json");
-    if (!resp.ok) throw new Error(`Failed to load gui.json: ${resp.status}`);
+    if (!resp.ok) throw new Error("No gui.json found");
     guiData = await resp.json();
     console.log("guiData loaded:", guiData);
   } catch (err) {
-    console.warn("No gui.json found or error loading it:", err);
+    console.warn("Skipping guiData load (not found or error).");
     guiData = null;
   }
 }
 
 /* ------------------------------------------------------------------
    HELPER: t(path)
-   Returns a translated string from guiData, or the path if not found.
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path;
@@ -91,12 +62,10 @@ function t(path) {
   let val = langObj;
   for (let s of segs) {
     if (val[s] === undefined) {
-      // fallback to "en"
+      // fallback
       val = fallback;
       for (let s2 of segs) {
-        if (val[s2] === undefined) {
-          return path;
-        }
+        if (val[s2] === undefined) return path;
         val = val[s2];
       }
       return val;
@@ -107,64 +76,67 @@ function t(path) {
 }
 
 /* ------------------------------------------------------------------
-   INITIAL PAGE SETUP
+   PAGE INIT
 ------------------------------------------------------------------ */
 function initializePage() {
-  // 1) Hamburger menu
-  setupHamburgerMenu();
-
-  // 2) Detect or load language
   detectOrLoadLanguage();
   updateLanguageToggle();
-
-  // 3) Load "About" section by default
+  // Default load = About
   loadAboutSection();
 }
 
-/* ------------------------------------------------------------------
-   SIDE MENU LOGIC
------------------------------------------------------------------- */
-function setupHamburgerMenu() {
-  const hamburger = document.getElementById("menu-icon-container");
-  if (!hamburger) return;
-
-  hamburger.addEventListener("click", e => {
-    e.stopPropagation();
-    document.body.classList.toggle("menu-open");
-  });
-  hamburger.addEventListener("keypress", e => {
-    if (e.key === "Enter" || e.key === " ") {
+function setupSideMenu() {
+  const menu = document.getElementById("side-menu");
+  if (!menu) return;
+  const menuItems = menu.querySelectorAll("a[data-section]");
+  menuItems.forEach(item => {
+    item.addEventListener("click", e => {
       e.preventDefault();
-      document.body.classList.toggle("menu-open");
-    }
+      const section = item.getAttribute("data-section");
+      if (section === "about") {
+        loadAboutSection();
+      } else if (section === "poetry") {
+        loadPoetrySection();
+      }
+      closeMenu();
+    });
   });
 
-  // Click anywhere outside to close
-  document.addEventListener("click", e => {
-    if (
-      document.body.classList.contains("menu-open") &&
-      !hamburger.contains(e.target)
-    ) {
-      const sideMenu = document.getElementById("side-menu");
-      if (sideMenu && !sideMenu.contains(e.target)) {
+  // Hamburger toggles the menu
+  const hamburger = document.getElementById("menu-icon-container");
+  if (hamburger) {
+    hamburger.addEventListener("click", e => {
+      e.stopPropagation();
+      document.body.classList.toggle("menu-open");
+    });
+    hamburger.addEventListener("keypress", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        document.body.classList.toggle("menu-open");
+      }
+    });
+    document.addEventListener("click", e => {
+      if (
+        document.body.classList.contains("menu-open") &&
+        !hamburger.contains(e.target) &&
+        !menu.contains(e.target)
+      ) {
         closeMenu();
       }
-    }
-  });
+    });
+  }
 }
-
 function closeMenu() {
   document.body.classList.remove("menu-open");
-  console.log("Side menu closed.");
 }
 
 /* ------------------------------------------------------------------
    LANGUAGE DETECTION & TOGGLE
 ------------------------------------------------------------------ */
 function detectOrLoadLanguage() {
-  const savedLang = localStorage.getItem("preferredLang");
-  if (savedLang) {
-    currentLanguage = savedLang;
+  const saved = localStorage.getItem("preferredLang");
+  if (saved) {
+    currentLanguage = saved;
   } else {
     const lang = (navigator.language || "en").toLowerCase();
     currentLanguage = lang.startsWith("it") ? "it" : "en";
@@ -172,16 +144,26 @@ function detectOrLoadLanguage() {
   }
 }
 
+function setupLanguageToggle() {
+  const langToggle = document.getElementById("language-toggle");
+  if (!langToggle) return;
+  langToggle.addEventListener("click", toggleLanguage);
+  langToggle.addEventListener("keypress", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleLanguage();
+    }
+  });
+}
+
 function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
   updateLanguageToggle();
 
-  // Re-render if in Poetry or About
+  // If #main-content has a .calendar-container => reload Poetry
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
-
-  // Heuristics: if the main-content has a .calendar-container => re-load poetry
   const foundCalendar = mainContent.querySelector(".calendar-container");
   if (foundCalendar) {
     loadPoetrySection();
@@ -200,39 +182,36 @@ function updateLanguageToggle() {
    ABOUT SECTION
 ------------------------------------------------------------------ */
 function loadAboutSection() {
-  const mainContent = document.getElementById("main-content");
-  if (!mainContent) return;
-  mainContent.innerHTML = `
-    <div>
-      ${t("aboutSection") || "<p>About section goes here.</p>"}
-    </div>
-  `;
+  const main = document.getElementById("main-content");
+  if (!main) return;
+  main.innerHTML = `<div>${t("aboutSection") || "<p>About content here.</p>"}</div>`;
 }
 
 /* ------------------------------------------------------------------
-   POETRY SECTION => MONTHLY CALENDAR
+   POETRY SECTION => CALENDAR
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
-  const mainContent = document.getElementById("main-content");
-  if (!mainContent) return;
-  mainContent.innerHTML = ""; // clear
+  const main = document.getElementById("main-content");
+  if (!main) return;
+  main.innerHTML = "";
 
-  // If year/month not set, default to "today"
   if (!calendarYear) {
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
   }
 
-  // Create container
-  const div = document.createElement("div");
-  div.classList.add("calendar-container");
-  mainContent.appendChild(div);
+  const container = document.createElement("div");
+  container.classList.add("calendar-container");
+  main.appendChild(container);
 
-  renderCalendarView(calendarYear, calendarMonth, div);
+  renderCalendarView(calendarYear, calendarMonth, container);
 }
 
+/**
+ * Render the calendar for a given year/month into container
+ */
 function renderCalendarView(year, month, container) {
-  container.innerHTML = ""; // clear old
+  container.innerHTML = ""; 
 
   // Nav bar
   const navDiv = document.createElement("div");
@@ -243,41 +222,39 @@ function renderCalendarView(year, month, container) {
 
   const prevBtn = document.createElement("button");
   prevBtn.textContent = t("labels.prev") || "Prev";
-  prevBtn.addEventListener("click", goToPrevMonth);
+  prevBtn.addEventListener("click", goToPrev);
 
   const nextBtn = document.createElement("button");
   nextBtn.textContent = t("labels.next") || "Next";
-  nextBtn.addEventListener("click", goToNextMonth);
+  nextBtn.addEventListener("click", goToNext);
 
-  const monthName = getMonthName(month);
-  const titleSpan = document.createElement("span");
-  titleSpan.style.fontWeight = "bold";
-  titleSpan.textContent = `${monthName} ${year}`;
+  const monthSpan = document.createElement("span");
+  monthSpan.style.fontWeight = "bold";
+  monthSpan.textContent = `${getMonthName(month)} ${year}`;
 
   navDiv.appendChild(prevBtn);
-  navDiv.appendChild(titleSpan);
+  navDiv.appendChild(monthSpan);
   navDiv.appendChild(nextBtn);
   container.appendChild(navDiv);
 
-  // Check if prev is allowed
-  const prevMonthDate = new Date(year, month - 1, 1);
+  // Check range for prev/next
+  const prevMonthDate = new Date(year, month-1, 1);
   if (prevMonthDate < earliestDate) {
     prevBtn.disabled = true;
   }
-  // Check if next is allowed
-  const nextMonthDate = new Date(year, month + 1, 1);
-  const nextMonthCutoff = new Date(today.getFullYear(), today.getMonth(), 1);
-  if (nextMonthDate > nextMonthCutoff) {
+  const nextMonthDate = new Date(year, month+1, 1);
+  const nextCutoff = new Date(today.getFullYear(), today.getMonth(), 1);
+  if (nextMonthDate > nextCutoff) {
     nextBtn.disabled = true;
   }
 
-  // Build table
+  // Table
   const table = document.createElement("table");
   table.classList.add("calendar-table");
 
-  // Days-of-week row
+  // Day-of-week row
   const dayRow = document.createElement("tr");
-  const dayNames = getDayNames(); 
+  const dayNames = getDayNames();
   dayNames.forEach(dn => {
     const th = document.createElement("th");
     th.textContent = dn;
@@ -285,46 +262,43 @@ function renderCalendarView(year, month, container) {
   });
   table.appendChild(dayRow);
 
-  const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0);
-  const startWeekday = firstDayOfMonth.getDay();
-  const totalDays = lastDayOfMonth.getDate();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month+1, 0);
+  const startWeekday = firstDay.getDay();
+  const totalDays = lastDay.getDate();
 
   let row = document.createElement("tr");
-  // empty cells before the 1st
   for (let i = 0; i < startWeekday; i++) {
-    const td = document.createElement("td");
-    row.appendChild(td);
+    row.appendChild(document.createElement("td"));
   }
 
-  for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
+  for (let d = 1; d <= totalDays; d++) {
     if (row.children.length >= 7) {
       table.appendChild(row);
       row = document.createElement("tr");
     }
     const td = document.createElement("td");
-    const current = new Date(year, month, dayNum);
-    td.textContent = dayNum;
+    const currentDate = new Date(year, month, d);
+    td.textContent = String(d);
 
     // If out of range
-    if (current < earliestDate || current > today) {
+    if (currentDate < earliestDate || currentDate > today) {
       td.style.opacity = "0.3";
     } else {
       td.style.cursor = "pointer";
-      td.addEventListener("click", () => {
-        const yyyy = current.getFullYear();
-        const mm = String(current.getMonth()+1).padStart(2, "0");
-        const dd = String(current.getDate()).padStart(2, "0");
-        const dateStr = `${yyyy}-${mm}-${dd}`;
-        loadPoemsByDate(dateStr);
-      });
+      td.onclick = () => {
+        const yyyy = currentDate.getFullYear();
+        const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
+        const dd = String(currentDate.getDate()).padStart(2, "0");
+        loadPoemsByDate(`${yyyy}-${mm}-${dd}`);
+      };
     }
 
     // highlight "today"
     if (
-      current.getFullYear() === today.getFullYear() &&
-      current.getMonth() === today.getMonth() &&
-      current.getDate() === today.getDate()
+      currentDate.getFullYear() === today.getFullYear() &&
+      currentDate.getMonth() === today.getMonth() &&
+      currentDate.getDate() === today.getDate()
     ) {
       td.style.backgroundColor = "#555";
       td.style.color = "#fff";
@@ -336,15 +310,14 @@ function renderCalendarView(year, month, container) {
 
   if (row.children.length > 0) {
     while (row.children.length < 7) {
-      const emptyTd = document.createElement("td");
-      row.appendChild(emptyTd);
+      row.appendChild(document.createElement("td"));
     }
     table.appendChild(row);
   }
 
   container.appendChild(table);
 
-  function goToPrevMonth() {
+  function goToPrev() {
     if (month === 0) {
       calendarYear = year - 1;
       calendarMonth = 11;
@@ -354,7 +327,7 @@ function renderCalendarView(year, month, container) {
     }
     renderCalendarView(calendarYear, calendarMonth, container);
   }
-  function goToNextMonth() {
+  function goToNext() {
     if (month === 11) {
       calendarYear = year + 1;
       calendarMonth = 0;
@@ -368,29 +341,25 @@ function renderCalendarView(year, month, container) {
 
 function getMonthName(m) {
   let months = t("calendar.months");
-  if (!Array.isArray(months) || months.length < 12) {
-    months = [
-      "January","February","March","April","May","June",
-      "July","August","September","October","November","December"
-    ];
+  if (!Array.isArray(months) || months.length<12) {
+    months = ["January","February","March","April","May","June",
+              "July","August","September","October","November","December"];
   }
   return months[m] || "";
 }
-
 function getDayNames() {
   let days = t("calendar.daysOfWeek");
-  if (!Array.isArray(days) || days.length < 7) {
+  if (!Array.isArray(days) || days.length<7) {
     days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   }
   return days;
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS BY DATE => show overlay (wheel) if multiple
+   LOAD POEMS => SHOW WHEEL (INFINITE)
 ------------------------------------------------------------------ */
 function loadPoemsByDate(dateStr) {
-  console.log("Loading poems for date:", dateStr);
-  // Example of fetching from a server folder: poetry/2025-03-01.json
+  // e.g. fetch from "poetry/2025-03-01.json"
   const url = `poetry/${dateStr}.json`;
   fetch(url)
     .then(resp => {
@@ -409,13 +378,13 @@ function loadPoemsByDate(dateStr) {
       }
     })
     .catch(err => {
-      console.warn("No poem found or error:", err);
-      alert(t("errors.noPoemFound") + " " + dateStr);
+      console.warn("No poem found for", dateStr, err);
+      alert(t("errors.noPoemFound") + ": " + dateStr);
     });
 }
 
 /* ------------------------------------------------------------------
-   SINGLE POEM => Direct reading overlay
+   SINGLE POEM => DIRECT READING OVERLAY
 ------------------------------------------------------------------ */
 function displaySinglePoem(poem) {
   const titleUsed = (currentLanguage === "en")
@@ -424,15 +393,14 @@ function displaySinglePoem(poem) {
   const textUsed = (currentLanguage === "en")
     ? (poem.poem_en || "")
     : (poem.poem_it || poem.poem_en || "");
-
   showReadingOverlay(titleUsed, textUsed);
 }
 
 /* ------------------------------------------------------------------
-   PRICE-IS-RIGHT WHEEL OVERLAY - CREATE & SHOW
+   INFINITE "PRICE IS RIGHT" WHEEL
 ------------------------------------------------------------------ */
 function showPoemsWheelOverlay() {
-  // If overlay doesn't exist in DOM, create it
+  // If overlay doesn't exist, create it
   let overlay = document.getElementById("poem-wheel-overlay");
   if (!overlay) {
     overlay = document.createElement("div");
@@ -440,158 +408,198 @@ function showPoemsWheelOverlay() {
     overlay.innerHTML = `
       <button id="wheel-close-btn">×</button>
       <div id="wheel-inner">
-        <table>
-          <tbody id="wheel-list-body"></tbody>
-        </table>
+        <table><tbody id="wheel-list-body"></tbody></table>
       </div>
     `;
     document.body.appendChild(overlay);
   }
 
-  // Add event on close button
+  // Close button
   const closeBtn = overlay.querySelector("#wheel-close-btn");
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
-    setTimeout(() => {
-      overlay.style.display = "none";
-    }, 400);
+    setTimeout(() => { overlay.style.display = "none"; }, 400);
   };
 
-  // Render poem list
+  // Build the infinite list
+  const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
   const wheelBody = overlay.querySelector("#wheel-list-body");
   if (!wheelBody) return;
   wheelBody.innerHTML = "";
   wheelBody.scrollTop = 0;
 
-  // Sort poems by title
-  poemsForWheel.sort((a, b) => {
-    const aTitle = (currentLanguage === "en")
-      ? (a.title_en || "")
-      : (a.title_it || a.title_en || "");
-    const bTitle = (currentLanguage === "en")
-      ? (b.title_en || "")
-      : (b.title_it || b.title_en || "");
-    return aTitle.localeCompare(bTitle);
-  });
-
-  // Build rows
-  poemsForWheel.forEach((poem, i) => {
+  extendedPoems.forEach((poemObj, idx) => {
     const tr = document.createElement("tr");
-    tr.dataset.index = String(i);
+    tr.dataset.index = String(idx);
 
-    const titleUsed = (currentLanguage === "en")
-      ? (poem.title_en || "Untitled")
-      : (poem.title_it || poem.title_en || "Untitled");
+    tr.innerHTML = `<td>${poemObj.title}</td>`;
 
-    tr.innerHTML = `<td>${titleUsed}</td>`;
-
-    // On click => if this row is center, show reading overlay
+    // On click => if center row, show reading
     tr.addEventListener("click", () => {
-      const centerIndex = findCenterIndex(wheelBody);
-      const idx = parseInt(tr.dataset.index, 10);
-      if (idx === centerIndex) {
-        const textUsed = (currentLanguage === "en")
-          ? (poem.poem_en || "")
-          : (poem.poem_it || poem.poem_en || "");
-        showReadingOverlay(titleUsed, textUsed);
+      const centerIdx = findCenterIndex(wheelBody);
+      if (parseInt(tr.dataset.index) === centerIdx) {
+        // original poem index => poemObj.originalIndex
+        const poemRef = poemsForWheel[poemObj.originalIndex];
+        const tUsed = (currentLanguage === "en")
+          ? (poemRef.title_en || "Untitled")
+          : (poemRef.title_it || poemRef.title_en || "Untitled");
+        const pUsed = (currentLanguage === "en")
+          ? (poemRef.poem_en || "")
+          : (poemRef.poem_it || poemRef.poem_en || "");
+        showReadingOverlay(tUsed, pUsed);
       }
     });
-
     wheelBody.appendChild(tr);
   });
 
-  // Pointer events for drag
+  // Attach drag/scroll events
   wheelBody.addEventListener("pointerdown", onWheelPointerDown);
   wheelBody.addEventListener("pointermove", onWheelPointerMove);
   wheelBody.addEventListener("pointerup", onWheelPointerUp);
   wheelBody.addEventListener("pointercancel", onWheelPointerUp);
   wheelBody.addEventListener("pointerleave", onWheelPointerUp);
-  wheelBody.addEventListener("scroll", () => updateWheelLayout(wheelBody));
+  wheelBody.addEventListener("scroll", () => {
+    updateWheelLayout(wheelBody);
+    checkLoopEdge(wheelBody, extendedPoems.length);
+  });
 
   wheelBody.style.userSelect = "none";
 
-  // Show overlay with fade in
-  overlay.classList.add("show");
+  // Show overlay
   overlay.style.display = "block";
-  // Wait a tick for reflow, then update
   setTimeout(() => {
+    overlay.classList.add("show");
+    // Put scroll near the middle
+    centerScrollAtMiddle(wheelBody, extendedPoems.length);
     updateWheelLayout(wheelBody);
   }, 50);
 }
 
-/** 
- * Finds the center row index in the wheel 
+/**
+ * Build an "infinite" list by replicating poemsForWheel N times.
+ * Return array of objects:
+ *   {
+ *     title: string,
+ *     originalIndex: number
+ *   }
+ */
+function buildInfiniteList(poems, repeatCount) {
+  const out = [];
+  // For each repetition, push the poems
+  for (let r = 0; r < repeatCount; r++) {
+    poems.forEach((poem, i) => {
+      const titleUsed = (currentLanguage === "en")
+        ? (poem.title_en || "Untitled")
+        : (poem.title_it || poem.title_en || "Untitled");
+      out.push({
+        title: titleUsed,
+        originalIndex: i
+      });
+    });
+  }
+  return out;
+}
+
+/**
+ * Scroll the wheel to the middle block so it starts near center
+ */
+function centerScrollAtMiddle(wheelBody, totalRows) {
+  const rowHeight = 60; // each TR is 60px tall
+  // Let's jump to around the middle chunk
+  const middleBlockIndex = Math.floor(totalRows / 2);
+  wheelBody.scrollTop = middleBlockIndex * rowHeight;
+}
+
+/**
+ * If near top or bottom, jump back to the middle so user sees an endless loop
+ */
+function checkLoopEdge(wheelBody, totalRows) {
+  const rowHeight = 60; 
+  const fullHeight = totalRows * rowHeight;
+  const buffer = 3 * rowHeight; 
+
+  if (wheelBody.scrollTop < buffer) {
+    // jump near middle
+    wheelBody.scrollTop += fullHeight/2;
+  } else if (wheelBody.scrollTop + wheelBody.clientHeight > (fullHeight - buffer)) {
+    wheelBody.scrollTop -= fullHeight/2;
+  }
+}
+
+/**
+ * Find center row index in the extended list
  */
 function findCenterIndex(wheelBody) {
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return 0;
-  const containerRect = wheelBody.getBoundingClientRect();
-  const containerCenterY = containerRect.height / 2;
+  const rect = wheelBody.getBoundingClientRect();
+  const cy = rect.height / 2;
+
   let minDist = Infinity;
-  let centerIdx = 0;
+  let closest = 0;
   rows.forEach((row, i) => {
-    const rect = row.getBoundingClientRect();
-    const rowCenterY = (rect.top + rect.bottom)/2 - containerRect.top;
-    const dist = Math.abs(rowCenterY - containerCenterY);
+    const rRect = row.getBoundingClientRect();
+    // row center relative to container top
+    const rowCenterY = (rRect.top + rRect.bottom)/2 - rect.top;
+    const dist = Math.abs(rowCenterY - cy);
     if (dist < minDist) {
       minDist = dist;
-      centerIdx = i;
+      closest = i;
     }
   });
-  return centerIdx;
+  return closest;
 }
 
-/** 
- * Update the layout => scale/opacity each row 
+/**
+ * Scale/opacity each row based on distance to center
  */
 function updateWheelLayout(wheelBody) {
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
-  const containerRect = wheelBody.getBoundingClientRect();
-  const containerCenterY = containerRect.height / 2;
+  const rect = wheelBody.getBoundingClientRect();
+  const cy = rect.height / 2;
 
   rows.forEach(row => {
-    const rect = row.getBoundingClientRect();
-    const rowCenterY = (rect.top + rect.bottom)/2 - containerRect.top;
-    const dist = Math.abs(rowCenterY - containerCenterY);
+    const rRect = row.getBoundingClientRect();
+    const rowCenterY = (rRect.top + rRect.bottom)/2 - rect.top;
+    const dist = Math.abs(rowCenterY - cy);
 
-    // scale from [0.8..1.3], fade from [0.5..1.0]
+    // scale in [0.8..1.3], fade in [0.5..1.0]
     const maxScale = 1.3;
     const minScale = 0.8;
-    let scale = maxScale - (dist / containerCenterY)*0.5;
+    let scale = maxScale - (dist/cy)*0.5;
     if (scale < minScale) scale = minScale;
     if (scale > maxScale) scale = maxScale;
 
     row.style.transform = `scale(${scale})`;
-    row.style.opacity = `${0.5 + (scale - minScale)}`;
+    row.style.opacity = String(0.5 + (scale - minScale));
     row.classList.remove("active");
   });
 
-  // Mark the new center row as "active" (pulsing)
   const ci = findCenterIndex(wheelBody);
-  const activeRow = rows[ci];
-  if (activeRow) activeRow.classList.add("active");
+  if (rows[ci]) rows[ci].classList.add("active");
 }
 
-/* 
- * DRAG SCROLL: pointer events 
+/**
+ * DRAG SCROLL
  */
 function onWheelPointerDown(e) {
   isDraggingWheel = true;
   e.target.setPointerCapture(e.pointerId);
   startPointerY = e.clientY;
 }
+
 function onWheelPointerMove(e) {
   if (!isDraggingWheel) return;
   const deltaY = e.clientY - startPointerY;
   startPointerY = e.clientY;
-
   const wheelBody = e.currentTarget;
-  let newScrollTop = wheelBody.scrollTop - deltaY;
-  if (newScrollTop < 0) newScrollTop = 0;
-  wheelBody.scrollTop = newScrollTop;
+  let st = wheelBody.scrollTop - deltaY;
+  if (st < 0) st = 0;
+  wheelBody.scrollTop = st;
   updateWheelLayout(wheelBody);
 }
+
 function onWheelPointerUp(e) {
   if (isDraggingWheel) {
     e.target.releasePointerCapture(e.pointerId);
@@ -601,29 +609,17 @@ function onWheelPointerUp(e) {
     }
   }
 }
+
 function snapToClosestRow(wheelBody) {
-  const rows = wheelBody.querySelectorAll("tr");
-  if (!rows.length) return;
-  const containerRect = wheelBody.getBoundingClientRect();
-  const containerCenterY = containerRect.height / 2;
-  let minDist = Infinity;
-  let closestRow = rows[0];
-  rows.forEach(row => {
-    const rect = row.getBoundingClientRect();
-    const rowCenter = (rect.top + rect.bottom)/2 - containerRect.top;
-    const dist = Math.abs(rowCenter - containerCenterY);
-    if (dist < minDist) {
-      minDist = dist;
-      closestRow = row;
-    }
-  });
-  if (closestRow) {
-    const rowRect = closestRow.getBoundingClientRect();
-    const rowMidY = (rowRect.top + rowRect.bottom)/2 - containerRect.top;
-    const distToCenter = rowMidY - containerCenterY;
-    wheelBody.scrollTop += distToCenter;
-    updateWheelLayout(wheelBody);
-  }
+  const ci = findCenterIndex(wheelBody);
+  const row = wheelBody.querySelectorAll("tr")[ci];
+  if (!row) return;
+  const rect = wheelBody.getBoundingClientRect();
+  const rowRect = row.getBoundingClientRect();
+  const rowMidY = (rowRect.top + rowRect.bottom)/2 - rect.top;
+  const dist = rowMidY - rect.height/2;
+  wheelBody.scrollTop += dist;
+  updateWheelLayout(wheelBody);
 }
 
 /* ------------------------------------------------------------------
@@ -642,26 +638,17 @@ function showReadingOverlay(title, text) {
     document.body.appendChild(overlay);
   }
 
-  // Fill content
+  const closeBtn = overlay.querySelector("#poem-overlay-close");
+  closeBtn.onclick = () => {
+    overlay.classList.remove("show");
+    setTimeout(() => { overlay.style.display = "none"; }, 400);
+  };
+
   const titleEl = overlay.querySelector("#poem-overlay-title");
   const contentEl = overlay.querySelector("#poem-overlay-content");
-  if (titleEl) titleEl.textContent = title || "";
-  if (contentEl) contentEl.textContent = text || "";
+  if (titleEl) titleEl.textContent = title;
+  if (contentEl) contentEl.textContent = text;
 
-  // Close button
-  const closeBtn = overlay.querySelector("#poem-overlay-close");
-  if (closeBtn) {
-    closeBtn.onclick = () => {
-      overlay.classList.remove("show");
-      setTimeout(() => {
-        overlay.style.display = "none";
-      }, 400);
-    };
-  }
-
-  // Show
   overlay.style.display = "block";
-  setTimeout(() => {
-    overlay.classList.add("show");
-  }, 50);
+  setTimeout(() => overlay.classList.add("show"), 50);
 }
