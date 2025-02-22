@@ -1,84 +1,98 @@
 console.log("script.js loaded.");
 
-/** Global state **/
-// Track which section is currently active: "about", "poetry", or null
-let activeSection = null;
-
+/** 
+ * Global state
+ */
 let currentLanguage = "en";
 let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
 
 // For the calendar
-let calendarYear = 0;
-let calendarMonth = 0; // 0-based
 const earliestDate = new Date(2024, 9, 24); // 2024-10-24
 const today = new Date();
+let calendarYear = 0;
+let calendarMonth = 0; // 0-based
 
 // Holds the parsed "gui.json" data
 let guiData = null;
 
-/* For the new wheel logic */
-let poemsForWheel = []; // poems for the current day
+/** 
+ * For the "Price Is Right" wheel 
+ */
+let poemsForWheel = [];
 let isDraggingWheel = false;
 let startPointerY = 0;
-let snapEnabled = true; // snap to nearest row on pointer up
+let snapEnabled = true; // snap to center row on pointer up
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
 
-  // 1) Load all language data from gui.json
+  // 1) Load GUI data (if you have a gui.json; otherwise skip)
   await loadGuiData();
 
-  // 2) Initialize the rest
+  // 2) Initialize the page
   initializePage();
 
   // 3) Setup side menu link clicks
-  const menuItems = document.querySelectorAll("#side-menu a[data-section]");
-  menuItems.forEach(item => {
-    item.addEventListener("click", e => {
-      e.preventDefault();
-      const section = item.getAttribute("data-section");
-      if (section === "about") {
-        activeSection = "about";
-        loadAboutSection();
-      } else if (section === "poetry") {
-        activeSection = "poetry";
-        loadPoetrySection();
-      }
-      closeMenu();
+  const menu = document.getElementById("side-menu");
+  if (menu) {
+    const menuItems = menu.querySelectorAll("a[data-section]");
+    menuItems.forEach(item => {
+      item.addEventListener("click", e => {
+        e.preventDefault();
+        const section = item.getAttribute("data-section");
+        if (section === "about") {
+          loadAboutSection();
+        } else if (section === "poetry") {
+          loadPoetrySection();
+        }
+        closeMenu();
+      });
     });
-  });
+  }
 
-  // 4) Update side menu text immediately
-  updateSideMenuLabels();
+  // 4) Language toggle
+  const langToggle = document.getElementById("language-toggle");
+  if (langToggle) {
+    langToggle.addEventListener("click", toggleLanguage);
+    langToggle.addEventListener("keypress", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleLanguage();
+      }
+    });
+  }
 });
 
 /* ------------------------------------------------------------------
-   1) Load the gui.json data
+   Load the gui.json (if applicable)
 ------------------------------------------------------------------ */
 async function loadGuiData() {
+  // If you have a "gui.json" for translations, fetch it:
   try {
     const resp = await fetch("gui.json");
     if (!resp.ok) throw new Error(`Failed to load gui.json: ${resp.status}`);
     guiData = await resp.json();
     console.log("guiData loaded:", guiData);
   } catch (err) {
-    console.error("Error loading gui.json:", err);
+    console.warn("No gui.json found or error loading it:", err);
     guiData = null;
   }
 }
 
 /* ------------------------------------------------------------------
    HELPER: t(path)
+   Returns a translated string from guiData, or the path if not found.
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path;
   const segs = path.split(".");
-  let langObj = guiData[currentLanguage] || guiData["en"] || {};
+  const fallback = guiData["en"] || {};
+  let langObj = guiData[currentLanguage] || fallback;
   let val = langObj;
   for (let s of segs) {
     if (val[s] === undefined) {
       // fallback to "en"
-      val = guiData["en"] || {};
+      val = fallback;
       for (let s2 of segs) {
         if (val[s2] === undefined) {
           return path;
@@ -93,65 +107,55 @@ function t(path) {
 }
 
 /* ------------------------------------------------------------------
-   MAIN INIT
+   INITIAL PAGE SETUP
 ------------------------------------------------------------------ */
 function initializePage() {
+  // 1) Hamburger menu
   setupHamburgerMenu();
+
+  // 2) Detect or load language
   detectOrLoadLanguage();
   updateLanguageToggle();
 
-  const langToggle = document.getElementById("language-toggle");
-  if (langToggle) {
-    langToggle.addEventListener("click", () => {
-      toggleLanguage();
-      // Rerender if needed:
-      if (activeSection === "poetry") {
-        loadPoetrySection();
-      } else if (activeSection === "about") {
-        loadAboutSection();
-      }
-    });
-  }
-
-  // Load About section by default
-  activeSection = "about";
+  // 3) Load "About" section by default
   loadAboutSection();
+}
 
-  // Back button for the wheel => back to calendar
-  const backToCalendarBtn = document.getElementById("back-to-calendar-btn");
-  if (backToCalendarBtn) {
-    backToCalendarBtn.addEventListener("click", () => {
-      const wheel = document.getElementById("poems-wheel-container");
-      const poemsContainer = document.getElementById("poems-container");
-      if (wheel) wheel.style.display = "none";
-      if (poemsContainer) poemsContainer.style.display = "";
-    });
-  }
+/* ------------------------------------------------------------------
+   SIDE MENU LOGIC
+------------------------------------------------------------------ */
+function setupHamburgerMenu() {
+  const hamburger = document.getElementById("menu-icon-container");
+  if (!hamburger) return;
 
-  // Reading overlay close button
-  const overlayClose = document.getElementById("poem-overlay-close");
-  if (overlayClose) {
-    overlayClose.addEventListener("click", () => {
-      const overlay = document.getElementById("poem-overlay");
-      if (overlay) overlay.style.display = "none";
-    });
-  }
+  hamburger.addEventListener("click", e => {
+    e.stopPropagation();
+    document.body.classList.toggle("menu-open");
+  });
+  hamburger.addEventListener("keypress", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      document.body.classList.toggle("menu-open");
+    }
+  });
 
-  // Wheel pointer events + scroll
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (wheelBody) {
-    wheelBody.addEventListener("pointerdown", onWheelPointerDown);
-    wheelBody.addEventListener("pointermove", onWheelPointerMove);
-    wheelBody.addEventListener("pointerup", onWheelPointerUp);
-    wheelBody.addEventListener("pointercancel", onWheelPointerUp);
-    wheelBody.addEventListener("pointerleave", onWheelPointerUp);
+  // Click anywhere outside to close
+  document.addEventListener("click", e => {
+    if (
+      document.body.classList.contains("menu-open") &&
+      !hamburger.contains(e.target)
+    ) {
+      const sideMenu = document.getElementById("side-menu");
+      if (sideMenu && !sideMenu.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+}
 
-    // Because we are styling the <tbody> as "overflow: auto", 
-    // we can also track scroll events
-    wheelBody.addEventListener("scroll", updateWheelLayout);
-
-    wheelBody.style.userSelect = "none";
-  }
+function closeMenu() {
+  document.body.classList.remove("menu-open");
+  console.log("Side menu closed.");
 }
 
 /* ------------------------------------------------------------------
@@ -172,8 +176,18 @@ function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
   updateLanguageToggle();
-  updateSideMenuLabels();
-  console.log("Language toggled =>", currentLanguage);
+
+  // Re-render if in Poetry or About
+  const mainContent = document.getElementById("main-content");
+  if (!mainContent) return;
+
+  // Heuristics: if the main-content has a .calendar-container => re-load poetry
+  const foundCalendar = mainContent.querySelector(".calendar-container");
+  if (foundCalendar) {
+    loadPoetrySection();
+  } else {
+    loadAboutSection();
+  }
 }
 
 function updateLanguageToggle() {
@@ -183,134 +197,87 @@ function updateLanguageToggle() {
 }
 
 /* ------------------------------------------------------------------
-   SIDE MENU
------------------------------------------------------------------- */
-function setupHamburgerMenu() {
-  const hamburger = document.getElementById("menu-icon-container");
-  if (!hamburger) return;
-
-  hamburger.addEventListener("click", e => {
-    e.stopPropagation();
-    document.body.classList.toggle("menu-open");
-  });
-  hamburger.addEventListener("keypress", e => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      document.body.classList.toggle("menu-open");
-    }
-  });
-
-  // Close menu if click outside
-  document.addEventListener("click", e => {
-    const sideMenu = document.getElementById("side-menu");
-    if (document.body.classList.contains("menu-open")) {
-      if (!sideMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        closeMenu();
-      }
-    }
-  });
-}
-
-function updateSideMenuLabels() {
-  const aboutLink = document.querySelector('#side-menu a[data-section="about"]');
-  const poetryLink = document.querySelector('#side-menu a[data-section="poetry"]');
-  if (aboutLink) aboutLink.textContent = t("menu.about");
-  if (poetryLink) poetryLink.textContent = t("menu.poetry");
-}
-
-function closeMenu() {
-  document.body.classList.remove("menu-open");
-  console.log("Side menu closed.");
-}
-
-/* ------------------------------------------------------------------
    ABOUT SECTION
 ------------------------------------------------------------------ */
 function loadAboutSection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
-  mainContent.innerHTML = t("aboutSection");
+  mainContent.innerHTML = `
+    <div>
+      ${t("aboutSection") || "<p>About section goes here.</p>"}
+    </div>
+  `;
 }
 
 /* ------------------------------------------------------------------
-   POETRY SECTION => Monthly Calendar
+   POETRY SECTION => MONTHLY CALENDAR
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
+  mainContent.innerHTML = ""; // clear
 
-  // The heading is in "poetryHeading"
-  const heading = t("poetryHeading");
-  mainContent.innerHTML = `<h1>${heading}</h1><div id="poems-container"></div>`;
-
-  // Default to today's month if not set
-  if (!calendarYear || !calendarMonth) {
+  // If year/month not set, default to "today"
+  if (!calendarYear) {
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
   }
 
-  // Render the calendar UI
-  renderCalendarView(calendarYear, calendarMonth);
+  // Create container
+  const div = document.createElement("div");
+  div.classList.add("calendar-container");
+  mainContent.appendChild(div);
+
+  renderCalendarView(calendarYear, calendarMonth, div);
 }
 
-/**
- * Render the calendar UI for a given year/month
- */
-function renderCalendarView(year, month) {
-  const poemsContainer = document.getElementById("poems-container");
-  if (!poemsContainer) return;
+function renderCalendarView(year, month, container) {
+  container.innerHTML = ""; // clear old
 
-  poemsContainer.innerHTML = "";
-
-  // Create nav bar for Prev/Next
+  // Nav bar
   const navDiv = document.createElement("div");
   navDiv.style.display = "flex";
   navDiv.style.justifyContent = "space-between";
   navDiv.style.alignItems = "center";
   navDiv.style.marginBottom = "1em";
 
-  const monthName = getMonthName(month);
-  const title = document.createElement("span");
-  title.style.fontWeight = "bold";
-  title.textContent = `${monthName} ${year}`;
-
-  // Prev button => t("labels.prev") or t("labels.next")
   const prevBtn = document.createElement("button");
-  prevBtn.textContent = t("labels.prev");
-  prevBtn.addEventListener("click", () => {
-    goToPrevMonth();
-  });
+  prevBtn.textContent = t("labels.prev") || "Prev";
+  prevBtn.addEventListener("click", goToPrevMonth);
 
   const nextBtn = document.createElement("button");
-  nextBtn.textContent = t("labels.next");
-  nextBtn.addEventListener("click", () => {
-    goToNextMonth();
-  });
+  nextBtn.textContent = t("labels.next") || "Next";
+  nextBtn.addEventListener("click", goToNextMonth);
+
+  const monthName = getMonthName(month);
+  const titleSpan = document.createElement("span");
+  titleSpan.style.fontWeight = "bold";
+  titleSpan.textContent = `${monthName} ${year}`;
+
+  navDiv.appendChild(prevBtn);
+  navDiv.appendChild(titleSpan);
+  navDiv.appendChild(nextBtn);
+  container.appendChild(navDiv);
 
   // Check if prev is allowed
   const prevMonthDate = new Date(year, month - 1, 1);
   if (prevMonthDate < earliestDate) {
     prevBtn.disabled = true;
   }
-
   // Check if next is allowed
   const nextMonthDate = new Date(year, month + 1, 1);
-  if (nextMonthDate > new Date(today.getFullYear(), today.getMonth(), 1)) {
+  const nextMonthCutoff = new Date(today.getFullYear(), today.getMonth(), 1);
+  if (nextMonthDate > nextMonthCutoff) {
     nextBtn.disabled = true;
   }
 
-  navDiv.appendChild(prevBtn);
-  navDiv.appendChild(title);
-  navDiv.appendChild(nextBtn);
-  poemsContainer.appendChild(navDiv);
-
-  // Create a table for days
+  // Build table
   const table = document.createElement("table");
   table.classList.add("calendar-table");
 
-  // Day-of-week row
+  // Days-of-week row
   const dayRow = document.createElement("tr");
-  const dayNames = getDayNames();
+  const dayNames = getDayNames(); 
   dayNames.forEach(dn => {
     const th = document.createElement("th");
     th.textContent = dn;
@@ -319,15 +286,15 @@ function renderCalendarView(year, month) {
   table.appendChild(dayRow);
 
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0); // day=0 => last day prev month
-  const startWeekday = firstDayOfMonth.getDay(); // 0=Sun, 1=Mon...
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+  const startWeekday = firstDayOfMonth.getDay();
   const totalDays = lastDayOfMonth.getDate();
 
   let row = document.createElement("tr");
-  // Empty cells for days before 1st
+  // empty cells before the 1st
   for (let i = 0; i < startWeekday; i++) {
-    const emptyCell = document.createElement("td");
-    row.appendChild(emptyCell);
+    const td = document.createElement("td");
+    row.appendChild(td);
   }
 
   for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
@@ -335,51 +302,47 @@ function renderCalendarView(year, month) {
       table.appendChild(row);
       row = document.createElement("tr");
     }
+    const td = document.createElement("td");
     const current = new Date(year, month, dayNum);
-    const cell = document.createElement("td");
-    cell.textContent = String(dayNum);
-    cell.style.textAlign = "center";
-    cell.style.cursor = "pointer";
+    td.textContent = dayNum;
 
-    // Disable if out of range
+    // If out of range
     if (current < earliestDate || current > today) {
-      cell.style.opacity = "0.3";
-      cell.style.cursor = "default";
+      td.style.opacity = "0.3";
     } else {
-      // If valid date => load that day's poems
-      cell.addEventListener("click", () => {
+      td.style.cursor = "pointer";
+      td.addEventListener("click", () => {
         const yyyy = current.getFullYear();
-        const mm = String(current.getMonth() + 1).padStart(2, "0");
+        const mm = String(current.getMonth()+1).padStart(2, "0");
         const dd = String(current.getDate()).padStart(2, "0");
         const dateStr = `${yyyy}-${mm}-${dd}`;
-        loadPoemByDate(dateStr);
+        loadPoemsByDate(dateStr);
       });
     }
 
-    // highlight if it's "today"
+    // highlight "today"
     if (
-      year === today.getFullYear() &&
-      month === today.getMonth() &&
-      dayNum === today.getDate()
+      current.getFullYear() === today.getFullYear() &&
+      current.getMonth() === today.getMonth() &&
+      current.getDate() === today.getDate()
     ) {
-      cell.style.backgroundColor = "#555";
-      cell.style.color = "#fff";
-      cell.style.borderRadius = "50%";
+      td.style.backgroundColor = "#555";
+      td.style.color = "#fff";
+      td.style.borderRadius = "50%";
     }
 
-    row.appendChild(cell);
+    row.appendChild(td);
   }
 
   if (row.children.length > 0) {
-    // fill remainder
     while (row.children.length < 7) {
-      const emptyCell = document.createElement("td");
-      row.appendChild(emptyCell);
+      const emptyTd = document.createElement("td");
+      row.appendChild(emptyTd);
     }
     table.appendChild(row);
   }
 
-  poemsContainer.appendChild(table);
+  container.appendChild(table);
 
   function goToPrevMonth() {
     if (month === 0) {
@@ -389,7 +352,7 @@ function renderCalendarView(year, month) {
       calendarYear = year;
       calendarMonth = month - 1;
     }
-    renderCalendarView(calendarYear, calendarMonth);
+    renderCalendarView(calendarYear, calendarMonth, container);
   }
   function goToNextMonth() {
     if (month === 11) {
@@ -399,28 +362,21 @@ function renderCalendarView(year, month) {
       calendarYear = year;
       calendarMonth = month + 1;
     }
-    renderCalendarView(calendarYear, calendarMonth);
+    renderCalendarView(calendarYear, calendarMonth, container);
   }
 }
 
-/**
- * Get the localized month name from gui.json
- */
-function getMonthName(mIndex) {
+function getMonthName(m) {
   let months = t("calendar.months");
   if (!Array.isArray(months) || months.length < 12) {
-    // fallback
     months = [
       "January","February","March","April","May","June",
       "July","August","September","October","November","December"
     ];
   }
-  return months[mIndex] || "";
+  return months[m] || "";
 }
 
-/**
- * Get the localized day-of-week names from gui.json
- */
 function getDayNames() {
   let days = t("calendar.daysOfWeek");
   if (!Array.isArray(days) || days.length < 7) {
@@ -430,10 +386,11 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   FETCH & DISPLAY POEMS
+   LOAD POEMS BY DATE => show overlay (wheel) if multiple
 ------------------------------------------------------------------ */
-function loadPoemByDate(dateStr) {
-  console.log("Loading poem for date:", dateStr);
+function loadPoemsByDate(dateStr) {
+  console.log("Loading poems for date:", dateStr);
+  // Example of fetching from a server folder: poetry/2025-03-01.json
   const url = `poetry/${dateStr}.json`;
   fetch(url)
     .then(resp => {
@@ -444,109 +401,69 @@ function loadPoemByDate(dateStr) {
       if (!Array.isArray(data) || data.length === 0) {
         throw new Error("Empty array");
       }
-      // Hide the calendar container
-      const poemsContainer = document.getElementById("poems-container");
-      if (poemsContainer) poemsContainer.style.display = "none";
-
       if (data.length === 1) {
-        // Only one poem => just display that poem
         displaySinglePoem(data[0]);
       } else {
-        // Multiple poems => show wheel
         poemsForWheel = data.slice();
-        // Ensure wheel is reset
-        const wheelContainer = document.getElementById("poems-wheel-container");
-        if (wheelContainer) wheelContainer.style.display = "block";
-        const wheelBody = document.getElementById("wheel-list-body");
-        if (wheelBody) {
-          wheelBody.scrollTop = 0;  // reset scroll
-        }
-        showPoemWheel();
+        showPoemsWheelOverlay();
       }
     })
     .catch(err => {
-      console.warn(err);
-      const mainContent = document.getElementById("main-content");
-      if (mainContent) {
-        // e.g. "No poem found for 2025-03-01"
-        mainContent.insertAdjacentHTML(
-          "beforeend",
-          `<p style="color:red;">${t("errors.noPoemFound")} ${dateStr}</p>`
-        );
-      }
+      console.warn("No poem found or error:", err);
+      alert(t("errors.noPoemFound") + " " + dateStr);
     });
 }
 
-/** Single poem display with a Back button. */
-function displaySinglePoem(poemObj) {
-  removeWheel();
+/* ------------------------------------------------------------------
+   SINGLE POEM => Direct reading overlay
+------------------------------------------------------------------ */
+function displaySinglePoem(poem) {
+  const titleUsed = (currentLanguage === "en")
+    ? (poem.title_en || "Untitled")
+    : (poem.title_it || poem.title_en || "Untitled");
+  const textUsed = (currentLanguage === "en")
+    ? (poem.poem_en || "")
+    : (poem.poem_it || poem.poem_en || "");
 
-  const existingPoemDiv = document.getElementById("displayed-poem");
-  if (existingPoemDiv) existingPoemDiv.remove();
+  showReadingOverlay(titleUsed, textUsed);
+}
 
-  const mainContent = document.getElementById("main-content");
-  if (!mainContent) return;
-
-  const poemDiv = document.createElement("div");
-  poemDiv.id = "displayed-poem";
-  poemDiv.style.marginTop = "1em";
-  poemDiv.style.padding = "1em";
-  poemDiv.style.border = "1px solid #666";
-
-  const dateUsed = currentLanguage === "en"
-    ? poemObj.date_en
-    : (poemObj.date_it || poemObj.date_en || "");
-  const titleUsed = currentLanguage === "en"
-    ? poemObj.title_en
-    : (poemObj.title_it || poemObj.title_en || "");
-  const textUsed = currentLanguage === "en"
-    ? (poemObj.poem_en || "")
-    : (poemObj.poem_it || poemObj.poem_en || "");
-
-  poemDiv.innerHTML = `
-    <h2>${titleUsed || ""}</h2>
-    <p style="font-style:italic;">${dateUsed || ""}</p>
-    <div class="poem-content">
-      ${(textUsed || "").replace(/\n/g, "<br>")}
-    </div>
-    <div style="margin-top:1em;">
-      <button id="single-poem-back-btn">${t("labels.back") || "Back"}</button>
-    </div>
-  `;
-  mainContent.appendChild(poemDiv);
-
-  // back => show calendar
-  const backBtn = poemDiv.querySelector("#single-poem-back-btn");
-  if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      poemDiv.remove();
-      const poemsContainer = document.getElementById("poems-container");
-      if (poemsContainer) poemsContainer.style.display = "";
-    });
+/* ------------------------------------------------------------------
+   PRICE-IS-RIGHT WHEEL OVERLAY - CREATE & SHOW
+------------------------------------------------------------------ */
+function showPoemsWheelOverlay() {
+  // If overlay doesn't exist in DOM, create it
+  let overlay = document.getElementById("poem-wheel-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "poem-wheel-overlay";
+    overlay.innerHTML = `
+      <button id="wheel-close-btn">×</button>
+      <div id="wheel-inner">
+        <table>
+          <tbody id="wheel-list-body"></tbody>
+        </table>
+      </div>
+    `;
+    document.body.appendChild(overlay);
   }
 
-  // If mobile => reading mode on click
-  poemDiv.addEventListener("click", e => {
-    if (e.target.id === "single-poem-back-btn") return; // skip button
-    if (isMobileDevice) {
-      showReadingOverlay(titleUsed || t("labels.untitledPoem"), textUsed);
-    }
-  });
-}
+  // Add event on close button
+  const closeBtn = overlay.querySelector("#wheel-close-btn");
+  closeBtn.onclick = () => {
+    overlay.classList.remove("show");
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 400);
+  };
 
-/** Show multiple poems in the wheel view. */
-function showPoemWheel() {
-  const singlePoemDiv = document.getElementById("displayed-poem");
-  if (singlePoemDiv) singlePoemDiv.remove();
-
-  const wheelContainer = document.getElementById("poems-wheel-container");
-  if (wheelContainer) wheelContainer.style.display = "block";
-
-  const wheelBody = document.getElementById("wheel-list-body");
+  // Render poem list
+  const wheelBody = overlay.querySelector("#wheel-list-body");
   if (!wheelBody) return;
   wheelBody.innerHTML = "";
+  wheelBody.scrollTop = 0;
 
-  // Sort poems alphabetically by title
+  // Sort poems by title
   poemsForWheel.sort((a, b) => {
     const aTitle = (currentLanguage === "en")
       ? (a.title_en || "")
@@ -557,20 +474,22 @@ function showPoemWheel() {
     return aTitle.localeCompare(bTitle);
   });
 
-  // Fill rows
-  poemsForWheel.forEach((poem, idx) => {
+  // Build rows
+  poemsForWheel.forEach((poem, i) => {
     const tr = document.createElement("tr");
-    tr.dataset.index = String(idx);
+    tr.dataset.index = String(i);
 
     const titleUsed = (currentLanguage === "en")
       ? (poem.title_en || "Untitled")
       : (poem.title_it || poem.title_en || "Untitled");
+
     tr.innerHTML = `<td>${titleUsed}</td>`;
 
-    // Click => open reading overlay if this row is currently center
+    // On click => if this row is center, show reading overlay
     tr.addEventListener("click", () => {
-      const centerIndex = findCenterIndex();
-      if (parseInt(tr.dataset.index, 10) === centerIndex) {
+      const centerIndex = findCenterIndex(wheelBody);
+      const idx = parseInt(tr.dataset.index, 10);
+      if (idx === centerIndex) {
         const textUsed = (currentLanguage === "en")
           ? (poem.poem_en || "")
           : (poem.poem_it || poem.poem_en || "");
@@ -581,33 +500,37 @@ function showPoemWheel() {
     wheelBody.appendChild(tr);
   });
 
-  // Make sure layout is updated
-  wheelBody.scrollTop = 0;
-  updateWheelLayout();
+  // Pointer events for drag
+  wheelBody.addEventListener("pointerdown", onWheelPointerDown);
+  wheelBody.addEventListener("pointermove", onWheelPointerMove);
+  wheelBody.addEventListener("pointerup", onWheelPointerUp);
+  wheelBody.addEventListener("pointercancel", onWheelPointerUp);
+  wheelBody.addEventListener("pointerleave", onWheelPointerUp);
+  wheelBody.addEventListener("scroll", () => updateWheelLayout(wheelBody));
+
+  wheelBody.style.userSelect = "none";
+
+  // Show overlay with fade in
+  overlay.classList.add("show");
+  overlay.style.display = "block";
+  // Wait a tick for reflow, then update
+  setTimeout(() => {
+    updateWheelLayout(wheelBody);
+  }, 50);
 }
 
-/** Remove wheel container from view. */
-function removeWheel() {
-  const wheelContainer = document.getElementById("poems-wheel-container");
-  if (wheelContainer) wheelContainer.style.display = "none";
-}
-
-/** Find which row is closest to center of the wheel container. */
-function findCenterIndex() {
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (!wheelBody) return 0;
+/** 
+ * Finds the center row index in the wheel 
+ */
+function findCenterIndex(wheelBody) {
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return 0;
-
   const containerRect = wheelBody.getBoundingClientRect();
-  const containerCenterY = containerRect.height / 2; // midpoint of the <tbody> area
-
+  const containerCenterY = containerRect.height / 2;
   let minDist = Infinity;
   let centerIdx = 0;
-
   rows.forEach((row, i) => {
     const rect = row.getBoundingClientRect();
-    // row's midpoint relative to the container top
     const rowCenterY = (rect.top + rect.bottom)/2 - containerRect.top;
     const dist = Math.abs(rowCenterY - containerCenterY);
     if (dist < minDist) {
@@ -615,44 +538,44 @@ function findCenterIndex() {
       centerIdx = i;
     }
   });
-
   return centerIdx;
 }
 
-/** Scale/opacity each row based on distance from center; highlight the center row. */
-function updateWheelLayout() {
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (!wheelBody) return;
+/** 
+ * Update the layout => scale/opacity each row 
+ */
+function updateWheelLayout(wheelBody) {
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
-
   const containerRect = wheelBody.getBoundingClientRect();
   const containerCenterY = containerRect.height / 2;
 
   rows.forEach(row => {
     const rect = row.getBoundingClientRect();
-    const rowCenter = (rect.top + rect.bottom)/2 - containerRect.top;
-    const dist = Math.abs(rowCenter - containerCenterY);
+    const rowCenterY = (rect.top + rect.bottom)/2 - containerRect.top;
+    const dist = Math.abs(rowCenterY - containerCenterY);
 
-    // scale from [minScale..maxScale], fade from [0.5..1.0]
+    // scale from [0.8..1.3], fade from [0.5..1.0]
     const maxScale = 1.3;
     const minScale = 0.8;
-    let scale = maxScale - (dist / containerCenterY) * 0.5;
+    let scale = maxScale - (dist / containerCenterY)*0.5;
     if (scale < minScale) scale = minScale;
     if (scale > maxScale) scale = maxScale;
 
     row.style.transform = `scale(${scale})`;
-    row.style.opacity = `${0.5 + (scale - minScale)}`; 
-    row.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+    row.style.opacity = `${0.5 + (scale - minScale)}`;
     row.classList.remove("active");
   });
 
-  // Mark the new center row as "active"
-  const ci = findCenterIndex();
-  if (rows[ci]) rows[ci].classList.add("active");
+  // Mark the new center row as "active" (pulsing)
+  const ci = findCenterIndex(wheelBody);
+  const activeRow = rows[ci];
+  if (activeRow) activeRow.classList.add("active");
 }
 
-/** Pointer events for the drag scrolling logic. */
+/* 
+ * DRAG SCROLL: pointer events 
+ */
 function onWheelPointerDown(e) {
   isDraggingWheel = true;
   e.target.setPointerCapture(e.pointerId);
@@ -663,40 +586,28 @@ function onWheelPointerMove(e) {
   const deltaY = e.clientY - startPointerY;
   startPointerY = e.clientY;
 
-  // We'll adjust the scrollTop of the table's parent
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (!wheelBody) return;
-  const parent = wheelBody; // We are letting <tbody> itself be scrollable
-  let newScrollTop = parent.scrollTop - deltaY;
+  const wheelBody = e.currentTarget;
+  let newScrollTop = wheelBody.scrollTop - deltaY;
   if (newScrollTop < 0) newScrollTop = 0;
-  parent.scrollTop = newScrollTop;
-
-  updateWheelLayout();
+  wheelBody.scrollTop = newScrollTop;
+  updateWheelLayout(wheelBody);
 }
 function onWheelPointerUp(e) {
   if (isDraggingWheel) {
     e.target.releasePointerCapture(e.pointerId);
     isDraggingWheel = false;
     if (snapEnabled) {
-      snapToClosestRow();
+      snapToClosestRow(e.currentTarget);
     }
   }
 }
-
-/** Snap to the row that is closest to center. */
-function snapToClosestRow() {
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (!wheelBody) return;
+function snapToClosestRow(wheelBody) {
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
-
-  const parent = wheelBody; 
-  const containerRect = parent.getBoundingClientRect();
+  const containerRect = wheelBody.getBoundingClientRect();
   const containerCenterY = containerRect.height / 2;
-
   let minDist = Infinity;
   let closestRow = rows[0];
-
   rows.forEach(row => {
     const rect = row.getBoundingClientRect();
     const rowCenter = (rect.top + rect.bottom)/2 - containerRect.top;
@@ -706,26 +617,51 @@ function snapToClosestRow() {
       closestRow = row;
     }
   });
-
   if (closestRow) {
-    // Calculate how far we need to scroll to center that row
     const rowRect = closestRow.getBoundingClientRect();
     const rowMidY = (rowRect.top + rowRect.bottom)/2 - containerRect.top;
     const distToCenter = rowMidY - containerCenterY;
-    parent.scrollTop += distToCenter;
-    updateWheelLayout();
+    wheelBody.scrollTop += distToCenter;
+    updateWheelLayout(wheelBody);
   }
 }
 
-/** Show reading overlay for the selected poem. */
+/* ------------------------------------------------------------------
+   READING OVERLAY
+------------------------------------------------------------------ */
 function showReadingOverlay(title, text) {
-  const overlay = document.getElementById("poem-overlay");
-  if (!overlay) return;
+  let overlay = document.getElementById("poem-reading-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "poem-reading-overlay";
+    overlay.innerHTML = `
+      <button id="poem-overlay-close">X</button>
+      <h2 id="poem-overlay-title"></h2>
+      <div id="poem-overlay-content"></div>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  // Fill content
+  const titleEl = overlay.querySelector("#poem-overlay-title");
+  const contentEl = overlay.querySelector("#poem-overlay-content");
+  if (titleEl) titleEl.textContent = title || "";
+  if (contentEl) contentEl.textContent = text || "";
+
+  // Close button
+  const closeBtn = overlay.querySelector("#poem-overlay-close");
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      overlay.classList.remove("show");
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 400);
+    };
+  }
+
+  // Show
   overlay.style.display = "block";
-
-  const overlayTitle = document.getElementById("poem-overlay-title");
-  if (overlayTitle) overlayTitle.textContent = title || "";
-
-  const overlayContent = document.getElementById("poem-overlay-content");
-  if (overlayContent) overlayContent.innerHTML = (text || "").replace(/\n/g, "<br>");
+  setTimeout(() => {
+    overlay.classList.add("show");
+  }, 50);
 }
