@@ -296,7 +296,8 @@ function renderCalendarView(year, month, container) {
         const yyy = currentDate.getFullYear();
         const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
         const dd = String(currentDate.getDate()).padStart(2, "0");
-        loadPoemsByDate(`<span class="math-inline">\{yyy\}\-</span>{mm}-${dd}`);
+        const dateStr = `${yyy}-${mm}-${dd}`; // Correctly format dateStr
+        loadPoemsByDate(dateStr); // Pass the correctly formatted dateStr
       };
     }
 
@@ -494,7 +495,7 @@ function buildInfiniteList(poems, repeatCount) {
     }
     return out;
   }
-  
+
   /**
    * Center the scroll on the middle item
    */
@@ -503,7 +504,7 @@ function buildInfiniteList(poems, repeatCount) {
     wheelTrackOffsetY = -middleIndex * WHEEL_ITEM_HEIGHT;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   }
-  
+
   /**
    * If user scrolls well beyond top/bottom => jump by the entire track height
    * so we remain "centered" in the repeated list
@@ -514,7 +515,7 @@ function buildInfiniteList(poems, repeatCount) {
     const halfHeight = fullHeight / 2;
     const wrapThresholdUp = halfHeight;
     const wrapThresholdDown = -halfHeight;
-  
+
     if (wheelTrackOffsetY > wrapThresholdUp) {
         // Scrolling down too far, wrap upwards
         wheelTrackOffsetY -= fullHeight;
@@ -525,39 +526,39 @@ function buildInfiniteList(poems, repeatCount) {
         wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
     }
   }
-  
-  
+
+
   /**
    * Find center row index based on track offset
    */
   function findCenterIndex(wheelTrack, totalCount) {
     const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
     const cy = wheelInnerRect.height / 2;
-  
+
     let minDist = Infinity;
     let centerI = -1; // Initialize to -1 to indicate no center item yet
     let closestItemIndex = -1;
-  
+
     for (let i = 0; i < totalCount; i++) {
       const item = wheelTrack.children[i];
       if (!item) continue; // Defensive check
-  
+
       const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
       const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
       const dist = Math.abs(itemCenterY - cy);
-  
+
       if (dist < minDist) {
         minDist = dist;
         centerI = i;
         closestItemIndex = i;
       }
     }
-  
+
     //console.log("findCenterIndex - totalCount:", totalCount, "wheelTrackOffsetY:", wheelTrackOffsetY, "closestItemIndex:", closestItemIndex, "centerI:", centerI);
     return centerI; // Returns index of closest item, or -1 if none found
   }
-  
-  
+
+
   /**
    * Scale & fade items based on distance from center
    */
@@ -565,81 +566,81 @@ function buildInfiniteList(poems, repeatCount) {
     const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
     const cy = wheelInnerRect.height / 2;
     const items = wheelTrack.children;
-  
+
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (!item) continue; // Defensive check
-  
+
       const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
       const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
       const dist = Math.abs(itemCenterY - cy);
-  
+
       // scale in [0.8..1.3], fade in [0.5..1.0]
       const maxScale = 1.3;
       const minScale = 0.8;
       let scale = maxScale - (dist / cy) * 0.5;
       if (scale < minScale) scale = minScale;
       if (scale > maxScale) scale = maxScale;
-  
+
       item.style.transform = `scale(${scale})`;
       item.style.opacity = String(0.5 + (scale - minScale));
       item.classList.remove("active"); // Remove active class from all items
     }
-  
+
     const cIndex = findCenterIndex(wheelTrack, totalCount);
     if (cIndex >= 0 && wheelTrack.children[cIndex]) { // Check if a valid center index is found
       wheelTrack.children[cIndex].classList.add("active"); // Add active class to the *correct* center item
     }
   }
-  
-  
+
+
   /* ------------------------------------------------------------------
      DRAG SCROLL: pointer events (with tap vs. drag & FLING)
   ------------------------------------------------------------------ */
   function onWheelPointerDown(e) {
     // Only left click or touch
     if (e.pointerType === 'mouse' && e.button !== 0) return;
-  
+
     isPointerDown = true;
     hasDragged = false;
-  
+
     pointerDownX = e.clientX;
     pointerDownY = e.clientY;
     startPointerY = e.clientY;
-  
+
     lastPointerY = e.clientY; // For velocity calculation
     lastMoveTime = performance.now(); // For velocity calculation
     flingVelocity = 0; // Reset velocity on new pointer down
     stopFlingAnimation(); // Stop any existing fling animation
-  
+
     // Capture the .wheel-item row (if any)
     pointerDownItem = e.target.closest(".wheel-item") || null;
-  
+
     clearTimeout(wheelSnapTimeout);
     e.target.setPointerCapture(e.pointerId);
   }
-  
+
   function onWheelPointerMove(e) {
     if (!isPointerDown) return;
-  
+
     // Check if we've moved enough to consider it a drag
     const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
     if (!hasDragged && moveDist > TAP_THRESHOLD) {
       hasDragged = true;
     }
-  
+
     // Only move the track if we've started a real drag
     if (hasDragged) {
       const deltaY = e.clientY - startPointerY;
       startPointerY = e.clientY;
-  
+
       const wheelTrack = e.currentTarget;
       wheelTrackOffsetY += deltaY;
       wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  
+
       updateWheelLayout(wheelTrack, wheelTrack.children.length);
       checkLoopEdges(wheelTrack, wheelTrack.children.length);
-  
+
       // Velocity calculation
       const currentTime = performance.now();
       const timeDiff = currentTime - lastMoveTime;
@@ -650,12 +651,12 @@ function buildInfiniteList(poems, repeatCount) {
       lastMoveTime = currentTime;
     }
   }
-  
+
   function onWheelPointerUp(e) {
     if (!isPointerDown) return;
     isPointerDown = false;
     e.target.releasePointerCapture(e.pointerId);
-  
+
     const wheelTrack = e.currentTarget;
     // If we didn't drag => treat as a tap
     if (!hasDragged) {
@@ -682,7 +683,7 @@ function buildInfiniteList(poems, repeatCount) {
     }
     flingVelocity = 0; // Reset velocity after pointer up
   }
-  
+
   /**
    * Open the poem from the center item
    */
@@ -699,7 +700,7 @@ function buildInfiniteList(poems, repeatCount) {
       showReadingOverlay(tUsed, pUsed);
     }
   }
-  
+
   /**
    * Snap track offset so center item lines up
    */
@@ -707,42 +708,42 @@ function buildInfiniteList(poems, repeatCount) {
     const totalCount = wheelTrack.children.length;
     const centerIndex = findCenterIndex(wheelTrack, totalCount);
     //console.log("snapToClosestRow - START - centerIndex:", centerIndex, "wheelTrackOffsetY:", wheelTrackOffsetY);
-  
+
     if (centerIndex === -1) { // Defensive check: no center item found
       console.warn("snapToClosestRow: No center item found, skipping snap.");
       return;
     }
-  
+
     const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
     const cy = wheelInnerRect.height / 2;
     const targetOffsetY = cy - WHEEL_ITEM_HEIGHT / 2 - centerIndex * WHEEL_ITEM_HEIGHT;
     const distToCenter = targetOffsetY - wheelTrackOffsetY;
-  
+
     //console.log("snapToClosestRow - targetOffsetY:", targetOffsetY, "distToCenter:", distToCenter);
-  
+
     wheelTrackOffsetY += distToCenter;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
     updateWheelLayout(wheelTrack, totalCount);
     //console.log("snapToClosestRow - END - wheelTrackOffsetY AFTER:", wheelTrackOffsetY);
   }
-  
+
   /* ------------------------------------------------------------------
      MOUSE WHEEL SCROLL
   ------------------------------------------------------------------ */
   function onMouseWheelScroll(e) {
     e.preventDefault(); // Prevent default page scroll
-  
+
     const wheelTrack = this.querySelector("#wheel-track");
     if (!wheelTrack) return;
-  
+
     // Basic: move one item up/down
     const delta = Math.max(-1, Math.min(1, e.deltaY)); // -1, 0, or 1
     wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT * -1; // Invert delta for natural scroll
-  
+
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
     updateWheelLayout(wheelTrack, wheelTrack.children.length);
     checkLoopEdges(wheelTrack, wheelTrack.children.length);
-  
+
     // Snap after scroll
     if (!isPointerDown && snapEnabled) {
       clearTimeout(wheelSnapTimeout);
@@ -752,13 +753,13 @@ function buildInfiniteList(poems, repeatCount) {
       }, 100);
     }
   }
-  
+
   /* ------------------------------------------------------------------
      FLING ANIMATION
   ------------------------------------------------------------------ */
   function startFlingAnimation() {
       stopFlingAnimation(); // Stop any existing animation
-  
+
       animationFrameID = requestAnimationFrame(function animateFling() {
           wheelTrackOffsetY += flingVelocity;
           const wheelTrack = document.querySelector('#wheel-track'); // Or however you access it
@@ -767,7 +768,7 @@ function buildInfiniteList(poems, repeatCount) {
               updateWheelLayout(wheelTrack, wheelTrack.children.length);
               checkLoopEdges(wheelTrack, wheelTrack.children.length);
           }
-  
+
           flingVelocity *= decelerationFactor; // Decrease velocity
           if (Math.abs(flingVelocity) > 0.01) { // Still moving, continue animation
               animationFrameID = requestAnimationFrame(animateFling);
@@ -781,15 +782,15 @@ function buildInfiniteList(poems, repeatCount) {
           }
       });
   }
-  
+
   function stopFlingAnimation() {
       if (animationFrameID) {
           cancelAnimationFrame(animationFrameID);
           animationFrameID = null;
       }
   }
-  
-  
+
+
   /* ------------------------------------------------------------------
      READING OVERLAY
   ------------------------------------------------------------------ */
@@ -805,18 +806,18 @@ function buildInfiniteList(poems, repeatCount) {
       `;
       document.body.appendChild(overlay);
     }
-  
+
     const closeBtn = overlay.querySelector("#poem-overlay-close");
     closeBtn.onclick = () => {
       overlay.classList.remove("show");
       setTimeout(() => { overlay.style.display = "none"; }, 400);
     };
-  
+
     const titleEl = overlay.querySelector("#poem-overlay-title");
     const contentEl = overlay.querySelector("#poem-overlay-content");
     if (titleEl) titleEl.textContent = title;
     if (contentEl) contentEl.textContent = text;
-  
+
     overlay.style.display = "block";
     setTimeout(() => overlay.classList.add("show"), 50);
   }
