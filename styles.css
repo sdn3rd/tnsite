@@ -630,7 +630,7 @@ footer:hover {
     background-color: var(--highlight-color);
 }
 
-/* Poem header: date left, title right */
+/* Poem header: date on left, title on right */
 .poem-header {
     display: flex;
     justify-content: space-between;
@@ -814,9 +814,9 @@ footer:hover {
     transform: scale(1.25);
 }
 
-/* ------------------------------------------
+/* ------------------------------------------------------------------
    MEDIA CONTROLS (Play/Pause + Volume)
------------------------------------------- */
+------------------------------------------------------------------ */
 
 .media-controls {
     display: flex;
@@ -872,19 +872,19 @@ footer:hover {
 }
 
 /* ------------------------------------------------------------------
-   ADDED FOR CALENDAR (Centered Calendar & Header)
+   CALENDAR STYLES (Centered Calendar & Header)
 ------------------------------------------------------------------ */
 
-/* The calendar container that centers your calendar content */
 .calendar-container {
     margin: 20px auto;
     max-width: 600px;
     padding: 20px;
     text-align: center;
     border: 1px solid var(--line-color);
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Calendar header with next/previous buttons and month title */
 .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -909,15 +909,27 @@ footer:hover {
     margin: 0 auto;
 }
 
-/* Optional: If you want your calendar grid (days) to be square */
+/* Calendar grid takes full container width */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
     margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 .calendar-grid div {
     border: 1px solid var(--line-color);
     padding: 10px;
     text-align: center;
+}
+
+/* Mobile adjustments: calendar container fills almost full width with 10px margins */
+@media (max-width: 768px) {
+    .calendar-container {
+        max-width: none;
+        width: calc(100% - 20px);
+        margin: 10px;
+        padding: 10px;
+    }
 }
