@@ -1,13 +1,3 @@
-/* ------------------------------------------------------------------
-   script.js
-   Minimal example with dynamic language from gui.json:
-   - Hamburger (left) for side menu
-   - Language toggle (EN/IT) auto-detect
-   - "About" and "Poetry" sections are loaded from gui.json
-   - Poetry => Calendar with Prev/Next from gui.json
-   - Immediately toggles language on button click
------------------------------------------------------------------- */
-
 console.log("script.js loaded.");
 
 /** Global state **/
@@ -72,7 +62,7 @@ async function loadGuiData() {
 }
 
 /* ------------------------------------------------------------------
-   HELPER: t(path) => fetch string from guiData with fallback
+   HELPER: t(path) => fetch string/array from guiData with fallback
    E.g. t("menu.about") => "About" or "Informazioni"
 ------------------------------------------------------------------ */
 function t(path) {
@@ -250,7 +240,6 @@ function renderCalendarView(year, month) {
   const monthName = getMonthName(month);
   const title = document.createElement("span");
   title.style.fontWeight = "bold";
-  // We won't attempt month translations, just keep them in English
   title.textContent = `${monthName} ${year}`;
 
   // Prev button => t("labels.prev") or t("labels.next")
@@ -289,8 +278,8 @@ function renderCalendarView(year, month) {
 
   // Day-of-week row
   const dayRow = document.createElement("tr");
-  const dayNamesEn = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  dayNamesEn.forEach(dn => {
+  const dayNames = getDayNames();
+  dayNames.forEach(dn => {
     const th = document.createElement("th");
     th.textContent = dn;
     dayRow.appendChild(th);
@@ -298,18 +287,18 @@ function renderCalendarView(year, month) {
   table.appendChild(dayRow);
 
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month+1, 0); // day=0 => last day prev month
+  const lastDayOfMonth = new Date(year, month + 1, 0); // day=0 => last day prev month
   const startWeekday = firstDayOfMonth.getDay(); // 0=Sun, 1=Mon...
   const totalDays = lastDayOfMonth.getDate();
 
   let row = document.createElement("tr");
-  // Empty cells
-  for (let i=0; i<startWeekday; i++) {
+  // Empty cells for days before 1st
+  for (let i = 0; i < startWeekday; i++) {
     const emptyCell = document.createElement("td");
     row.appendChild(emptyCell);
   }
 
-  for (let dayNum=1; dayNum<=totalDays; dayNum++) {
+  for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
     if (row.children.length >= 7) {
       table.appendChild(row);
       row = document.createElement("tr");
@@ -326,15 +315,19 @@ function renderCalendarView(year, month) {
     } else {
       cell.addEventListener("click", () => {
         const yyyy = current.getFullYear();
-        const mm = String(current.getMonth() + 1).padStart(2,"0");
-        const dd = String(current.getDate()).padStart(2,"0");
+        const mm = String(current.getMonth() + 1).padStart(2, "0");
+        const dd = String(current.getDate()).padStart(2, "0");
         const dateStr = `${yyyy}-${mm}-${dd}`;
         loadPoemByDate(dateStr);
       });
     }
 
     // highlight if it's "today"
-    if (year === today.getFullYear() && month === today.getMonth() && dayNum === today.getDate()) {
+    if (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      dayNum === today.getDate()
+    ) {
       cell.style.backgroundColor = "#555";
       cell.style.color = "#fff";
       cell.style.borderRadius = "50%";
@@ -376,13 +369,31 @@ function renderCalendarView(year, month) {
   }
 }
 
-/* English month names only; adjust if you want Italian months */
+/**
+ * Get the localized month name from gui.json
+ */
 function getMonthName(mIndex) {
-  const en = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
-  ];
-  return en[mIndex] || "";
+  // This should return an array of 12 months from guiData
+  let months = t("calendar.months");
+  if (!Array.isArray(months) || months.length < 12) {
+    // fallback
+    months = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+  }
+  return months[mIndex] || "";
+}
+
+/**
+ * Get the localized day-of-week names from gui.json
+ */
+function getDayNames() {
+  let days = t("calendar.daysOfWeek");
+  if (!Array.isArray(days) || days.length < 7) {
+    days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  }
+  return days;
 }
 
 /* ------------------------------------------------------------------
@@ -404,14 +415,16 @@ function loadPoemByDate(dateStr) {
       const mainContent = document.getElementById("main-content");
       if (mainContent) {
         // e.g. "No poem found for 2025-03-01"
-        mainContent.insertAdjacentHTML("beforeend", 
-          `<p style="color:red;">${t("errors.noPoemFound")} ${dateStr}</p>`);
+        mainContent.insertAdjacentHTML(
+          "beforeend",
+          `<p style="color:red;">${t("errors.noPoemFound")} ${dateStr}</p>`
+        );
       }
     });
 }
 
 function displayPoemData(poemArray, dateStr) {
-  const poemObj = (Array.isArray(poemArray) && poemArray.length > 0) 
+  const poemObj = Array.isArray(poemArray) && poemArray.length > 0
     ? poemArray[0]
     : null;
   if (!poemObj) {
@@ -440,9 +453,9 @@ function displayPoemData(poemArray, dateStr) {
   const textEn = poemObj.poem_en || "";
   const textIt = poemObj.poem_it || "";
 
-  const dateUsed = (currentLanguage === "en") ? dateEn : (dateIt || dateEn);
-  const titleUsed = (currentLanguage === "en") ? titleEn : (titleIt || titleEn);
-  const textUsed = (currentLanguage === "en") ? textEn : (textIt || textEn);
+  const dateUsed = currentLanguage === "en" ? dateEn : (dateIt || dateEn);
+  const titleUsed = currentLanguage === "en" ? titleEn : (titleIt || titleEn);
+  const textUsed = currentLanguage === "en" ? textEn : (textIt || textEn);
 
   poemDiv.innerHTML = `
     <h2>${titleUsed || ""}</h2>
@@ -455,7 +468,7 @@ function displayPoemData(poemArray, dateStr) {
   poemsContainer.appendChild(poemDiv);
 
   // If mobile => reading mode on click
-  poemDiv.addEventListener("click", e => {
+  poemDiv.addEventListener("click", () => {
     if (isMobileDevice) {
       const closeLabel = t("labels.close");       // e.g. "Close ✕" or "Chiudi ✕"
       const untitled = t("labels.untitledPoem"); // fallback for missing titles
@@ -489,7 +502,7 @@ function enterReadingMode(title, text, closeLabel) {
   h2.textContent = title || "";
 
   const textDiv = document.createElement("div");
-  textDiv.innerHTML = (text||"").replace(/\n/g,"<br>");
+  textDiv.innerHTML = (text || "").replace(/\n/g,"<br>");
 
   overlay.appendChild(closeBtn);
   overlay.appendChild(h2);
