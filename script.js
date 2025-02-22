@@ -16,12 +16,13 @@ const today = new Date();
 // Holds the parsed "gui.json" data
 let guiData = null;
 
-/* For wheel logic */
-let poemsForWheel = [];         // array of poems for the current day
-let currentWheelIndex = 0;      // which poem is "center"
-let startPointerY = 0;          // pointerdown initial Y
-let rowHeight = 40;             // approximate row height (should match CSS)
+/* For the new wheel logic */
+let poemsForWheel = [];      // poems for the current day
+let offsetY = 0;             // the current scroll offset for the wheel
 let isDraggingWheel = false;
+let startPointerY = 0;
+let rowHeight = 60;          // each row’s “base” height in px (approx for scaling)
+let snapEnabled = true;      // snap to nearest row on pointer up
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
@@ -69,7 +70,7 @@ async function loadGuiData() {
 }
 
 /* ------------------------------------------------------------------
-   HELPER: t(path) => fetch string/array from guiData with fallback
+   HELPER: t(path)
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path;
@@ -116,7 +117,7 @@ function initializePage() {
   activeSection = "about";
   loadAboutSection();
 
-  // Set up "Back" button for wheel mode
+  // Back button from wheel => show calendar
   const backToCalendarBtn = document.getElementById("back-to-calendar-btn");
   if (backToCalendarBtn) {
     backToCalendarBtn.addEventListener("click", () => {
@@ -127,16 +128,6 @@ function initializePage() {
     });
   }
 
-  // Set up pointer events for the wheel list
-  const wheelBody = document.getElementById("wheel-list-body");
-  if (wheelBody) {
-    wheelBody.addEventListener("pointerdown", onWheelPointerDown);
-    wheelBody.addEventListener("pointermove", onWheelPointerMove);
-    wheelBody.addEventListener("pointerup", onWheelPointerUp);
-    wheelBody.addEventListener("pointercancel", onWheelPointerUp);
-    wheelBody.addEventListener("pointerleave", onWheelPointerUp);
-  }
-
   // Set up reading mode close event
   const overlayClose = document.getElementById("poem-overlay-close");
   if (overlayClose) {
@@ -144,6 +135,19 @@ function initializePage() {
       const overlay = document.getElementById("poem-overlay");
       if (overlay) overlay.style.display = "none";
     });
+  }
+
+  // Wheel pointer events
+  const wheelBody = document.getElementById("wheel-list-body");
+  if (wheelBody) {
+    wheelBody.addEventListener("pointerdown", onWheelPointerDown);
+    wheelBody.addEventListener("pointermove", onWheelPointerMove);
+    wheelBody.addEventListener("pointerup", onWheelPointerUp);
+    wheelBody.addEventListener("pointercancel", onWheelPointerUp);
+    wheelBody.addEventListener("pointerleave", onWheelPointerUp);
+
+    // If you want to block text highlighting:
+    wheelBody.style.userSelect = "none";
   }
 }
 
@@ -160,7 +164,6 @@ function detectOrLoadLanguage() {
     localStorage.setItem("preferredLang", currentLanguage);
   }
 }
-
 function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
@@ -168,8 +171,6 @@ function toggleLanguage() {
   updateSideMenuLabels();
   console.log("Language toggled =>", currentLanguage);
 }
-
-/* Update the top-right toggle text */
 function updateLanguageToggle() {
   const langToggle = document.getElementById("language-toggle");
   if (!langToggle) return;
@@ -203,14 +204,12 @@ function setupHamburgerMenu() {
     }
   });
 }
-
 function updateSideMenuLabels() {
   const aboutLink = document.querySelector('#side-menu a[data-section="about"]');
   const poetryLink = document.querySelector('#side-menu a[data-section="poetry"]');
   if (aboutLink) aboutLink.textContent = t("menu.about");
   if (poetryLink) poetryLink.textContent = t("menu.poetry");
 }
-
 function closeMenu() {
   document.body.classList.remove("menu-open");
   console.log("Side menu closed.");
@@ -402,6 +401,7 @@ function loadPoemByDate(dateStr) {
         displaySinglePoem(data[0]);
       } else {
         poemsForWheel = data.slice();
+        offsetY = 0;
         showPoemWheel();
       }
     })
@@ -417,7 +417,7 @@ function loadPoemByDate(dateStr) {
     });
 }
 
-/** Display a single poem with a Back button */
+/** Display a single poem with a Back button. */
 function displaySinglePoem(poemObj) {
   removeWheel();
   const existingPoemDiv = document.getElementById("displayed-poem");
@@ -457,11 +457,11 @@ function displaySinglePoem(poemObj) {
     });
   }
 
+  // If mobile => reading overlay on click
   poemDiv.addEventListener("click", e => {
     if (e.target.id === "single-poem-back-btn") return;
     if (isMobileDevice) {
-      const poemTitle = titleUsed || t("labels.untitledPoem");
-      showReadingOverlay(poemTitle, textUsed);
+      showReadingOverlay(titleUsed || t("labels.untitledPoem"), textUsed);
     }
   });
 }
@@ -485,47 +485,104 @@ function showPoemWheel() {
     return aTitle.localeCompare(bTitle);
   });
 
+  // Create a row for each poem
   poemsForWheel.forEach((poem, idx) => {
     const tr = document.createElement("tr");
     tr.dataset.index = String(idx);
-    const titleUsed = currentLanguage === "en" ? (poem.title_en || "") : (poem.title_it || poem.title_en || "Untitled");
+
+    const titleUsed = (currentLanguage === "en")
+      ? (poem.title_en || "Untitled")
+      : (poem.title_it || poem.title_en || "Untitled");
     tr.innerHTML = `<td>${titleUsed}</td>`;
+
+    // Clicking row => open reading overlay only if it's the "center" item
     tr.addEventListener("click", () => {
-      // Only open reading mode if the clicked row is the center (active) row.
-      if (idx === currentWheelIndex) {
-        const textUsed = currentLanguage === "en" ? (poem.poem_en || "") : (poem.poem_it || poem.poem_en || "");
+      const selectedIndex = findCenterIndex();
+      if (parseInt(tr.dataset.index) === selectedIndex) {
+        const textUsed = currentLanguage === "en"
+          ? (poem.poem_en || "")
+          : (poem.poem_it || poem.poem_en || "");
         showReadingOverlay(titleUsed, textUsed);
       }
     });
+
     wheelBody.appendChild(tr);
   });
 
-  currentWheelIndex = 0;
-  renderWheel();
+  // Render initial
+  updateWheelLayout();
 }
 
-/** Hide the wheel container */
+/** Hide the wheel container. */
 function removeWheel() {
   const wheelContainer = document.getElementById("poems-wheel-container");
   if (wheelContainer) wheelContainer.style.display = "none";
 }
 
-/** Render the wheel so that the row at currentWheelIndex has the "center" class */
-function renderWheel() {
+/** Returns the index of the row that is currently at the center. */
+function findCenterIndex() {
+  // The center is simply the poem with minimal distance from the midpoint
+  // We'll measure each item’s absolute offset from center and pick the minimum.
+  const wheelBody = document.getElementById("wheel-list-body");
+  if (!wheelBody) return 0;
+
+  const rows = wheelBody.querySelectorAll("tr");
+  if (!rows.length) return 0;
+
+  let minDist = Infinity;
+  let centerIndex = 0;
+  const container = wheelBody.getBoundingClientRect();
+  const containerCenterY = container.height / 2;
+
+  rows.forEach((row, i) => {
+    const rect = row.getBoundingClientRect();
+    const rowCenter = rect.top + rect.height / 2 - container.top;
+    const dist = Math.abs(rowCenter - containerCenterY);
+    if (dist < minDist) {
+      minDist = dist;
+      centerIndex = i;
+    }
+  });
+
+  return centerIndex;
+}
+
+/** Called whenever we move or release the pointer => positions & scales items. */
+function updateWheelLayout() {
   const wheelBody = document.getElementById("wheel-list-body");
   if (!wheelBody) return;
   const rows = wheelBody.querySelectorAll("tr");
   if (!rows.length) return;
 
-  const total = rows.length;
-  currentWheelIndex = ((currentWheelIndex % total) + total) % total;
+  // We'll measure container in client coords
+  const containerRect = wheelBody.getBoundingClientRect();
+  const containerCenterY = containerRect.height / 2;
 
-  rows.forEach(r => r.classList.remove("center"));
-  const centerRow = rows[currentWheelIndex];
-  if (centerRow) centerRow.classList.add("center");
+  rows.forEach((row, i) => {
+    // "Visual" Y position = i*rowHeight - offsetY
+    // We don’t absolutely position them, but we can measure how far from center they are.
+    // We'll compute the row’s center in container coords
+    const rect = row.getBoundingClientRect();
+    const rowMid = rect.top + rect.height / 2 - containerRect.top;
+    const dist = Math.abs(rowMid - containerCenterY);
+
+    // Distance-based scale
+    // If dist=0 => scale=1.3 or so, if dist grows => scale shrinks
+    const maxScale = 1.3;
+    const minScale = 0.8;
+    // A quick linear approach: scale = maxScale - (dist / (containerCenterY * someFactor))
+    // Let's define a range: if dist > containerCenterY => min scale
+    let scale = maxScale - (dist / containerCenterY) * 0.5; 
+    if (scale < minScale) scale = minScale;
+    if (scale > maxScale) scale = maxScale;
+
+    // Apply transform
+    row.style.transform = `scale(${scale})`;
+    row.style.opacity = `${0.5 + (scale - minScale)}`; // crude fade, 0.5 ~ min scale, 1.0 ~ max scale
+  });
 }
 
-/** Pointer events for wheel drag scrolling */
+/* Pointer events for the wheel drag scrolling */
 function onWheelPointerDown(e) {
   isDraggingWheel = true;
   e.target.setPointerCapture(e.pointerId);
@@ -533,24 +590,73 @@ function onWheelPointerDown(e) {
 }
 function onWheelPointerMove(e) {
   if (!isDraggingWheel) return;
+
   const deltaY = e.clientY - startPointerY;
-  const threshold = rowHeight * 0.5;
-  if (Math.abs(deltaY) > threshold) {
-    if (deltaY < 0) {
-      currentWheelIndex++;
-    } else {
-      currentWheelIndex--;
-    }
-    startPointerY = e.clientY;
-    renderWheel();
-  }
+  startPointerY = e.clientY;
+
+  // We'll scroll the container. Rather than physically offset elements,
+  // we just use the browser's default scrolling if the container is scrollable.
+  // But we can manually scroll by adjusting top, or rely on any standard approach.
+  // Easiest: use the parent's scrollTop if we wrap it in a container with overflow.
+
+  // However, your existing code has <tbody> with no scrolling. We'll artificially scroll:
+  const wheelBody = document.getElementById("wheel-list-body");
+  if (!wheelBody) return;
+
+  // We can shift the parent via scrollTop:
+  let newScrollTop = wheelBody.parentElement.scrollTop - deltaY;
+  if (newScrollTop < 0) newScrollTop = 0;
+  wheelBody.parentElement.scrollTop = newScrollTop;
+
+  updateWheelLayout();
 }
 function onWheelPointerUp(e) {
-  isDraggingWheel = false;
-  e.target.releasePointerCapture(e.pointerId);
+  if (isDraggingWheel) {
+    e.target.releasePointerCapture(e.pointerId);
+    isDraggingWheel = false;
+
+    // Optionally snap to the closest row
+    if (snapEnabled) {
+      snapToClosestRow();
+    }
+  }
 }
 
-/** Show the reading overlay (for both single-poem and wheel center click) */
+function snapToClosestRow() {
+  const wheelBody = document.getElementById("wheel-list-body");
+  if (!wheelBody) return;
+  const rows = wheelBody.querySelectorAll("tr");
+  if (!rows.length) return;
+
+  // We find the row that is currently "closest to center" & scroll so that row is centered
+  const container = wheelBody.parentElement; // the table element
+  const containerRect = container.getBoundingClientRect();
+  const containerCenterY = containerRect.height / 2;
+
+  let minDist = Infinity;
+  let closestRow = rows[0];
+  rows.forEach(row => {
+    const rect = row.getBoundingClientRect();
+    const rowCenter = rect.top + rect.height / 2 - containerRect.top;
+    const dist = Math.abs(rowCenter - containerCenterY);
+    if (dist < minDist) {
+      minDist = dist;
+      closestRow = row;
+    }
+  });
+
+  if (closestRow) {
+    const rowRect = closestRow.getBoundingClientRect();
+    const rowCenter = rowRect.top + rowRect.height / 2 - containerRect.top;
+    const distToCenter = rowCenter - containerCenterY;
+
+    // Adjust the container's scroll so that we shift by distToCenter
+    container.scrollTop += distToCenter;
+    updateWheelLayout();
+  }
+}
+
+/** Show reading overlay (for single poem or center item in wheel). */
 function showReadingOverlay(title, text) {
   const overlay = document.getElementById("poem-overlay");
   if (!overlay) return;
