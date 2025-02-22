@@ -524,7 +524,7 @@ function findCenterIndex(wheelTrack, totalCount) {
 
   for (let i = 0; i < totalCount; i++) {
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
+    const itemCenterY = itemYPos + i * WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
     if (dist < minDist) {
       minDist = dist;
@@ -548,7 +548,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
+    const itemCenterY = itemYPos + item.offsetHeight / 2; // Use item.offsetHeight for actual height
     const dist = Math.abs(itemCenterY - cy);
 
     // scale in [0.8..1.3], fade in [0.5..1.0]
@@ -635,7 +635,6 @@ function onWheelPointerUp(e) {
       wheelSnapTimeout = setTimeout(() => {
         snapToClosestRow(wheelTrack);
         console.log("onWheelPointerUp - calling snapToClosestRow"); // *** DEBUG ***
-        snapToClosestRow(wheelTrack);
       }, 100);
     }
   }
@@ -664,15 +663,19 @@ function openPoemFromCenterItem(itemEl) {
 function snapToClosestRow(wheelTrack) {
   const totalCount = wheelTrack.children.length;
   const centerIndex = findCenterIndex(wheelTrack, totalCount);
-  console.log("snapToClosestRow - START - centerIndex:", centerIndex, "wheelTrackOffsetY:", wheelTrackOffsetY); // *** DEBUG ***
+  console.log("snapToClosestRow - START - centerIndex:", centerIndex, "wheelTrackOffsetY:", wheelTrackOffsetY);
 
-  const distToCenter = -centerIndex * WHEEL_ITEM_HEIGHT - wheelTrackOffsetY;
-  console.log("snapToClosestRow - distToCenter:", distToCenter); // *** DEBUG ***
+  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
+  const cy = wheelInnerRect.height / 2;
+  const targetOffsetY = cy - WHEEL_ITEM_HEIGHT / 2 - centerIndex * WHEEL_ITEM_HEIGHT;
+  const distToCenter = targetOffsetY - wheelTrackOffsetY;
+
+  console.log("snapToClosestRow - targetOffsetY:", targetOffsetY, "distToCenter:", distToCenter);
 
   wheelTrackOffsetY += distToCenter;
   wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   updateWheelLayout(wheelTrack, totalCount);
-  console.log("snapToClosestRow - END - wheelTrackOffsetY AFTER:", wheelTrackOffsetY); // *** DEBUG ***
+  console.log("snapToClosestRow - END - wheelTrackOffsetY AFTER:", wheelTrackOffsetY);
 }
 
 /* ------------------------------------------------------------------
