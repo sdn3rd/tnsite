@@ -21,32 +21,11 @@
     --side-menu-width-desktop: 15%;
     --side-menu-width-mobile: 50px;
 
-    --right-panels-width-desktop: 15%;
-    --right-panels-width-mobile: 70px;
-
-    --section-margin-left: 5%; 
-    --section-padding-left: 2%; 
-    --section-margin-right: 5%; 
-    --section-padding-right: 2%; 
-
-    --section-margin-left-mobile: 2%;  
-    --section-padding-left-mobile: 1%; 
-    --section-margin-right-mobile: 2%;
-    --section-padding-right-mobile: 1%;
-
-    --menu-icon-size-desktop: 50px; 
-    --menu-icon-size-mobile: 40px;
-
-    --social-icon-size-desktop: 32px;
-    --social-icon-size-mobile: 24px;
-
-    --theme-toggle-icon-size-desktop: 50px;
-    --theme-toggle-icon-size-mobile: 40px;
-
     --section-text-align-desktop: left; 
     --section-text-align-mobile: left;  
 
-    --title-section-margin-bottom: 10px;
+    --menu-icon-size-desktop: 50px; 
+    --menu-icon-size-mobile: 40px;
 }
 
 /* Light Theme Variables */
@@ -67,14 +46,14 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Roboto', sans-serif;
-    position: relative;
     overflow-x: hidden;
     font-size: 16px;
     transition: 
       font-size var(--transition-speed) ease, 
       background-color var(--transition-speed) ease, 
       color var(--transition-speed) ease;
-    /* Keep some top space so the hamburger & language toggle are accessible. */
+
+    /* Keep top space for the hamburger & language toggle. */
     margin-top: 60px;
 }
 
@@ -89,10 +68,6 @@ body {
     body {
         font-size: 18px;
     }
-}
-
-body {
-    overflow-x: hidden;
 }
 
 /* ------------------------------------------------------------------
@@ -161,7 +136,7 @@ body {
     flex-direction: column;
     align-items: flex-start; 
     padding-left: 15px; 
-    padding-top: 60px; /* ensure it doesn't overlap hamburger */
+    padding-top: 60px; 
     transition: transform var(--transition-speed) ease;
     overflow-y: auto;
     transform: translateX(-100%);
@@ -202,36 +177,6 @@ body.menu-open .side-menu {
     transform: scale(1.05); 
 }
 
-.side-menu a img.menu-icon {
-    width: var(--menu-icon-size-desktop); 
-    height: var(--menu-icon-size-desktop);
-    margin-right: 10px; 
-    object-fit: contain;
-    transition: width var(--transition-speed) ease, height var(--transition-speed) ease;
-}
-
-@media (max-width: 768px) {
-    .side-menu {
-        width: var(--side-menu-width-mobile); 
-        align-items: center; 
-        padding-left: 0;
-    }
-    .side-menu a {
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center;
-    }
-    .side-menu a img.menu-icon {
-        width: var(--menu-icon-size-mobile);
-        height: var(--menu-icon-size-mobile);
-        margin-bottom: 5px;
-    }
-    .menu-text {
-        font-size: 0.9em; 
-        margin: 0; 
-    }
-}
-
 .menu-text {
     font-size: 1em; 
     white-space: nowrap; 
@@ -249,9 +194,7 @@ body.menu-open .side-menu {
     margin: 0 auto 60px auto; 
     text-align: var(--section-text-align-desktop);
     font-size: 1em;
-    transition: 
-      margin-left var(--transition-speed) ease, 
-      margin-right var(--transition-speed) ease;
+    transition: margin-left var(--transition-speed) ease, margin-right var(--transition-speed) ease;
 }
 
 @media (min-width: 769px) {
@@ -299,51 +242,17 @@ body.menu-open .side-menu {
   border: 1px solid var(--line-color);
 }
 
-.calendar-header th {
-  padding: 10px;
-  text-align: center;
-}
-
 .calendar-weekdays th {
-  padding: 8px;
   font-weight: normal;
-  text-align: center;
-}
-
-.calendar-table td {
-  padding: 10px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.calendar-nav-button {
-  cursor: pointer;
-  font-size: 1.2em;
-  user-select: none;
-}
-
-.calendar-month {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .calendar-container {
-    max-width: none;
-    width: calc(100% - 20px);
-    margin: 10px;
-    padding: 10px;
-  }
 }
 
 /* ------------------------------------------------------------------
-   PRICE-IS-RIGHT WHEEL OVERLAY (INFINITE SCROLL)
+   INFINITE VERTICAL WHEEL OVERLAY
 ------------------------------------------------------------------ */
 #poem-wheel-overlay {
-  display: none; /* hidden by default, then .show => visible */
+  display: none; /* hidden by default, .show => visible */
   position: fixed;
-  top: 0;
+  top: 0; 
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -352,7 +261,7 @@ body.menu-open .side-menu {
   z-index: 9998;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow: hidden; 
+  overflow: hidden; /* no horizontal scroll visible */
 }
 
 #poem-wheel-overlay.show {
@@ -360,7 +269,7 @@ body.menu-open .side-menu {
   opacity: 1;
 }
 
-/* Container in the middle for the poem titles */
+/* Container for the wheel in the center */
 #wheel-inner {
   position: absolute;
   top: 50%;
@@ -371,21 +280,21 @@ body.menu-open .side-menu {
   height: 70vh;
   border: 1px solid var(--line-color);
   background: var(--background-color);
-  overflow: auto;
   transition: transform 0.3s ease;
+
+  /* Hide horizontal scroll, allow vertical */
+  overflow-y: auto;
+  overflow-x: hidden; 
+  white-space: nowrap; /* ensures row text doesn't wrap & cause horizontal scroll */
 }
 
 #wheel-inner table {
   width: 100%;
   border-collapse: collapse;
   margin: 0;
+  table-layout: fixed; /* so columns don't expand horizontally */
 }
 
-#wheel-list-body {
-  position: relative;
-}
-
-/* Each row in the wheel */
 #wheel-list-body tr {
   border-bottom: 1px solid var(--line-color);
   text-align: center;
@@ -394,18 +303,21 @@ body.menu-open .side-menu {
   user-select: none;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
+
 #wheel-list-body tr td {
   padding: 5px;
   font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Active (center) row pulses with gold glow */
+/* Center row pulses in gold */
 #wheel-list-body tr.active {
   animation: pulse 1.5s infinite;
   color: #ffd700;
 }
 
-/* Close (X) for wheel overlay */
+/* Close Button */
 #wheel-close-btn {
   position: absolute;
   top: 10px;
@@ -434,7 +346,8 @@ body.menu-open .side-menu {
   padding: 20px;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow-y: auto;
+  overflow-y: auto; /* no horizontal scroll if poem lines are longer */
+  overflow-x: hidden;
 }
 
 #poem-reading-overlay.show {
