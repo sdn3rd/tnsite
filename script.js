@@ -20,7 +20,7 @@ let guiData = null;
 let poemsForWheel = [];       // array of poem objects from JSON
 const WHEEL_REPEAT_COUNT = 7; // Replicate poems for smooth looping
 const WHEEL_ITEM_HEIGHT = 60; // px, match CSS
-let wheelTrackOffsetY = 0; 
+let wheelTrackOffsetY = 0;
 let wheelSnapTimeout = null;
 
 // Drag/tap detection
@@ -413,9 +413,9 @@ function showInfiniteWheelOverlay() {
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
     clearTimeout(wheelSnapTimeout);
-    setTimeout(() => { 
-      overlay.style.display = "none"; 
-      wheelTrackOffsetY = 0; 
+    setTimeout(() => {
+      overlay.style.display = "none";
+      wheelTrackOffsetY = 0;
     }, 400);
   };
 
@@ -423,8 +423,8 @@ function showInfiniteWheelOverlay() {
   const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
   const wheelTrack = overlay.querySelector("#wheel-track");
   wheelTrack.innerHTML = "";
-  wheelTrack.style.transform = `translateY(0px)`; 
-  wheelTrackOffsetY = 0; 
+  wheelTrack.style.transform = `translateY(0px)`;
+  wheelTrackOffsetY = 0;
 
   extendedPoems.forEach((info, idx) => {
     const item = document.createElement("div");
@@ -520,6 +520,7 @@ function findCenterIndex(wheelTrack, totalCount) {
 
   let minDist = Infinity;
   let centerI = 0;
+  let closestItemIndex = 0; // Track index of closest item
 
   for (let i = 0; i < totalCount; i++) {
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
@@ -528,8 +529,11 @@ function findCenterIndex(wheelTrack, totalCount) {
     if (dist < minDist) {
       minDist = dist;
       centerI = i;
+      closestItemIndex = i; // Update closest item index
     }
   }
+
+  console.log("findCenterIndex - totalCount:", totalCount, "wheelTrackOffsetY:", wheelTrackOffsetY, "closestItemIndex:", closestItemIndex, "centerI:", centerI); // *** DEBUG ***
   return centerI;
 }
 
@@ -630,6 +634,8 @@ function onWheelPointerUp(e) {
     if (snapEnabled) {
       wheelSnapTimeout = setTimeout(() => {
         snapToClosestRow(wheelTrack);
+        console.log("onWheelPointerUp - calling snapToClosestRow"); // *** DEBUG ***
+        snapToClosestRow(wheelTrack);
       }, 100);
     }
   }
@@ -656,11 +662,17 @@ function openPoemFromCenterItem(itemEl) {
  * Snap track offset so center item lines up
  */
 function snapToClosestRow(wheelTrack) {
-  const centerIndex = findCenterIndex(wheelTrack, wheelTrack.children.length);
+  const totalCount = wheelTrack.children.length;
+  const centerIndex = findCenterIndex(wheelTrack, totalCount);
+  console.log("snapToClosestRow - START - centerIndex:", centerIndex, "wheelTrackOffsetY:", wheelTrackOffsetY); // *** DEBUG ***
+
   const distToCenter = -centerIndex * WHEEL_ITEM_HEIGHT - wheelTrackOffsetY;
+  console.log("snapToClosestRow - distToCenter:", distToCenter); // *** DEBUG ***
+
   wheelTrackOffsetY += distToCenter;
   wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  updateWheelLayout(wheelTrack, wheelTrack.children.length);
+  updateWheelLayout(wheelTrack, totalCount);
+  console.log("snapToClosestRow - END - wheelTrackOffsetY AFTER:", wheelTrackOffsetY); // *** DEBUG ***
 }
 
 /* ------------------------------------------------------------------
