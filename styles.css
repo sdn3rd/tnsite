@@ -226,7 +226,7 @@ body.menu-open .side-menu {
 ------------------------------------------------------------------ */
 .calendar-container {
   margin: 20px auto;
-  max-width: 600px;
+  max-width: 600px; /* Keep max-width if you like to limit horizontal size */
   padding: 20px;
   border: 1px solid var(--line-color);
   width: 100%;
@@ -243,6 +243,9 @@ body.menu-open .side-menu {
 .calendar-table th,
 .calendar-table td {
   border: 1px solid var(--line-color);
+  padding: 0.8em 0.5em; /* Increased vertical padding (top/bottom) */
+  /* padding: 1em 0.5em; /* Even more vertical padding - try this if 0.8em isn't enough */
+  /* line-height: 1.4em; /* Optional: if text is too close to borders */
 }
 
 .calendar-weekdays th {
