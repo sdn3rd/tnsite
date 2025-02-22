@@ -11,6 +11,9 @@
 console.log("script.js loaded.");
 
 /** Global state **/
+// Track which section is currently active: "about", "poetry", or null
+let activeSection = null;
+
 let currentLanguage = "en";
 let isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
 
@@ -39,8 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       e.preventDefault();
       const section = item.getAttribute("data-section");
       if (section === "about") {
+        activeSection = "about";
         loadAboutSection();
       } else if (section === "poetry") {
+        activeSection = "poetry";
         loadPoetrySection();
       }
       closeMenu();
@@ -105,24 +110,18 @@ function initializePage() {
   const langToggle = document.getElementById("language-toggle");
   if (langToggle) {
     langToggle.addEventListener("click", () => {
+      // Toggle and re-render current section immediately
       toggleLanguage();
-      // Re-render if on "Poetry" or "About"
-      // But simpler approach: always call loadAboutSection by default or do nothing
-      const currentH1 = document.querySelector("#main-content h1")?.textContent || "";
-      if (currentH1.includes(t("menu.poetry")) || currentH1.includes(t("menu.about"))) {
-        // If the user is on "About" or "Poetry", reload:
-        if (currentH1.includes(t("menu.poetry")) ||
-            currentH1.includes(t("menu.poetry").toUpperCase()) // just in case
-           ) {
-          loadPoetrySection();
-        } else {
-          loadAboutSection();
-        }
+      if (activeSection === "poetry") {
+        loadPoetrySection();
+      } else if (activeSection === "about") {
+        loadAboutSection();
       }
     });
   }
 
   // By default => load About
+  activeSection = "about";
   loadAboutSection();
 }
 
@@ -379,8 +378,10 @@ function renderCalendarView(year, month) {
 
 /* English month names only; adjust if you want Italian months */
 function getMonthName(mIndex) {
-  const en = ["January","February","March","April","May","June",
-              "July","August","September","October","November","December"];
+  const en = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
   return en[mIndex] || "";
 }
 
@@ -456,8 +457,8 @@ function displayPoemData(poemArray, dateStr) {
   // If mobile => reading mode on click
   poemDiv.addEventListener("click", e => {
     if (isMobileDevice) {
-      const closeLabel = t("labels.close");         // e.g. "Close ✕" or "Chiudi ✕"
-      const untitled = t("labels.untitledPoem");   // fallback for missing titles
+      const closeLabel = t("labels.close");       // e.g. "Close ✕" or "Chiudi ✕"
+      const untitled = t("labels.untitledPoem"); // fallback for missing titles
       enterReadingMode(titleUsed || untitled, textUsed, closeLabel);
     }
   });
