@@ -272,7 +272,9 @@ body.menu-open .side-menu {
   opacity: 1;
 }
 
-/* Container for the wheel in the center */
+/* Container for the wheel in the center
+   IMPORTANT for mobile: 'touch-action: none;' so pointer events
+   can fully handle swipes without the browser trying to scroll. */
 #wheel-inner {
   position: absolute;
   top: 50%;
@@ -283,8 +285,9 @@ body.menu-open .side-menu {
   min-height: var(--wheel-marquee-min-height);
   max-height: var(--wheel-marquee-max-height);
   background: var(--background-color);
-  overflow: hidden; /* Clip content to marquee */
+  overflow: hidden;
   border: 1px solid var(--line-color);
+  touch-action: none; /* THIS is crucial for mobile drags */
 }
 
 /* Track that scrolls vertically */
@@ -317,13 +320,11 @@ body.menu-open .side-menu {
 
 /* Visually highlight the item at center */
 .wheel-item.active {
-    font-weight: 900; /* Very Bold */
-    color: var(--text-color);
-    font-size: 1.3rem; /* Slightly larger */
-    background-color: #222222; /* Darker Grey Highlight */
-    /* text-shadow: 0 0 5px var(--text-color);  Removed glow effect */
+  font-weight: 900; /* Very Bold */
+  color: var(--text-color);
+  font-size: 1.3rem; /* Slightly larger */
+  background-color: #222; /* Subtle highlight */
 }
-
 
 /* Close Button */
 #wheel-close-btn {
@@ -362,7 +363,6 @@ body.menu-open .side-menu {
     justify-content: center;
 }
 
-
 #poem-reading-overlay.show {
     display: flex; /* Use flex for centering */
     opacity: 1;
@@ -397,10 +397,9 @@ body.menu-open .side-menu {
     width: 100%;
     max-width: 600px; /* Max width for readability */
     overflow-x: hidden; /* Prevent horizontal scrollbar */
-    padding: 0 15px;    /* Add some horizontal padding */
-    box-sizing: border-box; /* Include padding in width calculation */
+    padding: 0 15px;
+    box-sizing: border-box;
 }
-
 
 /* Portrait Orientation Styles */
 @media (orientation: portrait) {
@@ -418,12 +417,10 @@ body.menu-open .side-menu {
         font-size: 1.2rem;
         max-width: 95%;
         margin-top: 50px; /* Space from the top, adjust as needed */
-
     }
-    #poem-overlay-title{
+    #poem-overlay-title {
         margin-top: 50px;
     }
-
     #poem-overlay-close {
         top: 20px;
         right: 25px;
@@ -450,10 +447,9 @@ body.menu-open .side-menu {
     #poem-overlay-content {
         font-size: 1.2rem;
         max-width: 600px;
-        margin-top: 0; /* Reset top margin */
-
+        margin-top: 0;
     }
-     #poem-overlay-title{
+    #poem-overlay-title {
         margin-top: 0;
     }
     #poem-overlay-close {
