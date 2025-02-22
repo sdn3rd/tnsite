@@ -791,7 +791,6 @@ footer:hover {
 #spectral-icons img {
     display: inline-block;
     margin: 0 10px;
-    /* Force them to respect desktop vs mobile sizes */
     width: var(--menu-icon-size-desktop) !important;
     height: var(--menu-icon-size-desktop) !important;
     cursor: pointer;
@@ -887,7 +886,7 @@ footer:hover {
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Forces all columns to be equal width */
+  table-layout: fixed;
 }
 
 .calendar-header th {
@@ -910,7 +909,6 @@ footer:hover {
   vertical-align: middle;
 }
 
-/* Navigation buttons styling */
 .calendar-nav-button {
   cursor: pointer;
   font-size: 1.2em;
@@ -923,7 +921,6 @@ footer:hover {
   text-align: center;
 }
 
-/* Mobile adjustments: calendar fills nearly full width */
 @media (max-width: 768px) {
   .calendar-container {
     max-width: none;
@@ -933,38 +930,37 @@ footer:hover {
   }
 }
 
-
 /* ------------------------------------------------------------------
    WHEEL CONTAINER & READING OVERLAY
 ------------------------------------------------------------------ */
 
-/* The container for multiple poems in a single day */
+/* Wheel container for multiple poem headers */
 #poems-wheel-container {
   display: none;
   margin-top: 1em;
 }
 
-/* The table & rows to mimic a "spin" feel */
 #poems-wheel-container table {
   width: 100%;
   border-collapse: collapse;
   position: relative;
-  margin: 0 auto; /* center on smaller screens too */
+  margin: 0 auto;
 }
 
 #poems-wheel-container table tbody tr {
   border-bottom: 1px solid var(--line-color);
   text-align: center;
-  height: 40px; 
-  transition: transform 0.2s;
+  height: 40px;
+  transition: transform 0.2s, font-size 0.2s, opacity 0.2s;
+  cursor: pointer;
+  user-select: none;
 }
 
 #poems-wheel-container table tbody tr td {
   padding: 10px;
-  cursor: pointer;
 }
 
-/* The 'center' row is enlarged */
+/* The center (active) row is enlarged and highlighted */
 #poems-wheel-container table tbody tr.center td {
   font-size: 1.6rem;
   font-weight: bold;
@@ -973,7 +969,7 @@ footer:hover {
   opacity: 1;
 }
 
-/* Make it 500px wide on desktop, full width on mobile */
+/* On desktop, limit the wheel width; on mobile, use full width */
 @media (min-width: 769px) {
   #poems-wheel-container table {
     max-width: 500px;
@@ -992,7 +988,7 @@ footer:hover {
   cursor: pointer;
 }
 
-/* Reading mode overlay for mobile & desktop */
+/* Reading Mode Overlay */
 #poem-overlay {
   display: none;
   position: fixed;
@@ -1021,8 +1017,7 @@ footer:hover {
   margin-top: 0;
 }
 
-/* In reading mode, text is inside #poem-overlay-content */
 #poem-overlay-content {
-  white-space: pre-wrap; /* preserve new lines if needed */
+  white-space: pre-wrap;
   line-height: 1.4em;
 }
