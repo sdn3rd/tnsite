@@ -20,20 +20,19 @@ let guiData = null;
 let poemsForWheel = [];       // array of poem objects from JSON
 const WHEEL_REPEAT_COUNT = 7; // Replicate poems for smooth looping
 const WHEEL_ITEM_HEIGHT = 60; // px, match CSS
-const WHEEL_MIN_VISIBLE_ITEMS = 3; 
-const WHEEL_MAX_VISIBLE_ITEMS = 7; 
-let isDraggingWheel = false;
-let startPointerY = 0;
-let snapEnabled = true;
 let wheelTrackOffsetY = 0; 
 let wheelIsSpinning = false; 
 let wheelSnapTimeout = null;
 
-// Variables to detect "tap" vs. "drag"
+// Drag/tap detection
+let isPointerDown = false;
+let hasDragged = false;
 let pointerDownX = 0;
 let pointerDownY = 0;
-let pointerDownTarget = null;
-const TAP_THRESHOLD = 6; // pixel threshold for deciding a tap vs drag
+let startPointerY = 0;
+let pointerDownItem = null;
+const TAP_THRESHOLD = 6; // px threshold for deciding a tap vs. drag
+const snapEnabled = true;
 
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
@@ -438,19 +437,18 @@ function showInfiniteWheelOverlay() {
     wheelTrack.appendChild(item);
   });
 
-  // Remove old event listeners if any
-  wheelTrack.replaceWith(wheelTrack.cloneNode(true));
-  // Re-query the newly cloned track
-  const newTrack = overlay.querySelector("#wheel-track");
+  // Remove old event listeners if any, then re-inject them
+  const newWheelTrack = wheelTrack.cloneNode(true);
+  wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
 
-  // Add pointer/mouse events
-  newTrack.addEventListener("pointerdown", onWheelPointerDown);
-  newTrack.addEventListener("pointermove", onWheelPointerMove);
-  newTrack.addEventListener("pointerup", onWheelPointerUp);
-  newTrack.addEventListener("pointercancel", onWheelPointerUp);
-  newTrack.addEventListener("pointerleave", onWheelPointerUp);
+  // Pointer events
+  newWheelTrack.addEventListener("pointerdown", onWheelPointerDown);
+  newWheelTrack.addEventListener("pointermove", onWheelPointerMove);
+  newWheelTrack.addEventListener("pointerup", onWheelPointerUp);
+  newWheelTrack.addEventListener("pointercancel", onWheelPointerUp);
+  newWheelTrack.addEventListener("pointerleave", onWheelPointerUp);
 
-  newTrack.style.userSelect = "none";
+  newWheelTrack.style.userSelect = "none";
 
   // *** MOUSE WHEEL EVENT ***
   const wheelInner = overlay.querySelector("#wheel-inner");
@@ -460,8 +458,8 @@ function showInfiniteWheelOverlay() {
   setTimeout(() => {
     overlay.classList.add("show");
     // place scroll at the middle block
-    centerScrollAtMiddle(newTrack, extendedPoems.length);
-    updateWheelLayout(newTrack, extendedPoems.length);
+    centerScrollAtMiddle(newWheelTrack, extendedPoems.length);
+    updateWheelLayout(newWheelTrack, extendedPoems.length);
   }, 50);
 }
 
@@ -502,12 +500,15 @@ function centerScrollAtMiddle(wheelTrack, totalCount) {
  */
 function checkLoopEdges(wheelTrack, totalCount) {
   const fullHeight = totalCount * WHEEL_ITEM_HEIGHT;
-  const bufferHeight = 3 * WHEEL_ITEM_HEIGHT;
+  const bufferHeight = 3 * WHEEL_ITEM_HEIGHT; // how far from top/bottom
 
+  // If user scrolls up beyond buffer => shift down half the entire list
   if (wheelTrackOffsetY > bufferHeight) {
     wheelTrackOffsetY -= fullHeight / 2;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  } else if (wheelTrackOffsetY < -(fullHeight - bufferHeight)) {
+  }
+  // If user scrolls way down => shift up half the entire list
+  else if (wheelTrackOffsetY < -(fullHeight - bufferHeight)) {
     wheelTrackOffsetY += fullHeight / 2;
     wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   }
@@ -558,7 +559,6 @@ function updateWheelLayout(wheelTrack, totalCount) {
 
     item.style.transform = `scale(${scale})`;
     item.style.opacity = String(0.5 + (scale - minScale));
-
     item.classList.remove("active");
   }
 
@@ -568,54 +568,63 @@ function updateWheelLayout(wheelTrack, totalCount) {
   }
 }
 
-/**
- * DRAG SCROLL: pointer events
- */
+/* ------------------------------------------------------------------
+   DRAG SCROLL: pointer events (with tap vs drag)
+------------------------------------------------------------------ */
 function onWheelPointerDown(e) {
-  isDraggingWheel = true;
-  wheelIsSpinning = true; // We are in a drag/spin state
-  clearTimeout(wheelSnapTimeout);
+  // Only left click or touch
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  // Capture pointer so we continue getting pointermove
-  e.target.setPointerCapture(e.pointerId);
+  isPointerDown = true;
+  hasDragged = false;
 
-  startPointerY = e.clientY;
-
-  // For tap detection
   pointerDownX = e.clientX;
   pointerDownY = e.clientY;
-  pointerDownTarget = e.target;
+  startPointerY = e.clientY;
+
+  // Capture the .wheel-item row (if any)
+  pointerDownItem = e.target.closest(".wheel-item") || null;
+
+  clearTimeout(wheelSnapTimeout);
+  e.target.setPointerCapture(e.pointerId);
 }
 
 function onWheelPointerMove(e) {
-  if (!isDraggingWheel) return;
+  if (!isPointerDown) return;
 
-  const deltaY = e.clientY - startPointerY;
-  startPointerY = e.clientY;
-  const wheelTrack = e.currentTarget;
+  // Check if we've moved enough to consider it a drag
+  const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
+  if (!hasDragged && moveDist > TAP_THRESHOLD) {
+    hasDragged = true;
+  }
+  // Only move the track if we've started a real drag
+  if (hasDragged) {
+    const deltaY = e.clientY - startPointerY;
+    startPointerY = e.clientY;
 
-  wheelTrackOffsetY += deltaY;
-  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+    const wheelTrack = e.currentTarget;
+    wheelTrackOffsetY += deltaY;
+    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
 
-  updateWheelLayout(wheelTrack, wheelTrack.children.length);
-  checkLoopEdges(wheelTrack, wheelTrack.children.length);
+    updateWheelLayout(wheelTrack, wheelTrack.children.length);
+    checkLoopEdges(wheelTrack, wheelTrack.children.length);
+  }
 }
 
 function onWheelPointerUp(e) {
-  if (!isDraggingWheel) return;
+  if (!isPointerDown) return;
+  isPointerDown = false;
   e.target.releasePointerCapture(e.pointerId);
-  isDraggingWheel = false;
 
   const wheelTrack = e.currentTarget;
-  const dragDistance = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
-
-  // If the pointer hasn't moved far => treat as a "tap"
-  if (dragDistance < TAP_THRESHOLD) {
-    // Check if the tapped item is the center item
-    const centerIdx = findCenterIndex(wheelTrack, wheelTrack.children.length);
+  // If we didn't drag => treat as a tap
+  if (!hasDragged) {
+    // The user tapped. Check if they tapped on the center item
+    const totalCount = wheelTrack.children.length;
+    const centerIdx = findCenterIndex(wheelTrack, totalCount);
     const centerItem = wheelTrack.children[centerIdx];
-    if (centerItem === pointerDownTarget) {
-      // Only if the user tapped the center item, open the poem
+    if (centerItem && pointerDownItem && centerItem === pointerDownItem) {
+      // We tapped on the center item => open poem
       const originalIndex = parseInt(centerItem.dataset.index) % poemsForWheel.length;
       const actualPoem = poemsForWheel[originalIndex];
       if (actualPoem) {
@@ -628,16 +637,13 @@ function onWheelPointerUp(e) {
         showReadingOverlay(tUsed, pUsed);
       }
     }
-  }
-
-  // Snap after a short delay
-  if (snapEnabled) {
-    wheelSnapTimeout = setTimeout(() => {
-      snapToClosestRow(wheelTrack);
-      wheelIsSpinning = false;
-    }, 100);
   } else {
-    wheelIsSpinning = false;
+    // We dragged => snap after short delay
+    if (snapEnabled) {
+      wheelSnapTimeout = setTimeout(() => {
+        snapToClosestRow(wheelTrack);
+      }, 100);
+    }
   }
 }
 
@@ -652,15 +658,16 @@ function snapToClosestRow(wheelTrack) {
   updateWheelLayout(wheelTrack, wheelTrack.children.length);
 }
 
-/**
- * MOUSE WHEEL SCROLL
- */
+/* ------------------------------------------------------------------
+   MOUSE WHEEL SCROLL
+------------------------------------------------------------------ */
 function onMouseWheelScroll(e) {
   e.preventDefault(); // Prevent default page scroll
 
   const wheelTrack = this.querySelector("#wheel-track");
   if (!wheelTrack) return;
 
+  // Basic: move one item up/down
   const delta = Math.max(-1, Math.min(1, e.deltaY)); // -1 or 1
   wheelTrackOffsetY += delta * WHEEL_ITEM_HEIGHT;
 
@@ -668,8 +675,8 @@ function onMouseWheelScroll(e) {
   updateWheelLayout(wheelTrack, wheelTrack.children.length);
   checkLoopEdges(wheelTrack, wheelTrack.children.length);
 
-  // Snap after scroll, if not dragging
-  if (!isDraggingWheel && snapEnabled) {
+  // Snap after scroll
+  if (!isPointerDown && snapEnabled) {
     clearTimeout(wheelSnapTimeout);
     wheelSnapTimeout = setTimeout(() => {
       snapToClosestRow(wheelTrack);
