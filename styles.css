@@ -26,6 +26,9 @@
 
     --menu-icon-size-desktop: 50px;
     --menu-icon-size-mobile: 40px;
+
+    --wheel-item-height: 60px; /* Fixed height for each poem title in wheel */
+    --wheel-marquee-height: 180px; /* Height of the central marquee area */
 }
 
 /* Light Theme Variables */
@@ -100,7 +103,7 @@ body {
 #language-toggle {
     position: fixed;
     top: 10px;
-    right: 10px; /* Corrected position to top right */
+    right: 10px;
     z-index: 1006;
     cursor: pointer;
     color: var(--text-color);
@@ -277,45 +280,50 @@ body.menu-open .side-menu {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 400px;
-  height: 70vh;
+  height: var(--wheel-marquee-height); /* Marquee height */
   border: 1px solid var(--line-color);
   background: var(--background-color);
-  transition: transform 0.3s ease;
-
-  /* Hide horizontal scroll, allow vertical */
-  overflow-y: auto;
-  overflow-x: hidden;
-  white-space: nowrap; /* ensures row text doesn't wrap & cause horizontal scroll */
+  overflow: hidden; /* Clip content to marquee */
 }
 
-#wheel-inner table {
+/* Track that scrolls vertically */
+#wheel-track {
+  position: relative; /* Needed for vertical positioning of items */
+  top: 0;
+  left: 0;
   width: 100%;
-  border-collapse: collapse;
-  margin: 0;
-  table-layout: fixed; /* so columns don't expand horizontally */
+  transition: transform 0.3s ease; /* For smooth scrolling */
 }
 
-#wheel-list-body tr {
-  border-bottom: 1px solid var(--line-color);
+/* Styles for each poem item in the wheel */
+.wheel-item {
+  display: block; /* Stack items vertically */
+  width: 100%;
+  height: var(--wheel-item-height);
+  line-height: var(--wheel-item-height); /* Vertical centering of text */
   text-align: center;
-  height: 60px;
+  border-bottom: 1px solid var(--line-color);
   cursor: pointer;
   user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-#wheel-list-body tr td {
-  padding: 5px;
-  font-size: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Center row pulses in gold */
-#wheel-list-body tr.active {
+/* Center item style */
+.wheel-item.active {
   animation: pulse 1.5s infinite;
   color: #ffd700;
+  font-size: 1.2rem; /* Slightly larger for active item */
 }
+
+/* Remove border from last item in track to avoid double border */
+.wheel-item:last-child {
+  border-bottom: none;
+}
+
 
 /* Close Button */
 #wheel-close-btn {

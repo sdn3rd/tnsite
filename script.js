@@ -18,10 +18,12 @@ let guiData = null;
  * For the infinite vertical spinner
  */
 let poemsForWheel = [];     // array of poem objects from JSON
-const WHEEL_REPEAT_COUNT = 5; // replicate the poem list so user can scroll infinitely
+const WHEEL_REPEAT_COUNT = 7; // Replicated more for smoother infinite scrolling
 let isDraggingWheel = false;
 let startPointerY = 0;
 let snapEnabled = true;
+let wheelTrackOffsetY = 0; // Tracks vertical offset of the wheel track
+const WHEEL_ITEM_HEIGHT = 60; // px, should match CSS variable
 
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
@@ -383,7 +385,7 @@ function displaySinglePoem(poem) {
 }
 
 /* ------------------------------------------------------------------
-   INFINITE VERTICAL WHEEL
+   INFINITE VERTICAL WHEEL (MARQUEE STYLE)
 ------------------------------------------------------------------ */
 function showInfiniteWheelOverlay() {
   let overlay = document.getElementById("poem-wheel-overlay");
@@ -393,9 +395,7 @@ function showInfiniteWheelOverlay() {
     overlay.innerHTML = `
       <button id="wheel-close-btn">×</button>
       <div id="wheel-inner">
-        <table>
-          <tbody id="wheel-list-body"></tbody>
-        </table>
+        <div id="wheel-track"></div>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -404,24 +404,26 @@ function showInfiniteWheelOverlay() {
   const closeBtn = overlay.querySelector("#wheel-close-btn");
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
-    setTimeout(() => { overlay.style.display = "none"; }, 400);
+    setTimeout(() => { overlay.style.display = "none"; wheelTrackOffsetY = 0; }, 400); // Reset offset
   };
 
   // Build extended list of poems
   const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
-  const wheelBody = overlay.querySelector("#wheel-list-body");
-  wheelBody.innerHTML = "";
-  wheelBody.scrollTop = 0;
+  const wheelTrack = overlay.querySelector("#wheel-track");
+  wheelTrack.innerHTML = "";
+  wheelTrack.style.transform = `translateY(0px)`; // Reset track position
+  wheelTrackOffsetY = 0; // Reset offset tracker
 
   extendedPoems.forEach((info, idx) => {
-    const tr = document.createElement("tr");
-    tr.dataset.index = String(idx);
-    tr.innerHTML = `<td>${info.title}</td>`;
+    const item = document.createElement("div");
+    item.classList.add("wheel-item");
+    item.dataset.index = String(idx);
+    item.textContent = info.title;
 
     // On click => if center row, open reading
-    tr.addEventListener("click", () => {
-      const centerIdx = findCenterIndex(wheelBody);
-      if (parseInt(tr.dataset.index) === centerIdx) {
+    item.addEventListener("click", () => {
+      const centerIdx = findCenterIndex(wheelTrack, extendedPoems.length);
+      if (parseInt(item.dataset.index) === centerIdx) {
         // Grab the actual poem from poemsForWheel
         const actualPoem = poemsForWheel[info.originalIndex];
         const tUsed = (currentLanguage === "en")
@@ -433,30 +435,25 @@ function showInfiniteWheelOverlay() {
         showReadingOverlay(tUsed, pUsed);
       }
     });
-
-    wheelBody.appendChild(tr);
+    wheelTrack.appendChild(item);
   });
 
-  // pointer/scroll events
-  wheelBody.addEventListener("pointerdown", onWheelPointerDown);
-  wheelBody.addEventListener("pointermove", onWheelPointerMove);
-  wheelBody.addEventListener("pointerup", onWheelPointerUp);
-  wheelBody.addEventListener("pointercancel", onWheelPointerUp);
-  wheelBody.addEventListener("pointerleave", onWheelPointerUp);
-  wheelBody.addEventListener("scroll", () => {
-    updateWheelLayout(wheelBody);
-    checkLoopEdges(wheelBody, extendedPoems.length);
-  });
+  // pointer events
+  wheelTrack.addEventListener("pointerdown", onWheelPointerDown);
+  wheelTrack.addEventListener("pointermove", onWheelPointerMove);
+  wheelTrack.addEventListener("pointerup", onWheelPointerUp);
+  wheelTrack.addEventListener("pointercancel", onWheelPointerUp);
+  wheelTrack.addEventListener("pointerleave", onWheelPointerUp);
 
-  wheelBody.style.userSelect = "none";
+  wheelTrack.style.userSelect = "none";
 
   // Show overlay
   overlay.style.display = "block";
   setTimeout(() => {
     overlay.classList.add("show");
     // place scroll at the middle block
-    centerScrollAtMiddle(wheelBody, extendedPoems.length);
-    updateWheelLayout(wheelBody);
+    centerScrollAtMiddle(wheelTrack, extendedPoems.length);
+    updateWheelLayout(wheelTrack, extendedPoems.length);
   }, 50);
 }
 
@@ -485,64 +482,65 @@ function buildInfiniteList(poems, repeatCount) {
 }
 
 /**
- * Place scroll near the middle block so user can scroll up/down infinitely
+ * Place scroll at the middle, now by adjusting track offset
  */
-function centerScrollAtMiddle(wheelBody, totalCount) {
-  const rowHeight = 60; // each <tr> ~60px
+function centerScrollAtMiddle(wheelTrack, totalCount) {
   const middleIndex = Math.floor(totalCount / 2);
-  wheelBody.scrollTop = middleIndex * rowHeight;
+  wheelTrackOffsetY = -middleIndex * WHEEL_ITEM_HEIGHT;
+  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
 }
 
 /**
- * If near top/bottom, jump to middle => infinite effect
+ * If near top/bottom, jump to middle => infinite effect, using track offset
  */
-function checkLoopEdges(wheelBody, totalCount) {
-  const rowHeight = 60;
-  const fullHeight = totalCount * rowHeight;
-  const buffer = 3 * rowHeight;
+function checkLoopEdges(wheelTrack, totalCount) {
+  const fullHeight = totalCount * WHEEL_ITEM_HEIGHT;
+  const bufferHeight = 3 * WHEEL_ITEM_HEIGHT;
 
-  if (wheelBody.scrollTop < buffer) {
-    wheelBody.scrollTop += fullHeight/2;
-  } else if (wheelBody.scrollTop + wheelBody.clientHeight > (fullHeight - buffer)) {
-    wheelBody.scrollTop -= fullHeight/2;
+  if (wheelTrackOffsetY > bufferHeight) {
+    wheelTrackOffsetY -= fullHeight/2;
+    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+  } else if (wheelTrackOffsetY < -(fullHeight - bufferHeight)) {
+    wheelTrackOffsetY += fullHeight/2;
+    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
   }
 }
 
 /**
- * Find center row => active row index
+ * Find center row index based on track offset
  */
-function findCenterIndex(wheelBody) {
-  const rows = wheelBody.querySelectorAll("tr");
-  if (!rows.length) return 0;
-  const rect = wheelBody.getBoundingClientRect();
-  const cy = rect.height / 2;
+function findCenterIndex(wheelTrack, totalCount) {
+  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect(); // wheel-inner is the clipping container
+  const wheelRect = wheelTrack.getBoundingClientRect();
+  const cy = wheelInnerRect.height / 2; // Center Y of the visible marquee
   let minDist = Infinity;
   let centerI = 0;
-  rows.forEach((row, i) => {
-    const rRect = row.getBoundingClientRect();
-    const rowCenterY = (rRect.top + rRect.bottom)/2 - rect.top;
-    const dist = Math.abs(rowCenterY - cy);
+
+  for (let i = 0; i < totalCount; i++) {
+    const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
+    const dist = Math.abs(itemCenterY - cy);
+
     if (dist < minDist) {
       minDist = dist;
       centerI = i;
     }
-  });
+  }
   return centerI;
 }
 
 /**
- * Scale/opacity each row based on distance from center
+ * Scale/opacity each row based on distance from center, now based on track offset and item index
  */
-function updateWheelLayout(wheelBody) {
-  const rows = wheelBody.querySelectorAll("tr");
-  if (!rows.length) return;
-  const rect = wheelBody.getBoundingClientRect();
-  const cy = rect.height / 2;
+function updateWheelLayout(wheelTrack, totalCount) {
+  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
+  const cy = wheelInnerRect.height / 2;
 
-  rows.forEach(row => {
-    const rRect = row.getBoundingClientRect();
-    const rowCenterY = (rRect.top + rRect.bottom)/2 - rect.top;
-    const dist = Math.abs(rowCenterY - cy);
+
+  Array.from(wheelTrack.children).forEach((item, index) => {
+    const itemYPos = wheelTrackOffsetY + index * WHEEL_ITEM_HEIGHT;
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
+    const dist = Math.abs(itemCenterY - cy);
 
     // scale in [0.8..1.3], fade in [0.5..1.0]
     const maxScale = 1.3;
@@ -551,33 +549,40 @@ function updateWheelLayout(wheelBody) {
     if (scale < minScale) scale = minScale;
     if (scale > maxScale) scale = maxScale;
 
-    row.style.transform = `scale(${scale})`;
-    row.style.opacity = String(0.5 + (scale - minScale));
-    row.classList.remove("active");
+    item.style.transform = `scale(${scale})`;
+    item.style.opacity = String(0.5 + (scale - minScale));
+    item.classList.remove("active");
   });
 
-  const cIndex = findCenterIndex(wheelBody);
-  rows[cIndex]?.classList.add("active");
+  const cIndex = findCenterIndex(wheelTrack, totalCount);
+  if (wheelTrack.children[cIndex]) {
+      wheelTrack.children[cIndex].classList.add("active");
+  }
 }
 
+
 /**
- * DRAG SCROLL
+ * DRAG SCROLL, now adjusts track offset
  */
 function onWheelPointerDown(e) {
   isDraggingWheel = true;
   e.target.setPointerCapture(e.pointerId);
   startPointerY = e.clientY;
 }
+
 function onWheelPointerMove(e) {
   if (!isDraggingWheel) return;
   const deltaY = e.clientY - startPointerY;
   startPointerY = e.clientY;
-  const wheelBody = e.currentTarget;
-  let st = wheelBody.scrollTop - deltaY;
-  if (st < 0) st = 0;
-  wheelBody.scrollTop = st;
-  updateWheelLayout(wheelBody);
+  const wheelTrack = e.currentTarget;
+
+  wheelTrackOffsetY += deltaY;
+  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+
+  updateWheelLayout(wheelTrack,  wheelTrack.children.length);
+  checkLoopEdges(wheelTrack, wheelTrack.children.length);
 }
+
 function onWheelPointerUp(e) {
   if (isDraggingWheel) {
     e.target.releasePointerCapture(e.pointerId);
@@ -587,19 +592,15 @@ function onWheelPointerUp(e) {
     }
   }
 }
-function snapToClosestRow(wheelBody) {
-  const rows = wheelBody.querySelectorAll("tr");
-  if (!rows.length) return;
-  const centerI = findCenterIndex(wheelBody);
-  const row = rows[centerI];
-  if (!row) return;
-  const rect = wheelBody.getBoundingClientRect();
-  const rRect = row.getBoundingClientRect();
-  const rowMidY = (rRect.top + rRect.bottom)/2 - rect.top;
-  const distToCenter = rowMidY - rect.height/2;
-  wheelBody.scrollTop += distToCenter;
-  updateWheelLayout(wheelBody);
+
+function snapToClosestRow(wheelTrack) {
+  const centerIndex = findCenterIndex(wheelTrack, wheelTrack.children.length);
+  const distToCenter = -centerIndex * WHEEL_ITEM_HEIGHT - wheelTrackOffsetY; // Calculate offset needed to center
+  wheelTrackOffsetY += distToCenter;
+  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
+  updateWheelLayout(wheelTrack,  wheelTrack.children.length);
 }
+
 
 /* ------------------------------------------------------------------
    READING OVERLAY
