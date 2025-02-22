@@ -398,7 +398,13 @@ async function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
   const folderName = dateStr.replace(/-/g, ""); // e.g. "20241201"
   console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName); // ADDED LOG
-  const filenames = poemIndex[folderName] || [];
+  let filenames = poemIndex[folderName] || [];
+
+  // --- ADDED CHECK: Ensure filenames is actually an array ---
+  if (!Array.isArray(filenames)) {
+      console.error("Error: filenames from poemIndex is NOT an array for folder:", folderName, filenames);
+      filenames = []; // Fallback to empty array to prevent further errors
+  }
   console.log("filenames from poemIndex:", filenames); // ADDED LOG
 
   if (filenames.length === 0) {
