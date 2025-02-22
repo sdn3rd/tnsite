@@ -11,93 +11,8 @@
   <meta name="author" content="Tristan Nuvola"/>
 
   <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+  <!-- ALL STYLES NOW IN styles.css -->
   <link rel="stylesheet" href="styles.css">
-
-  <style>
-    /* DEMO STYLES for the poem wheel */
-    #wheel-container {
-      display: none; /* hidden by default; shown after date is clicked */
-      width: 100%;
-      height: calc(100vh - 80px);
-      position: relative;
-      overflow: hidden;
-      background: #222; 
-      color: #fff;
-      padding-top: 2rem;
-    }
-
-    /* A container for the “wheel” titles */
-    .wheel-list {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      transition: transform 0.3s ease-out;
-    }
-
-    .wheel-item {
-      font-size: 1.2rem;
-      transition: transform 0.2s, font-size 0.2s, opacity 0.2s;
-      cursor: pointer;
-      user-select: none;
-      text-align: center;
-      width: 90vw;
-      max-width: 500px;
-    }
-    
-    /* The item that is "centered" in the wheel (larger) */
-    .wheel-item.active {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #ffd700;
-      opacity: 1;
-    }
-    /* items near center are partially bigger/faded */
-    .wheel-item.nearby {
-      opacity: 0.8;
-    }
-
-    .wheel-close-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #444;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border: none;
-      font-size: 1rem;
-    }
-
-    /* READING MODE OVERLAY */
-    #poem-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.9);
-      color: #fff;
-      z-index: 9999;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    #poem-overlay-close {
-      cursor: pointer;
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-bottom: 20px;
-      border: none;
-      background: transparent;
-      color: #fff;
-    }
-    #poem-overlay h2 {
-      margin-top: 0;
-    }
-  </style>
 </head>
 <body>
 
@@ -126,7 +41,7 @@
 
   <!-- Main Content -->
   <div id="main-content">
-    <!-- Calendar container (as before) -->
+    <!-- Calendar container -->
     <div class="calendar-container" id="calendar-container">
       <table class="calendar-table">
         <thead>
@@ -197,15 +112,14 @@
   </div>
 
   <!-- Wheel container (initially hidden) for multiple poems in a single day -->
-  <div id="poems-wheel-container" style="display:none; margin-top:1em;">
-    <table style="width:100%; border-collapse:collapse; position:relative;">
+  <div id="poems-wheel-container">
+    <table>
       <tbody id="wheel-list-body"></tbody>
     </table>
     <div style="text-align:center; margin-top:20px;">
-      <button id="back-to-calendar-btn" style="padding:0.5em 1em;">Back</button>
+      <button id="back-to-calendar-btn">Back</button>
     </div>
   </div>
-  
 
   <!-- Reading Mode Overlay -->
   <div id="poem-overlay">
@@ -214,7 +128,7 @@
     <div id="poem-overlay-content"></div>
   </div>
 
-  <!-- Single JS (with dynamic language loading) -->
+  <!-- JS -->
   <script src="script.js" defer></script>
 </body>
 </html>
