@@ -11,8 +11,15 @@ const today = new Date();
 let calendarYear = 0;
 let calendarMonth = 0; // 0-based
 
-// If you have localized strings in a "gui.json", load them; else skip
+// If you have localized strings in "gui.json", load them; else skip
 let guiData = null;
+
+/**
+ * For the poem index
+ * This JSON file maps each date folder (e.g. "20250104")
+ * to an array of filenames (["my_poem.json","another_poem.json",...])
+ */
+let poemIndex = {}; // Will hold data from poetryIndex.json
 
 /**
  * For the infinite vertical spinner with fling
@@ -43,6 +50,7 @@ let animationFrameID = null;     // For requestAnimationFrame
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
+  await loadPoemIndex(); // Load the main "poetryIndex.json" mapping date folders -> poem files
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
@@ -60,6 +68,22 @@ async function loadGuiData() {
   } catch (err) {
     console.warn("Skipping guiData load (not found or error).");
     guiData = null;
+  }
+}
+
+/**
+ * Load poemIndex from "poetryIndex.json"
+ * This file should map each date-folder (e.g. "20250104") to an array of filenames
+ */
+async function loadPoemIndex() {
+  try {
+    const resp = await fetch("poetryIndex.json");
+    if (!resp.ok) throw new Error("Could not load poetryIndex.json");
+    poemIndex = await resp.json();
+    console.log("poemIndex loaded:", poemIndex);
+  } catch (err) {
+    console.error("Error loading poemIndex:", err);
+    poemIndex = {};
   }
 }
 
@@ -365,65 +389,48 @@ function getDayNames() {
 
 /* ------------------------------------------------------------------
    LOAD POEMS => SHOW INFINITE WHEEL
+   Using poemIndex to find which filenames exist for that date
 ------------------------------------------------------------------ */
 async function loadPoemsByDate(dateStr) {
-  const dateFolder = dateStr.replace(/-/g, ""); // Convert YYYY-MM-DD to YYYYMMDD
-  const folderUrl = `poetry/${dateFolder}/`;
+  // dateStr = "YYYY-MM-DD"
+  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241201"
+  const filenames = poemIndex[folderName] || [];
 
-  try {
-    // Simulate fetching a list of filenames from the date folder.
-    // In a real application, you would need a server-side component
-    // to list the files in the directory, or pre-generate an index.
-    // For this example, let's hardcode some filenames for demonstration
-    const filenames = await getPoemFilenamesForDate(dateFolder); // Simulate fetching filenames
+  if (filenames.length === 0) {
+    console.warn("No poems for date:", dateStr);
+    alert(`${t("errors.noPoemFound")}: ${dateStr}`);
+    return;
+  }
 
-    if (!filenames || filenames.length === 0) {
-      throw new Error("No poems found in folder");
-    }
+  const folderUrl = `poetry/${folderName}/`;
+  poemsForWheel = []; // reset
 
-    poemsForWheel = []; // Reset poemsForWheel
-    for (const filename of filenames) {
-      const poemUrl = `${folderUrl}${filename}`;
+  // Fetch each poem file from the folder
+  for (const filename of filenames) {
+    const poemUrl = folderUrl + filename;
+    try {
       const resp = await fetch(poemUrl);
-      if (!resp.ok) {
-        console.warn(`Failed to fetch poem: ${poemUrl}`);
-        continue; // Skip to the next poem if fetch fails
-      }
+      if (!resp.ok) throw new Error(`Failed to fetch poem: ${poemUrl}`);
       const poemData = await resp.json();
       poemsForWheel.push(poemData);
+    } catch (err) {
+      console.warn("Skipping poem fetch error:", poemUrl, err);
     }
+  }
 
-
-    if (poemsForWheel.length === 0) {
-      throw new Error("No valid poem data loaded");
-    }
-
-    if (poemsForWheel.length === 1) {
-      displaySinglePoem(poemsForWheel[0]);
-    } else {
-      showInfiniteWheelOverlay();
-    }
-
-  } catch (err) {
-    console.warn("Error loading poems for", dateStr, err);
+  // If none loaded successfully
+  if (poemsForWheel.length === 0) {
     alert(`${t("errors.noPoemFound")}: ${dateStr}`);
+    return;
+  }
+
+  // If exactly 1 poem loaded => show directly; otherwise open the infinite wheel
+  if (poemsForWheel.length === 1) {
+    displaySinglePoem(poemsForWheel[0]);
+  } else {
+    showInfiniteWheelOverlay();
   }
 }
-
-// Simulate fetching filenames for a given date folder
-// **IMPORTANT:** In a real application, this would need to be replaced
-// with a server-side call to list files or use a pre-generated index.
-async function getPoemFilenamesForDate(dateFolder) {
-  // Example: Hardcoded filenames for demonstration
-  if (dateFolder === "20241031") {
-    return ["All_American.json", "Another_Poem_Example.json"]; // Example of multiple poems
-  }
-  if (dateFolder === "20241116") {
-      return ["Simple_Poem.json"]; // Example of a single poem
-  }
-  return []; // No poems for other dates in this example
-}
-
 
 function displaySinglePoem(poem) {
   const titleUsed = (currentLanguage === "en")
@@ -511,6 +518,7 @@ function showInfiniteWheelOverlay() {
 function buildInfiniteList(poems, repeatCount) {
   const out = [];
   poems.forEach(poem => {
+    // pick language for display
     poem._displayTitle = (currentLanguage === "en")
       ? (poem.title_en || "Untitled")
       : (poem.title_it || poem.title_en || "Untitled");
@@ -618,10 +626,6 @@ function onWheelPointerDown(e) {
 
   clearTimeout(wheelSnapTimeout);
   e.target.setPointerCapture(e.pointerId);
-
-  // We do NOT call e.preventDefault() here because
-  // 'touch-action: none;' on #wheel-inner already
-  // ensures we don't get default scroll on mobile.
 }
 
 function onWheelPointerMove(e) {
