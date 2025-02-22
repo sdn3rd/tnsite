@@ -19,11 +19,14 @@ let guiData = null;
  */
 let poemsForWheel = [];     // array of poem objects from JSON
 const WHEEL_REPEAT_COUNT = 7; // Replicated more for smoother infinite scrolling
+const WHEEL_ITEM_HEIGHT = 60; // px, should match CSS variable
+const WHEEL_MIN_VISIBLE_ITEMS = 3; // Minimum items visible in wheel
+const WHEEL_MAX_VISIBLE_ITEMS = 7; // Max items visible (base count, can grow to fill screen)
 let isDraggingWheel = false;
 let startPointerY = 0;
 let snapEnabled = true;
 let wheelTrackOffsetY = 0; // Tracks vertical offset of the wheel track
-const WHEEL_ITEM_HEIGHT = 60; // px, should match CSS variable
+
 
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
@@ -446,6 +449,17 @@ function showInfiniteWheelOverlay() {
   wheelTrack.addEventListener("pointerleave", onWheelPointerUp);
 
   wheelTrack.style.userSelect = "none";
+
+  // *** DYNAMIC MARQUEE HEIGHT CALCULATION ***
+  const wheelInner = overlay.querySelector("#wheel-inner");
+  const poemCount = poemsForWheel.length;
+  let marqueeHeight = WHEEL_MIN_VISIBLE_ITEMS * WHEEL_ITEM_HEIGHT; // Default min height
+
+  if (poemCount >= WHEEL_MIN_VISIBLE_ITEMS) {
+      marqueeHeight = Math.min(poemCount * WHEEL_ITEM_HEIGHT,  WHEEL_MAX_VISIBLE_ITEMS * WHEEL_ITEM_HEIGHT, window.innerHeight * 0.7); // Up to max items or 70% of screen height, whichever is smaller
+  }
+  wheelInner.style.height = `${marqueeHeight}px`;
+
 
   // Show overlay
   overlay.style.display = "block";
