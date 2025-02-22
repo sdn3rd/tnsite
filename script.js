@@ -16,12 +16,6 @@ const today = new Date();
 // Holds the parsed "gui.json" data
 let guiData = null;
 
-// For the poem wheel
-let wheelData = [];       // array of poem objects
-let wheelIndex = 0;       // which poem is at the center
-const WHEEL_VISIBLE_COUNT = 5; // how many items to show on screen
-const wheelListDiv = null;
-
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded event fired.");
 
@@ -69,6 +63,7 @@ async function loadGuiData() {
 
 /* ------------------------------------------------------------------
    HELPER: t(path) => fetch string/array from guiData with fallback
+   E.g. t("menu.about") => "About" or "Informazioni"
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path; // if not loaded, show path as fallback
@@ -119,19 +114,21 @@ function initializePage() {
   activeSection = "about";
   loadAboutSection();
 
-  // Wheel close button => back to calendar
-  const wheelCloseBtn = document.getElementById("wheel-close-btn");
-  if (wheelCloseBtn) {
-    wheelCloseBtn.addEventListener("click", () => {
-      hideWheel();
-    });
+  // Setup wheel event listeners
+  const wheelUpBtn = document.getElementById("wheel-up");
+  const wheelDownBtn = document.getElementById("wheel-down");
+  const backToCalendarBtn = document.getElementById("back-to-calendar-btn");
+  if (wheelUpBtn && wheelDownBtn) {
+    wheelUpBtn.addEventListener("click", () => spinWheel(-1));
+    wheelDownBtn.addEventListener("click", () => spinWheel(1));
   }
-
-  // Poem overlay close
-  const poemOverlayClose = document.getElementById("poem-overlay-close");
-  if (poemOverlayClose) {
-    poemOverlayClose.addEventListener("click", () => {
-      hidePoemOverlay();
+  if (backToCalendarBtn) {
+    backToCalendarBtn.addEventListener("click", () => {
+      // Hide the wheel, show the poems-container (calendar)
+      const wheelContainer = document.getElementById("poems-wheel-container");
+      const poemsContainer = document.getElementById("poems-container");
+      if (wheelContainer) wheelContainer.style.display = "none";
+      if (poemsContainer) poemsContainer.style.display = "";
     });
   }
 }
@@ -217,32 +214,19 @@ function closeMenu() {
 function loadAboutSection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
-  // Show the calendar container for no confusion
-  const cal = document.getElementById("calendar-container");
-  if (cal) cal.style.display = "none";
-
-  const wheelC = document.getElementById("wheel-container");
-  if (wheelC) wheelC.style.display = "none";
-
   mainContent.innerHTML = t("aboutSection");
 }
 
 /* ------------------------------------------------------------------
-   POETRY SECTION => Show monthly calendar
+   POETRY SECTION => Monthly Calendar
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
   const mainContent = document.getElementById("main-content");
   if (!mainContent) return;
 
-  // Show calendar, hide wheel
-  const cal = document.getElementById("calendar-container");
-  if (cal) cal.style.display = "block";
-
-  const wheelC = document.getElementById("wheel-container");
-  if (wheelC) wheelC.style.display = "none";
-
   // The heading is in "poetryHeading"
-  mainContent.innerHTML = `<h1>${t("poetryHeading")}</h1>`;
+  const heading = t("poetryHeading");
+  mainContent.innerHTML = `<h1>${heading}</h1><div id="poems-container"></div>`;
 
   // Set calendar to current month/year if not set
   if (!calendarYear || !calendarMonth) {
@@ -258,28 +242,159 @@ function loadPoetrySection() {
  * Render the calendar UI for a given year/month
  */
 function renderCalendarView(year, month) {
-  // you had code for building table, but let's keep it simple
-  const mainContent = document.getElementById("main-content");
-  if (!mainContent) return;
+  const poemsContainer = document.getElementById("poems-container");
+  if (!poemsContainer) return;
 
-  // We skip re-building the entire table for brevity in code snippet,
-  // but we keep your original approach:
-  // ...
-  // In your actual code, you'd build the day cells, etc.
+  // Clear old
+  poemsContainer.innerHTML = "";
 
-  // We'll just call:
-  // createCalendar(...) or something. Let's rely on your existing approach or keep minimal.
+  // Create nav bar for Prev/Next
+  const navDiv = document.createElement("div");
+  navDiv.style.display = "flex";
+  navDiv.style.justifyContent = "space-between";
+  navDiv.style.alignItems = "center";
+  navDiv.style.marginBottom = "1em";
 
-  // For demonstration, let's just say the function eventually:
-  // on day click => loadPoemByDate(dateStr)
+  const monthName = getMonthName(month);
+  const title = document.createElement("span");
+  title.style.fontWeight = "bold";
+  title.textContent = `${monthName} ${year}`;
+
+  // Prev button => t("labels.prev") or t("labels.next")
+  const prevBtn = document.createElement("button");
+  prevBtn.textContent = t("labels.prev");
+  prevBtn.addEventListener("click", () => {
+    goToPrevMonth();
+  });
+
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = t("labels.next");
+  nextBtn.addEventListener("click", () => {
+    goToNextMonth();
+  });
+
+  // Check if prev is allowed
+  const prevMonthDate = new Date(year, month - 1, 1);
+  if (prevMonthDate < earliestDate) {
+    prevBtn.disabled = true;
+  }
+
+  // Check if next is allowed
+  const nextMonthDate = new Date(year, month + 1, 1);
+  if (nextMonthDate > new Date(today.getFullYear(), today.getMonth(), 1)) {
+    nextBtn.disabled = true;
+  }
+
+  navDiv.appendChild(prevBtn);
+  navDiv.appendChild(title);
+  navDiv.appendChild(nextBtn);
+  poemsContainer.appendChild(navDiv);
+
+  // Create a table for days
+  const table = document.createElement("table");
+  table.classList.add("calendar-table");
+
+  // Day-of-week row
+  const dayRow = document.createElement("tr");
+  const dayNames = getDayNames();
+  dayNames.forEach(dn => {
+    const th = document.createElement("th");
+    th.textContent = dn;
+    dayRow.appendChild(th);
+  });
+  table.appendChild(dayRow);
+
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0); // day=0 => last day prev month
+  const startWeekday = firstDayOfMonth.getDay(); // 0=Sun, 1=Mon...
+  const totalDays = lastDayOfMonth.getDate();
+
+  let row = document.createElement("tr");
+  // Empty cells for days before 1st
+  for (let i = 0; i < startWeekday; i++) {
+    const emptyCell = document.createElement("td");
+    row.appendChild(emptyCell);
+  }
+
+  for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
+    if (row.children.length >= 7) {
+      table.appendChild(row);
+      row = document.createElement("tr");
+    }
+    const current = new Date(year, month, dayNum);
+    const cell = document.createElement("td");
+    cell.textContent = String(dayNum);
+    cell.style.textAlign = "center";
+    cell.style.cursor = "pointer";
+
+    if (current < earliestDate || current > today) {
+      cell.style.opacity = "0.3";
+      cell.style.cursor = "default";
+    } else {
+      cell.addEventListener("click", () => {
+        const yyyy = current.getFullYear();
+        const mm = String(current.getMonth() + 1).padStart(2, "0");
+        const dd = String(current.getDate()).padStart(2, "0");
+        const dateStr = `${yyyy}-${mm}-${dd}`;
+        loadPoemByDate(dateStr);
+      });
+    }
+
+    // highlight if it's "today"
+    if (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      dayNum === today.getDate()
+    ) {
+      cell.style.backgroundColor = "#555";
+      cell.style.color = "#fff";
+      cell.style.borderRadius = "50%";
+    }
+
+    row.appendChild(cell);
+  }
+
+  if (row.children.length > 0) {
+    // fill remainder
+    while (row.children.length < 7) {
+      const emptyCell = document.createElement("td");
+      row.appendChild(emptyCell);
+    }
+    table.appendChild(row);
+  }
+
+  poemsContainer.appendChild(table);
+
+  function goToPrevMonth() {
+    if (month === 0) {
+      calendarYear = year - 1;
+      calendarMonth = 11;
+    } else {
+      calendarYear = year;
+      calendarMonth = month - 1;
+    }
+    renderCalendarView(calendarYear, calendarMonth);
+  }
+  function goToNextMonth() {
+    if (month === 11) {
+      calendarYear = year + 1;
+      calendarMonth = 0;
+    } else {
+      calendarYear = year;
+      calendarMonth = month + 1;
+    }
+    renderCalendarView(calendarYear, calendarMonth);
+  }
 }
 
 /**
- * HELPER to get month name from gui.json or fallback
+ * Get the localized month name from gui.json
  */
 function getMonthName(mIndex) {
+  // This should return an array of 12 months from guiData
   let months = t("calendar.months");
   if (!Array.isArray(months) || months.length < 12) {
+    // fallback
     months = [
       "January","February","March","April","May","June",
       "July","August","September","October","November","December"
@@ -289,7 +404,7 @@ function getMonthName(mIndex) {
 }
 
 /**
- * HELPER to get day-of-week names from gui.json or fallback
+ * Get the localized day-of-week names from gui.json
  */
 function getDayNames() {
   let days = t("calendar.daysOfWeek");
@@ -299,175 +414,231 @@ function getDayNames() {
   return days;
 }
 
-/**
- * Called when user clicks a date => fetch the poems & show the wheel
- */
+/* ------------------------------------------------------------------
+   FETCH & DISPLAY POEM(S)
+------------------------------------------------------------------ */
 function loadPoemByDate(dateStr) {
-  console.log("Loading poems for date:", dateStr);
-
-  fetch(`poetry/${dateStr}.json`)
+  console.log("Loading poem for date:", dateStr);
+  const url = `poetry/${dateStr}.json`;
+  fetch(url)
     .then(resp => {
       if (!resp.ok) throw new Error("Not found");
       return resp.json();
     })
     .then(data => {
-      // data is an array of poems => show them in a wheel
+      // data might be an array of multiple poems
       if (!Array.isArray(data) || data.length === 0) {
-        // no poems
-        alert(t("errors.noPoemFound") + " " + dateStr);
-        return;
+        throw new Error("No poems in array");
       }
-      showWheelOfPoemsForDay(data);
+      // Hide the calendar table
+      const poemsContainer = document.getElementById("poems-container");
+      if (poemsContainer) poemsContainer.style.display = "none";
+
+      // If only 1 poem => display normally
+      if (data.length === 1) {
+        displaySinglePoem(data[0]);
+      } else {
+        // multiple poems => show the wheel
+        displayPoemsWheel(data);
+      }
     })
     .catch(err => {
       console.warn(err);
-      alert(t("errors.noPoemFound") + " " + dateStr);
+      const mainContent = document.getElementById("main-content");
+      if (mainContent) {
+        mainContent.insertAdjacentHTML(
+          "beforeend",
+          `<p style="color:red;">${t("errors.noPoemFound")} ${dateStr}</p>`
+        );
+      }
     });
 }
 
-/* ------------------------------------------------------------------
-   The "wheel" logic
------------------------------------------------------------------- */
-function showWheelOfPoemsForDay(poemArray) {
-  // Hide the calendar
-  const cal = document.getElementById("calendar-container");
-  if (cal) cal.style.display = "none";
+/** Show a single poem immediately */
+function displaySinglePoem(poemObj) {
+  // Clear old poem if any
+  const existing = document.getElementById("displayed-poem");
+  if (existing) existing.remove();
 
-  // Sort them by title_en (case-insensitive) or you can do another approach
-  poemArray.sort((a,b) => {
-    const A = (a.title_en || "").toLowerCase();
-    const B = (b.title_en || "").toLowerCase();
-    return A.localeCompare(B);
+  // Also hide the wheel if it was open
+  const wheelContainer = document.getElementById("poems-wheel-container");
+  if (wheelContainer) wheelContainer.style.display = "none";
+
+  const poemsContainer = document.getElementById("poems-container");
+  if (!poemsContainer) return;
+
+  // create container
+  const poemDiv = document.createElement("div");
+  poemDiv.id = "displayed-poem";
+  poemDiv.style.marginTop = "1em";
+  poemDiv.style.padding = "1em";
+  poemDiv.style.border = "1px solid #666";
+
+  const dateUsed = currentLanguage === "en" ? (poemObj.date_en||"") : (poemObj.date_it||poemObj.date_en||"");
+  const titleUsed = currentLanguage === "en" ? (poemObj.title_en||"") : (poemObj.title_it||poemObj.title_en||"");
+  const textUsed = currentLanguage === "en" ? (poemObj.poem_en||"") : (poemObj.poem_it||poemObj.poem_en||"");
+
+  poemDiv.innerHTML = `
+    <h2>${titleUsed}</h2>
+    <p style="font-style:italic;">${dateUsed}</p>
+    <div class="poem-content">
+      ${textUsed.replace(/\n/g, "<br>")}
+    </div>
+    <div style="margin-top:1em;">
+      <button id="single-poem-back-btn">Back</button>
+    </div>
+  `;
+
+  poemsContainer.parentNode.insertBefore(poemDiv, poemsContainer.nextSibling);
+
+  // "Back" => show calendar again, remove poem
+  const backBtn = poemDiv.querySelector("#single-poem-back-btn");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      poemDiv.remove();
+      if (poemsContainer) poemsContainer.style.display = "";
+    });
+  }
+
+  // If mobile => reading mode on click (except the back button)
+  poemDiv.addEventListener("click", e => {
+    if (e.target.id === "single-poem-back-btn") return; // skip
+    if (isMobileDevice) {
+      const closeLabel = t("labels.close");
+      const poemTitle = titleUsed || t("labels.untitledPoem");
+      enterReadingMode(poemTitle, textUsed, closeLabel);
+    }
+  });
+}
+
+/** Show multiple poems in the “wheel” format */
+function displayPoemsWheel(poemsArray) {
+  // Hide single-poem if any
+  const existing = document.getElementById("displayed-poem");
+  if (existing) existing.remove();
+
+  // Show wheel container
+  const wheelContainer = document.getElementById("poems-wheel-container");
+  if (!wheelContainer) return;
+  wheelContainer.style.display = "";
+
+  // The list container
+  const wheelList = document.getElementById("wheel-list");
+  if (!wheelList) return;
+
+  // Clear old
+  wheelList.innerHTML = "";
+
+  // Sort poems by title (based on current language)
+  const sorted = poemsArray.slice().sort((a,b)=>{
+    const aTitle = currentLanguage==="en" ? a.title_en : (a.title_it||a.title_en);
+    const bTitle = currentLanguage==="en" ? b.title_en : (b.title_it||b.title_en);
+    return (aTitle||"").localeCompare(bTitle||"");
   });
 
-  wheelData = poemArray;
-  wheelIndex = 0; // start at 0
+  // Build items
+  sorted.forEach((poem, idx) => {
+    const li = document.createElement("div");
+    li.classList.add("wheel-item");
+    li.dataset.index = String(idx);
+    const dateUsed = currentLanguage === "en" ? (poem.date_en||"") : (poem.date_it||poem.date_en||"");
+    const titleUsed = currentLanguage === "en" ? (poem.title_en||"") : (poem.title_it||poem.title_en||"");
+    li.textContent = titleUsed || "Untitled";
 
-  const wheelC = document.getElementById("wheel-container");
-  if (wheelC) wheelC.style.display = "block";
+    li.addEventListener("click", () => {
+      // If this item is the center => open the poem
+      const centerIdx = getCenterIndex();
+      const myIdx = parseInt(li.dataset.index,10);
+      if (myIdx === centerIdx) {
+        // open reading overlay
+        const textUsed = currentLanguage==="en" ? (poem.poem_en||"") : (poem.poem_it||poem.poem_en||"");
+        const poemTitle = titleUsed || t("labels.untitledPoem");
+        enterReadingMode(poemTitle, textUsed, t("labels.close"));
+      }
+    });
 
+    wheelList.appendChild(li);
+  });
+
+  // Initialize at center index 0
+  currentWheelIndex = 0;
   renderWheelItems();
 }
 
-function hideWheel() {
-  // Hide wheel, show calendar again
-  const cal = document.getElementById("calendar-container");
-  if (cal) cal.style.display = "block";
+/* The “center” item index in the wheel data */
+let currentWheelIndex = 0;
 
-  const wheelC = document.getElementById("wheel-container");
-  if (wheelC) wheelC.style.display = "none";
+function spinWheel(direction) {
+  // direction +1 => move down => center item index++
+  // direction -1 => move up => center item index--
+  currentWheelIndex += direction;
+  renderWheelItems();
 }
 
-/**
- * Render the items in the "wheel-list" DIV with the correct positions
- */
+function getCenterIndex(){
+  // in the sorted array, center is currentWheelIndex
+  return currentWheelIndex;
+}
+
+/** Re-render the wheel items so the center is bigger, etc. */
 function renderWheelItems() {
   const wheelList = document.getElementById("wheel-list");
   if (!wheelList) return;
-  wheelList.innerHTML = "";
+  const items = wheelList.querySelectorAll(".wheel-item");
+  if (!items.length) return;
 
-  // We'll display all items, but highlight which one is "center."
-  // The item at wheelIndex is center => .active
-  // The items near it => .nearby
-  for (let i = 0; i < wheelData.length; i++) {
-    const poem = wheelData[i];
-    const enTitle = poem.title_en || "(Untitled)";
-    const itTitle = poem.title_it || enTitle;
-    const usedTitle = (currentLanguage === "en") ? enTitle : itTitle;
+  const total = items.length;
+  // Because we want it to wrap, handle currentWheelIndex
+  // For wrap-around, we can do a mod
+  currentWheelIndex = ((currentWheelIndex % total) + total) % total;
 
-    const itemDiv = document.createElement("div");
-    itemDiv.classList.add("wheel-item");
-    itemDiv.textContent = usedTitle;
-
-    // if i === wheelIndex => center
-    if (i === wheelIndex) {
-      itemDiv.classList.add("active");
-    } else if (Math.abs(i - wheelIndex) <= 1) {
-      itemDiv.classList.add("nearby");
-    }
-
-    // on click => if it's the center item, show poem overlay
-    itemDiv.addEventListener("click", () => {
-      if (i === wheelIndex) {
-        // show overlay
-        displayPoemOverlay(wheelData[wheelIndex]);
-      } else {
-        // set new center
-        wheelIndex = i;
-        renderWheelItems();
-      }
-    });
-
-    wheelList.appendChild(itemDiv);
+  items.forEach((it) => {
+    it.classList.remove("center");
+  });
+  // The center item
+  const centerItem = items[currentWheelIndex];
+  if (centerItem) {
+    centerItem.classList.add("center");
   }
 
-  // We also can add a mousewheel or arrow key approach to spin:
-  wheelList.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    if (e.deltaY > 0) {
-      // scroll down => next item
-      if (wheelIndex < wheelData.length - 1) {
-        wheelIndex++;
-      }
-    } else {
-      // scroll up => prev item
-      if (wheelIndex > 0) {
-        wheelIndex--;
-      }
-    }
-    renderWheelItems();
-  }, {passive:false});
+  // We want a transform so that center item is in middle
+  // We'll approximate an offset so that center item is in center of container
+  // e.g. each item ~ 50px height total. Or we read offsetHeight, though that's more advanced.
 
-  // arrow keys
-  wheelList.tabIndex = 0;
-  wheelList.focus();
-  wheelList.onkeydown = (e) => {
-    if (e.key === "ArrowDown") {
-      if (wheelIndex < wheelData.length - 1) {
-        wheelIndex++;
-        renderWheelItems();
-      }
-    } else if (e.key === "ArrowUp") {
-      if (wheelIndex > 0) {
-        wheelIndex--;
-        renderWheelItems();
-      }
-    }
-  };
+  // Let's store them in an array
+  const itemArray = Array.from(items);
+  const itemHeight = 40; // approximate space per item
+  // We want center item to be visually in the middle
+  const offset = (itemArray.indexOf(centerItem))*itemHeight;
+
+  // Shift the list by negative offset from the center
+  wheelList.style.transform = `translateY(${120 - offset}px)`;
 }
 
-/* ------------------------------------------------------------------
-   Overlay to show poem text
------------------------------------------------------------------- */
-function displayPoemOverlay(poem) {
-  const overlay = document.getElementById("poem-overlay");
-  const titleNode = document.getElementById("poem-overlay-title");
-  const contentNode = document.getElementById("poem-overlay-content");
+/* Minimal reading mode overlay, reused from single-poem or wheel center click */
+function enterReadingMode(title, text, closeLabel) {
+  const overlay = document.createElement("div");
+  overlay.classList.add("reading-overlay");
 
-  if (!overlay || !titleNode || !contentNode) return;
+  const closeBtn = document.createElement("div");
+  closeBtn.style.cursor = "pointer";
+  closeBtn.style.textAlign = "right";
+  closeBtn.style.fontSize = "1.2em";
+  closeBtn.style.marginBottom = "20px";
+  closeBtn.textContent = closeLabel || "Close ✕";
 
-  // get date/time fields
-  // language-specific fields:
-  const dateEn = poem.date_en || "";
-  const dateIt = poem.date_it || "";
-  const usedDate = (currentLanguage === "en") ? dateEn : (dateIt || dateEn);
+  const h2 = document.createElement("h2");
+  h2.textContent = title || "";
 
-  const enTitle = poem.title_en || "";
-  const itTitle = poem.title_it || enTitle;
-  const usedTitle = (currentLanguage === "en") ? enTitle : itTitle;
+  const textDiv = document.createElement("div");
+  textDiv.innerHTML = (text || "").replace(/\n/g,"<br>");
 
-  const enText = poem.poem_en || "";
-  const itText = poem.poem_it || enText;
-  const usedText = (currentLanguage === "en") ? enText : itText;
+  overlay.appendChild(closeBtn);
+  overlay.appendChild(h2);
+  overlay.appendChild(textDiv);
+  document.body.appendChild(overlay);
 
-  // Fill overlay
-  titleNode.textContent = usedTitle + (usedDate ? " – " + usedDate : "");
-  contentNode.innerHTML = usedText.replace(/\n/g, "<br>");
-
-  overlay.style.display = "block";
-}
-
-function hidePoemOverlay() {
-  const overlay = document.getElementById("poem-overlay");
-  if (overlay) overlay.style.display = "none";
+  closeBtn.addEventListener("click", () => {
+    overlay.remove();
+  });
 }
