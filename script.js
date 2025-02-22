@@ -454,12 +454,6 @@ function showInfiniteWheelOverlay() {
   newWheelTrack.addEventListener("pointercancel", onWheelPointerUp);
   newWheelTrack.addEventListener("pointerleave", onWheelPointerUp);
 
-  console.log("Pointer listeners attached to wheelTrack:", newWheelTrack); // *** ADDED LOG ***
-  console.log("  - pointerdown:", onWheelPointerDown);                    // *** ADDED LOG ***
-  console.log("  - pointermove:", onWheelPointerMove);                    // *** ADDED LOG ***
-  console.log("  - pointerup:", onWheelPointerUp);                      // *** ADDED LOG ***
-
-
   newWheelTrack.style.userSelect = "none";
 
   // *** MOUSE WHEEL EVENT ***
@@ -467,18 +461,11 @@ function showInfiniteWheelOverlay() {
   wheelInner.addEventListener('wheel', onMouseWheelScroll, { passive: false });
 
   overlay.style.display = "block";
-  wheelTrackOffsetY = 0; // Reset offset BEFORE centering and layout
-
   setTimeout(() => {
     overlay.classList.add("show");
     // place scroll at the middle block
     centerScrollAtMiddle(newWheelTrack, extendedPoems.length);
     updateWheelLayout(newWheelTrack, extendedPoems.length);
-
-    // *** DEBUG LOGS for initial state ***
-    console.log("showInfiniteWheelOverlay - initial wheelTrackOffsetY:", wheelTrackOffsetY);
-    const centerIdx = findCenterIndex(newWheelTrack, extendedPoems.length);
-    console.log("showInfiniteWheelOverlay - initial centerIndex:", centerIdx);
   }, 50);
 }
 
@@ -552,7 +539,7 @@ function findCenterIndex(wheelTrack, totalCount) {
     if (!item) continue; // Defensive check
 
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + i * WHEEL_ITEM_HEIGHT / 2;
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
 
     if (dist < minDist) {
@@ -580,7 +567,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
     if (!item) continue; // Defensive check
 
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + i * WHEEL_ITEM_HEIGHT / 2;
+    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
 
     // scale in [0.8..1.3], fade in [0.5..1.0]
@@ -608,8 +595,6 @@ function updateWheelLayout(wheelTrack, totalCount) {
 function onWheelPointerDown(e) {
   // Only left click or touch
   if (e.pointerType === 'mouse' && e.button !== 0) return;
-
-  alert("Wheel Track Pointer Down Detected!"); // *** ADDED ALERT FOR TESTING ***
 
   isPointerDown = true;
   hasDragged = false;

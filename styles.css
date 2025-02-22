@@ -295,7 +295,6 @@ body.menu-open .side-menu {
   width: 100%;
   /* We'll do smooth transitions for snapping */
   transition: transform 0.2s ease;
-  touch-action: pan-y; /* ADDED: Allow vertical panning (scrolling) with touch */
 }
 
 /* Styles for each poem item in the wheel */
