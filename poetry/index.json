@@ -12,6 +12,17 @@
                 "tender",
                 "loving"
             ]
+        },
+        {
+            "filename": "as_i_unravel.json",
+            "title_en": "As I Unravel",
+            "title_it": "Mentre Mi Sfilaccio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241229": [
@@ -49,6 +60,19 @@
                 "sad",
                 "dark",
                 "passionate"
+            ]
+        },
+        {
+            "filename": "apex_of_aspiration.json",
+            "title_en": "Apex Of Aspiration.",
+            "title_it": "Apice Dell'Aspirazione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "rhyme"
             ]
         }
     ],
@@ -98,6 +122,19 @@
                 "passionate",
                 "rhyme"
             ]
+        },
+        {
+            "filename": "fault_lines.json",
+            "title_en": "Fault Lines.",
+            "title_it": "Linee Di Faglia",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20250105": [
@@ -112,6 +149,18 @@
                 "melancholy",
                 "longing"
             ]
+        },
+        {
+            "filename": "passing_by.json",
+            "title_en": "Passing By.",
+            "title_it": "Di Passaggio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241228": [
@@ -124,6 +173,19 @@
                 "longform",
                 "dark",
                 "melancholy"
+            ]
+        },
+        {
+            "filename": "dualities.json",
+            "title_en": "Dualities.",
+            "title_it": "Dualità",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy",
+                "longing",
+                "tender"
             ]
         }
     ],
@@ -139,6 +201,19 @@
                 "melancholy",
                 "longing"
             ]
+        },
+        {
+            "filename": "as_we_embark_on_the_season.json",
+            "title_en": "As We Embark On The Season.",
+            "title_it": "Mentre Iniziamo La Stagione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241219": [
@@ -152,6 +227,18 @@
                 "melancholy",
                 "longing",
                 "loving"
+            ]
+        },
+        {
+            "filename": "allusions_to_notes.json",
+            "title_en": "Allusions To Notes.",
+            "title_it": "Allusioni Di Note",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
             ]
         }
     ],
@@ -225,6 +312,19 @@
                 "melancholy",
                 "dark"
             ]
+        },
+        {
+            "filename": "libro_sospeso.json",
+            "title_en": "Libro Sospeso.",
+            "title_it": "Libro Sospeso",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "melancholy",
+                "longing",
+                "longform"
+            ]
         }
     ],
     "20250103": [
@@ -250,6 +350,18 @@
                 "longform",
                 "tender",
                 "melancholy"
+            ]
+        },
+        {
+            "filename": "a_chance.json",
+            "title_en": "A Chance.",
+            "title_it": "Una Possibilità",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing",
+                "tender"
             ]
         }
     ],
@@ -1588,6 +1700,18 @@
                 "loving",
                 "passionate"
             ]
+        },
+        {
+            "filename": "keep_my_words_and_fly.json",
+            "title_en": "Keep My Words And Fly.",
+            "title_it": "Mantieni Le Mie Parole E Vola",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "monoku"
+            ]
         }
     ],
     "20250216": [
@@ -2358,6 +2482,19 @@
                 "sad",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "oxytocin.json",
+            "title_en": "Oxytocin.",
+            "title_it": "Ossitocina",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241127": [
@@ -2369,6 +2506,19 @@
             "tags": [
                 "dark",
                 "melancholy",
+                "longform"
+            ]
+        },
+        {
+            "filename": "weary_soles.json",
+            "title_en": "Weary Soles.",
+            "title_it": "Piedi Stanchi",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "loving",
                 "longform"
             ]
         }
@@ -2384,6 +2534,18 @@
                 "sad",
                 "melancholy",
                 "passionate"
+            ]
+        },
+        {
+            "filename": "hortus_heist.json",
+            "title_en": "Hortus Heist.",
+            "title_it": "Furto Del Giardino",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "dark"
             ]
         }
     ],
@@ -2434,6 +2596,19 @@
                 "shortform",
                 "haiku",
                 "whimsical"
+            ]
+        },
+        {
+            "filename": "expended.json",
+            "title_en": "Expended.",
+            "title_it": "Esaurito",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
             ]
         }
     ],
@@ -2499,6 +2674,17 @@
                 "loving",
                 "longing"
             ]
+        },
+        {
+            "filename": "cast_away.json",
+            "title_en": "Cast Away.",
+            "title_it": "Naufragio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241119": [
@@ -2513,6 +2699,18 @@
                 "melancholy",
                 "longform"
             ]
+        },
+        {
+            "filename": "spectral_tapestry.json",
+            "title_en": "Spectral Tapestry.",
+            "title_it": "Tessitura Spettrale",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241121": [
@@ -2526,6 +2724,18 @@
                 "longing",
                 "dark",
                 "longform"
+            ]
+        },
+        {
+            "filename": "obol_for_the_unmoved.json",
+            "title_en": "Obol For The Unmoved.",
+            "title_it": "Obolo Per Gli Immobili",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
             ]
         }
     ],
@@ -2679,6 +2889,17 @@
                 "dark",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "open_heart.json",
+            "title_en": "Open Heart.",
+            "title_it": "Cuore Apertoo",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241203": [
@@ -2693,6 +2914,19 @@
                 "sad",
                 "melancholy",
                 "loving"
+            ]
+        },
+        {
+            "filename": "quilt_of_quiet.json",
+            "title_en": "Quilt Of Quiet.",
+            "title_it": "Trapunta Del Silenzio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
             ]
         }
     ],
@@ -2829,6 +3063,18 @@
                 "loving",
                 "longing"
             ]
+        },
+        {
+            "filename": "amnesia.json",
+            "title_en": "Amnesia.",
+            "title_it": "Amnesia",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "monoku"
+            ]
         }
     ],
     "20250106": [
@@ -2854,6 +3100,17 @@
                 "sad",
                 "melancholy",
                 "passionate"
+            ]
+        },
+        {
+            "filename": "fragrant_radiance.json",
+            "title_en": "Fragrant Radiance.",
+            "title_it": "Radiosa Fragranza",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy"
             ]
         }
     ],
@@ -2905,6 +3162,18 @@
                 "tender",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "beyond_a_wish.json",
+            "title_en": "Beyond A Wish.",
+            "title_it": "Oltre Un Desiderio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20250108": [
@@ -2919,6 +3188,19 @@
                 "tender",
                 "loving",
                 "passionate"
+            ]
+        },
+        {
+            "filename": "the_enchanter.json",
+            "title_en": "The Enchanter.",
+            "title_it": "L'Incantatore",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "tender",
+                "loving",
+                "melancholy"
             ]
         }
     ],
@@ -2994,6 +3276,19 @@
                 "melancholy",
                 "passionate"
             ]
+        },
+        {
+            "filename": "a_pleasant_burden.json",
+            "title_en": "A Pleasant Burden.",
+            "title_it": "Un Piacevole Fardello",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241212": [
@@ -3021,6 +3316,19 @@
                 "loving",
                 "melancholy",
                 "passionate"
+            ]
+        },
+        {
+            "filename": "pyroclastic.json",
+            "title_en": "Pyroclastic.",
+            "title_it": "Piroclastica",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "melancholy"
             ]
         }
     ],
@@ -3131,6 +3439,19 @@
                 "sad",
                 "dark",
                 "shortform"
+            ]
+        },
+        {
+            "filename": "immovable.json",
+            "title_en": "Immovable",
+            "title_it": "Immobile",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender",
+                "passionate"
             ]
         }
     ],
@@ -3361,6 +3682,19 @@
                 "longing",
                 "passionate"
             ]
+        },
+        {
+            "filename": "the_grounded_arrow.json",
+            "title_en": "The Grounded Arrow.",
+            "title_it": "La Freccia Atterrata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "rhyme",
+                "loving"
+            ]
         }
     ],
     "20241109": [
@@ -3375,6 +3709,19 @@
                 "passionate",
                 "tender",
                 "longing"
+            ]
+        },
+        {
+            "filename": "reforged_words.json",
+            "title_en": "Reforged Words.",
+            "title_it": "Parole Riforgiate",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "melancholy"
             ]
         }
     ],
@@ -3766,6 +4113,18 @@
                 "loving",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "the_dance_unfinished.json",
+            "title_en": "The Dance Unfinished.",
+            "title_it": "La Danza Incompiuta",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241123": [
@@ -3779,6 +4138,18 @@
                 "loving",
                 "tender",
                 "melancholy"
+            ]
+        },
+        {
+            "filename": "the_stray.json",
+            "title_en": "The Stray.",
+            "title_it": "Il Randagio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "vss"
             ]
         }
     ],
@@ -3804,6 +4175,19 @@
                 "longform",
                 "sad",
                 "dark",
+                "passionate"
+            ]
+        },
+        {
+            "filename": "skipping_me.json",
+            "title_en": "Skipping Me.",
+            "title_it": "Saltandomi",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing",
                 "passionate"
             ]
         }
@@ -3957,6 +4341,19 @@
                 "passionate",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "notte_predatrice.json",
+            "title_en": "Notte Predatrice.",
+            "title_it": "Notte Predatrice",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         }
     ],
     "20241114": [
@@ -4007,6 +4404,18 @@
                 "dark",
                 "melancholy"
             ]
+        },
+        {
+            "filename": "effulgence.json",
+            "title_en": "Effulgence.",
+            "title_it": "Effulgenza",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241125": [
@@ -4020,6 +4429,17 @@
                 "sad",
                 "loving",
                 "melancholy"
+            ]
+        },
+        {
+            "filename": "chim_chim_cheree.json",
+            "title_en": "Chim Chim Cher-Ee.",
+            "title_it": "Chim Chim Cher-Ee",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "rhyme"
             ]
         }
     ],
@@ -4339,6 +4759,18 @@
                 "longing",
                 "tender"
             ]
+        },
+        {
+            "filename": "new_years_wish.json",
+            "title_en": "New Year'S Wish.",
+            "title_it": "Augurio Di Anno Nuovo",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20250122": [
@@ -4496,6 +4928,18 @@
                 "longing",
                 "dark"
             ]
+        },
+        {
+            "filename": "soup_for_the_soul.json",
+            "title_en": "Soup For The Soul.",
+            "title_it": "Zuppa Per L'Anima",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241201": [
@@ -4521,6 +4965,19 @@
                 "dark",
                 "sad"
             ]
+        },
+        {
+            "filename": "tucked_away.json",
+            "title_en": "Tucked Away.",
+            "title_it": "Nascosto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241206": [
@@ -4533,6 +4990,584 @@
                 "longform",
                 "sad",
                 "dark",
+                "loving",
+                "passionate"
+            ]
+        },
+        {
+            "filename": "resurgence.json",
+            "title_en": "Resurgence.",
+            "title_it": "Rinascita",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
+        }
+    ],
+    "20241220": [
+        {
+            "filename": "ode_to_lacrimosa.json",
+            "title_en": "Ode To Lacrimosa",
+            "title_it": "Ode Alla Lacrimosa",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
+        }
+    ],
+    "20241218": [
+        {
+            "filename": "untucked_ember.json",
+            "title_en": "Untucked Ember.",
+            "title_it": "Brace Svelata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "tender"
+            ]
+        }
+    ],
+    "20241227": [
+        {
+            "filename": "periwinkle.json",
+            "title_en": "Periwinkle.",
+            "title_it": "Pervinca",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "loving",
+                "tender",
+                "longing"
+            ]
+        }
+    ],
+    "20241024": [
+        {
+            "filename": "you_told_me.json",
+            "title_en": "You Told Me.",
+            "title_it": "Me L'Avevi Detto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing",
+                "loving"
+            ]
+        }
+    ],
+    "20241216": [
+        {
+            "filename": "ream_embers.json",
+            "title_en": "Ream Embers.",
+            "title_it": "Braci Di Risma",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender",
+                "passionate"
+            ]
+        }
+    ],
+    "20241025": [
+        {
+            "filename": "try.json",
+            "title_en": "Try!",
+            "title_it": "Prova",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
+        }
+    ],
+    "20241210": [
+        {
+            "filename": "flutters.json",
+            "title_en": "Flutters.",
+            "title_it": "Svolazzante",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241226": [
+        {
+            "filename": "awaken_to_a_new_light.json",
+            "title_en": "Awaken To A New Light.",
+            "title_it": "Risvegliarsi A Una Nuova Luce",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving"
+            ]
+        }
+    ],
+    "20241221": [
+        {
+            "filename": "temporary_treasures.json",
+            "title_en": "Temporary Treasures.",
+            "title_it": "Tesori Temporanei",
+            "category": "Spectral",
+            "tags": [
+                "tender",
+                "longing",
+                "loving",
+                "sad",
+                "longform"
+            ]
+        }
+    ],
+    "20241103": [
+        {
+            "filename": "objectively.json",
+            "title_en": "Objectively",
+            "title_it": "Oggettivamente",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
+        }
+    ],
+    "20241104": [
+        {
+            "filename": "ferocious_embrace.json",
+            "title_en": "Ferocious Embrace.",
+            "title_it": "Abbraccio Feroce",
+            "category": "Spectral",
+            "tags": [
+                "passionate",
+                "longing",
+                "dark",
+                "tender",
+                "sad"
+            ]
+        }
+    ],
+    "20241105": [
+        {
+            "filename": "arrows_of_time.json",
+            "title_en": "Arrows Of Time.",
+            "title_it": "Frecce Del Tempo",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241111": [
+        {
+            "filename": "digital_devotion.json",
+            "title_en": "Digital Devotion.",
+            "title_it": "Devozione Digitale",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "loving",
+                "longform"
+            ]
+        }
+    ],
+    "20241129": [
+        {
+            "filename": "the_balloon.json",
+            "title_en": "The Balloon.",
+            "title_it": "Il Pallone",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate",
+                "vss"
+            ]
+        }
+    ],
+    "20241117": [
+        {
+            "filename": "chords_for_winter.json",
+            "title_en": "Chords For Winter",
+            "title_it": "Accordi Per L'Inverno",
+            "category": "Spectral",
+            "tags": [
+                "loving",
+                "tender",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241110": [
+        {
+            "filename": "becoming_bytes.json",
+            "title_en": "Becoming Bytes",
+            "title_it": "Diventando Byte",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
+        }
+    ],
+    "20241126": [
+        {
+            "filename": "showman.json",
+            "title_en": "Showman.",
+            "title_it": "Spettacolare",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "whimsical"
+            ]
+        }
+    ],
+    "20241204": [
+        {
+            "filename": "in_quiet_contemplation.json",
+            "title_en": "In Quiet Contemplation.",
+            "title_it": "In Silenziosa Contemplazione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "tender"
+            ]
+        }
+    ],
+    "20241202": [
+        {
+            "filename": "i_wish_you_warmth.json",
+            "title_en": "I Wish You Warmth.",
+            "title_it": "Ti Auguro Calore",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241030": [
+        {
+            "filename": "embraced_pain.json",
+            "title_en": "Embraced Pain.",
+            "title_it": "Dolore Accolto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241029": [
+        {
+            "filename": "ghosted_thoughts.json",
+            "title_en": "Ghosted Thoughts.",
+            "title_it": "Pensieri Svaniti",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
+        }
+    ],
+    "20241224": [
+        {
+            "filename": "wish_you_the_best.json",
+            "title_en": "Wish You The Best.",
+            "title_it": "Ti Auguro Il Meglio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241223": [
+        {
+            "filename": "gentle_ascent.json",
+            "title_en": "Gentle Ascent.",
+            "title_it": "Ascesa Gentile",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate"
+            ]
+        }
+    ],
+    "20241027": [
+        {
+            "filename": "veiled_in_black_diverging_paths.json",
+            "title_en": "Veiled In Black, Diverging Paths.",
+            "title_it": "Velato Di Nero, Sentieri Divergenti",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241213": [
+        {
+            "filename": "boomerang.json",
+            "title_en": "Boomerang.",
+            "title_it": "Boomerang",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "passionate",
+                "longform"
+            ]
+        }
+    ],
+    "20241026": [
+        {
+            "filename": "how_can_you_study_words_and_suck_at_them_so_bad.json",
+            "title_en": "How Can You Study Words And Suck At Them So Bad?",
+            "title_it": "Come Puoi Studiare Le Parole E Usarle Così Male?",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "dark"
+            ]
+        }
+    ],
+    "20241214": [
+        {
+            "filename": "lost_amongst_clouds.json",
+            "title_en": "Lost Amongst Clouds.",
+            "title_it": "Perduto Fra Le Nubi",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "tender"
+            ]
+        }
+    ],
+    "20241222": [
+        {
+            "filename": "smile.json",
+            "title_en": "Smile!",
+            "title_it": "Sorrisosirros",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "whimsical"
+            ]
+        }
+    ],
+    "20241028": [
+        {
+            "filename": "separate_directions.json",
+            "title_en": "Separate Directions.",
+            "title_it": "Direzioni Separate",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
+        }
+    ],
+    "20241225": [
+        {
+            "filename": "a_gift.json",
+            "title_en": "A Gift.",
+            "title_it": "Un Dono",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "longing",
+                "tender"
+            ]
+        }
+    ],
+    "20241130": [
+        {
+            "filename": "veiled_note.json",
+            "title_en": "Veiled Note.",
+            "title_it": "Nota Velata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241108": [
+        {
+            "filename": "the_blade_ran_through.json",
+            "title_en": "The Blade Ran Through.",
+            "title_it": "La Lama Attraversò",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
+        }
+    ],
+    "20241101": [
+        {
+            "filename": "how_weak.json",
+            "title_en": "How Weak.",
+            "title_it": "Quanto Debole",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longform",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
+        }
+    ],
+    "20241106": [
+        {
+            "filename": "the_arrow_that_questions.json",
+            "title_en": "The Arrow That Questions.",
+            "title_it": "La Freccia Che Interroga",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing",
+                "passionate",
+                "vss"
+            ]
+        }
+    ],
+    "20241112": [
+        {
+            "filename": "unheard_echoes.json",
+            "title_en": "Unheard Echoes.",
+            "title_it": "Echi Inascoltati",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
+        }
+    ],
+    "20241122": [
+        {
+            "filename": "my_unending_heart.json",
+            "title_en": "My Unending Heart.",
+            "title_it": "Il Mio Cuore Infinito",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
+        }
+    ],
+    "20241207": [
+        {
+            "filename": "gratitude.json",
+            "title_en": "Gratitude.",
+            "title_it": "Gratitudine",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "loving",
+                "longing",
+                "tender"
+            ]
+        }
+    ],
+    "20241209": [
+        {
+            "filename": "above_the_abyss.json",
+            "title_en": "Above The Abyss.",
+            "title_it": "Sopra L'Abisso",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "passionate",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241208": [
+        {
+            "filename": "into_the_abyss.json",
+            "title_en": "Into The Abyss.",
+            "title_it": "Nell'Abisso",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
                 "loving",
                 "passionate"
             ]
