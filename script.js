@@ -5,35 +5,33 @@ console.log("script.js loaded.");
  */
 let currentLanguage = "en";
 
-// For the calendar
-const earliestDate = new Date(2024, 9, 24); // 2024-10-24
-const today = new Date();
-let calendarYear = 0;
-let calendarMonth = 0; // 0-based
-
 // If you have localized strings in "gui.json", load them; else skip
 let guiData = null;
 
 /**
  * For the poem index
- * This JSON file maps each date folder (e.g. "20250104")
- * to an array of metadata objects:
- * [
- *   {
- *     "filename": "in_the_pursuit_of.json",
- *     "title_en": "In The Pursuit Of",
- *     "title_it": "Nella Ricerca Di",
- *     "category": "Personal",
- *     "tags": [...]
- *   }
- * ]
+ * The new file is "poetry/index.json".
+ * Keys: date in YYYYMMDD form (e.g. "20241211")
+ * Value: array of poem metadata objects
  */
 let poemIndex = {}; // Will hold data from poetry/index.json
 
 /**
+ * We'll dynamically figure out earliestDate and latestDate
+ * from the date keys that appear in poemIndex.
+ */
+let earliestDate = null;
+let latestDate = null;
+
+/** For the actual calendar navigation */
+let calendarYear = 0;
+let calendarMonth = 0; // 0-based
+const today = new Date();
+
+/**
  * For the infinite vertical spinner with fling
  */
-let poemsForWheel = [];          // Array of poem metadata objects for a given date
+let poemsForWheel = [];          // Array of poem metadata for a given date
 const WHEEL_REPEAT_COUNT = 7;    // Replicate items for smooth looping
 const WHEEL_ITEM_HEIGHT = 60;    // px, must match CSS
 let wheelTrackOffsetY = 0;       // Track's vertical offset
@@ -59,7 +57,8 @@ let animationFrameID = null;     // For requestAnimationFrame
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
-  await loadPoemIndex(); // Load the main "poetry/index.json" mapping date folders -> poem metadata
+  await loadPoemIndex(); // Load the main "poetry/index.json"
+  determineDateRangeFromIndex(); // figure out earliestDate/latestDate from poemIndex
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
@@ -80,10 +79,9 @@ async function loadGuiData() {
   }
 }
 
-/**
- * Load poemIndex from "poetry/index.json"
- * This file should map each date-folder (e.g. "20250104") to an array of metadata objects.
- */
+/* ------------------------------------------------------------------
+   LOAD POEM INDEX => "poetry/index.json"
+------------------------------------------------------------------ */
 async function loadPoemIndex() {
   try {
     const resp = await fetch("poetry/index.json");
@@ -97,6 +95,38 @@ async function loadPoemIndex() {
     console.error("Error loading poemIndex:", err);
     poemIndex = {};
   }
+}
+
+/**
+ * After poemIndex is loaded, find the earliest and latest date from its keys.
+ * That way we know how to build the calendar range.
+ */
+function determineDateRangeFromIndex() {
+  const dateKeys = Object.keys(poemIndex);
+  if (!dateKeys.length) {
+    // no poems at all
+    earliestDate = new Date(); // fallback to "now"
+    latestDate = new Date();
+    return;
+  }
+
+  // parse each key "YYYYMMDD" => new Date(YYYY, MM-1, DD)
+  const dateObjs = dateKeys.map(k => {
+    const y = parseInt(k.slice(0, 4), 10);
+    const m = parseInt(k.slice(4, 6), 10) - 1; // zero-based
+    const d = parseInt(k.slice(6, 8), 10);
+    return new Date(y, m, d);
+  });
+
+  // earliest to latest
+  const minTime = Math.min(...dateObjs.map(d => d.getTime()));
+  const maxTime = Math.max(...dateObjs.map(d => d.getTime()));
+
+  earliestDate = new Date(minTime);
+  latestDate = new Date(maxTime);
+
+  console.log("Earliest date from index:", earliestDate);
+  console.log("Latest date from index:", latestDate);
 }
 
 /* ------------------------------------------------------------------
@@ -246,6 +276,7 @@ function loadPoetrySection() {
   if (!main) return;
   main.innerHTML = "";
 
+  // If calendarYear hasn't been set, default to today's year/month
   if (!calendarYear) {
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
@@ -285,12 +316,13 @@ function renderCalendarView(year, month, container) {
   navDiv.appendChild(nextBtn);
   container.appendChild(navDiv);
 
-  // Bounds
+  // Bounds (disable prev/next if outside earliest/latest)
+  const thisMonthStart = new Date(year, month, 1);
   const prevMonthDate = new Date(year, month - 1, 1);
-  if (prevMonthDate < earliestDate) prevBtn.disabled = true;
   const nextMonthDate = new Date(year, month + 1, 1);
-  const nextLimit = new Date(today.getFullYear(), today.getMonth(), 1);
-  if (nextMonthDate > nextLimit) nextBtn.disabled = true;
+
+  if (earliestDate && prevMonthDate < earliestDate) prevBtn.disabled = true;
+  if (latestDate && nextMonthDate > latestDate) nextBtn.disabled = true;
 
   // Table
   const table = document.createElement("table");
@@ -325,19 +357,22 @@ function renderCalendarView(year, month, container) {
     td.textContent = String(d);
 
     const currentDate = new Date(year, month, d);
-    if (currentDate < earliestDate || currentDate > today) {
+
+    // Check if this date appears in poemIndex
+    const yyy = currentDate.getFullYear();
+    const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(currentDate.getDate()).padStart(2, "0");
+    const dateKey = `${yyy}${mm}${dd}`; // e.g. "20241211"
+
+    // We only make it clickable if that dateKey is in poemIndex
+    if (!poemIndex[dateKey]) {
       td.style.opacity = "0.3";
     } else {
       td.style.cursor = "pointer";
-      td.onclick = () => {
-        const yyy = currentDate.getFullYear();
-        const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
-        const dd = String(currentDate.getDate()).padStart(2, "0");
-        loadPoemsByDate(`${yyy}-${mm}-${dd}`);
-      };
+      td.onclick = () => loadPoemsByDate(`${yyy}-${mm}-${dd}`);
     }
 
-    // highlight today's cell
+    // highlight today's cell (just for visual, if in range)
     if (
       currentDate.getFullYear() === today.getFullYear() &&
       currentDate.getMonth() === today.getMonth() &&
@@ -400,15 +435,15 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS => SHOW INFINITE WHEEL
-   Using poemIndex to find which *metadata* exist for that date
+   LOAD POEMS => SHOW INFINITE WHEEL (OR single poem)
+   Using poemIndex => each dateKey has array of metadata objects
 ------------------------------------------------------------------ */
 async function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
-  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241229"
+  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241211"
   console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName);
 
-  // Get the array of poem metadata from poemIndex
+  // Get the array of poem metadata
   let poemMetadataArr = poemIndex[folderName] || [];
   if (!Array.isArray(poemMetadataArr)) {
     console.error("Error: poemIndex entry is NOT an array for folder:", folderName, poemMetadataArr);
@@ -419,28 +454,30 @@ async function loadPoemsByDate(dateStr) {
 
   if (poemMetadataArr.length === 0) {
     console.warn("No poems for date:", dateStr);
-    alert(`${t("errors.noPoemFound")}: ${dateStr}`);
+    alert(`${t("errors.noPoemFound") || "No poems for date"}: ${dateStr}`);
     return;
   }
 
-  // Store the metadata for the wheel
-  poemsForWheel = poemMetadataArr.slice(); // clone or keep reference
-  // If exactly 1 => we can still do the single display or the wheel
-  if (poemsForWheel.length === 1) {
-    // Only one poem => fetch & display immediately
-    const singleMetadata = poemsForWheel[0];
-    fetchAndDisplayPoem(folderName, singleMetadata);
-  } else {
-    // Multiple poems => show the infinite wheel
-    showInfiniteWheelOverlay();
+  // We attach the actual folderName to each item
+  poemMetadataArr.forEach(m => {
+    m._folderName = folderName;
+  });
+
+  // If exactly 1 => fetch & display immediately
+  if (poemMetadataArr.length === 1) {
+    fetchAndDisplayPoem(folderName, poemMetadataArr[0]);
+    return;
   }
+
+  // Otherwise => multiple poems => infinite wheel
+  poemsForWheel = poemMetadataArr.slice(); // keep reference
+  showInfiniteWheelOverlay();
 }
 
 /**
- * Fetch the poem's full JSON *on demand* and show reading overlay
+ * Fetch the poem's full JSON *on demand*, display in overlay
  */
 async function fetchAndDisplayPoem(folderName, poemMeta) {
-  // poemMeta has { filename, title_en, title_it, category, tags... }
   const poemUrl = `poetry/${folderName}/${poemMeta.filename}`;
   console.log("Fetching poem:", poemUrl);
 
@@ -453,7 +490,7 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
     const poemData = await resp.json();
     console.log("Poem data loaded:", poemUrl, poemData);
 
-    // Choose appropriate title & text based on language
+    // Choose appropriate title & text
     const tUsed = (currentLanguage === "en")
       ? (poemData.title_en || "Untitled")
       : (poemData.title_it || poemData.title_en || "Untitled");
@@ -471,7 +508,7 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
 
 /* ------------------------------------------------------------------
    INFINITE WHEEL (MARQUEE) + FLING
-   Now we do NOT fetch the poems in advance; only show their titles
+   Build from the metadata. Do NOT fetch poems up front.
 ------------------------------------------------------------------ */
 function showInfiniteWheelOverlay() {
   let overlay = document.getElementById("poem-wheel-overlay");
@@ -487,7 +524,7 @@ function showInfiniteWheelOverlay() {
     document.body.appendChild(overlay);
   }
 
-  // When overlay is open, block underlying page interactions
+  // Prevent clicks from going behind the overlay
   overlay.addEventListener("click", e => e.stopPropagation());
 
   const closeBtn = overlay.querySelector("#wheel-close-btn");
@@ -502,7 +539,7 @@ function showInfiniteWheelOverlay() {
     }, 400);
   };
 
-  // Build extended list
+  // Build repeated list
   const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
   const wheelTrack = overlay.querySelector("#wheel-track");
   wheelTrack.innerHTML = "";
@@ -515,15 +552,13 @@ function showInfiniteWheelOverlay() {
     const item = document.createElement("div");
     item.classList.add("wheel-item");
     item.dataset.index = String(idx);
-    // We'll store the folderName and actual poem metadata so we can fetch on tap
     item.dataset.folderName = info.folderName;
     item.dataset.filename = info.filename;
-
-    item.textContent = info.displayTitle; // Show the chosen language title
+    item.textContent = info.displayTitle;
     wheelTrack.appendChild(item);
   });
 
-  // Re-bind pointer events
+  // Re-bind pointer events (avoid double-binding)
   const newWheelTrack = wheelTrack.cloneNode(true);
   wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
 
@@ -549,47 +584,30 @@ function showInfiniteWheelOverlay() {
 
 /**
  * Build an extended repeated list for smooth looping.
- * We pick the language-specific title as "displayTitle"
+ * We'll pick the language-specific "displayTitle" from the metadata.
  */
 function buildInfiniteList(poemsMetadata, repeatCount) {
-  // "poemsMetadata" is the array from poemIndex for a certain date
-  // We assume they all share the same date folder
-  if (!poemsMetadata.length) return [];
+  // Each metadata in poemsMetadata has: { filename, title_en, title_it, _folderName, etc. }
+  // We'll store a final object with { folderName, filename, displayTitle }
 
-  // Determine the folderName from the first item or your own logic
-  // If you prefer to pass it in, that's also fine:
-  // (Because in the real usage, each date => one folder.)
-  const folderName = findFolderNameForMetadata(poemsMetadata);
-
-  // Pre-process each metadata for display
+  // Precompute the displayTitle for each
   poemsMetadata.forEach(p => {
-    // We’ll store a new property for the chosen language title
     p._displayTitle = (currentLanguage === "en")
       ? (p.title_en || "Untitled")
       : (p.title_it || p.title_en || "Untitled");
   });
 
-  // Build repeated list
   const out = [];
   for (let r = 0; r < repeatCount; r++) {
-    poemsMetadata.forEach((p, i) => {
+    poemsMetadata.forEach(p => {
       out.push({
-        folderName,
+        folderName: p._folderName,
         filename: p.filename,
         displayTitle: p._displayTitle
       });
     });
   }
   return out;
-}
-
-// Attempt to find a folder name from the array's first item if needed
-function findFolderNameForMetadata(arr) {
-  // If you stored "folderName" inside each object, you can just return that.
-  // Otherwise, you can store it externally in loadPoemsByDate and pass it in.
-  // For this snippet, let's just guess "???????" if not provided.
-  // You can adjust as needed.
-  return (arr && arr.length && arr[0]._folderName) ? arr[0]._folderName : "???????";
 }
 
 function centerScrollAtMiddle(wheelTrack, totalCount) {
@@ -622,7 +640,6 @@ function findCenterIndex(wheelTrack, totalCount) {
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
     const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
-
     if (dist < minDist) {
       minDist = dist;
       centerI = i;
@@ -666,7 +683,6 @@ function onWheelPointerDown(e) {
   // Only left-click or touch
   if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  // Begin pointer
   isPointerDown = true;
   hasDragged = false;
 
@@ -674,10 +690,10 @@ function onWheelPointerDown(e) {
   pointerDownY = e.clientY;
   startPointerY = e.clientY;
 
-  lastPointerY = e.clientY;       // For velocity calc
+  lastPointerY = e.clientY; // For velocity calc
   lastMoveTime = performance.now();
-  flingVelocity = 0;              // Reset velocity
-  stopFlingAnimation();           // Stop any active fling
+  flingVelocity = 0;        // Reset velocity
+  stopFlingAnimation();     // Stop any active fling
 
   // Identify which item was tapped
   pointerDownItem = e.target.closest(".wheel-item") || null;
@@ -689,7 +705,6 @@ function onWheelPointerDown(e) {
 function onWheelPointerMove(e) {
   if (!isPointerDown) return;
 
-  // For fling velocity
   const now = performance.now();
   const deltaTime = now - lastMoveTime;
   lastMoveTime = now;
@@ -747,31 +762,28 @@ function onWheelPointerUp(e) {
       }
     }
   }
-  flingVelocity = 0; // We'll recalc on fling or next pointerDown
+  flingVelocity = 0;
 }
 
 /**
- * Called when user taps the center item. We fetch the poem JSON on demand.
+ * Called when user taps the center item in the wheel
+ * => fetch the actual poem JSON and display it
  */
 function openPoemFromCenterItem(itemEl) {
-  // We rely on dataset from buildInfiniteList
-  const folderName = itemEl.dataset.folderName || "???????";
+  const folderName = itemEl.dataset.folderName;
   const filename = itemEl.dataset.filename;
-
-  if (!filename) {
-    console.error("No filename found on center item. Cannot open poem.");
+  if (!folderName || !filename) {
+    console.error("No folderName or filename found on itemEl", itemEl);
     return;
   }
 
-  // We must find the exact metadata entry in poemsForWheel that matches `filename`
-  // (You could also store everything in itemEl's dataset, but let's be consistent.)
+  // find the matching metadata in poemsForWheel
   const meta = poemsForWheel.find(m => m.filename === filename);
   if (!meta) {
     console.error("No matching metadata found for filename:", filename);
     return;
   }
 
-  // Actually fetch the poem JSON
   fetchAndDisplayPoem(folderName, meta);
 }
 
@@ -799,7 +811,6 @@ function onMouseWheelScroll(e) {
   const wheelTrack = this.querySelector("#wheel-track");
   if (!wheelTrack) return;
 
-  // For "natural" scrolling: negative the delta
   const delta = Math.max(-1, Math.min(1, e.deltaY));
   wheelTrackOffsetY += delta * -WHEEL_ITEM_HEIGHT;
 
