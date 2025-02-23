@@ -1,8 +1,13 @@
 {
     "date": "2025-02-17",
-    "title_en": "What are the chances?",
-    "title_it": "Quali sono le probabilità?",
+    "title_en": "What Are The Chances?",
+    "title_it": "Quali Sono Le Probabilità?",
     "poem_en": "And try to let go as I might, my mind still wanders, my heart runs ahead, chasing the light. You never quite closed the door— and if you did, it found its way through. Every moment, coincidence pulls me to you. And if that’s not fate, then give me your view.",
-    "poem_it": "E anche se cerco di lasciar andare, la mia mente vaga ancora, il mio cuore corre avanti, inseguendo la luce. Non hai mai del tutto chiuso la porta — e se l'hai fatto, si è riaperta da sola. Ogni istante, il destino mi conduce da te. E se ciò non è destino, allora dammi la tua opinione.",
-    "category": "Distillate"
+    "poem_it": "E cerca di lasciar andare come posso, la mia mente vaga ancora, il mio cuore corre avanti, inseguendo la luce. Non hai mai proprio chiuso la porta - e se l'hai fatto, ha trovato il suo modo attraverso. Ogni momento, la coincidenza mi porta da te. E se questo non è destino, allora dammi la tua opinione.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "longing",
+        "melancholy"
+    ]
 }

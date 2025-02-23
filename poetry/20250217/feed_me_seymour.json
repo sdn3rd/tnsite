@@ -1,8 +1,13 @@
 {
     "date": "2025-02-17",
-    "title_en": "Feed me, Seymour.",
-    "title_it": "Alimentami, Seymour.",
-    "poem_en": "Carnivorous plant of craving, your teeth waver; waiting, a slithered tongue speaks foreign verse. Darkness enwrapped, encircling words they drill into my mind, and soon I find my steps leading me into your mouth, never recalling why or understanding how.",
-    "poem_it": "Pianta carnivora del desiderio, i tuoi denti vacillano; in attesa, una lingua strisciante parla versi stranieri. Avvolto dall'oscurità, circondando parole che si insinuano nella mia mente, e presto trovo i miei passi che mi portano nella tua bocca, senza mai ricordare il perché o comprendere come.",
-    "category": "Brambles"
+    "title_en": "Feed Me, Seymour.",
+    "title_it": "Nutrimi, Seymour.",
+    "poem_en": "Carnivorous plant of craving, your teeth waver, waiting. A slithered tongue speaks foreign verse, darkness enwrapped, encircling words. They drill into my mind, and soon I find my steps leading me into your mouth, never recalling why or understanding how.",
+    "poem_it": "Pianta carnivora del desiderio, i tuoi denti vacillano, aspettando. Una lingua serpeggiante parla versi stranieri, avvolti dall'oscurità, circondando le parole. Si insinuano nella mia mente, e presto trovo i miei passi che mi conducono nella tua bocca, senza ricordare mai il perché o capire come.",
+    "category": "Brambles",
+    "tags": [
+        "dark",
+        "melancholy",
+        "longing"
+    ]
 }

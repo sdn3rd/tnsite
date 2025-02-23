@@ -1,8 +1,12 @@
 {
     "date": "2025-02-09",
-    "title_en": "But a dream.",
-    "title_it": "Ma solo un sogno.",
-    "poem_en": "Having seen this in a dream before, serendipitous turned precipitous. Splendor unbridled in a heart, through pacing, setting itself apart. And I woke, remembering only light—a whisper still reflected off the moon at night.",
-    "poem_it": "Aver visto ciò in sogno prima, serendipità trasformata in precipizio. Splendore sfrenato in un cuore, attraverso un passo lento, ponendosi da parte. E mi svegliai, ricordando solo la luce—un sussurro ancora riflesso sulla luna di notte.",
-    "category": "Half_baked_prompts"
+    "title_en": "But A Dream.",
+    "title_it": "Ma Un Sogno.",
+    "poem_en": "Having seen this in a dream before, serendipitous turned precipitous. Splendor unbridled in a heart, through pacing, setting itself apart. And I woke, remembering only light— a whisper still reflected off the moon at night.",
+    "poem_it": "Avevo visto questo in un sogno prima, da serendipico a precipitoso. Splendore sfrenato in un cuore, attraverso il passo, mettendosi da parte. E mi svegliai, ricordando solo la luce—un sussurro ancora riflesso sulla luna di notte.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "longform",
+        "melancholy"
+    ]
 }

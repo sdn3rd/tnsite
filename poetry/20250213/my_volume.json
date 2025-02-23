@@ -1,8 +1,13 @@
 {
     "date": "2025-02-13",
-    "title_en": "My volume.",
-    "title_it": "Il mio volume.",
+    "title_en": "My Volume.",
+    "title_it": "Il Mio Volume.",
     "poem_en": "The cathartic nature of an infantile man, swaddled in elations of elevated heights. A mind self-provisioned, improvised, signing treaties with palpitations unwise. But within the depths of the pages, their voluminous nature would be realized.",
-    "poem_it": "La natura catartica di un uomo infantile, avvolto in gaiezze di altezze elevate. Una mente autoapprovigionata, improvvisata, che firma trattati con palpiti imprudenti. Ma nei profondi dei fogli, la loro natura voluminosa sarebbe compresa.",
-    "category": "Distillate"
+    "poem_it": "La natura catartica di un uomo infantile, avvolto in estasi di altezze elevate. Una mente autoprivisionata, improvvisata, che firma trattati con palpiti imprudenti. Ma tra le profondità delle pagine, la loro natura voluminosa sarebbe realizzata.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy"
+    ]
 }

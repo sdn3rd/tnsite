@@ -1,8 +1,12 @@
 {
     "date": "2025-02-11",
-    "title_en": "Of dreams.",
-    "title_it": "Dei sogni.",
-    "poem_en": "The scariest ones are those you can make real— because once you succeed, you start to believe any of them can be.",
-    "poem_it": "I più spaventosi sono quelli che puoi rendere reali— perché una volta che ci riesci, inizi a credere che ognuno di essi possa esserlo.",
-    "category": "Philosophy"
+    "title_en": "Of Dreams.",
+    "title_it": "Dei Sogni.",
+    "poem_en": "The scariest ones are those you can make real—because once you succeed, you start to believe any of them can be.",
+    "poem_it": "Le più spaventose sono quelle che puoi rendere reali—perché una volta che ci riesci, inizi a credere che ogni cosa possa accadere.",
+    "category": "Philosophy",
+    "tags": [
+        "dark",
+        "longing"
+    ]
 }

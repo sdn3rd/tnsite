@@ -1,8 +1,13 @@
 {
     "date": "2025-02-21",
-    "title_en": "Grounded views.",
-    "title_it": "Viste radicate.",
+    "title_en": "Grounded Views.",
+    "title_it": "Visioni A Terra.",
     "poem_en": "A man on the sidewalk lay sideways. It was night, and he looked cold— so much so, my heart broke. I was not rich. Never having much to give, I only longed to make the world better— only to find I could better those around me. And not always— for you cannot be everything to everyone.",
-    "poem_it": "Un uomo sul marciapiede giaceva di lato. Era notte, e sembrava freddo, tanto che il mio cuore si ruppe. Non ero ricco. Senza mai avere molto da dare, desideravo solo rendere il mondo migliore, solo per scoprire che potevo migliorare chi mi circondava. E non sempre, perché non puoi essere tutto per tutti.",
-    "category": "Hedges"
+    "poem_it": "Un uomo sul marciapiede giaceva di traverso. Era notte, e sembrava freddo— tanto che il mio cuore si spezzò. Non ero ricco. Non avendo mai molto da dare, desideravo solo rendere il mondo migliore— solo per scoprire che potevo migliorare coloro che mi circondavano. E non sempre— perché non si può essere tutto per tutti.",
+    "category": "Hedges",
+    "tags": [
+        "sad",
+        "longing",
+        "loving"
+    ]
 }

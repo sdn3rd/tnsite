@@ -1,8 +1,13 @@
 {
     "date": "2025-02-15",
-    "title_en": "Shark party!",
-    "title_it": "Festa degli squali!",
-    "poem_en": "A shark in his mind, underwater, the party sways. Mouth open, fed by hand, entertained just to exist. Wee as he takes the cake, grinning wide, a maw agape— a Cheshire bloom across his face.",
-    "poem_it": "Uno squalo nella mente, sott'acqua, la festa oscillante. Bocca spalancata, nutrita dalla mano, intrattenuta solo dall'esistere. Piccolo mentre mangia la torta, sorridendo ampiamente, una fauci spalancate - come il sorriso di un gatto di Cheshire sul suo volto.",
-    "category": "Whimsical"
+    "title_en": "Shark Party!",
+    "title_it": "Festa Degli Squali!",
+    "poem_en": "A shark in his mind, underwater, the party sways. Mouth open, fed by hand, entertained just to exist. Wee as he takes the cake, grinning wide, a maw agape — a Cheshire bloom across his face.",
+    "poem_it": "Uno squalo nella sua mente, sott'acqua, la festa oscilla. Bocca spalancata, nutrito a mano, intrattenuto dal semplice esistere. Piccolino mentre prende la torta, sorridendo ampiamente, una bocca spalancata — un sorriso alla Cheshire attraverso il suo viso.",
+    "category": "Whimsical",
+    "tags": [
+        "longform",
+        "whimsical",
+        "fun"
+    ]
 }

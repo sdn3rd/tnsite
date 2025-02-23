@@ -1,8 +1,14 @@
 {
     "date": "2025-02-12",
-    "title_en": "Heart you.",
-    "title_it": "Cuore tu.",
+    "title_en": "Heart You.",
+    "title_it": "Cuore Tu.",
     "poem_en": "The chilled air fills the car, but my heart stays warm with youth. When they meet—cold-sparked, bedazzled breath—a frost-filmed canvas forms upon the glass. I draw a heart. It's for you.",
-    "poem_it": "L'aria gelida riempie l'auto, ma il mio cuore rimane caldo di gioventù. Quando si incontrano - scintille di freddo, aliti incantati - si forma una tela ghiacciata sul vetro. Disegno un cuore. È per te.",
-    "category": "Vss_daily"
+    "poem_it": "L'aria gelida riempie l'auto, ma il mio cuore rimane caldo di giovinezza. Quando si incontrano - scintillanti di freddo, alito abbagliato - si forma un quadro di ghiaccio sul vetro. Disegno un cuore. È per te.",
+    "category": "Vss_daily",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "whimsical"
+    ]
 }

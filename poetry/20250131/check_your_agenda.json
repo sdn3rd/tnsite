@@ -1,8 +1,13 @@
 {
     "date": "2025-01-31",
-    "title_en": "Check your agenda.",
-    "title_it": "Controlla il tuo diario.",
+    "title_en": "Check Your Agenda.",
+    "title_it": "Controlla Il Tuo Programma.",
     "poem_en": "Better check your agenda, because I'm pointing fingers. Always the scoundrel, out for my pound of flesh. I see the politicians and the CEOs— itching—who's next? Civil hands poised to start the party, eat the rich, anarchy.",
-    "poem_it": "Meglio controllare il tuo agenda, perché sto puntando il dito. Sempre il birbone, in cerca della mia libbra di carne. Vedo i politici e i CEO - prurito - chi sarà il prossimo? Mani civili pronte a iniziare la festa, mangiare i ricchi, anarchia.",
-    "category": "Social_commentary"
+    "poem_it": "Meglio controllare il tuo programma, perché sto puntando il dito. Sempre il birbone, in cerca della mia libbra di carne. Vedo i politici e i CEO - prurito, chi è il prossimo? Le mani civili pronte a iniziare la festa, a divorare i ricchi, anarchia.",
+    "category": "Social_commentary",
+    "tags": [
+        "dark",
+        "sad",
+        "rhyme"
+    ]
 }

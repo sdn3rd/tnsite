@@ -1,8 +1,12 @@
 {
     "date": "2025-01-21",
-    "title_en": "Shut up and smile.",
-    "title_it": "Rammentati e sorridi.",
+    "title_en": "Shut Up And Smile.",
+    "title_it": "Stai Zitto E Sorridi.",
     "poem_en": "I like teeth but not mouths. Not the noises certain people make, or the absence of hygiene.",
     "poem_it": "Mi piacciono i denti ma non le bocche. Non i rumori che fanno certe persone, né l'assenza di igiene.",
-    "category": "Micropoems"
+    "category": "Micropoems",
+    "tags": [
+        "shortform",
+        "dark"
+    ]
 }

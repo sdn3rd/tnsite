@@ -1,8 +1,15 @@
 {
     "date": "2025-02-01",
-    "title_en": "Of the heart.",
-    "title_it": "Dell'amore.",
-    "poem_en": "While easy to close off, keeping it open— allowing it to suffer— offers a greater beauty, even if painful.",
-    "poem_it": "Mentre è facile chiudere, mantenerlo aperto - permettendogli di soffrire - offre una bellezza più grande, anche se dolorosa.",
-    "category": "Philosophy"
+    "title_en": "Of The Heart.",
+    "title_it": "Del Cuore.",
+    "poem_en": "While easy to close off, keeping it open—allowing it to suffer—offers a greater beauty, even if painful.",
+    "poem_it": "Pur facile da chiudere, mantenerlo aperto - consentirgli di soffrire - offre una bellezza maggiore, anche se dolorosa.",
+    "category": "Philosophy",
+    "tags": [
+        "longform",
+        "sad",
+        "tender",
+        "loving",
+        "melancholy"
+    ]
 }

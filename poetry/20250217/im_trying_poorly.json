@@ -1,8 +1,12 @@
 {
     "date": "2025-02-17",
-    "title_en": "I'm trying, poorly.",
-    "title_it": "Sto cercando, malamente.",
-    "poem_en": "I wanted to write you a letter. I wanted to write you everything. And if you’ve been watching, you might have noticed—words spilling across the floor, obscene beyond meaning, repeating. And while clever, you want serenity—restraint, and a f***ing moment of peace, ever so kindly.",
-    "poem_it": "Volevo scriverti una lettera. Volevo scriverti tutto. E se stavi guardando, forse hai notato—parole che traboccavano sul pavimento, osceni senza significato, ripetizione. E mentre sei astuta, desideri serenità—restraint, e un benedetto istante di pace, gentilmente.",
-    "category": "Brambles"
+    "title_en": "I'M Trying, Poorly.",
+    "title_it": "Sto Cercando, Male.",
+    "poem_en": "I wanted to write you a letter. I wanted to write you everything. And if you’ve been watching, you might have noticed: words spilling across the floor, obscene beyond meaning, repeating. And while clever, you want serenity— restraint and a moment of peace, ever so kindly.",
+    "poem_it": "Ho desiderato scriverti una lettera. Volevo scriverti tutto. E se stavi guardando, potresti aver notato: parole che traboccavano sul pavimento, oscure oltre il significato, ripetendosi. E sebbene intelligente, tu desideri serenità—contenimento e un momento di pace, gentilmente.",
+    "category": "Brambles",
+    "tags": [
+        "longform",
+        "melancholy"
+    ]
 }

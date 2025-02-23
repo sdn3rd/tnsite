@@ -1,8 +1,13 @@
 {
     "date": "2024-12-30",
-    "title_en": "Odd man out.",
-    "title_it": "Uomo fuori posto.",
-    "poem_en": "Three people try to dance.\nNine legs enter a race.\nThe difference divides them all.",
-    "poem_it": "Tre persone cercano di ballare.\nNove gambe partecipano a una corsa.\nLa differenza li divide tutti.",
-    "category": "Throwetry"
+    "title_en": "Odd Man Out.",
+    "title_it": "Uomo Fuori Posto.",
+    "poem_en": "Three people try to dance. Nine legs enter a race. The difference divides them all.",
+    "poem_it": "Tre persone cercano di ballare. Nove gambe entrano in una gara. La differenza li divide tutti.",
+    "category": "Throwetry",
+    "tags": [
+        "vss",
+        "shortform",
+        "whimsical"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-02-15",
     "title_en": "Snowcone.",
-    "title_it": "Cono di neve.",
-    "poem_en": "Cartons and cardboard, juggernauts of milk— liquid lunch; exodus of love, drunk on poetry, drowning in slush. Edges rimed, denying release; syrup drips through a cone cup, soaking, sinking—having had enough.",
-    "poem_it": "Cartoni e cartone, giganti di latte— pranzo liquido; esodo d'amore, ubriaco di poesia, annegato nel fango. Margini brinati, negando liberazione; sciroppo cola attraverso un bicchiere cono, imbevendo, affondando—avere avuto abbastanza.",
-    "category": "Distillate"
+    "title_it": "Ghiacciolo.",
+    "poem_en": "Cartons and cardboard, juggernauts of milk—liquid lunch, exodus of love, drunk on poetry, drowning in slush. Edges rimed, denying release, syrup drips through a cone cup, soaking, sinking—having had enough.",
+    "poem_it": "Cartoni e cartone, giganti del latte—pranzo liquido, esodo d'amore, ubriachi di poesia, affogati nella neve melmosa. Bordi orlati, negando il rilascio, sciroppo gocciola attraverso un bicchiere cono, inzuppando, affondando—avendo avuto abbastanza.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "melancholy",
+        "dark"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-02-10",
     "title_en": "Awnings.",
-    "title_it": "Tendalini.",
-    "poem_en": "Angling beats; reach, yawn. Sprawling arms wake to a new dawn. Stretched lips smile in awe.",
-    "poem_it": "Pesca battente; raggiungi, sbadiglio. Braccia distese si svegliano a una nuova alba. Labbra aperte sorridono in estasi.",
-    "category": "Haikus"
+    "title_it": "Tende.",
+    "poem_en": "Angling beats; Reach, yawn. Sprawling arms wake to a new dawn. Stretched lips smile in awe.",
+    "poem_it": "Battute di pesca; Raggiungi, sbadigli. Braccia spalancate si svegliano a una nuova alba. Labbra tese sorridono meravigliate.",
+    "category": "Haikus",
+    "tags": [
+        "micropoem",
+        "happy",
+        "tender"
+    ]
 }

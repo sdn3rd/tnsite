@@ -1,8 +1,13 @@
 {
     "date": "2025-02-06",
     "title_en": "Bye.",
-    "title_it": "Addio.",
+    "title_it": "Addio'.",
     "poem_en": "Bitter yearnings end.",
-    "poem_it": "Le brame amare finiscono.",
-    "category": "Acrostic"
+    "poem_it": "I desideri amari finiscono.",
+    "category": "Acrostic",
+    "tags": [
+        "vss",
+        "micropoem",
+        "melancholy"
+    ]
 }

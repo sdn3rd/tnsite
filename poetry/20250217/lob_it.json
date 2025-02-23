@@ -1,8 +1,15 @@
 {
     "date": "2025-02-17",
-    "title_en": "Lob it.",
-    "title_it": "Applaudo.",
-    "poem_en": "Have you ever loved someone so much that it was like a weight on your chest, and you just wanted to lob it at them because, damn, it was heavy.",
-    "poem_it": "Tu hai mai amato qualcuno così tanto che era come un peso sul petto, e volevi solo scaricarlo su di loro perché, cavolo, era pesante.",
-    "category": "Humor"
+    "title_en": "Lob It.",
+    "title_it": "Lanciarla.",
+    "poem_en": "Have you ever loved someone so much it was like a weight on your chest, and you just wanted to lob it at them because, fuck, it was heavy.",
+    "poem_it": "Hai mai amato qualcuno così tanto che era come un peso sul petto, e avresti solo voluto lanciarglielo addosso perché, cavolo, era pesante.",
+    "category": "Humor",
+    "tags": [
+        "longform",
+        "sad",
+        "melancholy",
+        "loving",
+        "passionate"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-01-01",
     "title_en": "2025.",
-    "title_it": "This poem, titled \"2025,\" by L.L. Barkat, uses minimalistic language to evoke the feeling of a future year. The simplicity of the title leaves room for interpretation and reflection. \n\nIn Italian:\n\n2025.\n\nQuesto breve versetto, \"2025,\" di L.L. Barkat, utilizza un linguaggio minimale per evocare la sensazione di un anno futuro. La semplicità del titolo lascia spazio all'interpretazione e alla riflessione.",
-    "poem_en": "Escape the hate. Instead, create serenity.",
-    "poem_it": "Fuggi dall'odio. Invece, crea serenità.",
-    "category": "Acrostic"
+    "title_it": "2025.",
+    "poem_en": "Escape the hate, instead create serenity.",
+    "poem_it": "Fuggire dall'odio, creare invece serenità.",
+    "category": "Acrostic",
+    "tags": [
+        "vss",
+        "shortform",
+        "tender"
+    ]
 }

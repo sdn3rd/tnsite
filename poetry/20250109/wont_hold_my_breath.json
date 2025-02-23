@@ -1,8 +1,13 @@
 {
     "date": "2025-01-09",
-    "title_en": "Won't hold my breath.",
-    "title_it": "Non tratterrò il respiro.",
+    "title_en": "Won'T Hold My Breath.",
+    "title_it": "Non Trattengo Il Respiro.",
     "poem_en": "If you return here, know my heart holds a fragment of yours, forever near.",
-    "poem_it": "Se torni qui, sappi che il mio cuore custodisce un frammento del tuo, per sempre vicino.",
-    "category": "Haikus"
+    "poem_it": "Se tu tornassi qui, sappi che il mio cuore custodisce un frammento del tuo, per sempre vicino.",
+    "category": "Haikus",
+    "tags": [
+        "longform",
+        "loving",
+        "melancholy"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-01-21",
-    "title_en": "Boldness in blue.",
-    "title_it": "Audacia in blu.",
-    "poem_en": "A bold flash of blue, kingfisher of burning words, hearts bled in her wake.",
-    "poem_it": "Un audace bagliore di blu, martin pescatore di parole ardenti, cuori sanguinanti nel suo passaggio.",
-    "category": "Haikus"
+    "title_en": "Boldness In Blue.",
+    "title_it": "Audacia Nel Blu.",
+    "poem_en": "A bold flash of blue, kingfisher of burning words; hearts bled in her wake.",
+    "poem_it": "Un audace bagliore di blu, martin pescatore di parole ardenti; cuori sanguinavano al suo passaggio.",
+    "category": "Haikus",
+    "tags": [
+        "haiku",
+        "sad",
+        "tender"
+    ]
 }

@@ -1,8 +1,14 @@
 {
     "date": "2025-02-09",
-    "title_en": "It doesn't have to make sense.",
-    "title_it": "Non deve avere senso.",
-    "poem_en": "Smiles in the air, lingering in my eyes—tears of happiness. The world still shines, it lingers, it carries, it pines. I reminisce—no relents, no pretense, the journey needs no reason.",
-    "poem_it": "Sorrisi nell'aria, che rimangono nei miei occhi — lacrime di felicità. Il mondo ancora risplende, persiste, trasporta, sospira. Mi abbandono ai ricordi — nessun respiro, nessuna finzione, il viaggio non ha bisogno di motivi.",
-    "category": "Short_form"
+    "title_en": "It Doesn'T Have To Make Sense.",
+    "title_it": "Non Deve Avere Senso.",
+    "poem_en": "Smiles in the air, lingering in my eyes— tears of happiness. The world still shines, it lingers, it carries, it pines. I reminisce— no relents, no pretense, the journey needs no reason.",
+    "poem_it": "Sorrisi nell'aria, che perdurano nei miei occhi - lacrime di felicità. Il mondo continua a brillare, persiste, si porta dietro, si consuma. Io ricordo - nessuna tregua, nessuna finzione, il viaggio non ha bisogno di motivi.",
+    "category": "Short_form",
+    "tags": [
+        "haiku",
+        "sad",
+        "longing",
+        "tender"
+    ]
 }

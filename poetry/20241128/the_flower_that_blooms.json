@@ -1,8 +1,14 @@
 {
     "date": "2024-11-28",
-    "title_en": "The flower that blooms.",
-    "title_it": "Il fiore che sboccia.",
-    "poem_en": "The moment slipped away like petals fall. I reached to catch them with my open hands, but all my grasping could not stay their flight. In one blink, you blossomed into ten; in the next, thirty years had flown. Though seasons change, my love for you remains a steadfast rose. My child, my rose, my gift, my guiding light. Each challenge faced is but a tender thorn—no burden when it's borne for love of you. You are the flower that forever blooms, a bloom I pray will never fade nor wilt.",
-    "poem_it": "Il momento è scivolato via come i petali cadono. Ho cercato di acchiapparli con le mani aperte, ma tutta la mia presa non poteva trattenere il loro volo. In un battito di ciglia, sei sbocciata in dieci; nel successivo, trent'anni erano volati. Anche se le stagioni cambiano, il mio amore per te rimane una rosa ferma. Figlia mia, rosa mia, mio dono, mia luce guida. Ogni sfida affrontata è solo una tenera spina—nessun peso quando viene sopportato per amore di te. Sei il fiore che fiorisce per sempre, un fiore che prego non si appassisca né sfiorisca mai.",
-    "category": "Flowers"
+    "title_en": "The Flower That Blooms.",
+    "title_it": "Il Fiore Che Sboccia.",
+    "poem_en": "The moment slipped away like petals fall. I reached to catch them with my open hands, but all my grasping could not stay their flight. In one blink, you blossomed into ten; in the next, thirty years had flown. Though seasons change, my love for you remains a steadfast rose. My child, my rose, my gift, my guiding light. Each challenge faced is but a tender thorn— no burden when it's borne for love of you. You are the flower that forever blooms, a bloom I pray will never fade nor wilt.",
+    "poem_it": "L'istante scivolò via come cadono i petali. Ho cercato di afferrarli con le mani aperte, ma tutto il mio afferrare non ha potuto trattenere il loro volo. In un battito di ciglia, sei sbocciata in dieci; nel successivo, trent'anni erano passati. Anche se le stagioni cambiano, il mio amore per te rimane una rosa costante. Mio bambino, mia rosa, il mio dono, la mia luce guida. Ogni sfida affrontata è solo una tenera spina - nessun peso quando lo si sopporta per amore di te. Sei il fiore che sboccia per sempre, un fiore che prego non appassisca né si avvizzisca.",
+    "category": "Flowers",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "longing"
+    ]
 }

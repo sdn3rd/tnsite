@@ -1,8 +1,12 @@
 {
     "date": "2025-02-12",
-    "title_en": "Refuse silence.",
-    "title_it": "Rifiuta il silenzio.",
+    "title_en": "Refuse Silence.",
+    "title_it": "Rifiuta Il Silenzio.",
     "poem_en": "If democracy isn’t for sale, why does it feel bought? What did we fight for if we sign away our will? It’s time to rise, break the chains, and reclaim the pen. Democracy lives where we the people refuse silence.",
-    "poem_it": "Se la democrazia non è in vendita, perché sembra comprata? Per cosa abbiamo combattuto se cediamo la nostra volontà? È tempo di alzarci, spezzare le catene, e reclamare la penna. La democrazia vive dove noi, il popolo, rifiutiamo il silenzio.",
-    "category": "Social_commentary"
+    "poem_it": "Se la democrazia non è in vendita, perché sembra essere stata comprata? Per cosa abbiamo combattuto se cediamo la nostra volontà? È tempo di alzarsi, spezzare le catene, e riconquistare la penna. La democrazia vive dove noi, il popolo, rifiutiamo il silenzio.",
+    "category": "Social_commentary",
+    "tags": [
+        "longform",
+        "passionate"
+    ]
 }

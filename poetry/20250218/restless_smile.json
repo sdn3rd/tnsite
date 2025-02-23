@@ -1,8 +1,14 @@
 {
     "date": "2025-02-18",
-    "title_en": "Restless smile.",
-    "title_it": "Sorriso inquieto.",
+    "title_en": "Restless Smile.",
+    "title_it": "Sorriso Inquieto.",
     "poem_en": "I wish for the stars, but there you are—stuck in my mind. Not that I mind your face. What I’m saying is, it’s constantly in the way. I liked it, it’s nice, but I don’t need to think about it all day. That cunningly infectious smile, denying me rest.",
-    "poem_it": "Desidero le stelle, ma tu sei lì—bloccato nella mia mente. Non è che mi dispiaccia il tuo volto. Quello che sto dicendo è che è costantemente sulla mia strada. Mi piace, è bello, ma non ho bisogno di pensarci tutto il giorno. Quel sorriso astutamente contagioso, che mi nega il riposo.",
-    "category": "Tumbleweeds"
+    "poem_it": "Desidero le stelle, ma eccoti lì - bloccato nella mia mente. Non è che mi dispiaccia il tuo viso. Quello che sto dicendo è che è costantemente sulla mia strada. Mi è piaciuto, è bello, ma non ho bisogno di pensarci tutto il giorno. Quel sorriso astutamente contagioso, che mi nega il riposo.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "sad",
+        "longing",
+        "melancholy"
+    ]
 }

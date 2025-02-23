@@ -1,8 +1,13 @@
 {
     "date": "2025-02-17",
-    "title_en": "Cotton candy.",
-    "title_it": "Zucchero filato.",
-    "poem_en": "Sugar strands spin, glistening, bright— inspiration finds meaning in the wide-eyed awe of a child. Sweet creations assemble rapidly, cheeks aglow, a hearty bellow— a \"Wow\" that lights the room, cotton candy afterglow.",
-    "poem_it": "Fusi di zucchero intrecciati, luccicanti, brillanti — l'ispirazione trova significato nell'ammirazione piena di stupore di un bambino. Dolci creazioni si assemblano rapidamente, le guance accese, un robusto grido — un \"Wow\" che illumina la stanza, la scia di zucchero filato.",
-    "category": "Brambles"
+    "title_en": "Cotton Candy.",
+    "title_it": "Zucchero Filato.",
+    "poem_en": "Sugar strands spin, glistening, bright— Inspiration finds meaning in the wide-eyed awe of a child. Sweet creations assemble rapidly, cheeks aglow, a hearty bellow— a \"wow\" that lights the room, cotton candy afterglow.",
+    "poem_it": "Fili di zucchero si intrecciano, luccicanti, luminosi - l'ispirazione trova significato nell'ammirazione sgranocchiante di un bambino. Dolci creazioni si assemblano rapidamente, guance rosse di gioia, un risolino caloroso - un \"wow\" che illumina la stanza, l'effetto di un avvolgente zucchero filato.",
+    "category": "Brambles",
+    "tags": [
+        "whimsical",
+        "happy",
+        "tender"
+    ]
 }

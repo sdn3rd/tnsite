@@ -2,7 +2,13 @@
     "date": "2025-01-05",
     "title_en": "Switzerland.",
     "title_it": "Svizzera.",
-    "poem_en": "Clock's hands turn slowly, another timepiece has stopped, traffic holds me still.",
-    "poem_it": "Le lancette dell'orologio girano lentamente, un'altra meridiana si è fermata, il traffico mi tiene fermo.",
-    "category": "Haikus"
+    "poem_en": "Clock's hands turn slowly. Another timepiece has stopped. Traffic holds me still.",
+    "poem_it": "Le lancette dell'orologio si muovono lentamente. Un altro cronometro si è fermato. Il traffico mi tiene fermo.",
+    "category": "Haikus",
+    "tags": [
+        "vss",
+        "shortform",
+        "melancholy",
+        "longing"
+    ]
 }

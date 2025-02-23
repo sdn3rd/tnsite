@@ -1,8 +1,15 @@
 {
     "date": "2025-02-17",
-    "title_en": "The Clash.",
-    "title_it": "Lo scontro.\n\nSono precipitati nel turbine del tempo,\ndue forze contrarie, destinate a scontrarsi.\nScintille di passione e furia\nilluminano la notte buia.\nUrla di rabbia e disperazione\nsi mescolano nell'aria vibrante.\n\nLe anime in lotta si scontrano,\ncome onde che si infrangono sulla scogliera.\nNessuno cede, nessuno si arrende,\nfino a quando l'alba non porta la calma.\nE nel silenzio che segue lo scontro,\nsi sente ancora il fragore dei cuori in lotta.",
-    "poem_en": "He felt the drums, he felt the beat, punk rock rising beneath the seams. The feeling, the meaning—everything— angst, pain, the vanity of believing. Tradition-bound chains disguised as religion, better seek heaven, beg for forgiveness. Fuck the push to the right from the world we live in.",
-    "poem_it": "Sentì i tamburi, percepì il ritmo, il punk si innalzava sotto le cuciture. La sensazione, il significato—tutto—angoscia, dolore, la vanità del credere. Catene vincolate alla tradizione mascherate da religione, meglio cercare il paradiso, implorare perdono. Al diavolo la spinta verso destra del mondo in cui viviamo.",
-    "category": "Social_commentary"
+    "title_en": "The Clash",
+    "title_it": "Lo Scontro",
+    "poem_en": "He felt the drums, he felt the beat, punk rock rising beneath the seams. The feeling, the meaning - everything - angst, pain, the vanity of believing. Tradition-bound chains disguised as religion, better seek heaven, beg for forgiveness. Fuck the push to the right from the world we live in.",
+    "poem_it": "Sentiva i tamburi, sentiva il ritmo, il punk rock che si leva sotto le cuciture. La sensazione, il significato - tutto - angoscia, dolore, la vanità di credere. Catene legate alla tradizione mascherate da religione, meglio cercare il paradiso, implorare il perdono. Al diavolo la spinta verso destra del mondo in cui viviamo.",
+    "category": "Social_commentary",
+    "tags": [
+        "longform",
+        "dark",
+        "passionate",
+        "melancholy",
+        "rhyme"
+    ]
 }

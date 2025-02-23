@@ -1,8 +1,14 @@
 {
     "date": "2025-01-11",
-    "title_en": "Worth it.",
-    "title_it": "Mericole it",
+    "title_en": "Worth It.",
+    "title_it": "Valore.",
     "poem_en": "Never a let down, surprising in every way. Gentle blade in heart.",
-    "poem_it": "Mai deludere, sorprendente in ogni modo. Lama delicata nel cuore.",
-    "category": "Haikus"
+    "poem_it": "Mai una delusione, sorprendente in ogni modo. Lama gentile nel cuore.",
+    "category": "Haikus",
+    "tags": [
+        "micropoem",
+        "sad",
+        "tender",
+        "longing"
+    ]
 }

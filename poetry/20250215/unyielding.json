@@ -1,8 +1,15 @@
 {
     "date": "2025-02-15",
     "title_en": "Unyielding.",
-    "title_it": "Implacabile.",
+    "title_it": "Inarrendevole.",
     "poem_en": "Intricate fillings, fruits soaked in sugar, boiled, refined, wrapped in delicate folds; a pastry of meaning, rich and pungent, harvested from the fields of her heart. But to spare future yields, the crops were left; the hands that once tended—now rusted and brittle.",
-    "poem_it": "Intricati ripieni, frutti inzuppati nello zucchero, bolliti, raffinati, avvolti in pieghe delicate; un dolce di significato, ricco e pungente, raccolto nei campi del suo cuore. Ma per risparmiare futuri raccolti, i campi sono stati abbandonati; le mani che un tempo li curavano—ora arrugginite e fragili.",
-    "category": "Distillate"
+    "poem_it": "Ricche farciture, frutta inzuppata nello zucchero, bollita, raffinata, avvolta in pieghe delicate; un dolce di significato, ricco e pungente, raccolto dai campi del suo cuore. Ma per risparmiare future colture, i campi furono lasciati; le mani che un tempo curavano—ora arrugginite e fragili.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "sad",
+        "tender",
+        "longing",
+        "melancholy"
+    ]
 }

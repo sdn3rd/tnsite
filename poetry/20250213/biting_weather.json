@@ -1,8 +1,13 @@
 {
     "date": "2025-02-13",
-    "title_en": "Biting weather.",
-    "title_it": "Morsa del clima.",
+    "title_en": "Biting Weather.",
+    "title_it": "Mordente Clima.",
     "poem_en": "Pedaling petals off a floral ride, one of longing as the winter arrives. It seems to come, time after time— I now realize, like the seasons, part of her nature where a cool breeze doesn't just howl, it bites.",
-    "poem_it": "Pedalando petali da un viaggio floreale, uno di nostalgia mentre arriva l'inverno. Sembra arrivare, volta dopo volta— adesso mi rendo conto, come le stagioni, parte della sua natura dove una brezza fresca non ulula solo, morde.",
-    "category": "Half_baked_prompts"
+    "poem_it": "Pedalando i petali lungo un giro floreale, uno di desiderio mentre l'inverno arriva. Sembra arrivare, volta dopo volta—ora realizzo, come le stagioni, parte della sua natura dove una fresca brezza non solo ulula, morde.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "longing",
+        "melancholy",
+        "tender"
+    ]
 }

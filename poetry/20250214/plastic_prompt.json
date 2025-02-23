@@ -1,8 +1,13 @@
 {
     "date": "2025-02-14",
-    "title_en": "Plastic prompt.",
-    "title_it": "Plastica prompt.",
-    "poem_en": "Plastic collides—pitted, worn. Indecisions riddle, deformed pelting percussive pellets; polystyrene alchemy. A brittle heart, cracked and caving; recycled cavity—carve it out. Landfill is what becomes of me.",
-    "poem_it": "Il plastica si scontra - segnata, consumata. Indecisioni tormentano, deformano, martellano pallini percussivi; alchimia di polistirolo. Un cuore fragile, crepato e crollante; cavità riciclata - scolpiscila. Terreno di discarica è ciò che divento io.",
-    "category": "Vss_daily"
+    "title_en": "Plastic Prompt.",
+    "title_it": "Prompt Di Plastica.",
+    "poem_en": "Plastic collides—pitted, worn. Indecisions riddle; deformed, pelting percussive pellets, polystyrene alchemy. A brittle heart, cracked and caving; recycled cavity—carve it out. Landfill is what becomes of me.",
+    "poem_it": "Plastica si scontra - segnata, logora. Indecisioni infestanti; deforme, granelli percussivi che cadono a scaglie, alchimia di polistirolo. Un cuore fragile, incrinato e cedente; cavità riciclata - svuotalo. Discarica è ciò che divento.",
+    "category": "Vss_daily",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy"
+    ]
 }

@@ -1,8 +1,14 @@
 {
     "date": "2025-02-13",
     "title_en": "Gemmed.",
-    "title_it": "Gioiello.",
-    "poem_en": "Arctic gale howls my name into the void. I wisp, more than myth, freezing in memory. Bound yet unbroken, time and space fracture under weight. A waiting gem gleams in that place— even if only but a fragment of a heart beyond grace.",
-    "poem_it": "Il vento artico ulula il mio nome nel vuoto. Sono solo un soffio, più di un mito, gelido nella memoria. Vincolato ma non spezzato, tempo e spazio si frantumano sotto il peso. Un gioiello in attesa splende in quel luogo— anche se solo un frammento di un cuore al di là della grazia.",
-    "category": "Distillate"
+    "title_it": "Incastonato.",
+    "poem_en": "Arctic gale howls my name into the void. I wisp, more than myth, freezing in memory, bound yet unbroken. Time and space fracture under weight. A waiting gem gleams in that place— even if only but a fragment of a heart beyond grace.",
+    "poem_it": "Il vento artico ulula il mio nome nel vuoto. Sono solo un soffio, più che un mito, congelato nella memoria, vincolato ma non spezzato. Il tempo e lo spazio si fratturano sotto il peso. Un gioiello in attesa brilla in quel luogo— anche se solo un frammento di un cuore al di là della grazia.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy",
+        "loving"
+    ]
 }

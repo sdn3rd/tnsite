@@ -1,8 +1,13 @@
 {
     "date": "2025-02-11",
-    "title_en": "Congested hearts.",
-    "title_it": "Cuori affollati.",
+    "title_en": "Congested Hearts.",
+    "title_it": "Cuori Ingombrati.",
     "poem_en": "Arteries of failure, chasing dreams—capitalism. Capitulation, lapping dances, dollars draped in attire iterations. Stylistic nihilism, a critique of criticisms.",
-    "poem_it": "Arterie di fallimento, inseguendo sogni—capitalismo. Capitulazione, danze avvolgenti, dollari avvolti in iterazioni d'abbigliamento. Nichilismo stilistico, una critica delle critiche.",
-    "category": "Vss_daily"
+    "poem_it": "Vie del fallimento, insegue sogni—capitalismo. Resa, balli che si susseguono, dollari avvolti in iterazioni d'abbigliamento. Nihilismo stilistico, critica delle critiche.",
+    "category": "Vss_daily",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy"
+    ]
 }

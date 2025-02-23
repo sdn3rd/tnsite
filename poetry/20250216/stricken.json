@@ -1,8 +1,14 @@
 {
     "date": "2025-02-16",
     "title_en": "Stricken.",
-    "title_it": "Afflitto.",
+    "title_it": "Colpito.",
     "poem_en": "A carnivore seeking me, trickles of blood glint on its teeth. A recent meal, a lingering bite, haunting my sleep in the dead of night. Fever-stricken beneath tight sheets, trapped, no escape, no release. So I sigh, I plead— it begins to sound like please.",
-    "poem_it": "Una belva mi cerca, gocce di sangue luccicano sui suoi denti. Un pasto recente, un morso che permane, che infesta il mio sonno nel cuore della notte. Febricitante sotto lenzuola strette, intrappolato, senza via di fuga, senza liberazione. Così sospiro, imploro— comincia a suonare come prego.",
-    "category": "Distillate"
+    "poem_it": "Un carnivoro mi cerca, gocce di sangue luccicano sui suoi denti. Un pasto recente, un morso persistente, che perseguita il mio sonno nel cuore della notte. Febricitante sotto lenzuola strette, intrappolato, nessuna via d'uscita, nessuna liberazione. Così sospiro, imploro - inizia a sembrare come un \"per favore\".",
+    "category": "Distillate",
+    "tags": [
+        "dark",
+        "sad",
+        "longing",
+        "longform"
+    ]
 }

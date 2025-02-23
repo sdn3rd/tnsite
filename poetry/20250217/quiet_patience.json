@@ -1,8 +1,13 @@
 {
     "date": "2025-02-17",
-    "title_en": "Quiet patience.",
-    "title_it": "Quieta pazienza.",
-    "poem_en": "I'd like to bake you a cake, though it may not be your birthday. There will be candles and their light as I want to look you in the eyes, to dream as you wish. And as you blow the candles out, I'd put a finger to your lips. Though pining for a kiss, I'd rather sit in silence just like this.",
-    "poem_it": "Vorrei prepararti una torta, anche se non è il tuo compleanno. Ci saranno candele e la loro luce perché voglio guardarti negli occhi, sognare come desideri. E mentre spegni le candele, metterei un dito sulle tue labbra. Anche se desidero un bacio, preferirei sedermi in silenzio proprio così.",
-    "category": "Brambles"
+    "title_en": "Quiet Patience.",
+    "title_it": "Pazienza Quieta.",
+    "poem_en": "I'd like to bake you a cake, though it may not be your birthday. There will be candles and their light, as I want to look you in the eyes, to dream as you wish. And as you blow the candles out, I'd put a finger to your lips. Though pining for a kiss, I'd rather sit in silence just like this.",
+    "poem_it": "Vorrei prepararti una torta, anche se non sarà il tuo compleanno. Ci saranno candele e la loro luce, poiché desidero guardarti negli occhi, sognare come desideri. E mentre spegni le candele, metterei un dito sulle tue labbra. Anche se bramo un bacio, preferirei sedermi in silenzio proprio così.",
+    "category": "Brambles",
+    "tags": [
+        "loving",
+        "tender",
+        "longing"
+    ]
 }

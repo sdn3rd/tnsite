@@ -1,8 +1,15 @@
 {
     "date": "2025-02-17",
     "title_en": "Snowball.",
-    "title_it": "Palla di neve.",
-    "poem_en": "These poems aren’t arrows— they’re snowballs. Take them playfully, throw them back— I can’t help myself. And if you feel them? Well, that’s the point, isn’t it? The real question is— why does love ever hurt?",
-    "poem_it": "Queste poesie non sono frecce — sono palle di neve. Prendile giocando, ributtale indietro — non posso fare a meno di farlo. E se le senti? Beh, è questo il punto, non è vero? La vera domanda è — perché l'amore fa mai male?",
-    "category": "Brambles"
+    "title_it": "Palla Di Neve.",
+    "poem_en": "These poems aren’t arrows – they’re snowballs. Take them playfully, throw them back – I can’t help myself. And if you feel them? Well, that’s the point, isn’t it? The real question is – why does love ever hurt?",
+    "poem_it": "Questi versi non sono frecce - sono palle di neve. Prendili giocando, riportali indietro - non posso farne a meno. E se li senti? Beh, è proprio questo il punto, no? La domanda vera è - perché l'amore fa mai male?",
+    "category": "Brambles",
+    "tags": [
+        "shortform",
+        "whimsical",
+        "fun",
+        "tender",
+        "loving"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-02-09",
-    "title_en": "The doe.",
-    "title_it": "La cerva.",
-    "poem_en": "Fawning fawn of innocence, plight upon your highness' heart, prancing on precipitous paths, dew-lathered petals of my soul, struck by sheer magnificence.",
-    "poem_it": "Cervido affettuoso di innocenza, disgrazia sul tuo cuore altissimo, saltellando su sentieri precipitosi, petali della mia anima lustrati dalla rugiada, colpiti da pura magnificenza.",
-    "category": "Short_form"
+    "title_en": "The Doe.",
+    "title_it": "La Cerva.",
+    "poem_en": "Fawning fawn of innocence, plight upon your highness' heart; prancing on precipitous paths, dew-lathered petals of my soul struck by sheer magnificence.",
+    "poem_it": "Stillando cerbiatto d'innocenza, affanno sul tuo cuore altezza; saltellando su sentieri scoscesi, petali dell'anima mia intinti di rugiada per la pura magnificenza.",
+    "category": "Short_form",
+    "tags": [
+        "haiku",
+        "tender",
+        "loving"
+    ]
 }

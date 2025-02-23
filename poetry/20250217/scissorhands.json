@@ -1,8 +1,15 @@
 {
     "date": "2025-02-17",
     "title_en": "Scissorhands.",
-    "title_it": "The image of Edward Scissorhands,\nA solitary figure with metal hands,\nCreating beauty with precision and care,\nYet shunned by a world that cannot bear\nHis unconventional appearance and skill,\nA tale of heartbreak that lingers still.\n\nLe mani di forbice,\nUn'immagine di Edward Mani di Forbice,\nUna figura solitaria con mani di metallo,\nChe crea bellezza con precisione e cura,\nMa respinto da un mondo che non sopporta\nLa sua apparenza e abilità non convenzionali,\nUn racconto di cuore infranto che ancora perdura.",
+    "title_it": "Mani Di Forbice.",
     "poem_en": "A needle or knife—I’ll stab everything, poke holes in the universe, tear through the seasons. I’m done with it all, and I don’t give a fuck. Enough is enough—my arm extends, slicing through niceties and contrivances. Time to air my grievances, so bring me your guts. I’ll jab until I’ve had enough.",
-    "poem_it": "Un ago o un coltello - pugnalerò tutto, farò buchi nell'universo, squarcierò le stagioni. Ne ho abbastanza di tutto questo, non me ne importa un accidente. Basta così - la mia mano si estende, taglia attraverso le cortesie e le finzioni. È tempo di esporre le mie lagnanze, quindi portatemi le viscere. Pugnalerò finché non avrò avuto abbastanza.",
-    "category": "Brambles"
+    "poem_it": "Un ago o un coltello - pugnalerò ogni cosa, farò buchi nell'universo, squarcierò le stagioni. Sono stufo di tutto questo, e non me ne frega niente. Basta così - il mio braccio si estende, tagliando cortesie e finzioni. È tempo di esternare le mie lamentele, quindi portatemi le vostre viscere. Pugnalerò fino a quando non ne avrò abbastanza.",
+    "category": "Brambles",
+    "tags": [
+        "dark",
+        "vss",
+        "longing",
+        "passionate",
+        "shortform"
+    ]
 }

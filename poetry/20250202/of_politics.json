@@ -1,8 +1,12 @@
 {
     "date": "2025-02-02",
-    "title_en": "Of politics.",
-    "title_it": "Della politica.",
+    "title_en": "Of Politics.",
+    "title_it": "Della Politica.",
     "poem_en": "Be ungovernable.",
     "poem_it": "Sii ingovernabile.",
-    "category": "Philosophy"
+    "category": "Philosophy",
+    "tags": [
+        "vss",
+        "shortform"
+    ]
 }

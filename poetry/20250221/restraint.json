@@ -1,8 +1,14 @@
 {
     "date": "2025-02-21",
     "title_en": "Restraint.",
-    "title_it": "Contenimento.",
+    "title_it": "Riservatezza.",
     "poem_en": "I have none.",
-    "poem_it": "Non ne ho alcuno.",
-    "category": "Tumbleweeds"
+    "poem_it": "Non ne ho.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "vss",
+        "shortform",
+        "sad",
+        "melancholy"
+    ]
 }

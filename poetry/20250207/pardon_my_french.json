@@ -1,8 +1,13 @@
 {
     "date": "2025-02-07",
-    "title_en": "Pardon my French.",
-    "title_it": "Perdona il mio francese.",
-    "poem_en": "Black side of the moon, pink-stained views – but all in all, reality has let me down. There’s no moon, no sun, no frown – just abject fucking horror, unless we tear it all down, shoving the bricks down authoritarian mouths.",
-    "poem_it": "Lato nero della luna, viste macchiate di rosa - ma tutto sommato, la realtà mi ha deluso. Non c'è luna, non c'è sole, non c'è tristezza - solo orrore assoluto, a meno che non lo demoliamo tutto, infilando i mattoni nelle bocche autoritarie.",
-    "category": "Social_commentary"
+    "title_en": "Pardon My French!",
+    "title_it": "Perdono Il Mio Francese!",
+    "poem_en": "Black side of the moon, pink-stained views — but all in all, reality has let me down. There’s no moon, no sun, no frown — just abject fucking horror, unless we tear it all down, shoving the bricks down authoritarian mouths.",
+    "poem_it": "Facciata nera della luna, visioni rosate — ma tutto sommato, la realtà mi ha deluso. Non c'è luna, non c'è sole, non c'è sguardo severo — solo un orrore maledetto, a meno che non lo demoliamo tutto, infilando i mattoni nelle bocche autoritarie.",
+    "category": "Social_commentary",
+    "tags": [
+        "dark",
+        "longing",
+        "passionate"
+    ]
 }

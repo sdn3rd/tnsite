@@ -1,8 +1,14 @@
 {
     "date": "2025-01-21",
-    "title_en": "Ash and smolders.",
-    "title_it": "Cenere e brace.",
-    "poem_en": "Left in ash: Smolders written across walls, with time. Hearts burned in her wake.",
-    "poem_it": "Immersa nella cenere: Brucia scritto sui muri, con il tempo. Cuori consumati nel suo cammino.",
-    "category": "Haikus"
+    "title_en": "Ash And Smolders.",
+    "title_it": "Cenere E Braci.",
+    "poem_en": "Left in ash: smolders written across walls, with time. Hearts burned in her wake.",
+    "poem_it": "Lasciato in cenere: fumante scritto sui muri, con il passare del tempo. Cuori bruciati nel suo cammino.",
+    "category": "Haikus",
+    "tags": [
+        "sad",
+        "melancholy",
+        "longing",
+        "vss"
+    ]
 }

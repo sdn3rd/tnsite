@@ -1,8 +1,14 @@
 {
     "date": "2025-02-18",
-    "title_en": "Yet, I am not frightened.",
-    "title_it": "Eppure, non sono spaventato.",
+    "title_en": "Yet, I Am Not Frightened.",
+    "title_it": "Eppure, Non Ho Paura.",
     "poem_en": "Devastation can frighten — to be seen, to be vulnerable. Yet after losing many, fear no longer lingers — only the weight of feelings. So I dare you, look me in the eyes and say you feel nothing. Because in that moment, I promise you — you will see devastation.",
-    "poem_it": "La devastazione può spaventare — essere vista, essere vulnerabile. Ma dopo aver perso molti, la paura non persiste più — solo il peso dei sentimenti rimane. Perciò ti sfido, guardami negli occhi e dimmi che non provi nulla. Perché in quel momento, te lo prometto — vedrai la devastazione.",
-    "category": "Brambles"
+    "poem_it": "La devastazione può spaventare — essere vista, essere vulnerabili. Ma dopo aver perso molti, la paura non persiste più — solo il peso dei sentimenti. Perciò ti sfido, guardami negli occhi e dimmi che non provi niente. Perché in quell'istante, ti prometto — vedrai la devastazione.",
+    "category": "Brambles",
+    "tags": [
+        "sad",
+        "longing",
+        "dark",
+        "passionate"
+    ]
 }

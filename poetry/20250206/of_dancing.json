@@ -1,8 +1,13 @@
 {
     "date": "2025-02-06",
-    "title_en": "Of dancing.",
-    "title_it": "Del ballo.",
-    "poem_en": "It's never too late to learn how! And if you aren't, why not?",
-    "poem_it": "Non è mai troppo tardi per imparare come! E se non lo sei, perché no?",
-    "category": "Philosophy"
+    "title_en": "Of Dancing.",
+    "title_it": "Del Ballo.",
+    "poem_en": "It's never too late to learn how. And if you aren't, why not?",
+    "poem_it": "Non è mai troppo tardi per imparare. E se non lo sei, perché no?",
+    "category": "Philosophy",
+    "tags": [
+        "vss",
+        "shortform",
+        "whimsical"
+    ]
 }

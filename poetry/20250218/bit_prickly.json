@@ -1,8 +1,13 @@
 {
     "date": "2025-02-18",
-    "title_en": "Bit prickly.",
-    "title_it": "Un po' puntuto.",
-    "poem_en": "If you could write your name, fold it up, and place it in a locket, I’d keep it forever and probably forget about it. Not because I don’t like you, but because I don’t think you feel the same, and with every reason, you push me away. So why do you still linger if you don’t feel the same way?",
-    "poem_it": "Se tu potessi scrivere il tuo nome, piegarlo e metterlo in un medaglione, lo conserverei per sempre e probabilmente lo dimenticherei. Non perché non mi piaci, ma perché non credo che tu provi lo stesso, e con ogni ragione, tu mi respingi. Allora perché ancora persisti, se non provi lo stesso sentimento?",
-    "category": "Tumbleweeds"
+    "title_en": "Bit Prickly.",
+    "title_it": "Un Po' Spinoso.",
+    "poem_en": "If you could write your name, fold it up, and place it in a locket, I’d keep it forever and probably forget about it. Not because I don’t like you, but because I don’t think you feel the same, and with every reason, you push me away. So, why do you still linger if you don’t feel the same way?",
+    "poem_it": "Se potessi scrivere il tuo nome, piegarlo e metterlo in un medaglione, lo terrei per sempre e probabilmente dimenticherei di averlo fatto. Non perché tu non mi piaci, ma perché non credo che tu provi lo stesso, e con ogni ragione, mi respingi. Allora, perché continui ad indugiare se non provi le stesse cose?",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "sad",
+        "melancholy"
+    ]
 }

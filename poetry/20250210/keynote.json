@@ -1,8 +1,13 @@
 {
     "date": "2025-02-10",
-    "title_en": "Keynote.",
-    "title_it": "Chiavi di lettura.\n \nIn una sala di conferenze luminosa, accogliente,\nnote dolci risuonano dalla tastiera,\nil presentatore si alza con garbo,\ndiscorso fluente, gesti eleganti.\n\nParole scivolano come seta,\nsi intrecciano nel crepuscolo d'autunno,\nuna sinfonia di concetti e idee,\nnote di speranza e riflessione.\n\nIl pubblico rapito, sospira,\nsognando al di là del confine del possibile,\nchiavi per aprire le porte della mente,\nilluminando sentieri inesplorati.\n\nUna conferenza diventa un viaggio,\nguidato da un oratore che passo dopo passo,\nrivela segreti nascosti, gioielli di saggezza,\nfinché l'eco delle sue parole si dissolve nel silenzio.",
-    "poem_en": "Cobbled carbuncle, knobbling modularly, villous volume, contiguous curls— bundled beauty, a keynote tucked in the frunk, forgotten, or not?",
-    "poem_it": "Corborante suolo, nodoso modularmente, volumi villosi, riccioli contigui— bellezza avvolta, una nota chiave riposta nel bagagliaio anteriore, dimenticata, o no?",
-    "category": "Phonetics"
+    "title_en": "Keynote",
+    "title_it": "Nota Principale",
+    "poem_en": "Cobbled carbuncle, knobbling modularly; villous volume; contiguous curls— bundled beauty; a keynote tucked in the frunk, forgotten, or not?",
+    "poem_it": "Camerata calcarea, nodulando modularmente;\nvolume villoso; bouffant contiguo - \nbellezza avvolta; una nota chiave nascosta nel cofano anteriore, dimenticata, o no?",
+    "category": "Phonetics",
+    "tags": [
+        "longform",
+        "whimsical",
+        "fun"
+    ]
 }

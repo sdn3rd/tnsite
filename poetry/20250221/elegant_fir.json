@@ -1,8 +1,13 @@
 {
     "date": "2025-02-21",
-    "title_en": "Elegant fir.",
-    "title_it": "Elegante abete.",
-    "poem_en": "Pleasantly, the scent airs its riffs— a fir in the mist, a frost-covered dew. Elegance in the vastness of white, but that shade of green was cascading, fragrant in its majesty. And how it lingers— now just a memory.",
-    "poem_it": "Gradevolmente, il profumo diffonde le sue note— un abete nella nebbia, una rugiada ricoperta di brina. Eleganza nell'immensità del bianco, ma quel colore di verde scivolava, fragrante nella sua maestosità. E come persiste— ora solo un ricordo.",
-    "category": "Vss_daily"
+    "title_en": "Elegant Fir.",
+    "title_it": "Abete Elegante.",
+    "poem_en": "Pleasantly, the scent airs its riffs—a fir in the mist, a frost-covered dew. Elegance in the vastness of white, but that shade of green was cascading, fragrant in its majesty, and how it lingers—now just a memory.",
+    "poem_it": "Dolcemente, il profumo diffonde le sue melodie - un abete nella nebbia, una rugiada coperta di brina. L'eleganza nell'immensità del bianco, ma quel tono di verde scendeva a cascata, fragrante nella sua maestosità, e come persiste - ora solo un ricordo.",
+    "category": "Vss_daily",
+    "tags": [
+        "longform",
+        "melancholy",
+        "tender"
+    ]
 }

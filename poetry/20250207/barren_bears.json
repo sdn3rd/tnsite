@@ -1,8 +1,14 @@
 {
     "date": "2025-02-07",
-    "title_en": "Barren bears.",
-    "title_it": "Orsi sterili.",
+    "title_en": "Barren Bears.",
+    "title_it": "Orsi Sterili.",
     "poem_en": "Breaking through thin ice, polar bears drift. Shadows bloom, spring vines twist below.",
-    "poem_it": "Frantumando sottili ghiacci, gli orsi polari fluttuano. Ombre sbocciano, viticci primaverili si intrecciano in basso.",
-    "category": "Haikus"
+    "poem_it": "Rompendo il ghiaccio sottile, gli orsi polari fluttuano. Le ombre sbocciano, le viti primaverili si avvinghiano in basso.",
+    "category": "Haikus",
+    "tags": [
+        "vss",
+        "sad",
+        "tender",
+        "longing"
+    ]
 }

@@ -1,8 +1,14 @@
 {
     "date": "2025-02-21",
     "title_en": "Sandman.",
-    "title_it": "Sabbia e vento,\nnel crepuscolo la culla dondola,\nporta i sogni riempiti con velluto dorato,\nladdove il Sandman cammina.\n\nCon un tocco gentile sulla fronte,\nlascia cadere la polvere magica,\ne come foglie leggere danzanti nel vento,\ni sogni prendono il volo.\n\nDormi, bambino, chiudi gli occhi stanchi,\nlascia che il Sandman ti guidi nel regno dei sogni,\ndove le stelle brillano nella notte silenziosa,\ne il mondo si arrende al dolce abbraccio del sonno.",
+    "title_it": "Uomo Della Sabbia.",
     "poem_en": "The dune cast fine sand into the air — a spell of sleep and magic. The Sandman came in slumber’s hush, stealing dreams, sweet memories, leaving only dust and vagaries. When words returned, they sputtered — absurd adverbs, tangled and frayed, making no sense, leaving us in suspense.",
-    "poem_it": "La duna lanciava sottile sabbia nell'aria — un incantesimo di sonno e magia. Il Mangiasogni arrivava nel silenzio del sonno, rubando sogni, dolci ricordi, lasciando solo polvere e vaghezze. Quando le parole tornavano, balbettavano — avverbi assurdi, intrecciati e sfilacciati, senza senso, lasciandoci nel dubbio.",
-    "category": "Hedges"
+    "poem_it": "La duna gettò sabbia fina nell'aria — un incantesimo di sonno e magia. Il Mietitore di Sogni arrivò nel silenzio del sonno, rubando sogni, dolci ricordi, lasciando solo polvere e incertezze. Quando le parole ritornarono, balbettavano — avverbi assurdi, aggrovigliati e logori, senza senso, lasciandoci in sospeso.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "sad",
+        "dark",
+        "tender"
+    ]
 }

@@ -1,8 +1,14 @@
 {
     "date": "2025-02-19",
-    "title_en": "Steeped soup.",
-    "title_it": "Zuppa infusa.",
-    "poem_en": "Let me break out my finest cutlery, hand you some gloves— it’s a hands-on affair. Together, we dig for root vegetables, symbolic foods to take hold, for I nearly lost you long ago— but I'd like to forget. So let’s steep some soup when we get back home.",
-    "poem_it": "Lasciami tirar fuori la mia posateria migliore, darti dei guanti— è un'esperienza pratica. Insieme scaviamo per le verdure radice, cibi simbolici da afferrare, perché quasi ti ho persa tempo fa— ma preferirei dimenticare. Quindi prepariamo un brodo quando torniamo a casa.",
-    "category": "Tumbleweeds"
+    "title_en": "Steeped Soup.",
+    "title_it": "Zuppa Inzuppata.",
+    "poem_en": "Let me break out my finest cutlery, hand you some gloves — it’s a hands-on affair. Together, we dig for root vegetables, symbolic foods to take hold, for I nearly lost you long ago — but I'd like to forget. So let’s steep some soup when we get back home.",
+    "poem_it": "Lascia che estragga la mia migliore argenteria, ti passi un paio di guanti - è un'attività pratica. Insieme, scaviamo per verdure radice, cibi simbolici da afferrare, perché quasi ti ho perso tempo fa - ma preferirei dimenticare. Quindi prepariamo una zuppa quando torniamo a casa.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "tender",
+        "loving",
+        "longing",
+        "melancholy"
+    ]
 }

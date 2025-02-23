@@ -1,8 +1,13 @@
 {
     "date": "2025-01-31",
-    "title_en": "Flat fields.",
-    "title_it": "Campi pianeggianti.",
-    "poem_en": "Flat feasting planet shepherded fields grow devout eggplant rots within.",
-    "poem_it": "Piatta pianeta festante, campi guidati crescono devoti melanzane marciscono dentro.",
-    "category": "Haikus"
+    "title_en": "Flat Fields.",
+    "title_it": "Campi Pianeggianti.",
+    "poem_en": "Flat feasting planet, shepherded fields grow; devout eggplant rots within.",
+    "poem_it": "Pianeta piatto festante, campi pascolati crescono; l'uovoplantare devoto marcisce dentro.",
+    "category": "Haikus",
+    "tags": [
+        "haiku",
+        "dark",
+        "melancholy"
+    ]
 }

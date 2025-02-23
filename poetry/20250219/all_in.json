@@ -1,8 +1,14 @@
 {
     "date": "2025-02-19",
-    "title_en": "All in.",
-    "title_it": "Tutto dentro.",
-    "poem_en": "With nothing holding me back, I go unbridled, fealty to none. And I say this with all my impetus: you must hold on with everything. Grab onto what keeps you alive because I will take you to the brink. This passion has no end - we either go or we die together. There will be no half measures.",
-    "poem_it": "Senza niente che mi trattenga, vado scatenato, fedeltà a nessuno. E lo dico con tutta la mia energia: devi aggrapparti con tutto te stesso. Afferrati a ciò che ti tiene in vita perché ti porterò sull'orlo. Questa passione non ha fine - o andiamo avanti insieme o moriamo insieme. Non ci saranno mezze misure.",
-    "category": "Hedges"
+    "title_en": "All In.",
+    "title_it": "Tutto Dentro.",
+    "poem_en": "With nothing holding me back, I go unbridled, fealty to none. And I say this with all my impetus: you must hold on with everything. Grab onto what keeps you alive, because I will take you to the brink. This passion has no end - we either go, or we die together. There will be no half measures.",
+    "poem_it": "Senza niente che mi trattenga, vado sfrenato, fedeltà a nessuno. E lo dico con tutto il mio impulso: devi aggrapparti con tutto te stesso. Afferra ciò che ti tiene vivo, perché ti porterò sull'orlo del precipizio. Questa passione non ha fine - o andiamo avanti insieme, o moriamo insieme. Non ci saranno compromessi.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "passionate",
+        "dark",
+        "longing"
+    ]
 }

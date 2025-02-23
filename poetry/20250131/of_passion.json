@@ -1,8 +1,15 @@
 {
     "date": "2025-01-31",
-    "title_en": "Of passion.",
-    "title_it": "Di passione.",
-    "poem_en": "Once asked what of passion or romance and the embrace, I restrain such imagery. But if I had to—my existence would be known with pressure. From every limber finger pressing upon skin, imbuing a lifetime of emotions in invocation. A lingering touch leading to dew on petals, a flower not forgotten with a fiery heart. With deep reverence and focus, the madness of metaphor ensuing, pleasured yearnings in panting sounds, a quiver or a whisper, a cry and a plea, an ode to euphoria.",
-    "poem_it": "Una volta mi chiesero del fuoco della passione, del romanticismo e dell'abbraccio, io trattienevo tali immagini. Ma se proprio dovessi... la mia esistenza sarebbe conosciuta con pressione. Da ogni dito flessibile che preme sulla pelle, imbevendo una vita di emozioni nell'invocazione. Un tocco persistente che porta rugiada sui petali, un fiore non dimenticato con un cuore ardente. Con profonda riverenza e concentrazione, la follia delle metafore avanza, desideri appagati in suoni ansimanti, un tremito o un sussurro, un grido e una supplica, un'ode all'euforia.",
-    "category": "Philosophy"
+    "title_en": "Of Passion.",
+    "title_it": "Della Passione.",
+    "poem_en": "Once asked what of passion or romance and the embrace, I restrain such imagery, but if I had to— my existence would be known with pressure. From every limber finger pressing upon skin, imbuing a lifetime of emotions in invocation. A lingering touch leading to dew on petals, a flower not forgotten with a fiery heart. With deep reverence and focus, the madness of metaphor ensuing, pleasured yearnings in panting sounds— a quiver or a whisper, a cry and a plea, an ode to euphoria.",
+    "poem_it": "Una volta mi chiesero riguardo alla passione o al romanticismo e all'abbraccio, io contengo tali immagini, ma se dovessi - la mia esistenza sarebbe conosciuta con pressione. Da ogni dito flessibile che preme sulla pelle, imprimendo una vita di emozioni in invocazione. Un tocco persistente che porta rugiada sui petali, un fiore non dimenticato con un cuore infuocato. Con profonda reverenza e concentrazione, la follia della metafora seguente, desideri appagati in suoni ansimanti - un tremito o un sussurro, un pianto e una richiesta, un'ode all'euforia.",
+    "category": "Philosophy",
+    "tags": [
+        "longform",
+        "passionate",
+        "tender",
+        "loving",
+        "longing"
+    ]
 }

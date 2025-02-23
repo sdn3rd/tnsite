@@ -1,8 +1,13 @@
 {
     "date": "2025-02-13",
-    "title_en": "Climb in.",
-    "title_it": "Salite.",
-    "poem_en": "In the trunk, he found relief, folding into shadow, outside on leaves. Soft steps traced his quiet release; in the keys left in locks he picked, the boils of wells left to fester, he sought blood, yet craved ink. His fingers glided, fevered, aching—a fleeting gesture—come near.",
-    "poem_it": "Nel baule, trovò sollievo, piegandosi nell'ombra, all'esterno sulle foglie. Passi leggeri tracciarono la sua quieta liberazione; nelle chiavi lasciate nelle serrature che forzava, nei foruncoli dei pozzi lasciati a marcire, cercava sangue, ma bramava inchiostro. Le sue dita scivolavano, febbrili, doloranti—un gesto fugace—avvicinati.",
-    "category": "Noir"
+    "title_en": "Climb In.",
+    "title_it": "Entrare.",
+    "poem_en": "In the trunk, he found relief, folding into shadow outside on leaves. Soft steps traced his quiet release. In the keys left in locks he picked, the boils of wells left to fester. He sought blood, yet craved ink. His fingers glided, fevered, aching— a fleeting gesture—come near.",
+    "poem_it": "Nel baule, trovò sollievo, piegandosi nell'ombra fuori su foglie. Passi leggeri tracciarono il suo quieto sfogo. Tra le chiavi rimaste nelle serrature che scelse, i bubboni dei pozzi lasciati ad infettarsi. Cercava sangue, eppure bramava inchiostro. Le sue dita scorrevano, febbrili, doloranti—un gesto fuggente—avvicinati.",
+    "category": "Noir",
+    "tags": [
+        "sad",
+        "dark",
+        "longing"
+    ]
 }

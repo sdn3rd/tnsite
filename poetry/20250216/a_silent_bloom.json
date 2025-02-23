@@ -1,8 +1,13 @@
 {
     "date": "2025-02-16",
-    "title_en": "A silent bloom.",
-    "title_it": "Un fiore silenzioso.",
-    "poem_en": "I’d let you cry into my arms, not for weakness, but for all you’ve endured. Graceful, radiant—beauty not vain, but the kind that inspires. Glowing, vast in magnitude, an epicenter of bloom. Your heart.",
-    "poem_it": "Ti lascerei piangere tra le mie braccia, non per debolezza, ma per tutto ciò che hai sopportato. Graziosa, radiosa - bellezza non vanitosa, ma il genere che ispira. Splendente, vasta in magnitudine, un epicentro di fioritura. Il tuo cuore.",
-    "category": "Distillate"
+    "title_en": "A Silent Bloom",
+    "title_it": "Un Fiore Silenzioso",
+    "poem_en": "I’d let you cry into my arms, not for weakness, but for all you’ve endured. Graceful, radiant—beauty not vain, but the kind that inspires. Glowing, vast in magnitude, an epicenter of bloom: your heart.",
+    "poem_it": "Ti lascerei piangere tra le mie braccia, non per debolezza, ma per tutto ciò che hai sopportato. Graziosa, radiante - bellezza non vanitosa, ma il genere che ispira. Splendente, vasta in magnitudine, un epicentro di fioritura: il tuo cuore.",
+    "category": "Distillate",
+    "tags": [
+        "tender",
+        "loving",
+        "longing"
+    ]
 }

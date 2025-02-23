@@ -1,8 +1,14 @@
 {
     "date": "2025-02-07",
     "title_en": "Armed Armistice.",
-    "title_it": "Armi sguainate.",
-    "poem_en": "Roman pilgrimage, phyllary protects pistil; petals rise with swords.",
-    "poem_it": "Pellegrinaggio romano, il calice protegge il pistillo; i petali si ergono come spade.",
-    "category": "Haikus"
+    "title_it": "Armistizio Armato.",
+    "poem_en": "Roman pilgrimage, phyllary protects pistil. Petals rise with swords.",
+    "poem_it": "Pellegrinaggio romano, il calice è protetto dall'embrione. I petali si ergono con spade.",
+    "category": "Haikus",
+    "tags": [
+        "shortform",
+        "haiku",
+        "whimsical",
+        "tender"
+    ]
 }

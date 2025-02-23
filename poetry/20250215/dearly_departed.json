@@ -1,8 +1,14 @@
 {
     "date": "2025-02-15",
-    "title_en": "Dearly departed.",
-    "title_it": "Caro estinto.",
+    "title_en": "Dearly Departed.",
+    "title_it": "Cari Defunti.",
     "poem_en": "Knitted during mortuary services, a kindred sweater draped her frame. She sat alone, wrapped in reverence, a warmth no longer bestowed. She gave a piece of her heart, not in grief, not in guilt— but because it was best. They had parted long ago, the weather brisk but never bitter.",
-    "poem_it": "Intessuta durante i funerali, un maglione affine avvolgeva il suo corpo. Sedeva sola, avvolta nella reverenza, un calore non più donato. Ha dato un pezzo del suo cuore, non nel dolore, non nella colpa— ma perché era meglio così. Si erano separati tempo fa, il clima frizzante ma mai amaro.",
-    "category": "Distillate"
+    "poem_it": "Lavorato a maglia durante i servizi funebri, un maglione affine avvolse il suo corpo. Sedeva sola, avvinta nel riverente, un calore che non le veniva più concesso. Lei diede un pezzo del suo cuore, non nel dolore, non nella colpa - ma perché era meglio. Si erano separati tempo fa, il clima fresco ma mai amaro.",
+    "category": "Distillate",
+    "tags": [
+        "sad",
+        "melancholy",
+        "longing",
+        "loving"
+    ]
 }

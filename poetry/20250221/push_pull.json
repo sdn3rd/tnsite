@@ -1,8 +1,14 @@
 {
     "date": "2025-02-21",
-    "title_en": "Push, pull.",
-    "title_it": "Spingi, tira.",
-    "poem_en": "Two voices in silence, screaming in violence. The push, the pull, the yank, the tug — the hate, the love. Call it what it is, let it be what you want. We don’t need definitions, but let’s give it what we got. All in — ready or not.",
-    "poem_it": "Due voci nel silenzio, urlano nella violenza. La spinta, il tiro, lo strappo, la trazione — l'odio, l'amore. Chiamalo come vuoi, lascialo essere ciò che desideri. Non abbiamo bisogno di definizioni, ma diamogli ciò che abbiamo. Tutto dentro — pronti o no.",
-    "category": "Hedges"
+    "title_en": "Push, Pull.",
+    "title_it": "Premi, Tira.",
+    "poem_en": "Two voices in silence, screaming in violence. The push, the pull, the yank, the tug— the hate, the love. Call it what it is, let it be what you want. We don’t need definitions, but let’s give it what we got. All in—ready or not.",
+    "poem_it": "Due voci nel silenzio, urlano nella violenza. La spinta, il tiro, lo strappo, il tirare — l'odio, l'amore. Chiamalo come vuoi, lascialo essere come desideri. Non abbiamo bisogno di definizioni, ma diamogli quello che abbiamo. Tutti dentro — pronti o no.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "dark",
+        "passionate",
+        "longing"
+    ]
 }

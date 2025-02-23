@@ -1,8 +1,14 @@
 {
     "date": "2025-02-12",
     "title_en": "Dreamcaught.",
-    "title_it": "Catturato dal sogno.",
+    "title_it": "Sogno Catturato.",
     "poem_en": "Closing— is it my eyes or my heart? I see you, even with both shut. Woven in a dream, intersecting my thoughts, a dreamcatcher reflecting back upon myself. And as I wake, what lingers is not the memory— but the reality you left in light.",
-    "poem_it": "Chiudere - sono gli occhi o il cuore? Ti vedo, anche con entrambi chiusi. Intrecciato in un sogno, intersecando i miei pensieri, un atrapasueños che rimanda indietro me stesso. E quando mi sveglio, ciò che persiste non è il ricordo - ma la realtà che hai lasciato nella luce.",
-    "category": "Distillate"
+    "poem_it": "Chiusura— sono i miei occhi o il mio cuore? Ti vedo, anche con entrambi chiusi. Intrecciato in un sogno, intersecante i miei pensieri, un sogno che cattura riflettendo su di me stesso. E mentre mi sveglio, ciò che perdura non è il ricordo— ma la realtà che hai lasciato nella luce.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "melancholy"
+    ]
 }

@@ -1,8 +1,12 @@
 {
     "date": "2025-02-06",
-    "title_en": "Selling our souls.",
-    "title_it": "Vendendo le nostre anime.",
-    "poem_en": "When a country prioritizes capitalism over order, would you expect anything less? Democracy clearly has a price — and we have all been bought out.",
-    "poem_it": "Quando un paese pone il capitalismo al di sopra dell'ordine, ci si potrebbe aspettare qualcosa di diverso? La democrazia ha chiaramente un prezzo — e tutti noi siamo stati comprati.",
-    "category": "Social_commentary"
+    "title_en": "Selling Our Souls.",
+    "title_it": "Vendere Le Nostre Anime.",
+    "poem_en": "When a country prioritizes capitalism over order, would you expect anything less? Democracy clearly has a price, and we have all been bought out.",
+    "poem_it": "Quando un paese dà priorità al capitalismo piuttosto che all'ordine, ti aspetteresti qualcosa di diverso? È evidente che la democrazia ha un prezzo, e tutti noi siamo stati comprati.",
+    "category": "Social_commentary",
+    "tags": [
+        "sad",
+        "dark"
+    ]
 }

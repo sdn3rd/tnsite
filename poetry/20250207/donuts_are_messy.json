@@ -1,8 +1,14 @@
 {
     "date": "2025-02-07",
-    "title_en": "Donuts are messy.",
-    "title_it": "I don't see a full poem here for me to translate. If you can provide me with a poem or a longer excerpt from a poem, I would be happy to help you translate it into Italian.",
+    "title_en": "Donuts Are Messy.",
+    "title_it": "I Ciambelle Sono Disordinate.",
     "poem_en": "I once was a donut, resting upon a couch, eating pizza— without any mouth. And as it passed through, it fell down, where it went, who knows— never to be found. So I drank a beer, it’s all over me now. Just a soggy mess— a hole with no regrets.",
-    "poem_it": "Ero una volta un ciambellano, riposante su un divano, mangiando pizza— senza alcuna bocca. E mentre passava attraverso di me, cadde giù, dove andò, chi lo sa— mai più ritrovato. Così ho bevuto una birra, ora è tutto su di me. Solo un pasticcio inzuppato— un buco senza rimpianti.",
-    "category": "Whimsical"
+    "poem_it": "Ero una volta un ciambellone, riposante su un divano, mentre mangiavo pizza— senza alcuna bocca. E mentre passava attraverso di me, cadde giù, dove andò, chi lo sa— per non essere mai più ritrovato. Così ho bevuto una birra, ora è tutto su di me. Solo un disastroso pasticcio— un buco senza rimpianti.",
+    "category": "Whimsical",
+    "tags": [
+        "whimsical",
+        "fun",
+        "sad",
+        "rhyme"
+    ]
 }

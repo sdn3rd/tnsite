@@ -1,8 +1,14 @@
 {
     "date": "2025-02-12",
-    "title_en": "False starts.",
-    "title_it": "Falsi inizi.",
+    "title_en": "False Starts.",
+    "title_it": "Partenze False.",
     "poem_en": "Delicate rises, swollen on self-reflection, arrive deflated.",
-    "poem_it": "Sottili risalite, gonfie di autoriflessione, giungono sgonfie.",
-    "category": "Haikufeels"
+    "poem_it": "Dolci ascese, ingrossate dal riflesso interiore, giungono sgonfie.",
+    "category": "Haikufeels",
+    "tags": [
+        "vss",
+        "monoku",
+        "sad",
+        "melancholy"
+    ]
 }

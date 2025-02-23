@@ -1,8 +1,14 @@
 {
     "date": "2025-02-13",
     "title_en": "Hawthorn.",
-    "title_it": "Crataegus.",
-    "poem_en": "Safe haven of forlorn fragrance, often wept for as the barometer quakes. The leaves take their licks. Oh, but a thorn leaves far more than a kiss. This heart's sacred remedy once again amiss.",
-    "poem_it": "Rifugio sicuro di fragranze desolate, spesso pianto quando il barometro trema. Le foglie si fanno assaggiare. Oh, ma una spina lascia ben più di un bacio. Il rimedio sacro di questo cuore ancora una volta perduto.",
-    "category": "Vss_daily"
+    "title_it": "Spino.",
+    "poem_en": "Safe haven of forlorn fragrance, often wept for as the barometer quakes. The leaves take their licks; oh, but a thorn leaves far more than a kiss. This heart's sacred remedy once again amiss.",
+    "poem_it": "Rifugio sicuro di fragranza perduta, spesso pianto mentre il barometro trema. Le foglie subiscono il loro picchiettare; oh, ma una spina lascia molto più di un bacio. Il rimedio sacro di questo cuore ancora una volta mancante.",
+    "category": "Vss_daily",
+    "tags": [
+        "sad",
+        "melancholy",
+        "longing",
+        "tender"
+    ]
 }

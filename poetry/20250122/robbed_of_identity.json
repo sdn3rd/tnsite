@@ -1,8 +1,14 @@
 {
     "date": "2025-01-22",
-    "title_en": "Robbed of identity.",
-    "title_it": "Privato dell'identità.",
-    "poem_en": "I see tyranny, or is it tears? For my country. It's been robbed of dignity, fed madness. This is World War Three we swore: never again. And my heart weeps for all of us, but most of all, for my country.",
-    "poem_it": "Vedo tirannia, o sono lacrime? Per la mia patria. È stata derubata di dignità, nutrita di follia. Questa è la Terza Guerra Mondiale che giurammo: mai più. E il mio cuore piange per tutti noi, ma soprattutto, per la mia patria.",
-    "category": "Social_commentary"
+    "title_en": "Robbed Of Identity.",
+    "title_it": "Privato Dell'Identità.",
+    "poem_en": "I see tyranny, or is it tears? For my country, it's been robbed of dignity, fed madness. This is World War Three we swore: never again. And my heart weeps for all of us, but most of all, for my country.",
+    "poem_it": "Vedo tirannia, o sono lacrime? Per il mio paese, è stato privato di dignità, nutrito di follia. Questa è la Terza Guerra Mondiale che abbiamo giurato: mai più. E il mio cuore piange per tutti noi, ma soprattutto, per il mio paese.",
+    "category": "Social_commentary",
+    "tags": [
+        "sad",
+        "dark",
+        "longing",
+        "longform"
+    ]
 }

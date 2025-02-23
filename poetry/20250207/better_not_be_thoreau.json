@@ -1,8 +1,13 @@
 {
     "date": "2025-02-07",
-    "title_en": "Better not be Thoreau.",
-    "title_it": "Meglio non essere Thoreau.",
+    "title_en": "Better Not Be Thoreau.",
+    "title_it": "Meglio Non Essere Thoreau.",
     "poem_en": "A Thoreau affair over, thoroughly drawn out— character to page in heavy lettering, stained black; an unlit tunnel, an abysmal thoroughfare.",
-    "poem_it": "Un'amore alla Thoreau finito, completamente esaurito — personaggio sulla pagina in caratteri pesanti, macchiati di nero; un tunnel spento, una via abissale.",
-    "category": "Vss_daily"
+    "poem_it": "Un amore alla Thoreau finito, completamente esaurito - il personaggio su carta in lettere pesanti, macchiate di nero; un tunnel non illuminato, una via maestra abissale.",
+    "category": "Vss_daily",
+    "tags": [
+        "dark",
+        "melancholy",
+        "longing"
+    ]
 }

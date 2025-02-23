@@ -1,8 +1,14 @@
 {
     "date": "2025-02-16",
-    "title_en": "Let's be vampires.",
-    "title_it": "Siamo vampiri.",
+    "title_en": "Let'S Be Vampires.",
+    "title_it": "Siamo Vampiri.",
     "poem_en": "Covenant of amnesty, open arms, open heart. Release, relax, at ease— sighs beneath gray skies. Just clouds, no rain, no dam unleashed. Quietly sustained, holding it back, refrained. Just a bit of blood sustains.",
-    "poem_it": "Patto di amnistia, braccia aperte, cuore aperto. Liberazione, rilassamento, tranquillità—sospiri sotto cieli grigi. Solo nuvole, niente pioggia, nessuna diga scoperchiata. Silenziosamente sostenuto, trattenuto, trattenuto. Solo un po' di sangue sostiene.",
-    "category": "Distillate"
+    "poem_it": "Patto di amnistia, braccia aperte, cuore spalancato. Liberazione, relax, a proprio agio, sospiri sotto cieli grigi. Solo nuvole, nessuna pioggia, nessuna diga scatenata. Silenziosamente trattenuto, tenuto a freno. Solo un po' di sangue sostiene.",
+    "category": "Distillate",
+    "tags": [
+        "sad",
+        "longing",
+        "tender",
+        "longform"
+    ]
 }

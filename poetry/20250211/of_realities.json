@@ -1,8 +1,14 @@
 {
     "date": "2025-02-11",
-    "title_en": "Of realities.",
-    "title_it": "Delle realtà.",
+    "title_en": "Of Realities",
+    "title_it": "Delle Realtà",
     "poem_en": "I have a wife—she knows I write poetry, and she knows much of it is for another. My transparency is not a confession, but a refusal to intentionally lie. I am imperfect, but truth is the only way to face what is real.",
-    "poem_it": "Ho una moglie — lei sa che scrivo poesie, e sa che molte di esse sono per un'altra. La mia trasparenza non è una confessione, ma un rifiuto di mentire intenzionalmente. Sono imperfetto, ma la verità è l'unico modo per affrontare ciò che è reale.",
-    "category": "Philosophy"
+    "poem_it": "Ho una moglie - lei sa che scrivo poesie e sa che molte di esse sono per un'altra. La mia trasparenza non è una confessione, ma un rifiuto di mentire intenzionalmente. Sono imperfetto, ma la verità è l'unico modo per affrontare ciò che è reale.",
+    "category": "Philosophy",
+    "tags": [
+        "sad",
+        "longing",
+        "tender",
+        "longform"
+    ]
 }

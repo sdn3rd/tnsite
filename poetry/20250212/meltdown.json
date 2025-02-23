@@ -1,8 +1,14 @@
 {
     "date": "2025-02-12",
     "title_en": "Meltdown.",
-    "title_it": "Fusione.",
+    "title_it": "Crollo.",
     "poem_en": "Sploshing in my thoughts, trodden in my depths, facing collapse. Pizza pulls my flesh, toppings overlap— causation and collapse, as sauce boils to the surface, an ooey, gooey mess.",
-    "poem_it": "Immerso nei miei pensieri, calpestato nelle mie profondità, di fronte al collasso. La pizza attira la mia carne, gli ingredienti si sovrappongono - causa ed effetto, mentre la salsa ribolle in superficie, un pasticcio appiccicoso e untuoso.",
-    "category": "Whimsical"
+    "poem_it": "Inginocchiato nei miei pensieri, calpestato nelle mie profondità, di fronte al collasso. La pizza tira la mia carne, condimenti si sovrappongono - causa ed effetto, come il sugo bolle in superficie, un pasticcio appiccicoso e viscido.",
+    "category": "Whimsical",
+    "tags": [
+        "longform",
+        "sad",
+        "dark",
+        "melancholy"
+    ]
 }

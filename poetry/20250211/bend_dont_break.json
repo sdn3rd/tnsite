@@ -1,8 +1,13 @@
 {
     "date": "2025-02-11",
-    "title_en": "Bend, don't break.",
-    "title_it": "Piega, non spezzare.",
+    "title_en": "Bend, Don'T Break.",
+    "title_it": "Piega, Non Spezzare.",
     "poem_en": "Reaching for some peace, shelter to understand loss, buckled, yet steadfast.",
-    "poem_it": "Tentando di trovare un po' di pace, rifugio per comprendere la perdita, piegato, ma saldo.",
-    "category": "Haikufeels"
+    "poem_it": "Cercando un po' di pace, rifugio per comprendere la perdita, piegato, eppure saldo.",
+    "category": "Haikufeels",
+    "tags": [
+        "shortform",
+        "sad",
+        "melancholy"
+    ]
 }

@@ -1,8 +1,12 @@
 {
     "date": "2025-02-21",
-    "title_en": "Ball of yarn.",
-    "title_it": "Palla di lana.",
-    "poem_en": "Dreaming of kittens and strings, and how I yearn to be but a ball coming unraveled as you do to me. Wishing yet to be adored, played with but once more. But how you grew, and no longer do you see me as fun. I am but a mess left undone, for cats only clean themselves.",
-    "poem_it": "Sognando cuccioli e fili, e come bramo di essere solo un gomitolo che si scioglie mentre fai con me. Desiderando ancora di essere adorato, giocato ma ancora una volta. Ma quanto sei cresciuto, e non mi vedi più come divertente. Sono solo un pasticcio lasciato incompleto, perché i gatti si puliscono solo da soli.",
-    "category": "Hedges"
+    "title_en": "Ball Of Yarn.",
+    "title_it": "Gomitolo Di Filo.",
+    "poem_en": "Dreaming of kittens and strings and how I yearn to be but a ball coming unraveled as you do to me, wishing yet to be adored, played with but once more. But how you grew and no longer do you see me as fun. I am but a mess left undone, for cats only clean themselves.",
+    "poem_it": "Sognando gattini e fili e come bramo essere solo un gomitolo che si disfa mentre tu fai con me, desiderando ancora di essere adorato, giocato ancora una volta. Ma come sei cresciuto e non mi vedi più come divertimento. Sono solo un pasticcio lasciato incompiuto, perché i gatti si puliscono da soli.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "melancholy"
+    ]
 }

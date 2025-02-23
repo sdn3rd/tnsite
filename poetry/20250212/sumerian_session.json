@@ -1,8 +1,13 @@
 {
     "date": "2025-02-12",
-    "title_en": "Sumerian session.",
-    "title_it": "Sessione sumera.",
-    "poem_en": "Drunk on Ninkasi blessings, entered the Lugal estate, hoped to teach power a lesson. Thoughtful thief, hands on a bronzed vessel, breathing smoke, letting out a low whistle. Golden art, a heart molten gemmed, fate stolen, guarded, left with no eyes, no hands, dearly departed.",
-    "poem_it": "Ubriaco delle benedizioni di Ninkasi, entrai nella tenuta del Lugal, sperando di insegnare una lezione al potere. Ladro pensieroso, mani su un vaso di bronzo, respirando fumo, lasciando sfuggire un fischio sommesso. Arte dorata, un cuore gemmato di metallo fuso, destino rubato, custodito, lasciato senza occhi, senza mani, dolcemente trapassato.",
-    "category": "Half_baked_prompts"
+    "title_en": "Sumerian Session.",
+    "title_it": "Sessione Sumerica.",
+    "poem_en": "Drunk on Ninkasi's blessings, entered the lugal estate, hoped to teach power a lesson. Thoughtful thief, hands on a bronzed vessel, breathing smoke, letting out a low whistle. Golden art, a heart molten gemmed, fate stolen, guarded, left with no eyes, no hands, dearly departed.",
+    "poem_it": "Stregato dalle benedizioni di Ninkasi, entrai nell'immobile del lugal, sperando di insegnare una lezione al potere. Ladro riflessivo, le mani su un vaso di bronzo, respirando fumo, emettendo un fischio sommesso. Arte dorata, un cuore gemmato di metallo fuso, destino rubato, custodito, lasciato senza occhi, senza mani, dolorosamente partito.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "dark",
+        "melancholy",
+        "longing"
+    ]
 }

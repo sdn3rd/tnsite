@@ -1,8 +1,13 @@
 {
     "date": "2025-02-12",
-    "title_en": "Her mind.",
-    "title_it": "La sua mente.",
+    "title_en": "Her Mind.",
+    "title_it": "La Sua Mente.",
     "poem_en": "Her mind - a storm reshaping the sky.",
-    "poem_it": "La sua mente - una tempesta che riplasma il cielo.",
-    "category": "Monokus"
+    "poem_it": "La sua mente - una tempesta che ridisegna il cielo.",
+    "category": "Monokus",
+    "tags": [
+        "vss",
+        "shortform",
+        "melancholy"
+    ]
 }

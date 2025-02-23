@@ -1,8 +1,13 @@
 {
     "date": "2025-02-21",
-    "title_en": "Snow glistens.",
-    "title_it": "La neve luccica.",
-    "poem_en": "Odorous snowfall knows not of the vast mountain; glistening scents rise.",
-    "poem_it": "La nevicata odorosa non conosce la vasta montagna; sorgono scintillanti profumi.",
-    "category": "Haikufeels"
+    "title_en": "Snow Glistens.",
+    "title_it": "La Neve Luccica.",
+    "poem_en": "Odorous snowfall knows not of the vast mountain glistening scents rise.",
+    "poem_it": "La nevicata profumata non sa dei vasti monti brillanti profumi si levano.",
+    "category": "Haikufeels",
+    "tags": [
+        "vss",
+        "haiku",
+        "melancholy"
+    ]
 }

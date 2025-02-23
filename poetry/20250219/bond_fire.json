@@ -1,8 +1,14 @@
 {
     "date": "2025-02-19",
-    "title_en": "Bond fire.",
-    "title_it": "Fuoco di legna.",
-    "poem_en": "As the embers draw near, there’s a quaint laughter, shared stories, jokes, anew. Having needed only a blanket, we were given even more warmth than that. A campfire, new friends, distant lands, yet—human. And in that moment, a sigh came, one of comfort, one I still hold to this day.",
-    "poem_it": "Mentre le braci si avvicinano, c'è una risata pittoresca, storie condivise, battute, nuove. Avendo avuto bisogno solo di una coperta, ci è stata data anche più calore di quello. Un falò, nuovi amici, terre lontane, eppure—umani. E in quel momento, sospirò un sospiro, uno di conforto, uno che ancora tengo stretto oggi.",
-    "category": "Half_baked_prompts"
+    "title_en": "Bond Fire.",
+    "title_it": "Fuoco Di Legame.",
+    "poem_en": "As the embers draw near, there’s a quaint laughter shared: stories, jokes, anew. Having needed only a blanket, we were given even more warmth than that. A campfire, new friends, distant lands, yet—human. And in that moment, a sigh came, one of comfort, one I still hold to this day.",
+    "poem_it": "Mentre le ceneri si avvicinano, c'è una risata pittoresca condivisa: storie, barzellette, nuove. Avendo avuto bisogno solo di una coperta, ci è stata donata anche più calore di quello. Un falò, nuovi amici, terre lontane, eppure - umani. E in quel momento, un sospiro è arrivato, uno di conforto, uno che tengo ancora oggi.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "melancholy"
+    ]
 }

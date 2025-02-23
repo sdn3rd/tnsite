@@ -1,8 +1,12 @@
 {
     "date": "2025-02-07",
-    "title_en": "Of singing.",
-    "title_it": "Del cantare.",
-    "poem_en": "Ten thousand hour rule always applies. Do it as often as life allows.",
-    "poem_it": "La regola delle diecimila ore si applica sempre.\nFallo ogni volta che la vita lo permette.",
-    "category": "Philosophy"
+    "title_en": "Of Singing.",
+    "title_it": "Del Canto.",
+    "poem_en": "The ten thousand hour rule always applies. Do it as often as life allows.",
+    "poem_it": "La regola delle diecimila ore si applica sempre. Fallo ogni volta che la vita te lo permette.",
+    "category": "Philosophy",
+    "tags": [
+        "vss",
+        "shortform"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2025-02-17",
-    "title_en": "Midday tea.",
-    "title_it": "Tè del mezzogiorno.",
-    "poem_en": "Quaint seats and midday tea, icing placed delicately. He pulls out your chair, sets it gently behind you— no angst, only harmony. And about that cake— yes, it was laid on thick, but the buttercream's light and delicate. So please, savor it.",
-    "poem_it": "Posti caratteristici e tè pomeridiano, glassa disposta delicatamente. Ti tira fuori la sedia, la posa dolcemente dietro di te— nessun tormento, solo armonia. E riguardo quella torta— sì, è stata preparata con abbondanza, ma la crema al burro è leggera e delicata. Quindi per favore, assaporalo.",
-    "category": "Brambles"
+    "title_en": "Midday Tea.",
+    "title_it": "Tè Del Mezzogiorno.",
+    "poem_en": "Quaint seats and midday tea, icing placed delicately. He pulls out your chair, sets it gently behind you— no angst, only harmony. And about that cake—yes, it was laid on thick, but the buttercream's light and delicate. So please, savor it.",
+    "poem_it": "Posti affascinanti e tè a mezzogiorno, glassa posta con delicatezza. Ti tira fuori la sedia, la posiziona dolcemente dietro di te— nessun angoscia, solo armonia. E riguardo a quella torta—sì, era abbondante, ma la crema al burro è leggera e delicata. Perciò, per favore, gustala.",
+    "category": "Brambles",
+    "tags": [
+        "longform",
+        "happy",
+        "tender"
+    ]
 }

@@ -1,8 +1,14 @@
 {
     "date": "2025-02-18",
-    "title_en": "Hot breaths.",
-    "title_it": "Soffi caldi.",
+    "title_en": "Hot Breaths.",
+    "title_it": "Soffi Caldi.",
     "poem_en": "Coming by caravan, across an ocean of sand, beckoning a melody, sweet as a breeze. It calls as it pleases, easing the ear, bending and finding its reason in the caress of the seasons. And in spring, the bloom begins—pollen drifting, a bee to her bonnet.",
-    "poem_it": "Giungendo in carovana, attraverso un oceano di sabbia, richiamando una melodia, dolce come una brezza. Chiama come le aggrada, lenendo l'orecchio, piegandosi e trovando la sua ragione nella carezza delle stagioni. E in primavera, il germoglio inizia - polline che fluttua, un'ape alla sua cuffia.",
-    "category": "Tumbleweeds"
+    "poem_it": "Attraversando in carovana, attraverso un oceano di sabbia, invitando una melodia, dolce come una brezza. Chiama come meglio crede, lenendo l'orecchio, piegandosi e trovando il suo motivo nella carezza delle stagioni. Ed in primavera, comincia la fioritura - polline che fluttua, un'ape verso il suo cappello.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "whimsical"
+    ]
 }

@@ -17,15 +17,24 @@ let guiData = null;
 /**
  * For the poem index
  * This JSON file maps each date folder (e.g. "20250104")
- * to an array of filenames (["my_poem.json","another_poem.json",...])
+ * to an array of metadata objects:
+ * [
+ *   {
+ *     "filename": "in_the_pursuit_of.json",
+ *     "title_en": "In The Pursuit Of",
+ *     "title_it": "Nella Ricerca Di",
+ *     "category": "Personal",
+ *     "tags": [...]
+ *   }
+ * ]
  */
-let poemIndex = {}; // Will hold data from poetryIndex.json
+let poemIndex = {}; // Will hold data from poetry/index.json
 
 /**
  * For the infinite vertical spinner with fling
  */
-let poemsForWheel = [];          // Original array of poem objects
-const WHEEL_REPEAT_COUNT = 7;    // Replicate poems for smooth looping
+let poemsForWheel = [];          // Array of poem metadata objects for a given date
+const WHEEL_REPEAT_COUNT = 7;    // Replicate items for smooth looping
 const WHEEL_ITEM_HEIGHT = 60;    // px, must match CSS
 let wheelTrackOffsetY = 0;       // Track's vertical offset
 let wheelSnapTimeout = null;     // For snapping after scroll/drag
@@ -50,7 +59,7 @@ let animationFrameID = null;     // For requestAnimationFrame
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
-  await loadPoemIndex(); // Load the main "poetryIndex.json" mapping date folders -> poem files
+  await loadPoemIndex(); // Load the main "poetry/index.json" mapping date folders -> poem metadata
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
@@ -72,15 +81,15 @@ async function loadGuiData() {
 }
 
 /**
- * Load poemIndex from "poetryIndex.json"
- * This file should map each date-folder (e.g. "20250104") to an array of filenames
+ * Load poemIndex from "poetry/index.json"
+ * This file should map each date-folder (e.g. "20250104") to an array of metadata objects.
  */
 async function loadPoemIndex() {
   try {
-    const resp = await fetch("poetryIndex.json");
+    const resp = await fetch("poetry/index.json");
     if (!resp.ok) {
-      console.error("poetryIndex.json response not OK:", resp);
-      throw new Error("Could not load poetryIndex.json");
+      console.error("poetry/index.json response not OK:", resp);
+      throw new Error("Could not load poetry/index.json");
     }
     poemIndex = await resp.json();
     console.log("poemIndex loaded successfully:", poemIndex);
@@ -392,74 +401,77 @@ function getDayNames() {
 
 /* ------------------------------------------------------------------
    LOAD POEMS => SHOW INFINITE WHEEL
-   Using poemIndex to find which filenames exist for that date
+   Using poemIndex to find which *metadata* exist for that date
 ------------------------------------------------------------------ */
 async function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
-  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241201"
-  console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName); // ADDED LOG
-  let filenames = poemIndex[folderName] || [];
+  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241229"
+  console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName);
 
-  // --- ADDED CHECK: Ensure filenames is actually an array ---
-  if (!Array.isArray(filenames)) {
-      console.error("Error: filenames from poemIndex is NOT an array for folder:", folderName, filenames);
-      filenames = []; // Fallback to empty array to prevent further errors
+  // Get the array of poem metadata from poemIndex
+  let poemMetadataArr = poemIndex[folderName] || [];
+  if (!Array.isArray(poemMetadataArr)) {
+    console.error("Error: poemIndex entry is NOT an array for folder:", folderName, poemMetadataArr);
+    poemMetadataArr = [];
   }
-  console.log("filenames from poemIndex:", filenames); // ADDED LOG
 
-  if (filenames.length === 0) {
+  console.log("metadata from poemIndex:", poemMetadataArr);
+
+  if (poemMetadataArr.length === 0) {
     console.warn("No poems for date:", dateStr);
     alert(`${t("errors.noPoemFound")}: ${dateStr}`);
     return;
   }
 
-  const folderUrl = `poetry/${folderName}/`;
-  poemsForWheel = []; // reset
-
-  // Fetch each poem file from the folder
-  for (const filename of filenames) {
-    const poemUrl = folderUrl + filename;
-    console.log("Fetching poem:", poemUrl); // ADDED LOG
-    try {
-      const resp = await fetch(poemUrl);
-      if (!resp.ok) {
-        console.error("Poem fetch not OK:", poemUrl, resp); // ADDED LOG
-        throw new Error(`Failed to fetch poem: ${poemUrl}`);
-      }
-      const poemData = await resp.json();
-      poemsForWheel.push(poemData);
-      console.log("Poem data loaded:", poemUrl, poemData); // ADDED LOG
-    } catch (err) {
-      console.warn("Skipping poem fetch error:", poemUrl, err);
-    }
-  }
-
-  // If none loaded successfully
-  if (poemsForWheel.length === 0) {
-    alert(`${t("errors.noPoemFound")}: ${dateStr}`);
-    return;
-  }
-
-  // If exactly 1 poem loaded => show directly; otherwise open the infinite wheel
+  // Store the metadata for the wheel
+  poemsForWheel = poemMetadataArr.slice(); // clone or keep reference
+  // If exactly 1 => we can still do the single display or the wheel
   if (poemsForWheel.length === 1) {
-    displaySinglePoem(poemsForWheel[0]);
+    // Only one poem => fetch & display immediately
+    const singleMetadata = poemsForWheel[0];
+    fetchAndDisplayPoem(folderName, singleMetadata);
   } else {
+    // Multiple poems => show the infinite wheel
     showInfiniteWheelOverlay();
   }
 }
 
-function displaySinglePoem(poem) {
-  const titleUsed = (currentLanguage === "en")
-    ? (poem.title_en || "Untitled")
-    : (poem.title_it || poem.title_en || "Untitled");
-  const textUsed = (currentLanguage === "en")
-    ? (poem.poem_en || "")
-    : (poem.poem_it || poem.poem_en || "");
-  showReadingOverlay(titleUsed, textUsed);
+/**
+ * Fetch the poem's full JSON *on demand* and show reading overlay
+ */
+async function fetchAndDisplayPoem(folderName, poemMeta) {
+  // poemMeta has { filename, title_en, title_it, category, tags... }
+  const poemUrl = `poetry/${folderName}/${poemMeta.filename}`;
+  console.log("Fetching poem:", poemUrl);
+
+  try {
+    const resp = await fetch(poemUrl);
+    if (!resp.ok) {
+      console.error("Poem fetch not OK:", poemUrl, resp);
+      throw new Error(`Failed to fetch poem: ${poemUrl}`);
+    }
+    const poemData = await resp.json();
+    console.log("Poem data loaded:", poemUrl, poemData);
+
+    // Choose appropriate title & text based on language
+    const tUsed = (currentLanguage === "en")
+      ? (poemData.title_en || "Untitled")
+      : (poemData.title_it || poemData.title_en || "Untitled");
+
+    const pUsed = (currentLanguage === "en")
+      ? (poemData.poem_en || "")
+      : (poemData.poem_it || poemData.poem_en || "");
+
+    showReadingOverlay(tUsed, pUsed);
+  } catch (err) {
+    console.warn("Skipping poem fetch error:", poemUrl, err);
+    alert(`Could not load poem content: ${poemMeta.filename}`);
+  }
 }
 
 /* ------------------------------------------------------------------
    INFINITE WHEEL (MARQUEE) + FLING
+   Now we do NOT fetch the poems in advance; only show their titles
 ------------------------------------------------------------------ */
 function showInfiniteWheelOverlay() {
   let overlay = document.getElementById("poem-wheel-overlay");
@@ -503,7 +515,11 @@ function showInfiniteWheelOverlay() {
     const item = document.createElement("div");
     item.classList.add("wheel-item");
     item.dataset.index = String(idx);
-    item.textContent = info.title;
+    // We'll store the folderName and actual poem metadata so we can fetch on tap
+    item.dataset.folderName = info.folderName;
+    item.dataset.filename = info.filename;
+
+    item.textContent = info.displayTitle; // Show the chosen language title
     wheelTrack.appendChild(item);
   });
 
@@ -531,23 +547,49 @@ function showInfiniteWheelOverlay() {
   }, 50);
 }
 
-function buildInfiniteList(poems, repeatCount) {
-  const out = [];
-  poems.forEach(poem => {
-    // pick language for display
-    poem._displayTitle = (currentLanguage === "en")
-      ? (poem.title_en || "Untitled")
-      : (poem.title_it || poem.title_en || "Untitled");
+/**
+ * Build an extended repeated list for smooth looping.
+ * We pick the language-specific title as "displayTitle"
+ */
+function buildInfiniteList(poemsMetadata, repeatCount) {
+  // "poemsMetadata" is the array from poemIndex for a certain date
+  // We assume they all share the same date folder
+  if (!poemsMetadata.length) return [];
+
+  // Determine the folderName from the first item or your own logic
+  // If you prefer to pass it in, that's also fine:
+  // (Because in the real usage, each date => one folder.)
+  const folderName = findFolderNameForMetadata(poemsMetadata);
+
+  // Pre-process each metadata for display
+  poemsMetadata.forEach(p => {
+    // We’ll store a new property for the chosen language title
+    p._displayTitle = (currentLanguage === "en")
+      ? (p.title_en || "Untitled")
+      : (p.title_it || p.title_en || "Untitled");
   });
+
+  // Build repeated list
+  const out = [];
   for (let r = 0; r < repeatCount; r++) {
-    poems.forEach((poem, i) => {
+    poemsMetadata.forEach((p, i) => {
       out.push({
-        title: poem._displayTitle,
-        originalIndex: i
+        folderName,
+        filename: p.filename,
+        displayTitle: p._displayTitle
       });
     });
   }
   return out;
+}
+
+// Attempt to find a folder name from the array's first item if needed
+function findFolderNameForMetadata(arr) {
+  // If you stored "folderName" inside each object, you can just return that.
+  // Otherwise, you can store it externally in loadPoemsByDate and pass it in.
+  // For this snippet, let's just guess "???????" if not provided.
+  // You can adjust as needed.
+  return (arr && arr.length && arr[0]._folderName) ? arr[0]._folderName : "???????";
 }
 
 function centerScrollAtMiddle(wheelTrack, totalCount) {
@@ -708,18 +750,29 @@ function onWheelPointerUp(e) {
   flingVelocity = 0; // We'll recalc on fling or next pointerDown
 }
 
+/**
+ * Called when user taps the center item. We fetch the poem JSON on demand.
+ */
 function openPoemFromCenterItem(itemEl) {
-  const originalIndex = parseInt(itemEl.dataset.index) % poemsForWheel.length;
-  const actualPoem = poemsForWheel[originalIndex];
-  if (actualPoem) {
-    const tUsed = (currentLanguage === "en")
-      ? (actualPoem.title_en || "Untitled")
-      : (actualPoem.title_it || actualPoem.title_en || "Untitled");
-    const pUsed = (currentLanguage === "en")
-      ? (actualPoem.poem_en || "")
-      : (actualPoem.poem_it || actualPoem.poem_en || "");
-    showReadingOverlay(tUsed, pUsed);
+  // We rely on dataset from buildInfiniteList
+  const folderName = itemEl.dataset.folderName || "???????";
+  const filename = itemEl.dataset.filename;
+
+  if (!filename) {
+    console.error("No filename found on center item. Cannot open poem.");
+    return;
   }
+
+  // We must find the exact metadata entry in poemsForWheel that matches `filename`
+  // (You could also store everything in itemEl's dataset, but let's be consistent.)
+  const meta = poemsForWheel.find(m => m.filename === filename);
+  if (!meta) {
+    console.error("No matching metadata found for filename:", filename);
+    return;
+  }
+
+  // Actually fetch the poem JSON
+  fetchAndDisplayPoem(folderName, meta);
 }
 
 function snapToClosestRow(wheelTrack) {

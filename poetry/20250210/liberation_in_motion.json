@@ -1,8 +1,13 @@
 {
     "date": "2025-02-10",
-    "title_en": "Liberation in motion.",
-    "title_it": "Liberazione in movimento.",
+    "title_en": "Liberation In Motion.",
+    "title_it": "Liberazione In Movimento.",
     "poem_en": "Beyond words, a hope— liberations of magnificence. Enigmatic scaffolds mask a masterpiece in motion. Not for tourists, but for those who see.",
-    "poem_it": "Oltre le parole, una speranza— liberazioni di magnificenza. Impalcature enigmatiche celano un capolavoro in movimento. Non per i turisti, ma per coloro che vedono.",
-    "category": "Vss_daily"
+    "poem_it": "Oltre le parole, una speranza— liberazioni di magnificenza. Impalcature enigmatiche celano un capolavoro in movimento. Non per i turisti, ma per coloro che guardano veramente.",
+    "category": "Vss_daily",
+    "tags": [
+        "longform",
+        "tender",
+        "loving"
+    ]
 }

@@ -1,8 +1,12 @@
 {
     "date": "2025-01-21",
     "title_en": "Blowhard.",
-    "title_it": "\"Soffiata.\"\n\nSei il soffio che gonfia le vele,\nil vento che soffia con forza,\nportatore di storie intrecciate\nnell'aria aperta, libera e possente.\n\nSei il soffio dell'autunno,\nche spazza via le foglie secche,\ndanza con leggerezza e vigore\nnel canto dolce della stagione.\n\nSei il soffio di vita e movimento,\nche spinge avanti le lancette dell'orologio,\nnutre il fuoco dell'anima\ne infonde speranza nei cuori.\n\nSei il soffio, potente e vibrante,\nche attraversa monti e valli,\nche sussurra promesse di avventure\ne solleva lo spirito in volo.",
+    "title_it": "Puffetto.",
     "poem_en": "Blowing into embers, fanning flames. When ice became water, puckered lips finally kissed, pursing to quench desire.",
-    "poem_it": "Soffiando sulle braci, ravvivando le fiamme. Quando il ghiaccio divenne acqua, le labbra contorte baciarono finalmente, stringendosi per placare il desiderio.",
-    "category": "Micropoems"
+    "poem_it": "Soffiando sulle braci, ventilando le fiamme. Quando il ghiaccio divenne acqua, le labbra arricciate si baciarono finalmente, stringendosi per placare il desiderio.",
+    "category": "Micropoems",
+    "tags": [
+        "longform",
+        "passionate"
+    ]
 }

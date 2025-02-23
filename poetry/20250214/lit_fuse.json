@@ -1,8 +1,13 @@
 {
     "date": "2025-02-14",
-    "title_en": "Lit fuse.",
-    "title_it": "Miccia accesa.",
-    "poem_en": "Travels of a fuse goes, a flittering lit muse, exploding my heart.",
-    "poem_it": "Viaggi di una miccia vanno, una leggera fiamma ispiratrice, esplodendo nel mio cuore.",
-    "category": "Haikufeels"
+    "title_en": "Lit Fuse.",
+    "title_it": "Fusibile Accesso",
+    "poem_en": "Travels of a fuse go flittering, lit muse exploding my heart.",
+    "poem_it": "Viaggi di una miccia vanno svolazzando, musa accesa che esplode nel mio cuore.",
+    "category": "Haikufeels",
+    "tags": [
+        "longform",
+        "passionate",
+        "tender"
+    ]
 }

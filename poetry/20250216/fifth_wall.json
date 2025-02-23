@@ -1,8 +1,15 @@
 {
     "date": "2025-02-16",
-    "title_en": "Fifth Wall",
-    "title_it": "Quinta Parete",
+    "title_en": "Fifth Wall.",
+    "title_it": "Quinta Parete.",
     "poem_en": "Five walls, floored, breaking through doors with the heel of his foot. Where was a window when needed? Bad timing, worse results. Big heads need bigger boots, forgetting the weight of another’s shoes— yet still waiting for the other to drop.",
-    "poem_it": "Cinque muri, pavimentati, sfondando porte con il tallone del piede. Dove si trovava una finestra quando serviva? Cattiva tempistica, peggiori risultati. Le teste grosse hanno bisogno di stivali più grandi, dimenticando il peso delle scarpe di un altro— eppure ancora in attesa che cada l'altro.",
-    "category": "Distillate"
+    "poem_it": "Cinque mura, sfondate, infrante porte con il tallone del piede. Dove era una finestra quando serviva? Cattivo tempismo, risultati peggiori. Le teste grosse hanno bisogno di stivali più grandi, dimenticando il peso delle scarpe altrui— eppure ancora in attesa che l'altro cada.",
+    "category": "Distillate",
+    "tags": [
+        "sad",
+        "melancholy",
+        "longing",
+        "longing",
+        "dark"
+    ]
 }

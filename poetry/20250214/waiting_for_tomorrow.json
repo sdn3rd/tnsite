@@ -1,8 +1,13 @@
 {
     "date": "2025-02-14",
-    "title_en": "Waiting for tomorrow.",
-    "title_it": "Aspettando domani.",
-    "poem_en": "Inward shapes; arms crossed, legs up; head back—weightless, inverted; restless wrestlings with quiet feelings; tracing meanings in words and ceilings; drifting to the rhythm of our hearts; eyes closed, simply waiting for tomorrow.",
-    "poem_it": "Forme interne; braccia incrociate, gambe sollevate; testa indietro, senza peso, capovolta; inquietudine in lotta con silenziose emozioni; tracciare significati tra parole e soffitti; alla deriva al ritmo dei nostri cuori; occhi chiusi, semplicemente in attesa di domani.",
-    "category": "Distillate"
+    "title_en": "Waiting For Tomorrow.",
+    "title_it": "In Attesa Di Domani.",
+    "poem_en": "Inward shapes, arms crossed, legs up, head back—weightless, inverted, restless wrestlings with quiet feelings tracing meanings in words and ceilings, drifting to the rhythm of our hearts. Eyes closed, simply waiting for tomorrow.",
+    "poem_it": "Forme interne, braccia incrociate, gambe in alto, testa all'indietro—senza peso, capovolte, agitate mentre silenziosi sentimenti tracciano significati in parole e soffitti, alla deriva al ritmo dei nostri cuori. Occhi chiusi, semplicemente in attesa del domani.",
+    "category": "Distillate",
+    "tags": [
+        "longform",
+        "melancholy",
+        "tender"
+    ]
 }

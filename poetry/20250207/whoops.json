@@ -1,8 +1,14 @@
 {
     "date": "2025-02-07",
     "title_en": "Whoops!",
-    "title_it": "This is a brief exclamation\nSaying, \"Oh no, I made a mistake!\"\nAlthough tiny, it conveys much,\nAn acknowledgment of a slip-up.",
-    "poem_en": "You utter failure, not even a hole poked—just faulty. You were supposed to protect me! But you were just a condom. It was supposed to be love. They broke up—just like you, creased and leathered, too. And here I am, whoops.",
-    "poem_it": "Tu completo fallimento, neanche un buco forato—solo difettoso. Dovevi proteggermi! Ma sei stato solo un preservativo. Doveva essere amore. Si sono lasciati—proprio come te, sgualcito e usurato. Ed eccomi qui, ops.",
-    "category": "Half_baked_prompts"
+    "title_it": "Ops!",
+    "poem_en": "You utter failure, not even a hole poked— just faulty. You were supposed to protect me! But you were just a condom. It was supposed to be love. They broke up— just like you, creased and leathered, too. And here I am, whoops.",
+    "poem_it": "Tu completo fallimento, nemmeno un buco bucato— solo difettoso. Dovevi proteggermi! Ma eri solo un preservativo. Doveva essere amore. Hanno rotto— proprio come te, stropicciato e usurato, anche tu. E eccomi qui, ops.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "sad",
+        "dark",
+        "longing",
+        "monoku"
+    ]
 }

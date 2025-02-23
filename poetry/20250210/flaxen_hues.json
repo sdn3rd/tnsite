@@ -1,8 +1,15 @@
 {
     "date": "2025-02-10",
-    "title_en": "Flaxen hues.",
-    "title_it": "Sfumature di lino.",
+    "title_en": "Flaxen Hues.",
+    "title_it": "Toni Di Lino.",
     "poem_en": "Flaxen seedlings, granular gleams, rime ringings on hollow beams. Cored frost, cracked ice, kniff-knaff shards skitter—alight, alight.",
-    "poem_it": "Semi di lino biondi, bagliori granulari, tintinnii della brina su travi cave. Ghiaccio forato, ghiaccio screpolato, frammenti sparuti che schioccano via—illuminati, illuminati.",
-    "category": "Phonetics"
+    "poem_it": "Germogli dorati, bagliori granulosi, rintocchi di brina su travi cavi. Gelo centrale, ghiaccio screpolato, frammenti ghiacciati che schizzano - s'alzano, s'alzano.",
+    "category": "Phonetics",
+    "tags": [
+        "vss",
+        "shortform",
+        "micropoem",
+        "dark",
+        "melancholy"
+    ]
 }

@@ -1,8 +1,13 @@
 {
     "date": "2024-11-16",
-    "title_en": "On keys.",
-    "title_it": "Sulle chiavi.",
-    "poem_en": "Off note and off key,  \nnot singing, but you will read,  \nkeys set the words free.",
-    "poem_it": "Fuori tono e stonato,  \nnon cantando, ma leggerai,  \nle chiavi liberano le parole.",
-    "category": "Throwetry"
+    "title_en": "On Keys.",
+    "title_it": "Sulle Chiavi.",
+    "poem_en": "Off note and off key,  \nNot singing, but you will read,  \nKeys set the words free.",
+    "poem_it": "Fuori tono e stonato,  \nNon cantando, ma leggerai,  \nLe chiavi liberano le parole.",
+    "category": "Throwetry",
+    "tags": [
+        "shortform",
+        "haiku",
+        "whimsical"
+    ]
 }

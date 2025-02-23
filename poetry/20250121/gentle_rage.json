@@ -1,8 +1,12 @@
 {
     "date": "2025-01-21",
-    "title_en": "Gentle rage.",
-    "title_it": "Furia lieve.",
+    "title_en": "Gentle Rage.",
+    "title_it": "Furioso Dolce.",
     "poem_en": "Brightly dreamt meadow, light drifts slow into darkness— hints of violence.",
-    "poem_it": "Prato sognato luminoso, la luce fluiva lentamente nell'oscurità— accenni di violenza.",
-    "category": "Haikus"
+    "poem_it": "Prato sognato luminosamente, la luce si insinua lentamente nell'oscurità - accenni di violenza.",
+    "category": "Haikus",
+    "tags": [
+        "dark",
+        "melancholy"
+    ]
 }

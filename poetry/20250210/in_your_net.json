@@ -1,8 +1,15 @@
 {
     "date": "2025-02-10",
-    "title_en": "In your net.",
-    "title_it": "Nella tua rete.",
+    "title_en": "In Your Net.",
+    "title_it": "Nella Tua Rete.",
     "poem_en": "Fishnets and sweet lace, a net of legginess, lengthened by great heights. Never had I imagined a force so domineering— only to realize I had been caught. Yet just a man, no pittance needed— deconstruct me, and have your way.",
-    "poem_it": "Calze a rete e pizzi dolci, una rete di gambe lunghissime innalzata da altezze immense. Mai avrei immaginato una forza così dominante— solo per capire di essere stato catturato. Eppure solo un uomo, nessuna elemosina necessaria— smontami e fai come vuoi.",
-    "category": "Half_baked_prompts"
+    "poem_it": "Calze a rete e dolce pizzo, una rete di gambe lunghe, allungate dall'altezza imponente. Mai avrei immaginato una forza così dominante— solo per poi capire di essere stato catturato. Eppure solo un uomo, senza bisogno di fare fatica— de-costruiscimi, e fai ciò che vuoi.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "sad",
+        "dark",
+        "longing",
+        "passionate",
+        "longform"
+    ]
 }

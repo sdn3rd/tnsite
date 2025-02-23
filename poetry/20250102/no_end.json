@@ -1,8 +1,13 @@
 {
     "date": "2025-01-02",
-    "title_en": "No end.",
-    "title_it": "Nessuna fine.",
-    "poem_en": "Tragedy is a moment away when the emotions run high. People speak in meaning but don’t understand. Why is it that one must hurt another when distraught? Can we get past it, or is it for naught? Without a reason or without a clue, there are days. Thinking of you, thinking of ways to get you out of my mind, not because I’m upset. It’s just unkind to my soul, and there’s regret.",
-    "poem_it": "La tragedia è dietro l'angolo quando le emozioni si fanno intense. Le persone parlano con significato ma non capiscono. Perché uno deve ferire un altro quando è sconvolto? Possiamo superarlo, o è tutto inutile? Senza motivo o senza una pista, ci sono giorni. Pensando a te, pensando a modi per toglierti dalla mia mente, non perché sono arrabbiato. È solo crudele per la mia anima, e c'è rimpianto.",
-    "category": "Bluesky"
+    "title_en": "No End.",
+    "title_it": "Senza Fine.",
+    "poem_en": "Tragedy is a moment away when the emotions run high. People speak in meaning but don’t understand. Why is it that one must hurt another when distraught? Can we get past it, or is it for naught? Without a reason or without a clue, there are days thinking of you, thinking of ways to get you out of my mind, not because I’m upset. It’s just unkind to my soul, and there’s regret.",
+    "poem_it": "La tragedia è dietro l'angolo quando le emozioni si fanno intense. Le persone parlano con significato ma non capiscono. Perché si deve ferire un altro quando si è in preda al disorientamento? Possiamo superarlo, o è tutto vano? Senza una ragione o senza una guida, ci sono giorni in cui mi perdo nei pensieri su di te, cercando modi per liberarti dalla mia mente, non perché sono arrabbiato. È solo crudele per la mia anima, e c'è rimorso.",
+    "category": "Bluesky",
+    "tags": [
+        "sad",
+        "longing",
+        "melancholy"
+    ]
 }

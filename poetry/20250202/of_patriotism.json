@@ -1,8 +1,13 @@
 {
     "date": "2025-02-02",
-    "title_en": "Of patriotism.",
-    "title_it": "Della patria.\n\nIn tempi di pace e di guerra,\nnel cuore di chi la chiama sua,\nla fiamma dell'amore patrio arde\ncome un sole che non tramonta mai.\n\nIl suolo sacro, il sangue versato,\nle voci che gridano \"per la patria!\",\nsono le note di un canto antico\nche risuona nei secoli.\n\nNella luce dell'alba radiosa\ne nel calare del crepuscolo sereno,\nla patria vive eterna nei cuori\ndi coloro che sognano e sperano.",
-    "poem_en": "Feed the machine of your choosing—service through action is better than inaction.",
-    "poem_it": "Alimenta la macchina che scegli: il servizio tramite azione è migliore dell'inazione.",
-    "category": "Philosophy"
+    "title_en": "Of Patriotism.",
+    "title_it": "Del Patriottismo.",
+    "poem_en": "Feed the machine of your choosing. Service through action is better than inaction.",
+    "poem_it": "Alimenta la macchina da te scelta.\nIl servizio attraverso l'azione è migliore dell'inazione.",
+    "category": "Philosophy",
+    "tags": [
+        "vss",
+        "shortform",
+        "whimsical"
+    ]
 }

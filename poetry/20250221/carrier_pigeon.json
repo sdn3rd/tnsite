@@ -1,8 +1,13 @@
 {
     "date": "2025-02-21",
-    "title_en": "Carrier pigeon.",
-    "title_it": "Piccione viaggiatore.",
-    "poem_en": "They were underfunded and overworked—a tower of disaster for such great heights. Into the mix, a carrier bird, not a plane—one fell swoop into the chute. No one needs to speak of such tails, rudders, and ailerons—something about flight controls. Lift up? Fucking flap. DOA.",
-    "poem_it": "Erano sottofinanziati e oberati di lavoro – una torre di disastro per altezze così grandi. Nel vortice, un uccello corriere, non un aereo – un colpo solo nella botola. Nessuno ha bisogno di parlare di timoni, piani di coda e ipersostentatori – qualcosa riguardo ai comandi di volo. Sollevarsi? Maledetta ala. Morto all'arrivo.",
-    "category": "Hedges"
+    "title_en": "Carrier Pigeon.",
+    "title_it": "Piccione Viaggiatore.",
+    "poem_en": "They were underfunded and overworked— a tower of disaster for such great heights. Into the mix, a carrier bird, not a plane— one fell swoop into the chute. No one needs to speak of such tails, rudders, and ailerons—something about flight controls. Lift up? Flap. DOA.",
+    "poem_it": "Erano sottofinanziati e oberati di lavoro - una torre di disastri per altezze così grandiose. Nel frastuono, un uccello corriere, non un aeroplano - un solo colpo nel condotto. Nessuno deve parlare di code, timoni e alettoni - qualcosa riguardo ai comandi del volo. Alzati? Batte ali. Morto.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "sad",
+        "dark"
+    ]
 }

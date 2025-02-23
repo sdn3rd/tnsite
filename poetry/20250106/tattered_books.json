@@ -1,8 +1,14 @@
 {
     "date": "2025-01-06",
-    "title_en": "Tattered books.",
-    "title_it": "Libri logori.",
+    "title_en": "Tattered Books.",
+    "title_it": "Libri Strappati.",
     "poem_en": "Thunder bestows its grace, a symphony of illusion, clapping on the wind, a handless cacophony. Without rain, the storm is barren, dying of thirst. Give it your tears, your saddest stories, for it has nothing. Only time remains, a slow procession across the heart. How it still beats is anyone's guess— a trashcan with a shredded bag, torn not once, but endlessly. It craves what spoils, what fouls, to hide its truest fear: uselessness. For without purpose, existence loses meaning. And without that, it has nothing. Is this a story, or mere metaphor? And if so, for what? Meaning arrives when you read your own version— for we all fear the same: bad endings.",
-    "poem_it": "Il tuono conferisce la sua grazia, una sinfonia di illusione, battendo sul vento, una cacofonia senza mani. Senza pioggia, la tempesta è sterile, morente di sete. Donale le tue lacrime, le tue storie più tristi, poiché non possiede nulla. Resta solo il tempo, una lenta processione attraverso il cuore. Come batte ancora è un mistero per chiunque— un bidone della spazzatura con un sacco stracciato, strappato non una volta, ma infinite volte. Desidera ciò che si corrompe, che si insozza, per nascondere il suo più grande terrore: l'inutilità. Poiché senza scopo, l'esistenza perde significato. E senza quello, non possiede nulla. È questa una storia o soltanto una metafora? E se sì, per cosa? Il significato si presenta quando leggi la tua versione— poiché tutti temiamo la stessa cosa: brutti finali.",
-    "category": "Throwetry"
+    "poem_it": "Il tuono dona la sua grazia, una sinfonia di illusione, applausi sul vento, una cacofonia senza mani. Senza pioggia, la tempesta è sterile, che muore di sete. Dalle le tue lacrime, le tue storie più tristi, poiché non possiede nulla. Resta solo il tempo, una lenta processione attraverso il cuore. Come faccia ancora a battere è un mistero per chiunque— un bidone dell'immondizia con un sacco strappato, lacerato non una volta, ma all'infinito. Anela a ciò che si guasta, ciò che si corrompe, per nascondere la sua più vera paura: l'inutilità. Poiché senza uno scopo, l'esistenza perde significato. E senza di quello, non possiede nulla. È questa una storia, o solo una metafora? E in tal caso, per cosa? Il significato si rivela quando leggi la tua versione— poiché tutti noi temiamo lo stesso: brutti finali.",
+    "category": "Throwetry",
+    "tags": [
+        "longform",
+        "sad",
+        "melancholy",
+        "passionate"
+    ]
 }

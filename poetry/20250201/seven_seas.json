@@ -1,8 +1,15 @@
 {
     "date": "2025-02-01",
-    "title_en": "Seven seas.",
-    "title_it": "Sette mari.",
-    "poem_en": "As I pour my essence, it’s served me well— been pleasant, with patience. Subtle pleas, everlasting seas— the ocean of my heart, yours to see.",
-    "poem_it": "Mentre riverso la mia essenza, mi ha servito bene— è stato piacevole, con pazienza. Appelli sottili, mari eterni— l'oceano del mio cuore, tuo da vedere.",
-    "category": "Micropoems"
+    "title_en": "Seven Seas.",
+    "title_it": "Sette Mari.",
+    "poem_en": "As I pour my essence, it’s served me well — been pleasant, with patience. Subtle pleas, everlasting seas — the ocean of my heart, yours to see.",
+    "poem_it": "Mentre riverso la mia essenza, mi ha sempre servito bene — è stato piacevole, con pazienza. Sottili suppliche, mari eterni — l'oceano del mio cuore, tuo da vedere.",
+    "category": "Micropoems",
+    "tags": [
+        "shortform",
+        "sad",
+        "tender",
+        "loving",
+        "longing"
+    ]
 }

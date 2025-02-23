@@ -1,8 +1,13 @@
 {
     "date": "2025-02-07",
-    "title_en": "Beautiful monsters.",
-    "title_it": "Bellissimi mostri.",
+    "title_en": "Beautiful Monsters.",
+    "title_it": "Bellissimi Mostri.",
     "poem_en": "Looking in two of your eyes, imagining there's three— because being interesting is more important than being pretty. So why don't you see? I'm tired of pretentious pageantry. Use your brain, or you mean nothing to me.",
-    "poem_it": "Guardando dentro dei tuoi due occhi, immaginando ce ne siano tre— perché essere interessante è più importante che essere bello. Allora perché non capisci? Sono stanco di falsa pomposità. Usa il tuo cervello, oppure non conti nulla per me.",
-    "category": "Short_form"
+    "poem_it": "Guardando nei tuoi due occhi, immaginando che ce ne siano tre— perché essere interessante è più importante che essere bello. Allora perché non capisci? Sono stufo di false apparenze. Usa il tuo cervello, o per me non conti nulla.",
+    "category": "Short_form",
+    "tags": [
+        "longform",
+        "dark",
+        "passionate"
+    ]
 }

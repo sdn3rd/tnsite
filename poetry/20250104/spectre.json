@@ -1,8 +1,13 @@
 {
     "date": "2025-01-04",
     "title_en": "Spectre.",
-    "title_it": "Spettro.\n\n(If there is a specific English poem you would like me to translate into Italian, please provide it so I can give you a precise translation.)",
-    "poem_en": "I dreamt of sleep, of a former me, before our paths crossed, a fateful decree. Lost in meaning, a cause abandoned, words defined us, expectations stranded. Elation, hesitations, a fleeting spark, now regret's dark flame, a damning mark. His twisted design, once thought divine, deleted, erased, no longer mine.",
-    "poem_it": "Ho sognato il sonno, un io passato, prima che le nostre strade si incrociassero, un decreto fatale. Perso nel significato, una causa abbandonata, le parole ci definivano, le aspettative arenate. Euforia, esitazioni, una scintilla sfuggente, ora la fiamma oscura del rimpianto, un segno condannatorio. Il suo disegno distorto, una volta considerato divino, cancellato, cancellato, non più mio.",
-    "category": "Personal"
+    "title_it": "Spettro.",
+    "poem_en": "I dreamt of sleep, of a former me, before our paths crossed, a fateful decree. Lost in meaning, a cause abandoned, words defined us, expectations stranded. Elations, hesitations, a fleeting spark, now regret's dark flame, a damning mark. His twisted design, once thought divine, deleted, erased, no longer mine.",
+    "poem_it": "Ho sognato il sonno, un me precedente, prima che i nostri percorsi si intersecassero, un destino fatale. Perso nel significato, una causa abbandonata, le parole ci definivano, le aspettative arenate. Euforia, esitazioni, una scintilla effimera, ora il buio del rimpianto, un segno dannato. Il suo design contorto, un tempo pensato divino, cancellato, cancellato, non più mio.",
+    "category": "Personal",
+    "tags": [
+        "longform",
+        "melancholy",
+        "dark"
+    ]
 }

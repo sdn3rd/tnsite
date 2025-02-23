@@ -1,8 +1,12 @@
 {
     "date": "2025-02-17",
-    "title_en": "Mindful, mine of mine.",
-    "title_it": "Mente attenta, miniera della mia mente.",
+    "title_en": "Mindful, Mine Of Mine.",
+    "title_it": "Minuzioso, Mio Di Mio.",
     "poem_en": "Rust-colored dust, with sparkling quartz, rests on the floor—a shaft. Mindful mine, many paths, a labyrinth, if you asked, of indelible memories that last. Before us, the future; behind us, the past. And while I make it seem easy, I carry a pick and a flask, carving deep—a laborious task.",
-    "poem_it": "Polvere color ruggine, con quarzi scintillanti, giace sul pavimento - un pozzo. Mina consapevole, molteplici sentieri, un labirinto, se lo chiedessi, di ricordi indelebili che durano. Davanti a noi, il futuro; dietro di noi, il passato. E mentre faccio sembrare facile, porto con me un piccone e una fiaschetta, scavando in profondità - un'ardua fatica.",
-    "category": "Half_baked_prompts"
+    "poem_it": "Polvere color ruggine, con quarzi scintillanti, posa sul pavimento—un tunnel. Mente attenta, molteplici sentieri, un labirinto, se chiedessi, di memorie indelebili che durano. Davanti a noi, il futuro; dietro di noi, il passato. E mentre faccio sembrare facile, porto un piccone e uno boccione, scavando profondamente—un compito laborioso.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "longform",
+        "melancholy"
+    ]
 }

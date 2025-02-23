@@ -1,8 +1,13 @@
 {
     "date": "2025-02-19",
-    "title_en": "Not good with perspective.",
-    "title_it": "Non bravo con la prospettiva.",
-    "poem_en": "For a moment, I catch but a glimpse, and perhaps my mistake was in what I chose to honor. It wasn’t you—my apologies. It was love. I should have been more considerate, and for that, I am truly sorry.",
-    "poem_it": "Per un attimo, intravidi soltanto un lampo, e forse il mio errore fu in ciò che scelsi di onorare. Non eri tu, mi scuso. Era l'amore. Avrei dovuto essere più premuroso, e per questo, mi spiace davvero.",
-    "category": "Tumbleweeds"
+    "title_en": "Not Good With Perspective.",
+    "title_it": "Non Buono Con La Prospettiva.",
+    "poem_en": "For a moment, I catch but a glimpse. And perhaps my mistake was in what I chose to honor. It wasn’t you— my apologies. It was love. I should have been more considerate, and for that, I am truly sorry.",
+    "poem_it": "Per un istante, colgo solo un accenno. E forse il mio errore è stato nel ciò che ho scelto di onorare. Non eri tu - mi scuso. Era l'amore. Avrei dovuto essere più considerato, e per questo, mi dispiace davvero.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "sad",
+        "loving"
+    ]
 }

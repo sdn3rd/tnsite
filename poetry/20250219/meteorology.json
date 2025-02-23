@@ -1,8 +1,14 @@
 {
     "date": "2025-02-19",
     "title_en": "Meteorology",
-    "title_it": "Meteorologia\n\nNuvole come pecore pacifiche pascolano il cielo,\nil sole danza con grazia tra le loro lente spire,\ne il vento sussurra il segreto del giorno al lento fiume.\nSiamo spettatori muti di questo mistero celeste,\ndove la pioggia è il bacio della natura sulla terra\ne il tuono è l'applauso degli dei alla loro opera immortale.",
+    "title_it": "Meteorologia",
     "poem_en": "Let’s go for the longest walk. While you left me alone, I found a beach— awash in my emotions. And while that sounds sad, tides have their way. Through ebbing and pulling, a calmness resounds. But as you draw near, so do the storms. I was told it has something to do with meteors.",
-    "poem_it": "Andiamo per la camminata più lunga. Mentre mi hai lasciato solo, ho trovato una spiaggia— travolta dalle mie emozioni. E sebbene ciò suoni triste, le maree seguono il loro corso. Attraverso l'andirivieni e il trascinare, risuona una calma. Ma all'avvicinarsi di te, si avvicinano anche le tempeste. Mi è stato detto che ha a che fare con i meteoriti.",
-    "category": "Hedges"
+    "poem_it": "Andiamo per la passeggiata più lunga. Mentre mi hai lasciato da solo, ho trovato una spiaggia— inondata dalle mie emozioni. E sebbene possa sembrare triste, le maree hanno il loro corso. Attraverso il ritirarsi e l'avanzare, risuona una calma. Ma appena ti avvicini, arrivano anche le tempeste. Mi è stato detto che ha a che fare con i meteoriti.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "sad",
+        "longing",
+        "melancholy"
+    ]
 }

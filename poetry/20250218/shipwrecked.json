@@ -2,7 +2,13 @@
     "date": "2025-02-18",
     "title_en": "Shipwrecked.",
     "title_it": "Naufragio.",
-    "poem_en": "I feel the winds calling, the stern by which they bend. Long is my nature — steadfast, never knowing how to relent. The bow breaks from the keel with a glorious crack — long howls, shattered pieces, and how the ship wrecks.",
-    "poem_it": "Sento i venti che chiamano, la prua dalla quale si piegano. Lunga è la mia natura - ferma, mai sapendo come cedere. La prua si stacca dalla chiglia con uno scricchiolio glorioso - lunghi ululati, pezzi frantumati, e come la nave naufraga.",
-    "category": "Tumbleweeds"
+    "poem_en": "I feel the winds calling, the stern by which they bend. Long is my nature—steadfast, never knowing how to relent. The bow breaks from the keel with a glorious crack— long howls, shattered pieces, and how the ship wrecks.",
+    "poem_it": "Sento i venti che chiamano, la forza con cui si piegano. Lunga è la mia natura - ferma, mai sapendo come cedere. L'arco si spezza dalla chiglia con uno scoppio glorioso - lunghi ululati, pezzi frantumati, e come la nave naufraga.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy",
+        "longing"
+    ]
 }

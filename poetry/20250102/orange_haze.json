@@ -1,8 +1,13 @@
 {
     "date": "2025-01-02",
-    "title_en": "Orange haze.",
-    "title_it": "Nebbia arancione.",
+    "title_en": "Orange Haze.",
+    "title_it": "Nebbia Arancione.",
     "poem_en": "The juice does distill, drops begin to concentrate, citrus contemplates.",
-    "poem_it": "Il succo si distilla, gocce iniziano a concentrarsi, agrumi contemplano.",
-    "category": "Haikus"
+    "poem_it": "Il succo si distilla, le gocce iniziano a concentrarsi, l'agrume medita.",
+    "category": "Haikus",
+    "tags": [
+        "vss",
+        "haiku",
+        "whimsical"
+    ]
 }

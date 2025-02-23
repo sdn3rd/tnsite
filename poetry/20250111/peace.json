@@ -3,6 +3,11 @@
     "title_en": "Peace.",
     "title_it": "Pace.",
     "poem_en": "We suffer for it. Peace, an illusion to us, deserve no quarter.",
-    "poem_it": "Ne soffriamo. Pace, un'illusione per noi, non merita nessuna tregua.",
-    "category": "Haikus"
+    "poem_it": "Soffriamo per questo. La pace, un'illusione per noi, non merita clemenza.",
+    "category": "Haikus",
+    "tags": [
+        "micropoem",
+        "dark",
+        "melancholy"
+    ]
 }

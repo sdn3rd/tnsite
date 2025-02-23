@@ -1,8 +1,14 @@
 {
     "date": "2025-02-18",
-    "title_en": "I'd love for this to be true.",
-    "title_it": "Mi piacerebbe che fosse vero.",
-    "poem_en": "If I continued my thoughts, unending as they are, would you lend an ear from afar? Perhaps you'd imagine my eyes—the moment you realize this never has to end.",
-    "poem_it": "Se continuassi i miei pensieri, infiniti come sono, presteresti un orecchio da lontano? Forse immagineresti i miei occhi—il momento in cui capisci che questo non deve mai finire.",
-    "category": "Tumbleweeds"
+    "title_en": "I'D Love For This To Be True.",
+    "title_it": "Mi Piacerebbe Che Questo Fosse Vero.",
+    "poem_en": "If I continued my thoughts, unending as they are, would you lend an ear from afar? Perhaps you'd imagine my eyes— the moment you realize this never has to end.",
+    "poem_it": "Se continuerò i miei pensieri, infiniti come sono, vorresti prestare un orecchio da lontano? Forse immagineresti i miei occhi - l'istante in cui capisci che questo non deve mai finire.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "longform",
+        "tender",
+        "loving",
+        "melancholy"
+    ]
 }

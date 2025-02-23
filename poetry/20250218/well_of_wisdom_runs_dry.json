@@ -1,8 +1,13 @@
 {
     "date": "2025-02-18",
-    "title_en": "Well of wisdom runs dry.",
-    "title_it": "Il pozzo della saggezza si prosciuga.",
-    "poem_en": "When the well runs dry, no wisdom intelligence runs thin—so I stop worrying. I grab my pick and I swing it; it brings pleasant company: a clattering of chime and heartbeat. Before I know it, covered in that rust-colored dust, thinking about her but trying to break it all up.",
-    "poem_it": "Quando il pozzo si prosciuga, la saggezza s'indebolisce — quindi smetto di preoccuparmi. Afferro il mio piccone e lo scaglio; porta una piacevole compagnia: un tintinnio di campanelli e battito del cuore. Prima che me ne accorga, coperto di quella polvere color ruggine, pensando a lei ma cercando di rompere tutto ciò.",
-    "category": "Half_baked_prompts"
+    "title_en": "Well Of Wisdom Runs Dry.",
+    "title_it": "Il Pozzo Della Saggezza Si Prosciuga.",
+    "poem_en": "When the well runs dry, no wisdom, intelligence runs thin—so I stop worrying. I grab my pick and I swing it; brings pleasant company, a clattering of chime and heartbeat. Before I know it, covered in that rust-colored dust, thinking about her but trying to break it all up.",
+    "poem_it": "Quando il pozzo si prosciuga, la saggezza scompare, l'intelligenza si assottiglia—così smetto di preoccuparmi. Afferro il mio piccone e lo scaglio; porta piacevole compagnia, un tintinnio di suono e battito cardiaco. Prima che me ne accorga, coperto di quella polvere color ruggine, pensando a lei ma cercando di spezzare tutto ciò.",
+    "category": "Half_baked_prompts",
+    "tags": [
+        "longing",
+        "tender",
+        "melancholy"
+    ]
 }

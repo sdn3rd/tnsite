@@ -1,8 +1,13 @@
 {
     "date": "2025-02-21",
-    "title_en": "Radiance vs. Raven.",
-    "title_it": "Splendore contro Corvo.",
-    "poem_en": "Upon the floor, looking back— more hungry than I. A fowl went afoul, hideous, covered in charred notes, tarred and from the pits. In despair, it cawed its beak, raving, as a raven does— black and into the night, cast out by her light.",
-    "poem_it": "Sul pavimento, volgendo lo sguardo indietro— più affamato di me. Un volatile s'imbatté in disgrazia, orrendo, ricoperto di note arse, imbrattato e dall'abisso. Nella disperazione, gracchiò col suo becco, delirante, come fa un corvo— nero e nella notte, scacciato dalla sua luce.",
-    "category": "Hedges"
+    "title_en": "Radiance Vs. Raven.",
+    "title_it": "Splendore Vs. Corvo.",
+    "poem_en": "Upon the floor, looking back— more hungry than I. A foul went afoul, hideous, covered in charred notes, tarred and from the pits. In despair, it cawed, its beak raving as a raven does— black and into the night, cast out by her light.",
+    "poem_it": "Sul pavimento, guardando indietro— più affamato di me. Un brutto si è scontrato, orribile, coperto di note carbonizzate, impiastricciato e proveniente dagli abissi. Nella disperazione, gracchiava, il suo becco delirante come fa un corvo— nero e nella notte, cacciato dalla sua luce.",
+    "category": "Hedges",
+    "tags": [
+        "longform",
+        "dark",
+        "melancholy"
+    ]
 }

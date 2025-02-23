@@ -1,8 +1,14 @@
 {
     "date": "2025-02-14",
-    "title_en": "Sweet dreams.",
-    "title_it": "Dolci sogni.",
-    "poem_en": "Slippers sliding happily, rabbit ears dangling merrily, and the smile that beckons: a thing of my dreams. I happen to be wearing pajamas. Forgive me for not being my best. It'd be nice to get some rest. So if you would, please gently tuck me to sleep, and nestle in my arms a heart by which to keep. Written to - Keeper.",
-    "poem_it": "Ciabatte scivolano felici, orecchie da coniglio ballonzolano allegramente, e il sorriso che invita: una cosa dei miei sogni. Capita che io stia indossando il pigiama. Perdona per non essere al meglio. Sarebbe bello poter riposare. Quindi, se ti va, per favore mettimi delicatamente a letto, e accoccolati tra le mie braccia con un cuore da tenere vicino. Scritto per - Custode.",
-    "category": "Distillate"
+    "title_en": "Sweet Dreams.",
+    "title_it": "Dolci Sogni.",
+    "poem_en": "Slippers sliding happily, rabbit ears dangling merrily, and the smile that beckons, a thing of my dreams. I happen to be wearing pajamas. Forgive me for not being my best; it'd be nice to get some rest. So, if you would, please gently tuck me to sleep and nestle in my arms, a heart by which to keep. Written to Keeper.",
+    "poem_it": "Pantofole scivolando felici, orecchie di coniglio che pendono allegramente e il sorriso che chiama, una cosa dei miei sogni. Capita che io stia indossando il pigiama. Perdonami se non sono al meglio; sarebbe bello riposare un po'. Quindi, se vuoi, per favore accogliti dolcemente a dormire e accoccolati tra le mie braccia, un cuore da custodire. Scritto a Keeper.",
+    "category": "Distillate",
+    "tags": [
+        "sad",
+        "loving",
+        "tender",
+        "longing"
+    ]
 }

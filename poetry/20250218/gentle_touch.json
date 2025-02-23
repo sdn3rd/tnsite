@@ -1,8 +1,14 @@
 {
     "date": "2025-02-18",
-    "title_en": "Gentle touch.",
-    "title_it": "Dolce carezza.",
+    "title_en": "Gentle Touch.",
+    "title_it": "Dolce Tocco.",
     "poem_en": "Pelagic in a vast sea, painted skies reflect the deep. In pageantry, always searching, simply swimming past feeling, mouth fresh. Murky waters cloud the view— a fish out of water, it seems to be. But hands harm aquatic creatures.",
-    "poem_it": "Pelagico in un vasto mare, i cieli dipinti riflettono il profondo. In fasto, sempre in cerca, semplicemente nuotando oltre il sentimento, bocca fresca. Acque torbide offuscano la vista— un pesce fuor d'acqua, sembra essere. Ma mani danneggiano creature acquatiche.",
-    "category": "Tumbleweeds"
+    "poem_it": "Pelagico in un mare vasto, i cieli dipinti riflettono il profondo. In sontuosità, sempre in cerca, semplicemente nuotando oltre il sentimento, bocca fresca. Le acque torbide offuscano la vista - sembra un pesce fuor d'acqua. Ma le mani danneggiano le creature acquatiche.",
+    "category": "Tumbleweeds",
+    "tags": [
+        "sad",
+        "longing",
+        "melancholy",
+        "vss"
+    ]
 }

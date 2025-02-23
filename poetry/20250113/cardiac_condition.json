@@ -1,8 +1,13 @@
 {
     "date": "2025-01-13",
-    "title_en": "Cardiac condition.",
-    "title_it": "Condizione cardiaca.",
-    "poem_en": "He had an enlarged heart— I thought it was from his love. Turns out, it was the burgers. But it taught me: there's no limit to how many people you can love— or burgers.",
-    "poem_it": "Aveva un cuore ingrandito — pensavo fosse per il suo amore. Alla fine, era per i panini. Ma mi ha insegnato: non c'è limite a quante persone puoi amare — o panini.",
-    "category": "Whimsical"
+    "title_en": "Cardiac Condition.",
+    "title_it": "Condizione Cardiaca.",
+    "poem_en": "He had an enlarged heart. I thought it was from his love. Turns out, it was the burgers. But it taught me: there's no limit to how many people you can love— or burgers.",
+    "poem_it": "Aveva un cuore ingrandito. Pensavo fosse per il suo amore. Alla fine, erano proprio i panini. Ma mi ha insegnato: non c'è limite a quanti puoi amare— o panini.",
+    "category": "Whimsical",
+    "tags": [
+        "fun",
+        "whimsical",
+        "tender"
+    ]
 }

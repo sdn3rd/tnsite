@@ -1,8 +1,13 @@
 {
     "date": "2025-01-03",
-    "title_en": "Covered in pink.",
-    "title_it": "Avvolto nel rosa.",
+    "title_en": "Covered In Pink.",
+    "title_it": "Coperto Di Rosa.",
     "poem_en": "The sun was tucked behind a cloud, a whispered veil reminding to hush as it dimmed slowly into the horizon, gently waving goodbye.",
-    "poem_it": "Il sole si era nascosto dietro una nuvola, un velo sussurrato che ricordava di tacere mentre lentamente si annebbiava all'orizzonte, salutando dolcemente con un gesto d'addio.",
-    "category": "Bluesky"
+    "poem_it": "Il sole si era nascosto dietro una nuvola, un velo sussurrato che ricordava di tacere mano a mano che si attenuava lentamente all'orizzonte, salutando dolcemente con un ondeggiare.",
+    "category": "Bluesky",
+    "tags": [
+        "longform",
+        "tender",
+        "melancholy"
+    ]
 }
