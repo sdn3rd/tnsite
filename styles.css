@@ -55,9 +55,7 @@ body {
       font-size var(--transition-speed) ease,
       background-color var(--transition-speed) ease,
       color var(--transition-speed) ease;
-
-    /* Keep top space for the hamburger. We add some margin top if needed. */
-    margin-top: 60px; 
+    margin-top: 60px;
 }
 
 @media (max-width: 768px) {
@@ -98,15 +96,16 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   POETRY ICONS (TOP, NEXT TO HAMBURGER) - HIDDEN BY DEFAULT
+   POETRY ICONS (TOP, NEXT TO HAMBURGER)
 ------------------------------------------------------------------ */
 #poetry-icons {
     position: fixed;
     top: 10px;
     left: 70px; /* space after hamburger icon */
     z-index: 1006;
-    display: none; /* show only in Poetry section */
+    display: none; /* visible in Poetry section only */
     gap: 10px;
+    flex-wrap: wrap; /* allow wrapping on narrow screens */
 }
 
 #poetry-icons img {
@@ -138,10 +137,7 @@ body {
     border-radius: 4px;
     text-align: center;
     font-weight: 600;
-    transition:
-      background-color var(--transition-speed) ease,
-      color var(--transition-speed) ease,
-      transform var(--transition-speed) ease;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
 }
 
 #language-toggle:hover {
@@ -218,10 +214,10 @@ body.menu-open .side-menu {
     font-weight: 500;
 }
 
-/* Mobile: put text below icon and scale down */
+/* Mobile: Stack icon over text */
 @media (max-width: 768px) {
     .side-menu a {
-        flex-direction: column; /* icon above, text below */
+        flex-direction: column;
     }
     .side-menu-icon {
         width: 40px;
@@ -274,13 +270,20 @@ body.menu-open .side-menu {
    CALENDAR STYLES
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 40px auto; /* 10px more (example) to push further down */
+  margin: 40px auto; /* Adjust top margin as needed */
   max-width: 600px;
   padding: 20px;
   border: 1px solid var(--line-color);
   width: 100%;
   box-sizing: border-box;
   text-align: center;
+}
+
+/* For smaller screens (iPhone), force a slightly larger top margin */
+@media (max-width: 600px) {
+  .calendar-container {
+    margin-top: 50px;
+  }
 }
 
 .calendar-table {
@@ -300,7 +303,7 @@ body.menu-open .side-menu {
    INFINITE VERTICAL WHEEL OVERLAY
 ------------------------------------------------------------------ */
 #poem-wheel-overlay {
-  display: none; /* hidden by default, .show => visible */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -311,7 +314,7 @@ body.menu-open .side-menu {
   z-index: 9998;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow: hidden; /* no horizontal scroll visible */
+  overflow: hidden;
 }
 
 #poem-wheel-overlay.show {
@@ -319,7 +322,7 @@ body.menu-open .side-menu {
   opacity: 1;
 }
 
-/* Container for the wheel in the center */
+/* Wheel inner container */
 #wheel-inner {
   position: absolute;
   top: 50%;
@@ -332,21 +335,21 @@ body.menu-open .side-menu {
   background: var(--background-color);
   overflow: hidden;
   border: 1px solid var(--line-color);
-  touch-action: none; /* crucial for mobile drags */
+  touch-action: none;
 }
 
-/* Track that scrolls vertically */
+/* Wheel track */
 #wheel-track {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  transition: transform 0.2s ease; /* for snapping */
+  transition: transform 0.2s ease;
 }
 
-/* Styles for each poem item in the wheel */
+/* Each wheel item */
 .wheel-item {
-  display: block; /* stacked vertically */
+  display: block;
   width: 100%;
   height: var(--wheel-item-height);
   line-height: var(--wheel-item-height);
@@ -362,12 +365,11 @@ body.menu-open .side-menu {
   color: var(--text-color);
 }
 
-/* Visually highlight the item at center */
 .wheel-item.active {
-  font-weight: 900; /* Very Bold */
+  font-weight: 900;
   color: var(--text-color);
-  font-size: 1.3rem; /* Slightly larger */
-  background-color: #222; /* Subtle highlight */
+  font-size: 1.3rem;
+  background-color: #222;
 }
 
 /* Close Button */
@@ -408,7 +410,7 @@ body.menu-open .side-menu {
 }
 
 #poem-reading-overlay.show {
-    display: flex; /* Use flex for centering */
+    display: flex;
     opacity: 1;
 }
 
@@ -439,13 +441,13 @@ body.menu-open .side-menu {
     font-size: 1.2rem;
     text-align: left;
     width: 100%;
-    max-width: 600px; /* Max width for readability */
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
+    max-width: 600px;
+    overflow-x: hidden;
     padding: 0 15px;
     box-sizing: border-box;
 }
 
-/* Portrait Orientation Styles */
+/* Portrait Orientation */
 @media (orientation: portrait) {
     #poem-reading-overlay {
         padding: 15px;
@@ -455,12 +457,12 @@ body.menu-open .side-menu {
         max-height: none;
         border-radius: 0;
         box-shadow: none;
-        justify-content: flex-start; /* Align content to the top */
+        justify-content: flex-start;
     }
     #poem-overlay-content {
         font-size: 1.2rem;
         max-width: 95%;
-        margin-top: 50px; /* Space from the top, adjust as needed */
+        margin-top: 50px;
     }
     #poem-overlay-title {
         margin-top: 50px;
@@ -471,7 +473,7 @@ body.menu-open .side-menu {
     }
 }
 
-/* Landscape Orientation Styles (Desktop and Landscape Mobile) */
+/* Landscape Orientation */
 @media (orientation: landscape) {
     #poem-reading-overlay {
         position: fixed;
@@ -483,7 +485,6 @@ body.menu-open .side-menu {
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-        /* Center in landscape mode */
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -503,7 +504,7 @@ body.menu-open .side-menu {
 }
 
 /* ------------------------------------------------------------------
-   FOOTER - center items except language button
+   FOOTER - Centered (except language toggle remains separate)
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
@@ -515,7 +516,7 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the icons & text */
+    justify-content: center;
     z-index: 1004;
     gap: 20px;
     padding-bottom: 5px;
