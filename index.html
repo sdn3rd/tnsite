@@ -18,16 +18,17 @@
     <img src="icons/menu.png" alt="Menu"/>
   </div>
 
-  <!-- Poetry Categories (hidden by default, shown only if user is in "Poetry" section) -->
-  <div id="poetry-categories">
-    <img src="icons/spectral.png" alt="Spectral" data-category="spectral" class="category-icon" />
-    <img src="icons/lupa.png" alt="Lupa" data-category="lupa" class="category-icon" />
-    <img src="icons/calliope.png" alt="Calliope" data-category="calliope" class="category-icon" />
-    <img src="icons/strands.png" alt="Strands" data-category="strands" class="category-icon" />
-    <img src="icons/experiments.png" alt="Experiments" data-category="experiments" class="category-icon" />
+  <!-- Poetry Icons (shown only in Poetry section) -->
+  <div id="poetry-icons">
+    <img id="calendar-icon" src="icons/calendar.png" alt="Calendar"/>
+    <img class="category-icon" data-category="Spectral" src="icons/spectral.png" alt="Spectral"/>
+    <img class="category-icon" data-category="Lupa" src="icons/lupa.png" alt="Lupa"/>
+    <img class="category-icon" data-category="Calliope" src="icons/calliope.png" alt="Calliope"/>
+    <img class="category-icon" data-category="Strands" src="icons/strands.png" alt="Strands"/>
+    <img class="category-icon" data-category="Experiments" src="icons/experiments.png" alt="Experiments"/>
   </div>
 
-  <!-- Language Toggle Button -->
+  <!-- Language Toggle Button (bottom-right) -->
   <div id="language-toggle" tabindex="0">ENG</div>
 
   <!-- Side Menu -->
@@ -35,13 +36,13 @@
     <ul>
       <li>
         <a href="#" data-section="about">
-          <img src="icons/about.png" alt="About" class="menu-icon"/>
+          <img src="icons/about.png" alt="About Icon" class="side-menu-icon"/>
           <span class="menu-text">About</span>
         </a>
       </li>
       <li>
         <a href="#" data-section="poetry">
-          <img src="icons/poetry.png" alt="Poetry" class="menu-icon"/>
+          <img src="icons/poetry.png" alt="Poetry Icon" class="side-menu-icon"/>
           <span class="menu-text">Poetry</span>
         </a>
       </li>
@@ -50,6 +51,17 @@
 
   <!-- Main Content -->
   <div id="main-content"></div>
+
+  <!-- Footer -->
+  <footer id="main-footer">
+    <a href="https://bsky.app/profile/tristannuvola" target="_blank">
+      <img src="icons/bluesky.png" alt="Bluesky" />
+    </a>
+    <a href="https://instagram.com/tristannuvola" target="_blank">
+      <img src="icons/instagram.png" alt="Instagram" />
+    </a>
+    <span>© 2025 Tristan Nuvola</span>
+  </footer>
 
   <!-- Script -->
   <script src="script.js" defer></script>

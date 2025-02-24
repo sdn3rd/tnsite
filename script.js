@@ -10,11 +10,8 @@ let guiData = null;
 
 /**
  * For the poem index
- * The file is "poetry/index.json".
  * Keys: date in YYYYMMDD form (e.g. "20241211")
- * Value: array of poem metadata objects
- *    each poem metadata can have fields like:
- *      { filename, title_en, title_it, category, ... }
+ * Each value: array of poem metadata objects (including "category")
  */
 let poemIndex = {}; // Will hold data from poetry/index.json
 
@@ -33,7 +30,7 @@ const today = new Date();
 /**
  * For the infinite vertical spinner with fling
  */
-let poemsForWheel = [];          // Array of poem metadata for a given selection
+let poemsForWheel = [];          // Array of poem metadata (for either date or category)
 const WHEEL_REPEAT_COUNT = 7;    // Replicate items for smooth looping
 const WHEEL_ITEM_HEIGHT = 60;    // px, must match CSS
 let wheelTrackOffsetY = 0;       // Track's vertical offset
@@ -64,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
-  setupCategoryIcons(); // for the top bar icons
+  setupPoetryIcons();
 });
 
 /* ------------------------------------------------------------------
@@ -266,17 +263,23 @@ function updateLanguageToggle() {
    ABOUT SECTION
 ------------------------------------------------------------------ */
 function loadAboutSection() {
-  hidePoetryCategories(); // Hide top category icons
+  // Hide poetry icons
+  const poetryIcons = document.getElementById("poetry-icons");
+  if (poetryIcons) poetryIcons.style.display = "none";
+
   const main = document.getElementById("main-content");
   if (!main) return;
   main.innerHTML = `<div>${t("aboutSection") || "<p>About content here.</p>"}</div>`;
 }
 
 /* ------------------------------------------------------------------
-   POETRY SECTION => CALENDAR
+   POETRY SECTION => CALENDAR + Category Icons
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
-  showPoetryCategories(); // Show top category icons
+  // Show poetry icons
+  const poetryIcons = document.getElementById("poetry-icons");
+  if (poetryIcons) poetryIcons.style.display = "flex";
+
   const main = document.getElementById("main-content");
   if (!main) return;
   main.innerHTML = "";
@@ -377,7 +380,7 @@ function renderCalendarView(year, month, container) {
       td.onclick = () => loadPoemsByDate(`${yyy}-${mm}-${dd}`);
     }
 
-    // highlight today's cell (just for visual, if in range)
+    // highlight today's cell
     if (
       currentDate.getFullYear() === today.getFullYear() &&
       currentDate.getMonth() === today.getMonth() &&
@@ -440,9 +443,9 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS (BY DATE)
+   LOAD POEMS BY DATE => SHOW INFINITE WHEEL
 ------------------------------------------------------------------ */
-async function loadPoemsByDate(dateStr) {
+function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
   const folderName = dateStr.replace(/-/g, ""); // e.g. "20241211"
   console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName);
@@ -453,8 +456,6 @@ async function loadPoemsByDate(dateStr) {
     console.error("Error: poemIndex entry is NOT an array for folder:", folderName, poemMetadataArr);
     poemMetadataArr = [];
   }
-
-  console.log("metadata from poemIndex:", poemMetadataArr);
 
   if (poemMetadataArr.length === 0) {
     console.warn("No poems for date:", dateStr);
@@ -474,47 +475,43 @@ async function loadPoemsByDate(dateStr) {
   }
 
   // Otherwise => multiple poems => infinite wheel
-  poemsForWheel = poemMetadataArr.slice(); // keep reference
+  poemsForWheel = poemMetadataArr.slice();
   showInfiniteWheelOverlay();
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS BY CATEGORY (for the top icons)
+   LOAD POEMS BY CATEGORY
 ------------------------------------------------------------------ */
-function loadPoemsByCategory(category) {
-  console.log("loadPoemsByCategory:", category);
+function loadPoemsByCategory(categoryName) {
+  console.log("loadPoemsByCategory:", categoryName);
 
-  // We'll gather all poems in poemIndex that match the given category
-  let allMetadata = [];
-  for (const dateKey in poemIndex) {
-    if (!Array.isArray(poemIndex[dateKey])) continue;
-    // Filter by matching category (if present)
-    const found = poemIndex[dateKey].filter(md => md.category === category);
-    // Append folderName for each
-    found.forEach(md => {
-      md._folderName = dateKey; // e.g. "20241211"
-    });
-    allMetadata.push(...found);
-  }
+  // Gather all poems that match this category
+  const allDateKeys = Object.keys(poemIndex);
+  let result = [];
+  allDateKeys.forEach(dateKey => {
+    const arr = poemIndex[dateKey];
+    if (Array.isArray(arr)) {
+      arr.forEach(poemMeta => {
+        if (poemMeta.category === categoryName) {
+          // attach folderName for future fetch
+          poemMeta._folderName = dateKey;
+          result.push(poemMeta);
+        }
+      });
+    }
+  });
 
-  if (allMetadata.length === 0) {
-    alert(`No poems found for category: ${category}`);
+  if (result.length === 0) {
+    alert(`No poems found for category: ${categoryName}`);
     return;
   }
 
-  // If only one poem => fetch & show
-  if (allMetadata.length === 1) {
-    fetchAndDisplayPoem(allMetadata[0]._folderName, allMetadata[0]);
-    return;
-  }
-
-  // Otherwise => show them in the wheel
-  poemsForWheel = allMetadata;
+  poemsForWheel = result;
   showInfiniteWheelOverlay();
 }
 
 /* ------------------------------------------------------------------
-   FETCH & DISPLAY SINGLE POEM
+   FETCH & DISPLAY A SINGLE POEM
 ------------------------------------------------------------------ */
 async function fetchAndDisplayPoem(folderName, poemMeta) {
   const poemUrl = `poetry/${folderName}/${poemMeta.filename}`;
@@ -585,7 +582,6 @@ function showInfiniteWheelOverlay() {
   wheelTrackOffsetY = 0;
   flingVelocity = 0;
 
-  // Populate wheelTrack
   extendedPoems.forEach((info, idx) => {
     const item = document.createElement("div");
     item.classList.add("wheel-item");
@@ -611,7 +607,6 @@ function showInfiniteWheelOverlay() {
   const wheelInner = overlay.querySelector("#wheel-inner");
   wheelInner.addEventListener("wheel", onMouseWheelScroll, { passive: false });
 
-  // Show overlay
   overlay.style.display = "block";
   setTimeout(() => {
     overlay.classList.add("show");
@@ -621,7 +616,11 @@ function showInfiniteWheelOverlay() {
 }
 
 function buildInfiniteList(poemsMetadata, repeatCount) {
-  // Precompute displayTitle for each
+  // Each metadata in poemsMetadata has: { filename, category, _folderName, title_en, title_it, ... }
+  // We'll store a final object with { folderName, filename, displayTitle }
+  // folderName is the dateKey (YYYYMMDD) or whichever was set.
+
+  // Precompute the displayTitle for each
   poemsMetadata.forEach(p => {
     p._displayTitle = (currentLanguage === "en")
       ? (p.title_en || "Untitled")
@@ -707,9 +706,7 @@ function updateWheelLayout(wheelTrack, totalCount) {
   }
 }
 
-/* ------------------------------------------------------------------
-   DRAG SCROLL + FLING
------------------------------------------------------------------- */
+/* Pointer/drag events */
 function onWheelPointerDown(e) {
   // Only left-click or touch
   if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -726,7 +723,6 @@ function onWheelPointerDown(e) {
   flingVelocity = 0;        // Reset velocity
   stopFlingAnimation();     // Stop any active fling
 
-  // Identify which item was tapped
   pointerDownItem = e.target.closest(".wheel-item") || null;
 
   clearTimeout(wheelSnapTimeout);
@@ -740,7 +736,6 @@ function onWheelPointerMove(e) {
   const deltaTime = now - lastMoveTime;
   lastMoveTime = now;
 
-  // Check if we've moved enough to consider it a drag
   const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
   if (!hasDragged && moveDist > TAP_THRESHOLD) {
     hasDragged = true;
@@ -786,7 +781,6 @@ function onWheelPointerUp(e) {
       if (Math.abs(flingVelocity) > 0.1) {
         startFlingAnimation();
       } else {
-        // Low velocity => just snap
         wheelSnapTimeout = setTimeout(() => {
           snapToClosestRow(wheelTrack);
         }, 80);
@@ -805,7 +799,7 @@ function openPoemFromCenterItem(itemEl) {
   }
 
   // find the matching metadata in poemsForWheel
-  const meta = poemsForWheel.find(m => m.filename === filename);
+  const meta = poemsForWheel.find(m => m.filename === filename && m._folderName === folderName);
   if (!meta) {
     console.error("No matching metadata found for filename:", filename);
     return;
@@ -829,9 +823,7 @@ function snapToClosestRow(wheelTrack) {
   updateWheelLayout(wheelTrack, totalCount);
 }
 
-/* ------------------------------------------------------------------
-   MOUSE WHEEL SCROLL
------------------------------------------------------------------- */
+/* Mouse wheel scroll */
 function onMouseWheelScroll(e) {
   e.preventDefault(); // Prevent page scroll
 
@@ -854,15 +846,13 @@ function onMouseWheelScroll(e) {
   }
 }
 
-/* ------------------------------------------------------------------
-   FLING ANIMATION
------------------------------------------------------------------- */
+/* Fling animation */
 function startFlingAnimation() {
   stopFlingAnimation(); // Stop existing fling if any
 
   animationFrameID = requestAnimationFrame(function animate() {
     wheelTrackOffsetY += flingVelocity;
-    flingVelocity *= decelerationFactor; // Decrease fling velocity
+    flingVelocity *= decelerationFactor;
 
     const wheelTrack = document.querySelector("#wheel-track");
     if (wheelTrack) {
@@ -872,10 +862,8 @@ function startFlingAnimation() {
     }
 
     if (Math.abs(flingVelocity) > 0.1) {
-      // Keep flinging
       animationFrameID = requestAnimationFrame(animate);
     } else {
-      // End fling => snap
       stopFlingAnimation();
       if (wheelTrack && snapEnabled) {
         snapToClosestRow(wheelTrack);
@@ -925,34 +913,27 @@ function showReadingOverlay(title, text) {
 }
 
 /* ------------------------------------------------------------------
-   CATEGORY ICON SETUP (TOP BAR)
+   SETUP POETRY ICONS -> Calendar / Category icons
 ------------------------------------------------------------------ */
-function setupCategoryIcons() {
-  const catContainer = document.getElementById("poetry-categories");
-  if (!catContainer) return;
+function setupPoetryIcons() {
+  const poetryIcons = document.getElementById("poetry-icons");
+  if (!poetryIcons) return;
 
-  // Attach click for each .category-icon
-  const icons = catContainer.querySelectorAll(".category-icon");
-  icons.forEach(icon => {
+  // Calendar icon => show the calendar in #main-content
+  const calendarIcon = document.getElementById("calendar-icon");
+  if (calendarIcon) {
+    calendarIcon.addEventListener("click", () => {
+      // Re-render the Poetry section's calendar
+      loadPoetrySection();
+    });
+  }
+
+  // Category icons
+  const categoryIcons = poetryIcons.querySelectorAll(".category-icon");
+  categoryIcons.forEach(icon => {
     icon.addEventListener("click", () => {
-      const category = icon.getAttribute("data-category");
-      if (category) {
-        loadPoemsByCategory(category);
-      }
+      const cat = icon.getAttribute("data-category");
+      loadPoemsByCategory(cat);
     });
   });
-}
-
-function showPoetryCategories() {
-  const catContainer = document.getElementById("poetry-categories");
-  if (catContainer) {
-    catContainer.style.display = "flex";
-  }
-}
-
-function hidePoetryCategories() {
-  const catContainer = document.getElementById("poetry-categories");
-  if (catContainer) {
-    catContainer.style.display = "none";
-  }
 }
