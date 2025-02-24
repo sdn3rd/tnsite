@@ -1,0 +1,123 @@
+{
+    "20241014": [
+        {
+            "filename": "calliope.json",
+            "title_en": "Calliope.",
+            "title_it": "Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "whimsical"
+            ]
+        }
+    ],
+    "20241127": [
+        {
+            "filename": "monuments_to_calliope.json",
+            "title_en": "Monuments To Calliope.",
+            "title_it": "Monumenti A Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "passionate"
+            ]
+        }
+    ],
+    "20241119": [
+        {
+            "filename": "calliopes_resonance.json",
+            "title_en": "Calliope'S Resonance.",
+            "title_it": "Calliope'S Resonance",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving"
+            ]
+        }
+    ],
+    "20241107": [
+        {
+            "filename": "calls_to_calliope.json",
+            "title_en": "Calls To Calliope.",
+            "title_it": "Calls To Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
+        },
+        {
+            "filename": "calliope_dissected.json",
+            "title_en": "Calliope Dissected.",
+            "title_it": "Calliope Dissected",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241108": [
+        {
+            "filename": "of_calliopes_mind.json",
+            "title_en": "Of Calliope'S Mind.",
+            "title_it": "Of Calliope'S Mind",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241106": [
+        {
+            "filename": "calliopes_echo.json",
+            "title_en": "Calliope'S Echo.",
+            "title_it": "Caliope'S Echo",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
+        }
+    ],
+    "20241112": [
+        {
+            "filename": "for_calliope.json",
+            "title_en": "For Calliope.",
+            "title_it": "Per Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241201": [
+        {
+            "filename": "a_tapestry_for_calliope.json",
+            "title_en": "A Tapestry For Calliope.",
+            "title_it": "Un Arazzo Per Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
+        }
+    ]
+}
