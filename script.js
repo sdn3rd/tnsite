@@ -233,12 +233,12 @@ function closeMenu() {
    Update Side Menu Text from gui.json
 ------------------------------------------------------------------ */
 function updateMenuTexts() {
-  const aboutTextEl = document.getElementById("menu-about-text");
-  const poetryTextEl = document.getElementById("menu-poetry-text");
-  if (aboutTextEl) aboutTextEl.textContent = t("menu.about");
-  if (poetryTextEl) poetryTextEl.textContent = t("menu.poetry");
+    const aboutTextEl = document.getElementById("menu-about-text");
+    const poetryTextEl = document.getElementById("menu-poetry-text");
+    if (aboutTextEl) aboutTextEl.textContent = t("menu.about");
+    if (poetryTextEl) poetryTextEl.textContent = t("menu.poetry");
 }
-
+  
 /* ------------------------------------------------------------------
    LANGUAGE DETECTION & TOGGLE
 ------------------------------------------------------------------ */
