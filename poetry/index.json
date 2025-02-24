@@ -14,7 +14,7 @@
         },
         {
             "filename": "winters_gift.json",
-            "title_en": "Winter'S Gift",
+            "title_en": "Winter's Gift",
             "title_it": "Dono D'Inverno",
             "category": "Strands",
             "tags": [
@@ -809,7 +809,7 @@
         },
         {
             "filename": "schroedingers_lines.json",
-            "title_en": "Schroedinger'S Lines",
+            "title_en": "Schroedinger's Lines",
             "title_it": "Le Linee Di Schrödinger",
             "category": "Hedges",
             "tags": [
@@ -878,7 +878,7 @@
         },
         {
             "filename": "my_hearts_on_fire.json",
-            "title_en": "My Heart'S On Fire",
+            "title_en": "My Heart's On Fire",
             "title_it": "Il Mio Cuore È In Fiamme",
             "category": "Hedges",
             "tags": [
@@ -1199,7 +1199,7 @@
         },
         {
             "filename": "lets_be_ghosts_together.json",
-            "title_en": "Let'S Be Ghosts Together",
+            "title_en": "Let's Be Ghosts Together",
             "title_it": "Siamo Fantasmi Insieme",
             "category": "Tumbleweeds",
             "tags": [
@@ -1967,7 +1967,7 @@
             "filename": "eeeeeee.json",
             "title_en": "Eeeeeee",
             "title_it": "Eeeeeee",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "loving"
@@ -2060,7 +2060,7 @@
         },
         {
             "filename": "lets_be_vampires.json",
-            "title_en": "Let'S Be Vampires",
+            "title_en": "Let's Be Vampires",
             "title_it": "Siamo Vampiri",
             "category": "Distillate",
             "tags": [
@@ -2308,7 +2308,7 @@
         },
         {
             "filename": "shes_got_powers.json",
-            "title_en": "She'S Got Powers",
+            "title_en": "She's Got Powers",
             "title_it": "Lei Ha Poteri",
             "category": "Distillate",
             "tags": [
@@ -3072,8 +3072,8 @@
     "20241119": [
         {
             "filename": "calliopes_resonance.json",
-            "title_en": "Calliope'S Resonance",
-            "title_it": "Calliope'S Resonance",
+            "title_en": "Calliope's Resonance",
+            "title_it": "Calliope's Resonance",
             "category": "Calliope",
             "tags": [
                 "longform",
@@ -3109,7 +3109,7 @@
             "filename": "colossal_flaglie.json",
             "title_en": "Colossal Flaglie",
             "title_it": "Colossali Faults",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "vss",
                 "shortform",
@@ -3742,7 +3742,7 @@
             "filename": "little_letters.json",
             "title_en": "Little Letters",
             "title_it": "Lettere Lievi",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "sad",
                 "melancholy",
@@ -3965,8 +3965,8 @@
     "20250109": [
         {
             "filename": "sea_of_cs.json",
-            "title_en": "Sea Of C'S",
-            "title_it": "Mare Di C'S",
+            "title_en": "Sea Of C's",
+            "title_it": "Mare Di C's",
             "category": "Bluesky",
             "tags": [
                 "vss",
@@ -4118,9 +4118,9 @@
     "20241222": [
         {
             "filename": "tristans_layers.json",
-            "title_en": "Tristan'S Layers",
+            "title_en": "Tristan's Layers",
             "title_it": "Gli Strati Di Isotta",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "sad",
@@ -4158,7 +4158,7 @@
             "filename": "alternate_perspective.json",
             "title_en": "Alternate Perspective",
             "title_it": "Prospettive Alternative",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "loving",
@@ -4415,7 +4415,7 @@
             "filename": "her_typo.json",
             "title_en": "Her Typo",
             "title_it": "Il Suo Refuso",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "tender",
@@ -4500,7 +4500,7 @@
             "filename": "i_love_rome.json",
             "title_en": "I Love Rome",
             "title_it": "Amo Roma",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "dark",
@@ -4926,8 +4926,8 @@
         },
         {
             "filename": "of_calliopes_mind.json",
-            "title_en": "Of Calliope'S Mind",
-            "title_it": "Of Calliope'S Mind",
+            "title_en": "Of Calliope's Mind",
+            "title_it": "Of Calliope's Mind",
             "category": "Calliope",
             "tags": [
                 "longform",
@@ -4953,7 +4953,7 @@
             "filename": "minestra.json",
             "title_en": "Minestra",
             "title_it": "Minestra",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "fun",
                 "whimsical",
@@ -4990,8 +4990,8 @@
         },
         {
             "filename": "calliopes_echo.json",
-            "title_en": "Calliope'S Echo",
-            "title_it": "Caliope'S Echo",
+            "title_en": "Calliope's Echo",
+            "title_it": "Caliope's Echo",
             "category": "Calliope",
             "tags": [
                 "longform",
@@ -5109,7 +5109,7 @@
             "filename": "alone.json",
             "title_en": "Alone",
             "title_it": "Solo",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "melancholy",
@@ -5311,7 +5311,7 @@
             "filename": "admiration.json",
             "title_en": "Admiration",
             "title_it": "Ammirazione",
-            "category": "Spectral",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "melancholy",
@@ -5348,7 +5348,7 @@
         },
         {
             "filename": "winters_embrace.json",
-            "title_en": "Winter'S Embrace",
+            "title_en": "Winter's Embrace",
             "title_it": "L'Abbraccio Dell'Inverno",
             "category": "Personal",
             "tags": [
@@ -5412,7 +5412,7 @@
     "20241125": [
         {
             "filename": "michelles_elegy.json",
-            "title_en": "Michelle'S Elegy",
+            "title_en": "Michelle's Elegy",
             "title_it": "Elegia Di Michelle",
             "category": "Modern_family",
             "tags": [
@@ -5761,7 +5761,7 @@
     "20241231": [
         {
             "filename": "new_years_wish.json",
-            "title_en": "New Year'S Wish",
+            "title_en": "New Year's Wish",
             "title_it": "Augurio Di Anno Nuovo",
             "category": "Spectral",
             "tags": [
