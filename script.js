@@ -17,7 +17,9 @@ let poemIndex = {}; // Will hold data from poetry/index.json
 
 /**
  * We'll dynamically figure out earliestDate and latestDate
- * from the date keys that appear in poemIndex.
+ * from the date keys that appear in poemIndex, but then we
+ * clamp them to the *start of that month* so you can see
+ * the entire month in the calendar.
  */
 let earliestDate = null;
 let latestDate = null;
@@ -58,6 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
   await loadPoemIndex(); // Load the main "poetry/index.json"
   determineDateRangeFromIndex(); // figure out earliestDate/latestDate from poemIndex
+  clampEarliestLatestToStartOfMonth(); // ensure we can navigate the whole earliest & latest month
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
@@ -138,6 +141,34 @@ function determineDateRangeFromIndex() {
 
   console.log("Earliest date from index:", earliestDate);
   console.log("Latest date from index:", latestDate);
+}
+
+/**
+ * Adjust earliestDate and latestDate so they point to the
+ * start of their respective months. This ensures the user
+ * can view the full month on the calendar, even if the earliest
+ * poem is from mid-month.
+ */
+function clampEarliestLatestToStartOfMonth() {
+  if (earliestDate) {
+    earliestDate = new Date(
+      earliestDate.getFullYear(),
+      earliestDate.getMonth(),
+      1
+    );
+  }
+  if (latestDate) {
+    // We could clamp to the 1st of next month if we want to allow the user
+    // to see that entire month. But typically we clamp to the start of
+    // the last month that has a poem.
+    latestDate = new Date(
+      latestDate.getFullYear(),
+      latestDate.getMonth(),
+      1
+    );
+  }
+  console.log("Clamped earliestDate =>", earliestDate);
+  console.log("Clamped latestDate =>", latestDate);
 }
 
 /* ------------------------------------------------------------------
@@ -335,13 +366,20 @@ function renderCalendarView(year, month, container) {
   navDiv.appendChild(nextBtn);
   container.appendChild(navDiv);
 
-  // Bounds (disable prev/next if outside earliest/latest)
+  // Create a Date object for the start of this month
   const thisMonthStart = new Date(year, month, 1);
+  // Also for the next/previous months:
   const prevMonthDate = new Date(year, month - 1, 1);
   const nextMonthDate = new Date(year, month + 1, 1);
 
-  if (earliestDate && prevMonthDate < earliestDate) prevBtn.disabled = true;
-  if (latestDate && nextMonthDate > latestDate) nextBtn.disabled = true;
+  // If earliestDate is set, disable "Prev" if prevMonthDate < earliestDate
+  if (earliestDate && prevMonthDate < earliestDate) {
+    prevBtn.disabled = true;
+  }
+  // If latestDate is set, disable "Next" if nextMonthDate > latestDate
+  if (latestDate && nextMonthDate > latestDate) {
+    nextBtn.disabled = true;
+  }
 
   // Table
   const table = document.createElement("table");
