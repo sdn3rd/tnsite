@@ -81,6 +81,7 @@ async function loadGuiData() {
 
 /* ------------------------------------------------------------------
    LOAD POEM INDEX => "poetry/index.json"
+   (fix invalid "category": , lines if present)
 ------------------------------------------------------------------ */
 async function loadPoemIndex() {
   try {
@@ -89,8 +90,18 @@ async function loadPoemIndex() {
       console.error("poetry/index.json response not OK:", resp);
       throw new Error("Could not load poetry/index.json");
     }
-    poemIndex = await resp.json();
+
+    // Get the raw text
+    let text = await resp.text();
+
+    // Fix any lines like `"category": ,` => `"category": "Unspecified",`
+    // so it won't break JSON parsing.
+    text = text.replace(/"category"\s*:\s*,/g, '"category":"Unspecified",');
+
+    // Now parse the cleaned text
+    poemIndex = JSON.parse(text);
     console.log("poemIndex loaded successfully:", poemIndex);
+
   } catch (err) {
     console.error("Error loading poemIndex:", err);
     poemIndex = {};
@@ -492,8 +503,8 @@ function loadPoemsByCategory(categoryName) {
     const arr = poemIndex[dateKey];
     if (Array.isArray(arr)) {
       arr.forEach(poemMeta => {
-        if (poemMeta.category === categoryName) {
-          // attach folderName for future fetch
+        // Safely handle "category" in case it's missing or "Unspecified"
+        if (poemMeta.category && poemMeta.category.toLowerCase() === categoryName.toLowerCase()) {
           poemMeta._folderName = dateKey;
           result.push(poemMeta);
         }

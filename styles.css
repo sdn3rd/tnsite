@@ -274,7 +274,7 @@ body.menu-open .side-menu {
    CALENDAR STYLES
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 30px auto; /* was 20px; +10px per your request */
+  margin: 40px auto; /* was 20px; +10px per your request */
   max-width: 600px; 
   padding: 20px;
   border: 1px solid var(--line-color);
