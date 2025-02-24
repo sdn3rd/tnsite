@@ -1,100 +1,137 @@
 {
-    "20241023": [
+    "20241102": [
         {
-            "filename": "pi_di_un_lupa.json",
-            "title_en": "Più Di Un Lupa",
-            "title_it": "Più Di Un Lupa",
-            "category": "Lupa",
+            "filename": "eeeeeee.json",
+            "title_en": "Eeeeeee",
+            "title_it": "Eeeeeee",
+            "category": "Experiments",
             "tags": [
                 "longform",
-                "dark",
-                "melancholy",
-                "passionate"
+                "loving"
             ]
         }
     ],
-    "20241121": [
+    "20241119": [
         {
-            "filename": "il_lamento_della_lupa.json",
-            "title_en": "Il Lamento Della Lupa",
-            "title_it": "Il Lamento Della Lupa",
-            "category": "Lupa",
+            "filename": "colossal_flaglie.json",
+            "title_en": "Colossal Flaglie",
+            "title_it": "Colossali Faults",
+            "category": "Experiments",
+            "tags": [
+                "vss",
+                "shortform",
+                "melancholy",
+                "tender"
+            ]
+        }
+    ],
+    "20241029": [
+        {
+            "filename": "little_letters.json",
+            "title_en": "Little Letters",
+            "title_it": "Lettere Lievi",
+            "category": "Experiments",
             "tags": [
                 "sad",
-                "longing",
                 "melancholy",
-                "dark"
+                "longing",
+                "vss",
+                "longform"
+            ]
+        }
+    ],
+    "20241222": [
+        {
+            "filename": "tristans_layers.json",
+            "title_en": "Tristan'S Layers",
+            "title_it": "Gli Strati Di Isotta",
+            "category": "Experiments",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
+        },
+        {
+            "filename": "alternate_perspective.json",
+            "title_en": "Alternate Perspective",
+            "title_it": "Prospettive Alternative",
+            "category": "Experiments",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate"
             ]
         }
     ],
     "20241107": [
         {
-            "filename": "consumato_dalla_lupa.json",
-            "title_en": "Consumato Dalla Lupa",
-            "title_it": "Consumato Dalla Lupa",
-            "category": "Lupa",
+            "filename": "her_typo.json",
+            "title_en": "Her Typo",
+            "title_it": "Il Suo Refuso",
+            "category": "Experiments",
             "tags": [
-                "dark",
-                "sad",
-                "melancholy",
-                "passionate"
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
             ]
         }
     ],
-    "20241108": [
+    "20241109": [
         {
-            "filename": "la_lupa_del_rituale.json",
-            "title_en": "La Lupa Del Rituale",
-            "title_it": "La Lupa Del Rituale",
-            "category": "Lupa",
-            "tags": [
-                "dark",
-                "melancholy",
-                "longing"
-            ]
-        }
-    ],
-    "20241106": [
-        {
-            "filename": "la_lupa_si_aggira.json",
-            "title_en": "La Lupa Si Aggira",
-            "title_it": "La Lupa Si Aggira",
-            "category": "Lupa",
-            "tags": [
-                "dark",
-                "sad",
-                "longing",
-                "melancholy",
-                "longform"
-            ]
-        }
-    ],
-    "20240910": [
-        {
-            "filename": "la_lupa_astuta.json",
-            "title_en": "La Lupa Astuta",
-            "title_it": "La Lupa Astuta",
-            "category": "Lupa",
+            "filename": "i_love_rome.json",
+            "title_en": "I Love Rome",
+            "title_it": "Amo Roma",
+            "category": "Experiments",
             "tags": [
                 "longform",
                 "dark",
+                "sad",
+                "melancholy"
+            ]
+        }
+    ],
+    "20241101": [
+        {
+            "filename": "minestra.json",
+            "title_en": "Minestra",
+            "title_it": "Minestra",
+            "category": "Experiments",
+            "tags": [
+                "fun",
+                "whimsical",
+                "loving"
+            ]
+        }
+    ],
+    "20241115": [
+        {
+            "filename": "alone.json",
+            "title_en": "Alone",
+            "title_it": "Solo",
+            "category": "Experiments",
+            "tags": [
+                "longform",
                 "melancholy",
+                "loving",
                 "passionate"
             ]
         }
     ],
-    "20241206": [
+    "20241113": [
         {
-            "filename": "la_lupa_e_la_brama.json",
-            "title_en": "La Lupa E La Brama",
-            "title_it": "La Lupa E La Brama",
-            "category": "Lupa",
+            "filename": "admiration.json",
+            "title_en": "Admiration",
+            "title_it": "Ammirazione",
+            "category": "Experiments",
             "tags": [
                 "longform",
-                "dark",
                 "melancholy",
-                "longing",
-                "passionate"
+                "loving",
+                "tender"
             ]
         }
     ]

@@ -1,6 +1,16 @@
 {
     "20241220": [
         {
+            "filename": "crabby_patty.json",
+            "title_en": "Crabby Patty.",
+            "title_it": "Crabby Patty"
+        },
+        {
+            "filename": "winters_gift.json",
+            "title_en": "Winter'S Gift.",
+            "title_it": "Dono D'Inverno"
+        },
+        {
             "filename": "ode_to_lacrimosa.json",
             "title_en": "Ode To Lacrimosa",
             "title_it": "Ode Alla Lacrimosa"
@@ -69,6 +79,11 @@
         }
     ],
     "20241216": [
+        {
+            "filename": "a_smile_in_the_tempest.json",
+            "title_en": "A Smile In The Tempest.",
+            "title_it": "Un Sorriso Nella Tempesta"
+        },
         {
             "filename": "ream_embers.json",
             "title_en": "Ream Embers.",
@@ -180,6 +195,11 @@
     ],
     "20241221": [
         {
+            "filename": "the_inner_tempest.json",
+            "title_en": "The Inner Tempest.",
+            "title_it": "Tempesta Interiore"
+        },
+        {
             "filename": "temporary_treasures.json",
             "title_en": "Temporary Treasures.",
             "title_it": "Tesori Temporanei"
@@ -251,6 +271,11 @@
             "filename": "ferocious_embrace.json",
             "title_en": "Ferocious Embrace.",
             "title_it": "Abbraccio Feroce"
+        },
+        {
+            "filename": "times_precious_so_are_you.json",
+            "title_en": "Time’S Precious, So Are You.",
+            "title_it": "Il Tempo È Prezioso, Così Anche Tu"
         }
     ],
     "20250221": [
@@ -840,6 +865,11 @@
             "title_it": "Mantieni Le Mie Parole E Vola"
         },
         {
+            "filename": "eeeeeee.json",
+            "title_en": "Eeeeeee.",
+            "title_it": "Eeeeeee"
+        },
+        {
             "filename": "every_woman_is_a_flower.json",
             "title_en": "Every Woman Is A Flower.",
             "title_it": "Ogni Donna È Un Fiore."
@@ -1257,6 +1287,11 @@
             "filename": "the_balloon.json",
             "title_en": "The Balloon.",
             "title_it": "Il Pallone"
+        },
+        {
+            "filename": "who_wrote_me.json",
+            "title_en": "Who Wrote Me?",
+            "title_it": "Chi Mi Ha Scritto?"
         }
     ],
     "20250204": [
@@ -1307,6 +1342,11 @@
             "filename": "becoming_bytes.json",
             "title_en": "Becoming Bytes",
             "title_it": "Diventando Byte"
+        },
+        {
+            "filename": "eclipsed.json",
+            "title_en": "Eclipsed.",
+            "title_it": "Eclisse"
         }
     ],
     "20241126": [
@@ -1331,6 +1371,11 @@
             "filename": "spectral_tapestry.json",
             "title_en": "Spectral Tapestry.",
             "title_it": "Tessitura Spettrale"
+        },
+        {
+            "filename": "colossal_flaglie.json",
+            "title_en": "Colossal Flaglie",
+            "title_it": "Colossali Faults"
         }
     ],
     "20241121": [
@@ -1426,6 +1471,11 @@
             "filename": "all_american.json",
             "title_en": "All American.",
             "title_it": "Tutto Americano"
+        },
+        {
+            "filename": "all_on_me.json",
+            "title_en": "All On Me.",
+            "title_it": "Tutto Su Di Me"
         }
     ],
     "20241203": [
@@ -1524,6 +1574,11 @@
     ],
     "20241030": [
         {
+            "filename": "muses_call.json",
+            "title_en": "Muse'S Call.",
+            "title_it": "Il Richiamo Della Musa"
+        },
+        {
             "filename": "embraced_pain.json",
             "title_en": "Embraced Pain.",
             "title_it": "Dolore Accolto"
@@ -1609,6 +1664,11 @@
     ],
     "20241029": [
         {
+            "filename": "little_letters.json",
+            "title_en": "Little Letters.",
+            "title_it": "Lettere Lievi"
+        },
+        {
             "filename": "ghosted_thoughts.json",
             "title_en": "Ghosted Thoughts.",
             "title_it": "Pensieri Svaniti"
@@ -1643,6 +1703,11 @@
             "filename": "abandoned.json",
             "title_en": "Abandoned.",
             "title_it": "Abbandonato."
+        },
+        {
+            "filename": "strands.json",
+            "title_en": "Strands.",
+            "title_it": "Fili"
         }
     ],
     "20241027": [
@@ -1662,6 +1727,11 @@
             "filename": "pyroclastic.json",
             "title_en": "Pyroclastic.",
             "title_it": "Piroclastica"
+        },
+        {
+            "filename": "symphony_no_5_in_muse_minor.json",
+            "title_en": "Symphony No. 5 In Muse Minor",
+            "title_it": "Sinfonia N. 5 In Meno Muse"
         },
         {
             "filename": "pillow.json",
@@ -1730,6 +1800,11 @@
             "filename": "boomerang.json",
             "title_en": "Boomerang.",
             "title_it": "Boomerang"
+        },
+        {
+            "filename": "imaginary.json",
+            "title_en": "Imaginary.",
+            "title_it": "Immaginario"
         }
     ],
     "20241026": [
@@ -1741,16 +1816,41 @@
     ],
     "20241214": [
         {
+            "filename": "out_of_his_world.json",
+            "title_en": "Out Of His World!",
+            "title_it": "Fuori Dal Suo Mondo!"
+        },
+        {
             "filename": "lost_amongst_clouds.json",
             "title_en": "Lost Amongst Clouds.",
             "title_it": "Perduto Fra Le Nubi"
+        },
+        {
+            "filename": "sighs_adrift.json",
+            "title_en": "Sighs Adrift.",
+            "title_it": "Sospiri Alla Deriva"
         }
     ],
     "20241222": [
         {
+            "filename": "tristans_layers.json",
+            "title_en": "Tristan'S Layers.",
+            "title_it": "Gli Strati Di Isotta"
+        },
+        {
+            "filename": "the_sweetest_bite.json",
+            "title_en": "The Sweetest Bite.",
+            "title_it": "Il Morso Più Dolce"
+        },
+        {
             "filename": "smile.json",
             "title_en": "Smile!",
             "title_it": "Sorrisosirros"
+        },
+        {
+            "filename": "alternate_perspective.json",
+            "title_en": "Alternate Perspective.",
+            "title_it": "Prospettive Alternative"
         }
     ],
     "20241028": [
@@ -1863,6 +1963,11 @@
             "title_it": "Fiore Del Padre."
         },
         {
+            "filename": "her_typo.json",
+            "title_en": "Her Typo.",
+            "title_it": "Il Suo Refuso"
+        },
+        {
             "filename": "my_autistic_self.json",
             "title_en": "My Autistic Self.",
             "title_it": "Il Mio Se Stesso Autistico."
@@ -1893,6 +1998,11 @@
             "filename": "for_you.json",
             "title_en": "For You.",
             "title_it": "Per Te."
+        },
+        {
+            "filename": "i_love_rome.json",
+            "title_en": "I Love Rome.",
+            "title_it": "Amo Roma"
         },
         {
             "filename": "reforged_words.json",
@@ -2090,6 +2200,11 @@
     ],
     "20241101": [
         {
+            "filename": "minestra.json",
+            "title_en": "Minestra.",
+            "title_it": "Minestra"
+        },
+        {
             "filename": "how_weak.json",
             "title_en": "How Weak.",
             "title_it": "Quanto Debole"
@@ -2151,6 +2266,11 @@
             "filename": "long_after.json",
             "title_en": "Long After.",
             "title_it": "Dopo Molto Tempo."
+        },
+        {
+            "filename": "alone.json",
+            "title_en": "Alone.",
+            "title_it": "Solo"
         }
     ],
     "20241112": [
@@ -2239,6 +2359,11 @@
             "filename": "notte_predatrice.json",
             "title_en": "Notte Predatrice.",
             "title_it": "Notte Predatrice"
+        },
+        {
+            "filename": "admiration.json",
+            "title_en": "Admiration.",
+            "title_it": "Ammirazione"
         }
     ],
     "20241114": [
@@ -2273,6 +2398,11 @@
             "filename": "my_unending_heart.json",
             "title_en": "My Unending Heart.",
             "title_it": "Il Mio Cuore Infinito"
+        },
+        {
+            "filename": "the_cheesiest.json",
+            "title_en": "The Cheesiest.",
+            "title_it": "Il Più Formaggioso"
         }
     ],
     "20241125": [
