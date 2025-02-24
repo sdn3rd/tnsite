@@ -17,9 +17,8 @@ let poemIndex = {}; // Will hold data from poetry/index.json
 
 /**
  * We'll dynamically figure out earliestDate and latestDate
- * from the date keys that appear in poemIndex, but then we
- * clamp them to the *start of that month* so you can see
- * the entire month in the calendar.
+ * from the date keys that appear in poemIndex,
+ * then clamp them to the start of each month.
  */
 let earliestDate = null;
 let latestDate = null;
@@ -32,11 +31,11 @@ const today = new Date();
 /**
  * For the infinite vertical spinner with fling
  */
-let poemsForWheel = [];          // Array of poem metadata (for either date or category)
-const WHEEL_REPEAT_COUNT = 7;    // Replicate items for smooth looping
-const WHEEL_ITEM_HEIGHT = 60;    // px, must match CSS
-let wheelTrackOffsetY = 0;       // Track's vertical offset
-let wheelSnapTimeout = null;     // For snapping after scroll/drag
+let poemsForWheel = [];
+const WHEEL_REPEAT_COUNT = 7;
+const WHEEL_ITEM_HEIGHT = 60;
+let wheelTrackOffsetY = 0;
+let wheelSnapTimeout = null;
 
 // Pointer/touch detection
 let isPointerDown = false;
@@ -45,22 +44,22 @@ let pointerDownX = 0;
 let pointerDownY = 0;
 let startPointerY = 0;
 let pointerDownItem = null;
-const TAP_THRESHOLD = 6;         // px threshold for deciding a tap vs. drag
+const TAP_THRESHOLD = 6;
 const snapEnabled = true;
 
 // Fling velocity
 let lastPointerY = 0;
 let lastMoveTime = 0;
 let flingVelocity = 0;
-let decelerationFactor = 0.95;   // Fling deceleration factor
-let animationFrameID = null;     // For requestAnimationFrame
+const decelerationFactor = 0.95;
+let animationFrameID = null;
 
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
   await loadGuiData();
-  await loadPoemIndex(); // Load the main "poetry/index.json"
-  determineDateRangeFromIndex(); // figure out earliestDate/latestDate from poemIndex
-  clampEarliestLatestToStartOfMonth(); // ensure we can navigate the whole earliest & latest month
+  await loadPoemIndex();
+  determineDateRangeFromIndex();
+  clampEarliestLatestToStartOfMonth();
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
@@ -84,7 +83,7 @@ async function loadGuiData() {
 
 /* ------------------------------------------------------------------
    LOAD POEM INDEX => "poetry/index.json"
-   (fix invalid "category": , lines if present)
+   Fix invalid "category": , lines if present
 ------------------------------------------------------------------ */
 async function loadPoemIndex() {
   try {
@@ -93,18 +92,11 @@ async function loadPoemIndex() {
       console.error("poetry/index.json response not OK:", resp);
       throw new Error("Could not load poetry/index.json");
     }
-
-    // Get the raw text
     let text = await resp.text();
-
-    // Fix any lines like `"category": ,` => `"category": "Unspecified",`
-    // so it won't break JSON parsing.
+    // Fix lines like `"category": ,`
     text = text.replace(/"category"\s*:\s*,/g, '"category":"Unspecified",');
-
-    // Now parse the cleaned text
     poemIndex = JSON.parse(text);
     console.log("poemIndex loaded successfully:", poemIndex);
-
   } catch (err) {
     console.error("Error loading poemIndex:", err);
     poemIndex = {};
@@ -112,42 +104,33 @@ async function loadPoemIndex() {
 }
 
 /**
- * After poemIndex is loaded, find the earliest and latest date from its keys.
- * That way we know how to build the calendar range.
+ * After poemIndex is loaded, find earliest and latest date from its keys.
  */
 function determineDateRangeFromIndex() {
   const dateKeys = Object.keys(poemIndex);
   if (!dateKeys.length) {
-    // no poems at all
-    earliestDate = new Date(); // fallback to "now"
+    earliestDate = new Date();
     latestDate = new Date();
     return;
   }
-
-  // parse each key "YYYYMMDD" => new Date(YYYY, MM-1, DD)
   const dateObjs = dateKeys.map(k => {
     const y = parseInt(k.slice(0, 4), 10);
-    const m = parseInt(k.slice(4, 6), 10) - 1; // zero-based
+    const m = parseInt(k.slice(4, 6), 10) - 1;
     const d = parseInt(k.slice(6, 8), 10);
     return new Date(y, m, d);
   });
 
-  // earliest to latest
   const minTime = Math.min(...dateObjs.map(d => d.getTime()));
   const maxTime = Math.max(...dateObjs.map(d => d.getTime()));
 
   earliestDate = new Date(minTime);
   latestDate = new Date(maxTime);
-
   console.log("Earliest date from index:", earliestDate);
   console.log("Latest date from index:", latestDate);
 }
 
 /**
- * Adjust earliestDate and latestDate so they point to the
- * start of their respective months. This ensures the user
- * can view the full month on the calendar, even if the earliest
- * poem is from mid-month.
+ * Clamp earliestDate & latestDate to the *start* of their months.
  */
 function clampEarliestLatestToStartOfMonth() {
   if (earliestDate) {
@@ -158,9 +141,6 @@ function clampEarliestLatestToStartOfMonth() {
     );
   }
   if (latestDate) {
-    // We could clamp to the 1st of next month if we want to allow the user
-    // to see that entire month. But typically we clamp to the start of
-    // the last month that has a poem.
     latestDate = new Date(
       latestDate.getFullYear(),
       latestDate.getMonth(),
@@ -173,7 +153,6 @@ function clampEarliestLatestToStartOfMonth() {
 
 /* ------------------------------------------------------------------
    HELPER: t(path)
-   Returns localized text or fallback to the path
 ------------------------------------------------------------------ */
 function t(path) {
   if (!guiData) return path;
@@ -201,15 +180,14 @@ function t(path) {
 function initializePage() {
   detectOrLoadLanguage();
   updateLanguageToggle();
-  // Default content = About
-  loadAboutSection();
+  updateMenuTexts(); // set "About" / "Poetry" text from gui
+  loadAboutSection(); // default to About
 }
 
 function setupSideMenu() {
   const sideMenu = document.getElementById("side-menu");
   if (!sideMenu) return;
 
-  // Menu links
   const menuItems = sideMenu.querySelectorAll("a[data-section]");
   menuItems.forEach(item => {
     item.addEventListener("click", e => {
@@ -224,7 +202,6 @@ function setupSideMenu() {
     });
   });
 
-  // Hamburger
   const hamburger = document.getElementById("menu-icon-container");
   if (hamburger) {
     hamburger.addEventListener("click", e => {
@@ -237,7 +214,6 @@ function setupSideMenu() {
         document.body.classList.toggle("menu-open");
       }
     });
-    // Click outside => close
     document.addEventListener("click", e => {
       if (
         document.body.classList.contains("menu-open") &&
@@ -251,6 +227,16 @@ function setupSideMenu() {
 }
 function closeMenu() {
   document.body.classList.remove("menu-open");
+}
+
+/* ------------------------------------------------------------------
+   Update Side Menu Text from gui.json
+------------------------------------------------------------------ */
+function updateMenuTexts() {
+  const aboutTextEl = document.getElementById("menu-about-text");
+  const poetryTextEl = document.getElementById("menu-poetry-text");
+  if (aboutTextEl) aboutTextEl.textContent = t("menu.about");
+  if (poetryTextEl) poetryTextEl.textContent = t("menu.poetry");
 }
 
 /* ------------------------------------------------------------------
@@ -283,6 +269,7 @@ function toggleLanguage() {
   currentLanguage = (currentLanguage === "en") ? "it" : "en";
   localStorage.setItem("preferredLang", currentLanguage);
   updateLanguageToggle();
+  updateMenuTexts(); // Re-update side menu text to new language
 
   // If main-content has a .calendar-container, reload Poetry
   const main = document.getElementById("main-content");
@@ -303,6 +290,8 @@ function updateLanguageToggle() {
 
 /* ------------------------------------------------------------------
    ABOUT SECTION
+   - Replaces #main-content with text from "aboutSection" 
+   - Hides poetry icons
 ------------------------------------------------------------------ */
 function loadAboutSection() {
   // Hide poetry icons
@@ -311,7 +300,9 @@ function loadAboutSection() {
 
   const main = document.getElementById("main-content");
   if (!main) return;
-  main.innerHTML = `<div>${t("aboutSection") || "<p>About content here.</p>"}</div>`;
+
+  // Use the updated 'aboutSection' from gui.json
+  main.innerHTML = t("aboutSection");
 }
 
 /* ------------------------------------------------------------------
@@ -326,7 +317,6 @@ function loadPoetrySection() {
   if (!main) return;
   main.innerHTML = "";
 
-  // If calendarYear hasn't been set, default to today's year/month
   if (!calendarYear) {
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
@@ -366,26 +356,23 @@ function renderCalendarView(year, month, container) {
   navDiv.appendChild(nextBtn);
   container.appendChild(navDiv);
 
-  // Create a Date object for the start of this month
   const thisMonthStart = new Date(year, month, 1);
-  // Also for the next/previous months:
   const prevMonthDate = new Date(year, month - 1, 1);
   const nextMonthDate = new Date(year, month + 1, 1);
 
-  // If earliestDate is set, disable "Prev" if prevMonthDate < earliestDate
+  // Disable Prev if before earliest month
   if (earliestDate && prevMonthDate < earliestDate) {
     prevBtn.disabled = true;
   }
-  // If latestDate is set, disable "Next" if nextMonthDate > latestDate
+  // Disable Next if after latest month
   if (latestDate && nextMonthDate > latestDate) {
     nextBtn.disabled = true;
   }
 
-  // Table
+  // Build table
   const table = document.createElement("table");
   table.classList.add("calendar-table");
 
-  // Day-of-week row
   const dayRow = document.createElement("tr");
   const dayNames = getDayNames();
   dayNames.forEach(dn => {
@@ -414,14 +401,11 @@ function renderCalendarView(year, month, container) {
     td.textContent = String(d);
 
     const currentDate = new Date(year, month, d);
-
-    // Check if this date appears in poemIndex
     const yyy = currentDate.getFullYear();
     const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
     const dd = String(currentDate.getDate()).padStart(2, "0");
-    const dateKey = `${yyy}${mm}${dd}`; // e.g. "20241211"
+    const dateKey = `${yyy}${mm}${dd}`;
 
-    // We only make it clickable if that dateKey is in poemIndex
     if (!poemIndex[dateKey]) {
       td.style.opacity = "0.3";
     } else {
@@ -477,8 +461,10 @@ function renderCalendarView(year, month, container) {
 function getMonthName(m) {
   let months = t("calendar.months");
   if (!Array.isArray(months) || months.length < 12) {
-    months = ["January","February","March","April","May","June",
-              "July","August","September","October","November","December"];
+    months = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
   }
   return months[m] || "";
 }
@@ -492,38 +478,32 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS BY DATE => SHOW INFINITE WHEEL
+   LOAD POEMS BY DATE => Show infinite wheel
 ------------------------------------------------------------------ */
 function loadPoemsByDate(dateStr) {
-  // dateStr = "YYYY-MM-DD"
-  const folderName = dateStr.replace(/-/g, ""); // e.g. "20241211"
+  const folderName = dateStr.replace(/-/g, "");
   console.log("loadPoemsByDate:", dateStr, "=> folderName:", folderName);
 
-  // Get the array of poem metadata
   let poemMetadataArr = poemIndex[folderName] || [];
   if (!Array.isArray(poemMetadataArr)) {
-    console.error("Error: poemIndex entry is NOT an array for folder:", folderName, poemMetadataArr);
+    console.error("Not an array for folder:", folderName, poemMetadataArr);
     poemMetadataArr = [];
   }
 
   if (poemMetadataArr.length === 0) {
-    console.warn("No poems for date:", dateStr);
     alert(`${t("errors.noPoemFound") || "No poems for date"}: ${dateStr}`);
     return;
   }
 
-  // We attach the actual folderName to each item
   poemMetadataArr.forEach(m => {
     m._folderName = folderName;
   });
 
-  // If exactly 1 => fetch & display immediately
   if (poemMetadataArr.length === 1) {
     fetchAndDisplayPoem(folderName, poemMetadataArr[0]);
     return;
   }
 
-  // Otherwise => multiple poems => infinite wheel
   poemsForWheel = poemMetadataArr.slice();
   showInfiniteWheelOverlay();
 }
@@ -534,14 +514,12 @@ function loadPoemsByDate(dateStr) {
 function loadPoemsByCategory(categoryName) {
   console.log("loadPoemsByCategory:", categoryName);
 
-  // Gather all poems that match this category
   const allDateKeys = Object.keys(poemIndex);
   let result = [];
   allDateKeys.forEach(dateKey => {
     const arr = poemIndex[dateKey];
     if (Array.isArray(arr)) {
       arr.forEach(poemMeta => {
-        // Safely handle "category" in case it's missing or "Unspecified"
         if (poemMeta.category && poemMeta.category.toLowerCase() === categoryName.toLowerCase()) {
           poemMeta._folderName = dateKey;
           result.push(poemMeta);
@@ -560,7 +538,7 @@ function loadPoemsByCategory(categoryName) {
 }
 
 /* ------------------------------------------------------------------
-   FETCH & DISPLAY A SINGLE POEM
+   FETCH & DISPLAY SINGLE POEM
 ------------------------------------------------------------------ */
 async function fetchAndDisplayPoem(folderName, poemMeta) {
   const poemUrl = `poetry/${folderName}/${poemMeta.filename}`;
@@ -569,13 +547,12 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
   try {
     const resp = await fetch(poemUrl);
     if (!resp.ok) {
-      console.error("Poem fetch not OK:", poemUrl, resp);
       throw new Error(`Failed to fetch poem: ${poemUrl}`);
     }
     const poemData = await resp.json();
-    console.log("Poem data loaded:", poemUrl, poemData);
+    console.log("Poem data:", poemData);
 
-    // Choose appropriate title & text
+    // choose appropriate language
     const tUsed = (currentLanguage === "en")
       ? (poemData.title_en || "Untitled")
       : (poemData.title_it || poemData.title_en || "Untitled");
@@ -586,13 +563,13 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
 
     showReadingOverlay(tUsed, pUsed);
   } catch (err) {
-    console.warn("Skipping poem fetch error:", poemUrl, err);
-    alert(`Could not load poem content: ${poemMeta.filename}`);
+    console.warn("Poem fetch error:", poemUrl, err);
+    alert(`Could not load poem: ${poemMeta.filename}`);
   }
 }
 
 /* ------------------------------------------------------------------
-   INFINITE WHEEL (MARQUEE) + FLING
+   INFINITE WHEEL
 ------------------------------------------------------------------ */
 function showInfiniteWheelOverlay() {
   let overlay = document.getElementById("poem-wheel-overlay");
@@ -608,14 +585,13 @@ function showInfiniteWheelOverlay() {
     document.body.appendChild(overlay);
   }
 
-  // Prevent clicks from going behind the overlay
   overlay.addEventListener("click", e => e.stopPropagation());
 
   const closeBtn = overlay.querySelector("#wheel-close-btn");
   closeBtn.onclick = () => {
     overlay.classList.remove("show");
     clearTimeout(wheelSnapTimeout);
-    stopFlingAnimation(); // Stop any fling
+    stopFlingAnimation();
     setTimeout(() => {
       overlay.style.display = "none";
       wheelTrackOffsetY = 0;
@@ -623,11 +599,10 @@ function showInfiniteWheelOverlay() {
     }, 400);
   };
 
-  // Build repeated list
   const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
   const wheelTrack = overlay.querySelector("#wheel-track");
   wheelTrack.innerHTML = "";
-  wheelTrack.style.transform = `translateY(0px)`;
+  wheelTrack.style.transform = "translateY(0px)";
   wheelTrackOffsetY = 0;
   flingVelocity = 0;
 
@@ -641,7 +616,6 @@ function showInfiniteWheelOverlay() {
     wheelTrack.appendChild(item);
   });
 
-  // Re-bind pointer events
   const newWheelTrack = wheelTrack.cloneNode(true);
   wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
 
@@ -652,7 +626,6 @@ function showInfiniteWheelOverlay() {
   newWheelTrack.addEventListener("pointerleave", onWheelPointerUp);
   newWheelTrack.style.userSelect = "none";
 
-  // Also handle mouse wheel
   const wheelInner = overlay.querySelector("#wheel-inner");
   wheelInner.addEventListener("wheel", onMouseWheelScroll, { passive: false });
 
@@ -665,13 +638,11 @@ function showInfiniteWheelOverlay() {
 }
 
 function buildInfiniteList(poemsMetadata, repeatCount) {
-  // Precompute the displayTitle for each
   poemsMetadata.forEach(p => {
     p._displayTitle = (currentLanguage === "en")
       ? (p.title_en || "Untitled")
       : (p.title_it || p.title_en || "Untitled");
   });
-
   const out = [];
   for (let r = 0; r < repeatCount; r++) {
     poemsMetadata.forEach(p => {
@@ -707,10 +678,8 @@ function checkLoopEdges(wheelTrack, totalCount) {
 function findCenterIndex(wheelTrack, totalCount) {
   const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
   const cy = wheelInnerRect.height / 2;
-
   let minDist = Infinity;
   let centerI = -1;
-
   for (let i = 0; i < totalCount; i++) {
     const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
     const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
@@ -734,7 +703,6 @@ function updateWheelLayout(wheelTrack, totalCount) {
     const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
     const dist = Math.abs(itemCenterY - cy);
 
-    // scale in [0.8..1.3], fade in [0.5..1.0]
     const maxScale = 1.3;
     const minScale = 0.8;
     let scale = maxScale - (dist / cy) * 0.5;
@@ -751,11 +719,9 @@ function updateWheelLayout(wheelTrack, totalCount) {
   }
 }
 
-/* Pointer/drag events */
+/* pointer/drag */
 function onWheelPointerDown(e) {
-  // Only left-click or touch
   if (e.pointerType === 'mouse' && e.button !== 0) return;
-
   isPointerDown = true;
   hasDragged = false;
 
@@ -763,10 +729,10 @@ function onWheelPointerDown(e) {
   pointerDownY = e.clientY;
   startPointerY = e.clientY;
 
-  lastPointerY = e.clientY; // For velocity calc
+  lastPointerY = e.clientY;
   lastMoveTime = performance.now();
-  flingVelocity = 0;        // Reset velocity
-  stopFlingAnimation();     // Stop any active fling
+  flingVelocity = 0;
+  stopFlingAnimation();
 
   pointerDownItem = e.target.closest(".wheel-item") || null;
 
@@ -797,7 +763,6 @@ function onWheelPointerMove(e) {
     updateWheelLayout(wheelTrack, wheelTrack.children.length);
     checkLoopEdges(wheelTrack, wheelTrack.children.length);
 
-    // Velocity in px/ms
     const speedY = (e.clientY - lastPointerY) / (deltaTime || 1);
     flingVelocity = speedY;
     lastPointerY = e.clientY;
@@ -810,18 +775,16 @@ function onWheelPointerUp(e) {
   e.target.releasePointerCapture(e.pointerId);
 
   const wheelTrack = e.currentTarget;
-
   if (!hasDragged) {
-    // Tapped (no drag)
+    // Tapped
     const totalCount = wheelTrack.children.length;
     const centerIdx = findCenterIndex(wheelTrack, totalCount);
     const centerItem = wheelTrack.children[centerIdx];
     if (centerItem && pointerDownItem && centerItem === pointerDownItem) {
-      // Tapped center item => open poem
       openPoemFromCenterItem(centerItem);
     }
   } else {
-    // We dragged => possibly fling
+    // Possibly fling
     if (snapEnabled) {
       if (Math.abs(flingVelocity) > 0.1) {
         startFlingAnimation();
@@ -839,17 +802,14 @@ function openPoemFromCenterItem(itemEl) {
   const folderName = itemEl.dataset.folderName;
   const filename = itemEl.dataset.filename;
   if (!folderName || !filename) {
-    console.error("No folderName or filename found on itemEl", itemEl);
+    console.error("No folderName or filename found", itemEl);
     return;
   }
-
-  // find the matching metadata in poemsForWheel
   const meta = poemsForWheel.find(m => m.filename === filename && m._folderName === folderName);
   if (!meta) {
     console.error("No matching metadata found for filename:", filename);
     return;
   }
-
   fetchAndDisplayPoem(folderName, meta);
 }
 
@@ -868,10 +828,9 @@ function snapToClosestRow(wheelTrack) {
   updateWheelLayout(wheelTrack, totalCount);
 }
 
-/* Mouse wheel scroll */
+/* mouse wheel */
 function onMouseWheelScroll(e) {
-  e.preventDefault(); // Prevent page scroll
-
+  e.preventDefault();
   const wheelTrack = this.querySelector("#wheel-track");
   if (!wheelTrack) return;
 
@@ -891,10 +850,9 @@ function onMouseWheelScroll(e) {
   }
 }
 
-/* Fling animation */
+/* fling animation */
 function startFlingAnimation() {
-  stopFlingAnimation(); // Stop existing fling if any
-
+  stopFlingAnimation();
   animationFrameID = requestAnimationFrame(function animate() {
     wheelTrackOffsetY += flingVelocity;
     flingVelocity *= decelerationFactor;
@@ -958,22 +916,19 @@ function showReadingOverlay(title, text) {
 }
 
 /* ------------------------------------------------------------------
-   SETUP POETRY ICONS -> Calendar / Category icons
+   POETRY ICONS -> Calendar / Category icons
 ------------------------------------------------------------------ */
 function setupPoetryIcons() {
   const poetryIcons = document.getElementById("poetry-icons");
   if (!poetryIcons) return;
 
-  // Calendar icon => show the calendar in #main-content
   const calendarIcon = document.getElementById("calendar-icon");
   if (calendarIcon) {
     calendarIcon.addEventListener("click", () => {
-      // Re-render the Poetry section's calendar
       loadPoetrySection();
     });
   }
 
-  // Category icons
   const categoryIcons = poetryIcons.querySelectorAll(".category-icon");
   categoryIcons.forEach(icon => {
     icon.addEventListener("click", () => {

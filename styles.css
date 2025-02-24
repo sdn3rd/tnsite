@@ -274,9 +274,8 @@ body.menu-open .side-menu {
    CALENDAR STYLES
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin-top: 60px;
-  margin: 60px auto; /* was 20px; +10px per your request */
-  max-width: 600px; 
+  margin: 40px auto; /* 10px more (example) to push further down */
+  max-width: 600px;
   padding: 20px;
   border: 1px solid var(--line-color);
   width: 100%;
@@ -504,7 +503,7 @@ body.menu-open .side-menu {
 }
 
 /* ------------------------------------------------------------------
-   FOOTER
+   FOOTER - center items except language button
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
@@ -516,7 +515,7 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Center the icons & text */
     z-index: 1004;
     gap: 20px;
     padding-bottom: 5px;
