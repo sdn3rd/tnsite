@@ -616,10 +616,6 @@ function showInfiniteWheelOverlay() {
 }
 
 function buildInfiniteList(poemsMetadata, repeatCount) {
-  // Each metadata in poemsMetadata has: { filename, category, _folderName, title_en, title_it, ... }
-  // We'll store a final object with { folderName, filename, displayTitle }
-  // folderName is the dateKey (YYYYMMDD) or whichever was set.
-
   // Precompute the displayTitle for each
   poemsMetadata.forEach(p => {
     p._displayTitle = (currentLanguage === "en")

@@ -3,2709 +3,6084 @@
         {
             "filename": "crabby_patty.json",
             "title_en": "Crabby Patty",
-            "title_it": "Crabby Patty"
+            "title_it": "Crabby Patty",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "winters_gift.json",
             "title_en": "Winter'S Gift",
-            "title_it": "Dono D'Inverno"
+            "title_it": "Dono D'Inverno",
+            "category": "Strands",
+            "tags": [
+                "loving",
+                "tender",
+                "longform"
+            ]
         },
         {
             "filename": "ode_to_lacrimosa.json",
             "title_en": "Ode To Lacrimosa",
-            "title_it": "Ode Alla Lacrimosa"
+            "title_it": "Ode Alla Lacrimosa",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241218": [
         {
             "filename": "untucked_ember.json",
             "title_en": "Untucked Ember",
-            "title_it": "Brace Svelata"
+            "title_it": "Brace Svelata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "tender"
+            ]
         }
     ],
     "20241227": [
         {
             "filename": "periwinkle.json",
             "title_en": "Periwinkle",
-            "title_it": "Pervinca"
+            "title_it": "Pervinca",
+            "category": ,
+            "tags": [
+                "sad",
+                "melancholy",
+                "loving",
+                "tender",
+                "longing"
+            ]
         }
     ],
     "20241211": [
         {
             "filename": "as_i_unravel.json",
             "title_en": "As I Unravel",
-            "title_it": "Mentre Mi Sfilaccio"
+            "title_it": "Mentre Mi Sfilaccio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "in_the_pursuit_of.json",
             "title_en": "In The Pursuit Of",
-            "title_it": "Nella Ricerca Di"
+            "title_it": "Nella Ricerca Di",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender",
+                "loving"
+            ]
         }
     ],
     "20241023": [
         {
             "filename": "pi_di_un_lupa.json",
             "title_en": "Più Di Un Lupa",
-            "title_it": "Più Di Un Lupa"
+            "title_it": "Più Di Un Lupa",
+            "category": "Lupa",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241229": [
         {
             "filename": "hushed_desires.json",
             "title_en": "Hushed Desires",
-            "title_it": "Desideri Silenziosi"
+            "title_it": "Desideri Silenziosi",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "stand_alone_complex.json",
             "title_en": "Stand Alone Complex",
-            "title_it": "Complesso Stand Alone"
+            "title_it": "Complesso Stand Alone",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "apex_of_aspiration.json",
             "title_en": "Apex Of Aspiration",
-            "title_it": "Apice Dell'Aspirazione"
+            "title_it": "Apice Dell'Aspirazione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "rhyme"
+            ]
         },
         {
             "filename": "the_thrill.json",
             "title_en": "The Thrill",
-            "title_it": "L'Emozione"
+            "title_it": "L'Emozione",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "passionate"
+            ]
         }
     ],
     "20241024": [
         {
             "filename": "you_told_me.json",
             "title_en": "You Told Me",
-            "title_it": "Me L'Avevi Detto"
+            "title_it": "Me L'Avevi Detto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing",
+                "loving"
+            ]
         }
     ],
     "20241216": [
         {
             "filename": "a_smile_in_the_tempest.json",
             "title_en": "A Smile In The Tempest",
-            "title_it": "Un Sorriso Nella Tempesta"
+            "title_it": "Un Sorriso Nella Tempesta",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "ream_embers.json",
             "title_en": "Ream Embers",
-            "title_it": "Braci Di Risma"
+            "title_it": "Braci Di Risma",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender",
+                "passionate"
+            ]
         }
     ],
     "20250102": [
         {
             "filename": "orange_haze.json",
             "title_en": "Orange Haze",
-            "title_it": "Nebbia Arancione"
+            "title_it": "Nebbia Arancione",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "haiku",
+                "whimsical"
+            ]
         },
         {
             "filename": "abuse.json",
             "title_en": "Abuse",
-            "title_it": "Abuso"
+            "title_it": "Abuso",
+            "category": "Modern_family",
+            "tags": [
+                "sad",
+                "longing",
+                "shortform"
+            ]
         },
         {
             "filename": "no_end.json",
             "title_en": "No End",
-            "title_it": "Senza Fine"
+            "title_it": "Senza Fine",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "fault_lines.json",
             "title_en": "Fault Lines",
-            "title_it": "Linee Di Faglia"
+            "title_it": "Linee Di Faglia",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "every_line.json",
             "title_en": "Every Line",
-            "title_it": "Ogni Linea"
+            "title_it": "Ogni Linea",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "passionate",
+                "rhyme"
+            ]
         }
     ],
     "20250105": [
         {
             "filename": "switzerland.json",
             "title_en": "Switzerland",
-            "title_it": "Svizzera"
+            "title_it": "Svizzera",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "shortform",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "passing_by.json",
             "title_en": "Passing By",
-            "title_it": "Di Passaggio"
+            "title_it": "Di Passaggio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241228": [
         {
             "filename": "tardis.json",
             "title_en": "Tardis",
-            "title_it": "Tardis"
+            "title_it": "Tardis",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "dualities.json",
             "title_en": "Dualities",
-            "title_it": "Dualità"
+            "title_it": "Dualità",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         }
     ],
     "20241217": [
         {
             "filename": "as_we_embark_on_the_season.json",
             "title_en": "As We Embark On The Season",
-            "title_it": "Mentre Iniziamo La Stagione"
+            "title_it": "Mentre Iniziamo La Stagione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "touch_grass.json",
             "title_en": "Touch Grass",
-            "title_it": "Tocca L'Erba"
+            "title_it": "Tocca L'Erba",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241025": [
         {
             "filename": "try.json",
             "title_en": "Try!",
-            "title_it": "Prova"
+            "title_it": "Prova",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         }
     ],
     "20241210": [
         {
             "filename": "flutters.json",
             "title_en": "Flutters",
-            "title_it": "Svolazzante"
+            "title_it": "Svolazzante",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241219": [
         {
             "filename": "dissolution.json",
             "title_en": "Dissolution",
-            "title_it": "Dissoluzione"
+            "title_it": "Dissoluzione",
+            "category": "Personal",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "loving"
+            ]
         },
         {
             "filename": "allusions_to_notes.json",
             "title_en": "Allusions To Notes",
-            "title_it": "Allusioni Di Note"
+            "title_it": "Allusioni Di Note",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241014": [
         {
             "filename": "calliope.json",
             "title_en": "Calliope",
-            "title_it": "Calliope"
+            "title_it": "Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "whimsical"
+            ]
         }
     ],
     "20241226": [
         {
             "filename": "awaken_to_a_new_light.json",
             "title_en": "Awaken To A New Light",
-            "title_it": "Risvegliarsi A Una Nuova Luce"
+            "title_it": "Risvegliarsi A Una Nuova Luce",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving"
+            ]
         }
     ],
     "20241221": [
         {
             "filename": "the_inner_tempest.json",
             "title_en": "The Inner Tempest",
-            "title_it": "Tempesta Interiore"
+            "title_it": "Tempesta Interiore",
+            "category": "Strands",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "monoku"
+            ]
         },
         {
             "filename": "temporary_treasures.json",
             "title_en": "Temporary Treasures",
-            "title_it": "Tesori Temporanei"
+            "title_it": "Tesori Temporanei",
+            "category": "Spectral",
+            "tags": [
+                "tender",
+                "longing",
+                "loving",
+                "sad",
+                "longform"
+            ]
         }
     ],
     "20250104": [
         {
             "filename": "tristan.json",
             "title_en": "Tristan",
-            "title_it": "Tristano"
+            "title_it": "Tristano",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "witless.json",
             "title_en": "Witless",
-            "title_it": "Senza Spirito"
+            "title_it": "Senza Spirito",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "dark"
+            ]
         },
         {
             "filename": "giving_one_hundred_percent.json",
             "title_en": "Giving One Hundred Percent",
-            "title_it": "Dando Cento Percento"
+            "title_it": "Dando Cento Percento",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "cold_piazza.json",
             "title_en": "Cold Piazza",
-            "title_it": "Piazza Fredda"
+            "title_it": "Piazza Fredda",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "nuvola.json",
             "title_en": "Nuvola",
-            "title_it": "Cloud"
+            "title_it": "Cloud",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "libro_sospeso.json",
             "title_en": "Libro Sospeso",
-            "title_it": "Libro Sospeso"
+            "title_it": "Libro Sospeso",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "melancholy",
+                "longing",
+                "longform"
+            ]
         },
         {
             "filename": "spectre.json",
             "title_en": "Spectre",
-            "title_it": "Spettro"
+            "title_it": "Spettro",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "melancholy",
+                "dark"
+            ]
         }
     ],
     "20250103": [
         {
             "filename": "a_chance.json",
             "title_en": "A Chance",
-            "title_it": "Una Possibilità"
+            "title_it": "Una Possibilità",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "repulsed_rosarian.json",
             "title_en": "Repulsed Rosarian",
-            "title_it": "Rosenzi Malridotti"
+            "title_it": "Rosenzi Malridotti",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "covered_in_pink.json",
             "title_en": "Covered In Pink",
-            "title_it": "Coperto Di Rosa"
+            "title_it": "Coperto Di Rosa",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "tender",
+                "melancholy"
+            ]
         }
     ],
     "20241103": [
         {
             "filename": "objectively.json",
             "title_en": "Objectively",
-            "title_it": "Oggettivamente"
+            "title_it": "Oggettivamente",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241104": [
         {
             "filename": "ferocious_embrace.json",
             "title_en": "Ferocious Embrace",
-            "title_it": "Abbraccio Feroce"
+            "title_it": "Abbraccio Feroce",
+            "category": "Spectral",
+            "tags": [
+                "passionate",
+                "longing",
+                "dark",
+                "tender",
+                "sad"
+            ]
         },
         {
             "filename": "times_precious_so_are_you.json",
             "title_en": "Time’S Precious, So Are You",
-            "title_it": "Il Tempo È Prezioso, Così Anche Tu"
+            "title_it": "Il Tempo È Prezioso, Così Anche Tu",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         }
     ],
     "20250221": [
         {
             "filename": "left_breathless.json",
             "title_en": "Left Breathless",
-            "title_it": "Senza Fiato"
+            "title_it": "Senza Fiato",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "melancholy"
+            ]
         },
         {
             "filename": "draperies.json",
             "title_en": "Draperies",
-            "title_it": "Arazzi"
+            "title_it": "Arazzi",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "terminal_pangs.json",
             "title_en": "Terminal Pangs",
-            "title_it": "Pene Terminali"
+            "title_it": "Pene Terminali",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "maverick.json",
             "title_en": "Maverick",
-            "title_it": "Indipendente"
+            "title_it": "Indipendente",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "tender",
+                "passionate",
+                "whimsical"
+            ]
         },
         {
             "filename": "light_and_shadow.json",
             "title_en": "Light And Shadow",
-            "title_it": "Luce E Ombra"
+            "title_it": "Luce E Ombra",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "seasonal_hangings.json",
             "title_en": "Seasonal Hangings",
-            "title_it": "Appendici Stagionali"
+            "title_it": "Appendici Stagionali",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "whimsical",
+                "longing"
+            ]
         },
         {
             "filename": "fairy_tales.json",
             "title_en": "Fairy Tales",
-            "title_it": "Fiabe"
+            "title_it": "Fiabe",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "dyson.json",
             "title_en": "Dyson",
-            "title_it": "Dyson"
+            "title_it": "Dyson",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "dark",
+                "whimsical"
+            ]
         },
         {
             "filename": "around_and_around.json",
             "title_en": "Around And Around",
-            "title_it": "Intorno E Intorno"
+            "title_it": "Intorno E Intorno",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "but_for_real.json",
             "title_en": "But For Real",
-            "title_it": "Ma Per Davvero"
+            "title_it": "Ma Per Davvero",
+            "category": "Realtalk",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "grounded_views.json",
             "title_en": "Grounded Views",
-            "title_it": "Visioni A Terra"
+            "title_it": "Visioni A Terra",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "longing",
+                "loving"
+            ]
         },
         {
             "filename": "not_a_good_time_to_fly.json",
             "title_en": "Not A Good Time To Fly",
-            "title_it": "Non È Un Buon Momento Per Volare"
+            "title_it": "Non È Un Buon Momento Per Volare",
+            "category": "Hedges",
+            "tags": [
+                "dark",
+                "sad",
+                "longing",
+                "vss",
+                "rhyme"
+            ]
         },
         {
             "filename": "carrier_pigeon.json",
             "title_en": "Carrier Pigeon",
-            "title_it": "Piccione Viaggiatore"
+            "title_it": "Piccione Viaggiatore",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "dark"
+            ]
         },
         {
             "filename": "a_piece_of_my_heart.json",
             "title_en": "A Piece Of My Heart",
-            "title_it": "Un Pezzo Del Mio Cuore"
+            "title_it": "Un Pezzo Del Mio Cuore",
+            "category": "Personal",
+            "tags": [
+                "tender",
+                "loving",
+                "longing",
+                "melancholy",
+                "vss"
+            ]
         },
         {
             "filename": "tango.json",
             "title_en": "Tango",
-            "title_it": "Tango"
+            "title_it": "Tango",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "fun",
+                "whimsical",
+                "loving"
+            ]
         },
         {
             "filename": "push_pull.json",
             "title_en": "Push, Pull",
-            "title_it": "Premi, Tira"
+            "title_it": "Premi, Tira",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate",
+                "longing"
+            ]
         },
         {
             "filename": "schroedingers_lines.json",
             "title_en": "Schroedinger'S Lines",
-            "title_it": "Le Linee Di Schrödinger"
+            "title_it": "Le Linee Di Schrödinger",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "rhyme",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "forced_words.json",
             "title_en": "Forced Words",
-            "title_it": "Parole Forzate"
+            "title_it": "Parole Forzate",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "melancholy",
+                "dark"
+            ]
         },
         {
             "filename": "terminal_affair.json",
             "title_en": "Terminal Affair",
-            "title_it": "Affare Terminale"
+            "title_it": "Affare Terminale",
+            "category": "Whimsical",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "dissipations.json",
             "title_en": "Dissipations",
-            "title_it": "Dissipazioni"
+            "title_it": "Dissipazioni",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "top_of_his_field.json",
             "title_en": "Top Of His Field",
-            "title_it": "In Cima Al Suo Campo"
+            "title_it": "In Cima Al Suo Campo",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "ball_of_yarn.json",
             "title_en": "Ball Of Yarn",
-            "title_it": "Gomitolo Di Filo"
+            "title_it": "Gomitolo Di Filo",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "my_hearts_on_fire.json",
             "title_en": "My Heart'S On Fire",
-            "title_it": "Il Mio Cuore È In Fiamme"
+            "title_it": "Il Mio Cuore È In Fiamme",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "elegant_fir.json",
             "title_en": "Elegant Fir",
-            "title_it": "Abete Elegante"
+            "title_it": "Abete Elegante",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "coloring_outside_the_lines.json",
             "title_en": "Coloring Outside The Lines",
-            "title_it": "Colorare Al Di Fuori Delle Linee"
+            "title_it": "Colorare Al Di Fuori Delle Linee",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "melancholy",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "restraint.json",
             "title_en": "Restraint",
-            "title_it": "Riservatezza"
+            "title_it": "Riservatezza",
+            "category": "Tumbleweeds",
+            "tags": [
+                "vss",
+                "shortform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "sandman.json",
             "title_en": "Sandman",
-            "title_it": "Uomo Della Sabbia"
+            "title_it": "Uomo Della Sabbia",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "tender"
+            ]
         },
         {
             "filename": "the_point_is_love.json",
             "title_en": "The Point Is Love",
-            "title_it": "Il Punto È L'Amore"
+            "title_it": "Il Punto È L'Amore",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "sad"
+            ]
         },
         {
             "filename": "snow_glistens.json",
             "title_en": "Snow Glistens",
-            "title_it": "La Neve Luccica"
+            "title_it": "La Neve Luccica",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "haiku",
+                "melancholy"
+            ]
         },
         {
             "filename": "radiance_vs_raven.json",
             "title_en": "Radiance Vs. Raven",
-            "title_it": "Splendore Vs. Corvo"
+            "title_it": "Splendore Vs. Corvo",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "im_not_on_a_boat.json",
             "title_en": "I'M Not On A Boat",
-            "title_it": "Non Sono Su Una Barca"
+            "title_it": "Non Sono Su Una Barca",
+            "category": "Hedges",
+            "tags": [
+                "fun",
+                "whimsical",
+                "loving"
+            ]
         },
         {
             "filename": "in_everlasting_comfort.json",
             "title_en": "In Everlasting Comfort",
-            "title_it": "Nella Conforto Eterno"
+            "title_it": "Nella Conforto Eterno",
+            "category": "Hedges",
+            "tags": [
+                "tender",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "old_brew.json",
             "title_en": "Old Brew",
-            "title_it": "Vecchio Birra"
+            "title_it": "Vecchio Birra",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "dark",
+                "longform"
+            ]
         }
     ],
     "20250219": [
         {
             "filename": "spinning.json",
             "title_en": "Spinning",
-            "title_it": "Filatura"
+            "title_it": "Filatura",
+            "category": "Hedges",
+            "tags": [
+                "shortform",
+                "monoku",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "chevron.json",
             "title_en": "Chevron",
-            "title_it": "Chevron"
+            "title_it": "Chevron",
+            "category": "Vss_daily",
+            "tags": [
+                "sad",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "taste_of_madness.json",
             "title_en": "Taste Of Madness",
-            "title_it": "Gusto Della Follia"
+            "title_it": "Gusto Della Follia",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "but_a_breeze.json",
             "title_en": "But A Breeze",
-            "title_it": "Ma Una Brezza"
+            "title_it": "Ma Una Brezza",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "tender",
+                "vss"
+            ]
         },
         {
             "filename": "gentle_dolls.json",
             "title_en": "Gentle Dolls",
-            "title_it": "Bambole Gentili"
+            "title_it": "Bambole Gentili",
+            "category": "Tumbleweeds",
+            "tags": [
+                "happy",
+                "whimsical",
+                "loving",
+                "tender"
+            ]
         },
         {
             "filename": "a_day_in_the_life_of.json",
             "title_en": "A Day In The Life Of",
-            "title_it": "Una Giornata Nella Vita Di"
+            "title_it": "Una Giornata Nella Vita Di",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "language.json",
             "title_en": "Language",
-            "title_it": "Lingua"
+            "title_it": "Lingua",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "shortform",
+                "micropoem",
+                "melancholy"
+            ]
         },
         {
             "filename": "like_us.json",
             "title_en": "Like Us",
-            "title_it": "Come Noi"
+            "title_it": "Come Noi",
+            "category": "Tumbleweed",
+            "tags": [
+                "longform",
+                "sad",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "all_in.json",
             "title_en": "All In",
-            "title_it": "Tutto Dentro"
+            "title_it": "Tutto Dentro",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "passionate",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "valuable_resources.json",
             "title_en": "Valuable Resources",
-            "title_it": "Risorse Preziose"
+            "title_it": "Risorse Preziose",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "melancholy",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "entendres.json",
             "title_en": "Entendres",
-            "title_it": "Intendimenti"
+            "title_it": "Intendimenti",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
         },
         {
             "filename": "steeped_soup.json",
             "title_en": "Steeped Soup",
-            "title_it": "Zuppa Inzuppata"
+            "title_it": "Zuppa Inzuppata",
+            "category": "Tumbleweeds",
+            "tags": [
+                "tender",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "bruised_beaches.json",
             "title_en": "Bruised Beaches",
-            "title_it": "Spiagge Livide"
+            "title_it": "Spiagge Livide",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "meteorology.json",
             "title_en": "Meteorology",
-            "title_it": "Meteorologia"
+            "title_it": "Meteorologia",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "bond_fire.json",
             "title_en": "Bond Fire",
-            "title_it": "Fuoco Di Legame"
+            "title_it": "Fuoco Di Legame",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "confusing_noise.json",
             "title_en": "Confusing Noise",
-            "title_it": "Confusione Rumore"
+            "title_it": "Confusione Rumore",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "longing",
+                "dark",
+                "longform"
+            ]
         },
         {
             "filename": "lets_be_ghosts_together.json",
             "title_en": "Let'S Be Ghosts Together",
-            "title_it": "Siamo Fantasmi Insieme"
+            "title_it": "Siamo Fantasmi Insieme",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "curtain_call.json",
             "title_en": "Curtain Call",
-            "title_it": "Applauso Finale"
+            "title_it": "Applauso Finale",
+            "category": "Hedges",
+            "tags": [
+                "vss",
+                "whimsical",
+                "fun",
+                "tender"
+            ]
         },
         {
             "filename": "how.json",
             "title_en": "How?",
-            "title_it": "Come?"
+            "title_it": "Come?",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "your_majesty.json",
             "title_en": "Your Majesty",
-            "title_it": "Vostra Maestà"
+            "title_it": "Vostra Maestà",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "what_if.json",
             "title_en": "What If?",
-            "title_it": "E Se?"
+            "title_it": "E Se?",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "binary_equation.json",
             "title_en": "Binary Equation",
-            "title_it": "Equazione Binaria"
+            "title_it": "Equazione Binaria",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "depth.json",
             "title_en": "Depth",
-            "title_it": "Profondità"
+            "title_it": "Profondità",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "off_it_goes.json",
             "title_en": "Off It Goes",
-            "title_it": "Se Ne Va"
+            "title_it": "Se Ne Va",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "fantastic_five.json",
             "title_en": "Fantastic Five",
-            "title_it": "Fantastici Cinque"
+            "title_it": "Fantastici Cinque",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "the_best_reference.json",
             "title_en": "The Best Reference",
-            "title_it": "Il Miglior Riferimento"
+            "title_it": "Il Miglior Riferimento",
+            "category": "Hedges",
+            "tags": [
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "not_good_with_perspective.json",
             "title_en": "Not Good With Perspective",
-            "title_it": "Non Buono Con La Prospettiva"
+            "title_it": "Non Buono Con La Prospettiva",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "loving"
+            ]
         },
         {
             "filename": "hot_air.json",
             "title_en": "Hot Air",
-            "title_it": "Aria Calda"
+            "title_it": "Aria Calda",
+            "category": "Hedges",
+            "tags": [
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "payaso_pageantry.json",
             "title_en": "Payaso Pageantry",
-            "title_it": "Pagliacci Pomposità"
+            "title_it": "Pagliacci Pomposità",
+            "category": "Hedges",
+            "tags": [
+                "fun",
+                "whimsical",
+                "loving"
+            ]
         },
         {
             "filename": "vagabonds.json",
             "title_en": "Vagabonds",
-            "title_it": "Vagabondi"
+            "title_it": "Vagabondi",
+            "category": "Hedges",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         }
     ],
     "20250210": [
         {
             "filename": "pass_it_along.json",
             "title_en": "Pass It Along",
-            "title_it": "Passalo Avanti"
+            "title_it": "Passalo Avanti",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "flaxen_hues.json",
             "title_en": "Flaxen Hues",
-            "title_it": "Toni Di Lino"
+            "title_it": "Toni Di Lino",
+            "category": "Phonetics",
+            "tags": [
+                "vss",
+                "shortform",
+                "micropoem",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "in_your_net.json",
             "title_en": "In Your Net",
-            "title_it": "Nella Tua Rete"
+            "title_it": "Nella Tua Rete",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "passionate",
+                "longform"
+            ]
         },
         {
             "filename": "simple_reasons.json",
             "title_en": "Simple Reasons",
-            "title_it": "Ragioni Semplici"
+            "title_it": "Ragioni Semplici",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "loving"
+            ]
         },
         {
             "filename": "awnings.json",
             "title_en": "Awnings",
-            "title_it": "Tende"
+            "title_it": "Tende",
+            "category": "Haikus",
+            "tags": [
+                "micropoem",
+                "happy",
+                "tender"
+            ]
         },
         {
             "filename": "sealed_fate.json",
             "title_en": "Sealed Fate",
-            "title_it": "Destino Sigillato"
+            "title_it": "Destino Sigillato",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "have_fun.json",
             "title_en": "Have Fun!",
-            "title_it": "Divertiti!"
+            "title_it": "Divertiti!",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "happy",
+                "whimsical"
+            ]
         },
         {
             "filename": "empire.json",
             "title_en": "Empire",
-            "title_it": "Impero"
+            "title_it": "Impero",
+            "category": "Vss_daily",
+            "tags": [
+                "shortform",
+                "melancholy"
+            ]
         },
         {
             "filename": "keynote.json",
             "title_en": "Keynote",
-            "title_it": "Nota Principale"
+            "title_it": "Nota Principale",
+            "category": "Phonetics",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "liberation_in_motion.json",
             "title_en": "Liberation In Motion",
-            "title_it": "Liberazione In Movimento"
+            "title_it": "Liberazione In Movimento",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "tender",
+                "loving"
+            ]
         }
     ],
     "20250217": [
         {
             "filename": "ship_it.json",
             "title_en": "Ship It!",
-            "title_it": "Spediscilo!"
+            "title_it": "Spediscilo!",
+            "category": "Brambles",
+            "tags": [
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "what_are_the_chances.json",
             "title_en": "What Are The Chances?",
-            "title_it": "Quali Sono Le Probabilità?"
+            "title_it": "Quali Sono Le Probabilità?",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "broaching.json",
             "title_en": "Broaching",
-            "title_it": "Affrontando"
+            "title_it": "Affrontando",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "vaporizing.json",
             "title_en": "Vaporizing",
-            "title_it": "Vaporizzando"
+            "title_it": "Vaporizzando",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "midday_tea.json",
             "title_en": "Midday Tea",
-            "title_it": "Tè Del Mezzogiorno"
+            "title_it": "Tè Del Mezzogiorno",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "happy",
+                "tender"
+            ]
         },
         {
             "filename": "displace.json",
             "title_en": "Displace",
-            "title_it": "Spostare"
+            "title_it": "Spostare",
+            "category": "Vss365",
+            "tags": [
+                "longform",
+                "fun",
+                "whimsical",
+                "happy"
+            ]
         },
         {
             "filename": "wheelbarrow.json",
             "title_en": "Wheelbarrow",
-            "title_it": "Carriola"
+            "title_it": "Carriola",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "sweet_longings.json",
             "title_en": "Sweet Longings",
-            "title_it": "Dolci Desideri"
+            "title_it": "Dolci Desideri",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "smeagol.json",
             "title_en": "Smeagol",
-            "title_it": "Smeagol"
+            "title_it": "Smeagol",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "overcoat_joy.json",
             "title_en": "Overcoat Joy",
-            "title_it": "Gioia Di Cappotto"
+            "title_it": "Gioia Di Cappotto",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "dark",
+                "whimsical",
+                "happy"
+            ]
         },
         {
             "filename": "a_mantra.json",
             "title_en": "A Mantra",
-            "title_it": "Un Mantra"
+            "title_it": "Un Mantra",
+            "category": "Philsophy",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "every_fall.json",
             "title_en": "Every Fall",
-            "title_it": "Ogni Autunno"
+            "title_it": "Ogni Autunno",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "hollow_dolls.json",
             "title_en": "Hollow Dolls",
-            "title_it": "Bambole Vuote"
+            "title_it": "Bambole Vuote",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "unfinished_fiction.json",
             "title_en": "Unfinished Fiction",
-            "title_it": "Fiction Incompiuta"
+            "title_it": "Fiction Incompiuta",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "kill_me_if_im_the_only_one.json",
             "title_en": "Kill Me If I'M The Only One",
-            "title_it": "Uccidimi Se Sono L'Unico"
+            "title_it": "Uccidimi Se Sono L'Unico",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "the_clash.json",
             "title_en": "The Clash",
-            "title_it": "Lo Scontro"
+            "title_it": "Lo Scontro",
+            "category": "Social_commentary",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate",
+                "melancholy",
+                "rhyme"
+            ]
         },
         {
             "filename": "narcissist.json",
             "title_en": "Narcissist",
-            "title_it": "Narcisista"
+            "title_it": "Narcisista",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "unreasonable.json",
             "title_en": "Unreasonable",
-            "title_it": "Irragionevole"
+            "title_it": "Irragionevole",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "carvings.json",
             "title_en": "Carvings",
-            "title_it": "Intagli"
+            "title_it": "Intagli",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "quiet_patience.json",
             "title_en": "Quiet Patience",
-            "title_it": "Pazienza Quieta"
+            "title_it": "Pazienza Quieta",
+            "category": "Brambles",
+            "tags": [
+                "loving",
+                "tender",
+                "longing"
+            ]
         },
         {
             "filename": "lob_it.json",
             "title_en": "Lob It",
-            "title_it": "Lanciarla"
+            "title_it": "Lanciarla",
+            "category": "Humor",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "im_trying_poorly.json",
             "title_en": "I'M Trying, Poorly",
-            "title_it": "Sto Cercando, Male"
+            "title_it": "Sto Cercando, Male",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "hold_on_with_your_life.json",
             "title_en": "Hold On With Your Life",
-            "title_it": "Attacca Con La Tua Vita"
+            "title_it": "Attacca Con La Tua Vita",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "passionate",
+                "whimsical",
+                "tender"
+            ]
         },
         {
             "filename": "discharge.json",
             "title_en": "Discharge",
-            "title_it": "Scarico"
+            "title_it": "Scarico",
+            "category": "Haikufeels",
+            "tags": [
+                "haiku",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "forest_gump.json",
             "title_en": "Forest Gump",
-            "title_it": "Forest Gump"
+            "title_it": "Forest Gump",
+            "category": "Brambles",
+            "tags": [
+                "rhyme",
+                "whimsical",
+                "fun",
+                "loving"
+            ]
         },
         {
             "filename": "snowball.json",
             "title_en": "Snowball",
-            "title_it": "Palla Di Neve"
+            "title_it": "Palla Di Neve",
+            "category": "Brambles",
+            "tags": [
+                "shortform",
+                "whimsical",
+                "fun",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "cotton_candy.json",
             "title_en": "Cotton Candy",
-            "title_it": "Zucchero Filato"
+            "title_it": "Zucchero Filato",
+            "category": "Brambles",
+            "tags": [
+                "whimsical",
+                "happy",
+                "tender"
+            ]
         },
         {
             "filename": "origami_is_timeless.json",
             "title_en": "Origami Is Timeless",
-            "title_it": "Origami È Senza Tempo"
+            "title_it": "Origami È Senza Tempo",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "feed_me_seymour.json",
             "title_en": "Feed Me, Seymour",
-            "title_it": "Nutrimi, Seymour"
+            "title_it": "Nutrimi, Seymour",
+            "category": "Brambles",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "mindful_mine_of_mine.json",
             "title_en": "Mindful, Mine Of Mine",
-            "title_it": "Minuzioso, Mio Di Mio"
+            "title_it": "Minuzioso, Mio Di Mio",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "i_wanna_be_sedated.json",
             "title_en": "I Wanna Be Sedated",
-            "title_it": "Voglio Essere Sedato"
+            "title_it": "Voglio Essere Sedato",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "high_caliber.json",
             "title_en": "High Caliber",
-            "title_it": "Alto Calibro"
+            "title_it": "Alto Calibro",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "nightingale.json",
             "title_en": "Nightingale",
-            "title_it": "Usignolo"
+            "title_it": "Usignolo",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "just_eat_me_already.json",
             "title_en": "Just Eat Me Already",
-            "title_it": "Mangiami Già"
+            "title_it": "Mangiami Già",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "passionate",
+                "dark",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "embellished.json",
             "title_en": "Embellished",
-            "title_it": "Abbellito"
+            "title_it": "Abbellito",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "hand_in_hand.json",
             "title_en": "Hand In Hand",
-            "title_it": "Mano Nella Mano"
+            "title_it": "Mano Nella Mano",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "rhyme"
+            ]
         },
         {
             "filename": "good_morning_coffee.json",
             "title_en": "Good Morning! Coffee",
-            "title_it": "Buongiorno! Caffè"
+            "title_it": "Buongiorno! Caffè",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "until_i_die.json",
             "title_en": "Until I Die",
-            "title_it": "Fino A Quando Muoio"
+            "title_it": "Fino A Quando Muoio",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "endless_waves.json",
             "title_en": "Endless Waves",
-            "title_it": "Onde Infinite"
+            "title_it": "Onde Infinite",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "scissorhands.json",
             "title_en": "Scissorhands",
-            "title_it": "Mani Di Forbice"
+            "title_it": "Mani Di Forbice",
+            "category": "Brambles",
+            "tags": [
+                "dark",
+                "vss",
+                "longing",
+                "passionate",
+                "shortform"
+            ]
         }
     ],
     "20241105": [
         {
             "filename": "arrows_of_time.json",
             "title_en": "Arrows Of Time",
-            "title_it": "Frecce Del Tempo"
+            "title_it": "Frecce Del Tempo",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241102": [
         {
             "filename": "keep_my_words_and_fly.json",
             "title_en": "Keep My Words And Fly",
-            "title_it": "Mantieni Le Mie Parole E Vola"
+            "title_it": "Mantieni Le Mie Parole E Vola",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "monoku"
+            ]
         },
         {
             "filename": "eeeeeee.json",
             "title_en": "Eeeeeee",
-            "title_it": "Eeeeeee"
+            "title_it": "Eeeeeee",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving"
+            ]
         },
         {
             "filename": "every_woman_is_a_flower.json",
             "title_en": "Every Woman Is A Flower",
-            "title_it": "Ogni Donna È Un Fiore"
+            "title_it": "Ogni Donna È Un Fiore",
+            "category": "Flowers",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20250216": [
         {
             "filename": "floating_on_strings.json",
             "title_en": "Floating On Strings",
-            "title_it": "Galleggiando Su Corde"
+            "title_it": "Galleggiando Su Corde",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "broken_kite.json",
             "title_en": "Broken Kite",
-            "title_it": "Aquilone Rotto"
+            "title_it": "Aquilone Rotto",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "vss",
+                "longform"
+            ]
         },
         {
             "filename": "bob_dylan.json",
             "title_en": "Bob Dylan",
-            "title_it": "Bob Dylan"
+            "title_it": "Bob Dylan",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "fun",
+                "whimsical"
+            ]
         },
         {
             "filename": "brittle_symbolism.json",
             "title_en": "Brittle Symbolism",
-            "title_it": "Simbolismo Fragile"
+            "title_it": "Simbolismo Fragile",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "electric_chair.json",
             "title_en": "Electric Chair",
-            "title_it": "Sedia Elettrica"
+            "title_it": "Sedia Elettrica",
+            "category": "Whimsical",
+            "tags": [
+                "micropoem",
+                "dark",
+                "sad",
+                "rhyme"
+            ]
         },
         {
             "filename": "diamonds.json",
             "title_en": "Diamonds",
-            "title_it": "Diamanti"
+            "title_it": "Diamanti",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "shortform",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "lets_be_vampires.json",
             "title_en": "Let'S Be Vampires",
-            "title_it": "Siamo Vampiri"
+            "title_it": "Siamo Vampiri",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "longform"
+            ]
         },
         {
             "filename": "a_silent_bloom.json",
             "title_en": "A Silent Bloom",
-            "title_it": "Un Fiore Silenzioso"
+            "title_it": "Un Fiore Silenzioso",
+            "category": "Distillate",
+            "tags": [
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "pulling_too_hard.json",
             "title_en": "Pulling Too Hard",
-            "title_it": "Tirando Troppo Forte"
+            "title_it": "Tirando Troppo Forte",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "the_bird.json",
             "title_en": "The Bird",
-            "title_it": "L'Uccello"
+            "title_it": "L'Uccello",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "fifth_wall.json",
             "title_en": "Fifth Wall",
-            "title_it": "Quinta Parete"
+            "title_it": "Quinta Parete",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "longing",
+                "dark"
+            ]
         },
         {
             "filename": "fortyseven.json",
             "title_en": "Forty-Seven",
-            "title_it": "Quarantasette"
+            "title_it": "Quarantasette",
+            "category": "Social_commentary",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "rhyme",
+                "dark"
+            ]
         },
         {
             "filename": "dullahan.json",
             "title_en": "Dullahan",
-            "title_it": "Capo Di Morte"
+            "title_it": "Capo Di Morte",
+            "category": "Whimsical",
+            "tags": [
+                "longform",
+                "dark",
+                "whimsical",
+                "sad"
+            ]
         },
         {
             "filename": "drifting.json",
             "title_en": "Drifting",
-            "title_it": "Allontanamento"
+            "title_it": "Allontanamento",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "stricken.json",
             "title_en": "Stricken",
-            "title_it": "Colpito"
+            "title_it": "Colpito",
+            "category": "Distillate",
+            "tags": [
+                "dark",
+                "sad",
+                "longing",
+                "longform"
+            ]
         }
     ],
     "20250211": [
         {
             "filename": "bend_dont_break.json",
             "title_en": "Bend, Don'T Break",
-            "title_it": "Piega, Non Spezzare"
+            "title_it": "Piega, Non Spezzare",
+            "category": "Haikufeels",
+            "tags": [
+                "shortform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "healers_hidden_dwelling.json",
             "title_en": "Healers' Hidden Dwelling",
-            "title_it": "La Dimora Nascosta Dei Guaritori"
+            "title_it": "La Dimora Nascosta Dei Guaritori",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "whimsical",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "tasty_drops.json",
             "title_en": "Tasty Drops",
-            "title_it": "Gocce Gustose"
+            "title_it": "Gocce Gustose",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "more_than_words.json",
             "title_en": "More Than Words",
-            "title_it": "Più Che Parole"
+            "title_it": "Più Che Parole",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "open_tabs.json",
             "title_en": "Open Tabs",
-            "title_it": "Schede Aperte"
+            "title_it": "Schede Aperte",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving"
+            ]
         },
         {
             "filename": "congested_hearts.json",
             "title_en": "Congested Hearts",
-            "title_it": "Cuori Ingombrati"
+            "title_it": "Cuori Ingombrati",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "brewings.json",
             "title_en": "Brewings",
-            "title_it": "Birrifici"
+            "title_it": "Birrifici",
+            "category": "Micropoems",
+            "tags": [
+                "shortform",
+                "dark",
+                "passionate",
+                "rhyme"
+            ]
         },
         {
             "filename": "of_realities.json",
             "title_en": "Of Realities",
-            "title_it": "Delle Realtà"
+            "title_it": "Delle Realtà",
+            "category": "Philosophy",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "longform"
+            ]
         },
         {
             "filename": "of_neatness.json",
             "title_en": "Of Neatness",
-            "title_it": "Di Ordine"
+            "title_it": "Di Ordine",
+            "category": "Philosophy",
+            "tags": [
+                "micropoem",
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "of_lies.json",
             "title_en": "Of Lies",
-            "title_it": "Delle Bugie"
+            "title_it": "Delle Bugie",
+            "category": "Philosophy",
+            "tags": [
+                "sad",
+                "melancholy",
+                "vss",
+                "shortform",
+                "dark"
+            ]
         },
         {
             "filename": "babylon.json",
             "title_en": "Babylon",
-            "title_it": "Babilonia"
+            "title_it": "Babilonia",
+            "category": "Vss_daily",
+            "tags": [
+                "haiku",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "of_dreams.json",
             "title_en": "Of Dreams",
-            "title_it": "Dei Sogni"
+            "title_it": "Dei Sogni",
+            "category": "Philosophy",
+            "tags": [
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "shes_got_powers.json",
             "title_en": "She'S Got Powers",
-            "title_it": "Lei Ha Poteri"
+            "title_it": "Lei Ha Poteri",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "singularity.json",
             "title_en": "Singularity",
-            "title_it": "Singularità"
+            "title_it": "Singularità",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "indelible_not_painful.json",
             "title_en": "Indelible, Not Painful",
-            "title_it": "Indelebile, Non Doleroso"
+            "title_it": "Indelebile, Non Doleroso",
+            "category": "Seven_syllable",
+            "tags": [
+                "longform",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "combustion_engine.json",
             "title_en": "Combustion Engine",
-            "title_it": "Motore A Combustione"
+            "title_it": "Motore A Combustione",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "dark"
+            ]
         },
         {
             "filename": "going_native.json",
             "title_en": "Going Native",
-            "title_it": "Diventare Nativi"
+            "title_it": "Diventare Nativi",
+            "category": "Phonetics",
+            "tags": [
+                "rhyme",
+                "whimsical",
+                "fun",
+                "longform"
+            ]
         }
     ],
     "20250218": [
         {
             "filename": "every_fucking_beat.json",
             "title_en": "Every Fucking Beat",
-            "title_it": "Ogni Dannato Battito"
+            "title_it": "Ogni Dannato Battito",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "snicker_snacks.json",
             "title_en": "Snicker Snacks",
-            "title_it": "Biscotti Al Ridere"
+            "title_it": "Biscotti Al Ridere",
+            "category": "Bramble",
+            "tags": [
+                "longform",
+                "dark",
+                "whimsical",
+                "melancholy"
+            ]
         },
         {
             "filename": "well_of_wisdom_runs_dry.json",
             "title_en": "Well Of Wisdom Runs Dry",
-            "title_it": "Il Pozzo Della Saggezza Si Prosciuga"
+            "title_it": "Il Pozzo Della Saggezza Si Prosciuga",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longing",
+                "tender",
+                "melancholy"
+            ]
         },
         {
             "filename": "my_nature.json",
             "title_en": "My Nature",
-            "title_it": "La Mia Natura"
+            "title_it": "La Mia Natura",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "words_that_dance_for_you_forever.json",
             "title_en": "Words That Dance For You, Forever",
-            "title_it": "Parole Che Danzano Per Te, Per Sempre"
+            "title_it": "Parole Che Danzano Per Te, Per Sempre",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "how_would_we_ever_know.json",
             "title_en": "How Would We Ever Know?",
-            "title_it": "Come Mai Sapremmo Mai?"
+            "title_it": "Come Mai Sapremmo Mai?",
+            "category": "Bramble",
+            "tags": [
+                "whimsical",
+                "fun",
+                "rhyme",
+                "tender"
+            ]
         },
         {
             "filename": "bottomings.json",
             "title_en": "Bottomings",
-            "title_it": "Fondi"
+            "title_it": "Fondi",
+            "category": "Throwetry",
+            "tags": [
+                "fun",
+                "whimsical",
+                "rhyme"
+            ]
         },
         {
             "filename": "gentle_touch.json",
             "title_en": "Gentle Touch",
-            "title_it": "Dolce Tocco"
+            "title_it": "Dolce Tocco",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "vss"
+            ]
         },
         {
             "filename": "questioning_nature.json",
             "title_en": "Questioning Nature",
-            "title_it": "Interrogarsi Sulla Natura"
+            "title_it": "Interrogarsi Sulla Natura",
+            "category": "Tumbleweeds",
+            "tags": [
+                "vss",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "turn_it_off.json",
             "title_en": "Turn It Off",
-            "title_it": "Spegnilo"
+            "title_it": "Spegnilo",
+            "category": "Social_commentary",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "search.json",
             "title_en": "Search",
-            "title_it": "Ricerca"
+            "title_it": "Ricerca",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "shortform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "fingerlings.json",
             "title_en": "Fingerlings",
-            "title_it": "Ditale"
+            "title_it": "Ditale",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "but_a_bucket.json",
             "title_en": "But A Bucket. 🪣",
-            "title_it": "Ma Un Secchio. 🪣"
+            "title_it": "Ma Un Secchio. 🪣",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "too_fragrant.json",
             "title_en": "Too Fragrant",
-            "title_it": "Troppo Fragrante"
+            "title_it": "Troppo Fragrante",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "tender",
+                "vss"
+            ]
         },
         {
             "filename": "holy_mackerel.json",
             "title_en": "Holy Mackerel!",
-            "title_it": "Santo Sgombro!"
+            "title_it": "Santo Sgombro!",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "loving"
+            ]
         },
         {
             "filename": "hot_breaths.json",
             "title_en": "Hot Breaths",
-            "title_it": "Soffi Caldi"
+            "title_it": "Soffi Caldi",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "whimsical"
+            ]
         },
         {
             "filename": "popcorn.json",
             "title_en": "Popcorn",
-            "title_it": "Popcorn"
+            "title_it": "Popcorn",
+            "category": "Tumbleweeds",
+            "tags": [
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "my_head.json",
             "title_en": "My Head",
-            "title_it": "La Mia Testa"
+            "title_it": "La Mia Testa",
+            "category": "Brambles",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "shipwrecked.json",
             "title_en": "Shipwrecked",
-            "title_it": "Naufragio"
+            "title_it": "Naufragio",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "yet_i_am_not_frightened.json",
             "title_en": "Yet, I Am Not Frightened",
-            "title_it": "Eppure, Non Ho Paura"
+            "title_it": "Eppure, Non Ho Paura",
+            "category": "Brambles",
+            "tags": [
+                "sad",
+                "longing",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "smile_humid.json",
             "title_en": "Smile. Humid",
-            "title_it": "Sorriso. Umido"
+            "title_it": "Sorriso. Umido",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "whimsical",
+                "tender"
+            ]
         },
         {
             "filename": "restless_smile.json",
             "title_en": "Restless Smile",
-            "title_it": "Sorriso Inquieto"
+            "title_it": "Sorriso Inquieto",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "bit_prickly.json",
             "title_en": "Bit Prickly",
-            "title_it": "Un Po' Spinoso"
+            "title_it": "Un Po' Spinoso",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "id_love_for_this_to_be_true.json",
             "title_en": "I'D Love For This To Be True",
-            "title_it": "Mi Piacerebbe Che Questo Fosse Vero"
+            "title_it": "Mi Piacerebbe Che Questo Fosse Vero",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "a_painted_picture.json",
             "title_en": "A Painted Picture",
-            "title_it": "Un Quadro Dipinto"
+            "title_it": "Un Quadro Dipinto",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "im_ridiculous.json",
             "title_en": "I'M Ridiculous",
-            "title_it": "Sono Ridicolo"
+            "title_it": "Sono Ridicolo",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "shadowed_longings.json",
             "title_en": "Shadowed Longings",
-            "title_it": "Desideri Ombreggiati"
+            "title_it": "Desideri Ombreggiati",
+            "category": "Tumbleweeds",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         }
     ],
     "20250220": [
         {
             "filename": "clout.json",
             "title_en": "Clout",
-            "title_it": "Influenza"
+            "title_it": "Influenza",
+            "category": "Hedges",
+            "tags": [
+                "dark",
+                "sad",
+                "longform"
+            ]
         }
     ],
     "20250202": [
         {
             "filename": "of_politics.json",
             "title_en": "Of Politics",
-            "title_it": "Della Politica"
+            "title_it": "Della Politica",
+            "category": "Philosophy",
+            "tags": [
+                "vss",
+                "shortform"
+            ]
         },
         {
             "filename": "of_patriotism.json",
             "title_en": "Of Patriotism",
-            "title_it": "Del Patriottismo"
+            "title_it": "Del Patriottismo",
+            "category": "Philosophy",
+            "tags": [
+                "vss",
+                "shortform",
+                "whimsical"
+            ]
         },
         {
             "filename": "maple.json",
             "title_en": "Maple",
-            "title_it": "Acero"
+            "title_it": "Acero",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "whimsical"
+            ]
         }
     ],
     "20250205": [
         {
             "filename": "puzzle_pieces.json",
             "title_en": "Puzzle Pieces",
-            "title_it": "Pezzi Del Puzzle"
+            "title_it": "Pezzi Del Puzzle",
+            "category": "Cryptic",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241120": [
         {
             "filename": "devastation.json",
             "title_en": "Devastation",
-            "title_it": "Devastazione"
+            "title_it": "Devastazione",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "oxytocin.json",
             "title_en": "Oxytocin",
-            "title_it": "Ossitocina"
+            "title_it": "Ossitocina",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241127": [
         {
             "filename": "monuments_to_calliope.json",
             "title_en": "Monuments To Calliope",
-            "title_it": "Monumenti A Calliope"
+            "title_it": "Monumenti A Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "sirens.json",
             "title_en": "Sirens",
-            "title_it": "Sirene"
+            "title_it": "Sirene",
+            "category": "Dark",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "weary_soles.json",
             "title_en": "Weary Soles",
-            "title_it": "Piedi Stanchi"
+            "title_it": "Piedi Stanchi",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "loving",
+                "longform"
+            ]
         }
     ],
     "20241118": [
         {
             "filename": "entangled.json",
             "title_en": "Entangled",
-            "title_it": "Intricato"
+            "title_it": "Intricato",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "hortus_heist.json",
             "title_en": "Hortus Heist",
-            "title_it": "Furto Del Giardino"
+            "title_it": "Furto Del Giardino",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "dark"
+            ]
         }
     ],
     "20241111": [
         {
             "filename": "digital_devotion.json",
             "title_en": "Digital Devotion",
-            "title_it": "Devozione Digitale"
+            "title_it": "Devozione Digitale",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "loving",
+                "longform"
+            ]
         }
     ],
     "20241116": [
         {
             "filename": "stitches_of_solitude.json",
             "title_en": "Stitches Of Solitude",
-            "title_it": "Punti Di Solitudine"
+            "title_it": "Punti Di Solitudine",
+            "category": "Personal",
+            "tags": [
+                "sad",
+                "melancholy",
+                "loving",
+                "longing",
+                "longform"
+            ]
         },
         {
             "filename": "a_small_burden.json",
             "title_en": "A Small Burden",
-            "title_it": "Un Piccolo Peso"
+            "title_it": "Un Piccolo Peso",
+            "category": "Modern_family",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "to_my_father.json",
             "title_en": "To My Father",
-            "title_it": "A Mio Padre"
+            "title_it": "A Mio Padre",
+            "category": "Modern_family",
+            "tags": [
+                "sad",
+                "longing",
+                "loving",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "on_keys.json",
             "title_en": "On Keys",
-            "title_it": "Sulle Chiavi"
+            "title_it": "Sulle Chiavi",
+            "category": "Throwetry",
+            "tags": [
+                "shortform",
+                "haiku",
+                "whimsical"
+            ]
         },
         {
             "filename": "expended.json",
             "title_en": "Expended",
-            "title_it": "Esaurito"
+            "title_it": "Esaurito",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241129": [
         {
             "filename": "the_balloon.json",
             "title_en": "The Balloon",
-            "title_it": "Il Pallone"
+            "title_it": "Il Pallone",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate",
+                "vss"
+            ]
         },
         {
             "filename": "who_wrote_me.json",
             "title_en": "Who Wrote Me?",
-            "title_it": "Chi Mi Ha Scritto?"
+            "title_it": "Chi Mi Ha Scritto?",
+            "category": "Strands",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate",
+                "longform"
+            ]
         }
     ],
     "20250204": [
         {
             "filename": "soaked_in_worry.json",
             "title_en": "Soaked In Worry",
-            "title_it": "Inzuppato Di Preoccupazione"
+            "title_it": "Inzuppato Di Preoccupazione",
+            "category": "Vss_daily",
+            "tags": [
+                "vss",
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "whoops.json",
             "title_en": "Whoops!",
-            "title_it": "Ops!"
+            "title_it": "Ops!",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "tender"
+            ]
         }
     ],
     "20250203": [
         {
             "filename": "varnished_judgment.json",
             "title_en": "Varnished Judgment",
-            "title_it": "Giudizio Verniciato"
+            "title_it": "Giudizio Verniciato",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "of_money.json",
             "title_en": "Of Money",
-            "title_it": "Del Denaro"
+            "title_it": "Del Denaro",
+            "category": "Philosophy",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241117": [
         {
             "filename": "chords_for_winter.json",
             "title_en": "Chords For Winter",
-            "title_it": "Accordi Per L'Inverno"
+            "title_it": "Accordi Per L'Inverno",
+            "category": "Spectral",
+            "tags": [
+                "loving",
+                "tender",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241128": [
         {
             "filename": "cast_away.json",
             "title_en": "Cast Away",
-            "title_it": "Naufragio"
+            "title_it": "Naufragio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "the_flower_that_blooms.json",
             "title_en": "The Flower That Blooms",
-            "title_it": "Il Fiore Che Sboccia"
+            "title_it": "Il Fiore Che Sboccia",
+            "category": "Flowers",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241110": [
         {
             "filename": "becoming_bytes.json",
             "title_en": "Becoming Bytes",
-            "title_it": "Diventando Byte"
+            "title_it": "Diventando Byte",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "eclipsed.json",
             "title_en": "Eclipsed",
-            "title_it": "Eclisse"
+            "title_it": "Eclisse",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241126": [
         {
             "filename": "showman.json",
             "title_en": "Showman",
-            "title_it": "Spettacolare"
+            "title_it": "Spettacolare",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "whimsical"
+            ]
         }
     ],
     "20241119": [
         {
             "filename": "calliopes_resonance.json",
             "title_en": "Calliope'S Resonance",
-            "title_it": "Calliope'S Resonance"
+            "title_it": "Calliope'S Resonance",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "freedive.json",
             "title_en": "Freedive",
-            "title_it": "Immersione Libera"
+            "title_it": "Immersione Libera",
+            "category": "Personal",
+            "tags": [
+                "dark",
+                "longing",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "spectral_tapestry.json",
             "title_en": "Spectral Tapestry",
-            "title_it": "Tessitura Spettrale"
+            "title_it": "Tessitura Spettrale",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "colossal_flaglie.json",
             "title_en": "Colossal Flaglie",
-            "title_it": "Colossali Faults"
+            "title_it": "Colossali Faults",
+            "category": "Spectral",
+            "tags": [
+                "vss",
+                "shortform",
+                "melancholy",
+                "tender"
+            ]
         }
     ],
     "20241121": [
         {
             "filename": "obol_for_the_unmoved.json",
             "title_en": "Obol For The Unmoved",
-            "title_it": "Obolo Per Gli Immobili"
+            "title_it": "Obolo Per Gli Immobili",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "comradery.json",
             "title_en": "Comradery",
-            "title_it": "Compagnia"
+            "title_it": "Compagnia",
+            "category": "Personal",
+            "tags": [
+                "sad",
+                "longing",
+                "dark",
+                "longform"
+            ]
         },
         {
             "filename": "il_lamento_della_lupa.json",
             "title_en": "Il Lamento Della Lupa",
-            "title_it": "Il Lamento Della Lupa"
+            "title_it": "Il Lamento Della Lupa",
+            "category": "Lupa",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "dark"
+            ]
         }
     ],
     "20250121": [
         {
             "filename": "ash_and_smolders.json",
             "title_en": "Ash And Smolders",
-            "title_it": "Cenere E Braci"
+            "title_it": "Cenere E Braci",
+            "category": "Haikus",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "vss"
+            ]
         },
         {
             "filename": "gentle_rage.json",
             "title_en": "Gentle Rage",
-            "title_it": "Furioso Dolce"
+            "title_it": "Furioso Dolce",
+            "category": "Haikus",
+            "tags": [
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "bop_bag.json",
             "title_en": "Bop Bag",
-            "title_it": "Borsa Di Bop"
+            "title_it": "Borsa Di Bop",
+            "category": "Micropoems",
+            "tags": [
+                "longform",
+                "sad",
+                "whimsical",
+                "loving"
+            ]
         },
         {
             "filename": "boldness_in_blue.json",
             "title_en": "Boldness In Blue",
-            "title_it": "Audacia Nel Blu"
+            "title_it": "Audacia Nel Blu",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "sad",
+                "tender"
+            ]
         },
         {
             "filename": "blowhard.json",
             "title_en": "Blowhard",
-            "title_it": "Puffetto"
+            "title_it": "Puffetto",
+            "category": "Micropoems",
+            "tags": [
+                "longform",
+                "passionate"
+            ]
         },
         {
             "filename": "pruned_flower.json",
             "title_en": "Pruned Flower",
-            "title_it": "Fiore Potato"
+            "title_it": "Fiore Potato",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "shut_up_and_smile.json",
             "title_en": "Shut Up And Smile",
-            "title_it": "Stai Zitto E Sorridi"
+            "title_it": "Stai Zitto E Sorridi",
+            "category": "Micropoems",
+            "tags": [
+                "shortform",
+                "dark"
+            ]
         },
         {
             "filename": "picture.json",
             "title_en": "Picture",
-            "title_it": "Immagine"
+            "title_it": "Immagine",
+            "category": "Acrostic",
+            "tags": [
+                "micropoem",
+                "dark"
+            ]
         }
     ],
     "20250110": [
         {
             "filename": "milan.json",
             "title_en": "Milan",
-            "title_it": "Milano"
+            "title_it": "Milano",
+            "category": "Haikus",
+            "tags": [
+                "micropoem",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20250117": [
         {
             "filename": "expectations.json",
             "title_en": "Expectations",
-            "title_it": "Aspettative"
+            "title_it": "Aspettative",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "sad",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "peter_panicking.json",
             "title_en": "Peter Panicking",
-            "title_it": "Peter In Preda Al Panico"
+            "title_it": "Peter In Preda Al Panico",
+            "category": "Whimsical",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "exwife.json",
             "title_en": "Ex-Wife",
-            "title_it": "Ex-Moglie"
+            "title_it": "Ex-Moglie",
+            "category": "Haikus",
+            "tags": [
+                "shortform",
+                "rhyme",
+                "whimsical"
+            ]
         }
     ],
     "20241031": [
         {
             "filename": "open_heart.json",
             "title_en": "Open Heart",
-            "title_it": "Cuore Apertoo"
+            "title_it": "Cuore Apertoo",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "all_american.json",
             "title_en": "All American",
-            "title_it": "Tutto Americano"
+            "title_it": "Tutto Americano",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "all_on_me.json",
             "title_en": "All On Me",
-            "title_it": "Tutto Su Di Me"
+            "title_it": "Tutto Su Di Me",
+            "category": "Strands",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241203": [
         {
             "filename": "my_tragic_gender.json",
             "title_en": "My Tragic Gender",
-            "title_it": "Il Mio Genere Tragico"
+            "title_it": "Il Mio Genere Tragico",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "dark",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "quilt_of_quiet.json",
             "title_en": "Quilt Of Quiet",
-            "title_it": "Trapunta Del Silenzio"
+            "title_it": "Trapunta Del Silenzio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241204": [
         {
             "filename": "in_quiet_contemplation.json",
             "title_en": "In Quiet Contemplation",
-            "title_it": "In Silenziosa Contemplazione"
+            "title_it": "In Silenziosa Contemplazione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "tender"
+            ]
         }
     ],
     "20250111": [
         {
             "filename": "peace.json",
             "title_en": "Peace",
-            "title_it": "Pace"
+            "title_it": "Pace",
+            "category": "Haikus",
+            "tags": [
+                "micropoem",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "be_tender.json",
             "title_en": "Be Tender",
-            "title_it": "Sii Tenero"
+            "title_it": "Sii Tenero",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "worth_it.json",
             "title_en": "Worth It",
-            "title_it": "Valore"
+            "title_it": "Valore",
+            "category": "Haikus",
+            "tags": [
+                "micropoem",
+                "sad",
+                "tender",
+                "longing"
+            ]
         }
     ],
     "20250118": [
         {
             "filename": "muskisms.json",
             "title_en": "Muskisms",
-            "title_it": "Muskismi"
+            "title_it": "Muskismi",
+            "category": "Whimsical",
+            "tags": [
+                "vss",
+                "longform",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "becoming_art.json",
             "title_en": "Becoming Art",
-            "title_it": "Diventare Arte"
+            "title_it": "Diventare Arte",
+            "category": "Science",
+            "tags": [
+                "vss",
+                "shortform",
+                "fun",
+                "whimsical",
+                "rhyme"
+            ]
         },
         {
             "filename": "moving_on_myth.json",
             "title_en": "Moving On Myth",
-            "title_it": "Mitologia In Movimento"
+            "title_it": "Mitologia In Movimento",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "visceral_vase.json",
             "title_en": "Visceral Vase",
-            "title_it": "Vaso Viscerale"
+            "title_it": "Vaso Viscerale",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "metaphorically.json",
             "title_en": "Metaphorically",
-            "title_it": "Metaforicamente"
+            "title_it": "Metaforicamente",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "what_a_chore.json",
             "title_en": "What A Chore!",
-            "title_it": "Che Fatica!"
+            "title_it": "Che Fatica!",
+            "category": "Whimsical",
+            "tags": [
+                "shortform",
+                "fun",
+                "whimsical"
+            ]
         }
     ],
     "20250120": [
         {
             "filename": "claymore.json",
             "title_en": "Claymore",
-            "title_it": "Claymore"
+            "title_it": "Claymore",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "shortform",
+                "dark"
+            ]
         }
     ],
     "20241205": [
         {
             "filename": "amnesia.json",
             "title_en": "Amnesia",
-            "title_it": "Amnesia"
+            "title_it": "Amnesia",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "monoku"
+            ]
         },
         {
             "filename": "impact.json",
             "title_en": "Impact",
-            "title_it": "Impatto"
+            "title_it": "Impatto",
+            "category": "Modern_family",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241202": [
         {
             "filename": "i_wish_you_warmth.json",
             "title_en": "I Wish You Warmth",
-            "title_it": "Ti Auguro Calore"
+            "title_it": "Ti Auguro Calore",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241030": [
         {
             "filename": "muses_call.json",
-            "title_en": "Muse'S Call",
-            "title_it": "Il Richiamo Della Musa"
+            "title_en": "Muse's Call",
+            "title_it": "Il Richiamo Della Musa",
+            "category": "Strands",
+            "tags": [
+                "loving",
+                "melancholy",
+                "longing",
+                "passionate",
+                "tender"
+            ]
         },
         {
             "filename": "embraced_pain.json",
             "title_en": "Embraced Pain",
-            "title_it": "Dolore Accolto"
+            "title_it": "Dolore Accolto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20250106": [
         {
             "filename": "fragrant_radiance.json",
             "title_en": "Fragrant Radiance",
-            "title_it": "Radiosa Fragranza"
+            "title_it": "Radiosa Fragranza",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "wretched_phoenix.json",
             "title_en": "Wretched Phoenix",
-            "title_it": "Fenice Miserabile"
+            "title_it": "Fenice Miserabile",
+            "category": "Personal",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "tattered_books.json",
             "title_en": "Tattered Books",
-            "title_it": "Libri Strappati"
+            "title_it": "Libri Strappati",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20250101": [
         {
             "filename": "2025.json",
             "title_en": "2025",
-            "title_it": "2025"
+            "title_it": "2025",
+            "category": "Acrostic",
+            "tags": [
+                "vss",
+                "shortform",
+                "tender"
+            ]
         },
         {
             "filename": "two_ghouls.json",
             "title_en": "Two Ghouls",
-            "title_it": "Due Ghouls"
+            "title_it": "Due Ghouls",
+            "category": "Throwetry",
+            "tags": [
+                "dark",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "a_dance.json",
             "title_en": "A Dance",
-            "title_it": "Una Danza"
+            "title_it": "Una Danza",
+            "category": "Acrostic",
+            "tags": [
+                "shortform",
+                "monoku",
+                "whimsical",
+                "fun",
+                "rhyme"
+            ]
         },
         {
             "filename": "beyond_a_wish.json",
             "title_en": "Beyond A Wish",
-            "title_it": "Oltre Un Desiderio"
+            "title_it": "Oltre Un Desiderio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "my_wheelhouse.json",
             "title_en": "My Wheelhouse",
-            "title_it": "La Mia Competenza"
+            "title_it": "La Mia Competenza",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "dark",
+                "tender",
+                "melancholy"
+            ]
         }
     ],
     "20250108": [
         {
             "filename": "the_enchanter.json",
             "title_en": "The Enchanter",
-            "title_it": "L'Incantatore"
+            "title_it": "L'Incantatore",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "quite_the_weather.json",
             "title_en": "Quite The Weather!",
-            "title_it": "Molto Il Tempo!"
+            "title_it": "Molto Il Tempo!",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "whimsical",
+                "tender",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20250130": [
         {
             "filename": "true_nature.json",
             "title_en": "True Nature",
-            "title_it": "Vera Natura"
+            "title_it": "Vera Natura",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "if_i_had_a_mirror.json",
             "title_en": "If I Had A Mirror",
-            "title_it": "Se Avessi Uno Specchio"
+            "title_it": "Se Avessi Uno Specchio",
+            "category": "Bluesky",
+            "tags": [
+                "shortform",
+                "dark",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "sweet_nothings.json",
             "title_en": "Sweet Nothings",
-            "title_it": "Dolci Niente"
+            "title_it": "Dolci Niente",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "high_marks.json",
             "title_en": "High Marks",
-            "title_it": "Punte Alte"
+            "title_it": "Punte Alte",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "longing",
+                "tender",
+                "melancholy"
+            ]
         }
     ],
     "20241029": [
         {
             "filename": "little_letters.json",
             "title_en": "Little Letters",
-            "title_it": "Lettere Lievi"
+            "title_it": "Lettere Lievi",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "vss",
+                "longform"
+            ]
         },
         {
             "filename": "ghosted_thoughts.json",
             "title_en": "Ghosted Thoughts",
-            "title_it": "Pensieri Svaniti"
+            "title_it": "Pensieri Svaniti",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         }
     ],
     "20241224": [
         {
             "filename": "wish_you_the_best.json",
             "title_en": "Wish You The Best",
-            "title_it": "Ti Auguro Il Meglio"
+            "title_it": "Ti Auguro Il Meglio",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241223": [
         {
             "filename": "gentle_ascent.json",
             "title_en": "Gentle Ascent",
-            "title_it": "Ascesa Gentile"
+            "title_it": "Ascesa Gentile",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20241215": [
         {
             "filename": "fractured_modernity.json",
             "title_en": "Fractured Modernity",
-            "title_it": "Modernità Fenduta"
+            "title_it": "Modernità Fenduta",
+            "category": "Throwetry",
+            "tags": [
+                "micropoem",
+                "melancholy",
+                "longing",
+                "dark"
+            ]
         },
         {
             "filename": "a_pleasant_burden.json",
             "title_en": "A Pleasant Burden",
-            "title_it": "Un Piacevole Fardello"
+            "title_it": "Un Piacevole Fardello",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "abandoned.json",
             "title_en": "Abandoned",
-            "title_it": "Abbandonato"
+            "title_it": "Abbandonato",
+            "category": "Modern_family",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "strands.json",
             "title_en": "Strands",
-            "title_it": "Fili"
+            "title_it": "Fili",
+            "category": "Strands",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241027": [
         {
             "filename": "veiled_in_black_diverging_paths.json",
             "title_en": "Veiled In Black, Diverging Paths",
-            "title_it": "Velato Di Nero, Sentieri Divergenti"
+            "title_it": "Velato Di Nero, Sentieri Divergenti",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241212": [
         {
             "filename": "bubble_gum.json",
             "title_en": "Bubble Gum",
-            "title_it": "Gomma Da Masticare"
+            "title_it": "Gomma Da Masticare",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "pyroclastic.json",
             "title_en": "Pyroclastic",
-            "title_it": "Piroclastica"
+            "title_it": "Piroclastica",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "symphony_no_5_in_muse_minor.json",
             "title_en": "Symphony No. 5 In Muse Minor",
-            "title_it": "Sinfonia N. 5 In Meno Muse"
+            "title_it": "Sinfonia N. 5 In Meno Muse",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "pillow.json",
             "title_en": "Pillow",
-            "title_it": "Cuscino"
+            "title_it": "Cuscino",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20250131": [
         {
             "filename": "sondering_sways.json",
             "title_en": "Sondering Sways",
-            "title_it": "Oscillazioni Di Sondering"
+            "title_it": "Oscillazioni Di Sondering",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "melancholy"
+            ]
         },
         {
             "filename": "flat_fields.json",
             "title_en": "Flat Fields",
-            "title_it": "Campi Pianeggianti"
+            "title_it": "Campi Pianeggianti",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "of_passion.json",
             "title_en": "Of Passion",
-            "title_it": "Della Passione"
+            "title_it": "Della Passione",
+            "category": "Philosophy",
+            "tags": [
+                "longform",
+                "passionate",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "check_your_agenda.json",
             "title_en": "Check Your Agenda",
-            "title_it": "Controlla Il Tuo Programma"
+            "title_it": "Controlla Il Tuo Programma",
+            "category": "Social_commentary",
+            "tags": [
+                "dark",
+                "sad",
+                "rhyme"
+            ]
         }
     ],
     "20250109": [
         {
             "filename": "sea_of_cs.json",
             "title_en": "Sea Of C'S",
-            "title_it": "Mare Di C'S"
+            "title_it": "Mare Di C'S",
+            "category": "Bluesky",
+            "tags": [
+                "vss",
+                "haiku",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "dupont.json",
             "title_en": "Dupont",
-            "title_it": "Dupont"
+            "title_it": "Dupont",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "sad",
+                "dark"
+            ]
         },
         {
             "filename": "wont_hold_my_breath.json",
             "title_en": "Won'T Hold My Breath",
-            "title_it": "Non Trattengo Il Respiro"
+            "title_it": "Non Trattengo Il Respiro",
+            "category": "Haikus",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "her_middle_finger.json",
             "title_en": "Her Middle Finger",
-            "title_it": "Il Suo Medio Dito"
+            "title_it": "Il Suo Medio Dito",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "passionate",
+                "longing",
+                "dark"
+            ]
         }
     ],
     "20250107": [
         {
             "filename": "cadere.json",
             "title_en": "Cadere",
-            "title_it": "Cadere"
+            "title_it": "Cadere",
+            "category": "Haikus",
+            "tags": [
+                "sad",
+                "dark",
+                "shortform"
+            ]
         },
         {
             "filename": "immovable.json",
             "title_en": "Immovable",
-            "title_it": "Immobile"
+            "title_it": "Immobile",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "tender",
+                "passionate"
+            ]
         }
     ],
     "20241213": [
         {
             "filename": "boomerang.json",
             "title_en": "Boomerang",
-            "title_it": "Boomerang"
+            "title_it": "Boomerang",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "passionate",
+                "longform"
+            ]
         },
         {
             "filename": "imaginary.json",
             "title_en": "Imaginary",
-            "title_it": "Immaginario"
+            "title_it": "Immaginario",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "melancholy"
+            ]
         }
     ],
     "20241026": [
         {
             "filename": "how_can_you_study_words_and_suck_at_them_so_bad.json",
             "title_en": "How Can You Study Words And Suck At Them So Bad?",
-            "title_it": "Come Puoi Studiare Le Parole E Usarle Così Male?"
+            "title_it": "Come Puoi Studiare Le Parole E Usarle Così Male?",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "dark"
+            ]
         }
     ],
     "20241214": [
         {
             "filename": "out_of_his_world.json",
-            "title_en": "Out Of His World!",
-            "title_it": "Fuori Dal Suo Mondo!"
+            "title_en": "Out of his World!",
+            "title_it": "Fuori Dal Suo Mondo!",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "lost_amongst_clouds.json",
             "title_en": "Lost Amongst Clouds",
-            "title_it": "Perduto Fra Le Nubi"
+            "title_it": "Perduto Fra Le Nubi",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "sighs_adrift.json",
             "title_en": "Sighs Adrift",
-            "title_it": "Sospiri Alla Deriva"
+            "title_it": "Sospiri Alla Deriva",
+            "category": "Strands",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "longing"
+            ]
         }
     ],
     "20241222": [
         {
             "filename": "tristans_layers.json",
             "title_en": "Tristan'S Layers",
-            "title_it": "Gli Strati Di Isotta"
+            "title_it": "Gli Strati Di Isotta",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "the_sweetest_bite.json",
             "title_en": "The Sweetest Bite",
-            "title_it": "Il Morso Più Dolce"
+            "title_it": "Il Morso Più Dolce",
+            "category": "Strands",
+            "tags": [
+                "micropoem",
+                "sad",
+                "dark",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "smile.json",
             "title_en": "Smile!",
-            "title_it": "Sorrisosirros"
+            "title_it": "Sorrisosirros",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "whimsical"
+            ]
         },
         {
             "filename": "alternate_perspective.json",
             "title_en": "Alternate Perspective",
-            "title_it": "Prospettive Alternative"
+            "title_it": "Prospettive Alternative",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20241028": [
         {
             "filename": "separate_directions.json",
             "title_en": "Separate Directions",
-            "title_it": "Direzioni Separate"
+            "title_it": "Direzioni Separate",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         }
     ],
     "20241225": [
         {
             "filename": "a_gift.json",
             "title_en": "A Gift",
-            "title_it": "Un Dono"
+            "title_it": "Un Dono",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "loving",
+                "longing",
+                "tender"
+            ]
         }
     ],
     "20250214": [
         {
             "filename": "into_the_grey.json",
             "title_en": "Into The Grey",
-            "title_it": "Nel Grigio"
+            "title_it": "Nel Grigio",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "plastic_prompt.json",
             "title_en": "Plastic Prompt",
-            "title_it": "Prompt Di Plastica"
+            "title_it": "Prompt Di Plastica",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "ice_fishing.json",
             "title_en": "Ice Fishing",
-            "title_it": "Pesca Sul Ghiaccio"
+            "title_it": "Pesca Sul Ghiaccio",
+            "category": "Short_form",
+            "tags": [
+                "sad",
+                "longing",
+                "dark",
+                "longform"
+            ]
         },
         {
             "filename": "sweet_dreams.json",
             "title_en": "Sweet Dreams",
-            "title_it": "Dolci Sogni"
+            "title_it": "Dolci Sogni",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "loving",
+                "tender",
+                "longing"
+            ]
         },
         {
             "filename": "lit_fuse.json",
             "title_en": "Lit Fuse",
-            "title_it": "Fusibile Accesso"
+            "title_it": "Fusibile Accesso",
+            "category": "Haikufeels",
+            "tags": [
+                "longform",
+                "passionate",
+                "tender"
+            ]
         },
         {
             "filename": "you_are_my_heart_attack.json",
             "title_en": "You Are My Heart Attack",
-            "title_it": "Sei Il Mio Infarto"
+            "title_it": "Sei Il Mio Infarto",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy",
+                "passionate",
+                "longform"
+            ]
         },
         {
             "filename": "bottomless_vessel.json",
             "title_en": "Bottomless Vessel",
-            "title_it": "Vaso Senza Fondo"
+            "title_it": "Vaso Senza Fondo",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "sad",
+                "longform",
+                "passionate"
+            ]
         },
         {
             "filename": "waiting_for_tomorrow.json",
             "title_en": "Waiting For Tomorrow",
-            "title_it": "In Attesa Di Domani"
+            "title_it": "In Attesa Di Domani",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "melancholy",
+                "tender"
+            ]
         }
     ],
     "20250213": [
         {
             "filename": "my_volume.json",
             "title_en": "My Volume",
-            "title_it": "Il Mio Volume"
+            "title_it": "Il Mio Volume",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "hawthorn.json",
             "title_en": "Hawthorn",
-            "title_it": "Spino"
+            "title_it": "Spino",
+            "category": "Vss_daily",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "gemmed.json",
             "title_en": "Gemmed",
-            "title_it": "Incastonato"
+            "title_it": "Incastonato",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "biting_weather.json",
             "title_en": "Biting Weather",
-            "title_it": "Mordente Clima"
+            "title_it": "Mordente Clima",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longing",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "set_me_on_fire.json",
             "title_en": "Set Me On Fire",
-            "title_it": "Accendimi"
+            "title_it": "Accendimi",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "climb_in.json",
             "title_en": "Climb In",
-            "title_it": "Entrare"
+            "title_it": "Entrare",
+            "category": "Noir",
+            "tags": [
+                "sad",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "sr72.json",
             "title_en": "Sr-72",
-            "title_it": "Sr-72"
+            "title_it": "Sr-72",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "shortform",
+                "micropoem",
+                "haiku",
+                "dark"
+            ]
         },
         {
             "filename": "balloon.json",
             "title_en": "Balloon",
-            "title_it": "Palloncino"
+            "title_it": "Palloncino",
+            "category": "Phonetics",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "rhyme"
+            ]
         }
     ],
     "20241107": [
         {
             "filename": "calls_to_calliope.json",
             "title_en": "Calls To Calliope",
-            "title_it": "Calls To Calliope"
+            "title_it": "Calls To Calliope",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
         },
         {
             "filename": "flower_of_father.json",
             "title_en": "Flower Of Father",
-            "title_it": "Fiore Del Padre"
+            "title_it": "Fiore Del Padre",
+            "category": "Flowers",
+            "tags": [
+                "sad",
+                "longing",
+                "loving",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "her_typo.json",
             "title_en": "Her Typo",
-            "title_it": "Il Suo Refuso"
+            "title_it": "Il Suo Refuso",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "my_autistic_self.json",
             "title_en": "My Autistic Self",
-            "title_it": "Il Mio Se Stesso Autistico"
+            "title_it": "Il Mio Se Stesso Autistico",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "consumato_dalla_lupa.json",
             "title_en": "Consumato Dalla Lupa",
-            "title_it": "Consumato Dalla Lupa"
+            "title_it": "Consumato Dalla Lupa",
+            "category": "Lupa",
+            "tags": [
+                "dark",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "calliope_dissected.json",
             "title_en": "Calliope Dissected",
-            "title_it": "Calliope Dissected"
+            "title_it": "Calliope Dissected",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "forgotten_flowers.json",
             "title_en": "Forgotten Flowers",
-            "title_it": "Fiori Dimenticati"
+            "title_it": "Fiori Dimenticati",
+            "category": "Flowers",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "the_grounded_arrow.json",
             "title_en": "The Grounded Arrow",
-            "title_it": "La Freccia Atterrata"
+            "title_it": "La Freccia Atterrata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "rhyme",
+                "loving"
+            ]
         }
     ],
     "20241109": [
         {
             "filename": "for_you.json",
             "title_en": "For You",
-            "title_it": "Per Te"
+            "title_it": "Per Te",
+            "category": "Modern_family",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate",
+                "tender",
+                "longing"
+            ]
         },
         {
             "filename": "i_love_rome.json",
             "title_en": "I Love Rome",
-            "title_it": "Amo Roma"
+            "title_it": "Amo Roma",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "reforged_words.json",
             "title_en": "Reforged Words",
-            "title_it": "Parole Riforgiate"
+            "title_it": "Parole Riforgiate",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
         }
     ],
     "20250212": [
         {
             "filename": "surges.json",
             "title_en": "Surges",
-            "title_it": "Onde"
+            "title_it": "Onde",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "bedridden.json",
             "title_en": "Bedridden",
-            "title_it": "Infermo In Letto"
+            "title_it": "Infermo In Letto",
+            "category": "Vss365",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "and_let_me_be_sorry.json",
             "title_en": "And Let Me Be Sorry",
-            "title_it": "E Lascia Che Io Sia Dispiaciuto"
+            "title_it": "E Lascia Che Io Sia Dispiaciuto",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "tender",
+                "longing"
+            ]
         },
         {
             "filename": "heart_you.json",
             "title_en": "Heart You",
-            "title_it": "Cuore Tu"
+            "title_it": "Cuore Tu",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "whimsical"
+            ]
         },
         {
             "filename": "appetizing_angle.json",
             "title_en": "Appetizing Angle",
-            "title_it": "Angolo Appetitoso"
+            "title_it": "Angolo Appetitoso",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "sumerian_session.json",
             "title_en": "Sumerian Session",
-            "title_it": "Sessione Sumerica"
+            "title_it": "Sessione Sumerica",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "refuse_silence.json",
             "title_en": "Refuse Silence",
-            "title_it": "Rifiuta Il Silenzio"
+            "title_it": "Rifiuta Il Silenzio",
+            "category": "Social_commentary",
+            "tags": [
+                "longform",
+                "passionate"
+            ]
         },
         {
             "filename": "trenched_in.json",
             "title_en": "Trenched In",
-            "title_it": "Imboscato"
+            "title_it": "Imboscato",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "longform"
+            ]
         },
         {
             "filename": "her_mind.json",
             "title_en": "Her Mind",
-            "title_it": "La Sua Mente"
+            "title_it": "La Sua Mente",
+            "category": "Monokus",
+            "tags": [
+                "vss",
+                "shortform",
+                "melancholy"
+            ]
         },
         {
             "filename": "dreamcaught.json",
             "title_en": "Dreamcaught",
-            "title_it": "Sogno Catturato"
+            "title_it": "Sogno Catturato",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "metamorphisocial.json",
             "title_en": "Metamorphisocial",
-            "title_it": "Metamorfisociale"
+            "title_it": "Metamorfisociale",
+            "category": "Phonetics",
+            "tags": [
+                "shortform",
+                "whimsical",
+                "dark",
+                "tender"
+            ]
         },
         {
             "filename": "captivated.json",
             "title_en": "Captivated",
-            "title_it": "Affascinato"
+            "title_it": "Affascinato",
+            "category": "Distillate",
+            "tags": [
+                "tender",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "bitten.json",
             "title_en": "Bitten",
-            "title_it": "Morsi"
+            "title_it": "Morsi",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "meltdown.json",
             "title_en": "Meltdown",
-            "title_it": "Crollo"
+            "title_it": "Crollo",
+            "category": "Whimsical",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "pointed_fencing.json",
             "title_en": "Pointed Fencing",
-            "title_it": "Scherma Appuntita"
+            "title_it": "Scherma Appuntita",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "passionate",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "of_cruelty.json",
             "title_en": "Of Cruelty",
-            "title_it": "Della Crudeltà"
+            "title_it": "Della Crudeltà",
+            "category": "Philsophy",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "false_starts.json",
             "title_en": "False Starts",
-            "title_it": "Partenze False"
+            "title_it": "Partenze False",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "monoku",
+                "sad",
+                "melancholy"
+            ]
         }
     ],
     "20250215": [
         {
             "filename": "happy_feet.json",
             "title_en": "Happy Feet",
-            "title_it": "Piedini Felici"
+            "title_it": "Piedini Felici",
+            "category": "Whimsical",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun",
+                "rhyme"
+            ]
         },
         {
             "filename": "doppelgnger.json",
             "title_en": "Doppelgänger",
-            "title_it": "Doppio"
+            "title_it": "Doppio",
+            "category": "Vss_daily",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "im_here_to_help_with_grammar_and_punctuation_if_yo.json",
             "title_en": "I'M Here To Help With Grammar And Punctuation. If You Have Any Questions Or Need Assistance, Feel Free To Ask!",
-            "title_it": "Sono Qui Per Aiutarti Con La Grammatica E La Punteggiatura. Se Hai Domande O Hai Bisogno Di Assistenza, Non Esitare A Chiedere!"
+            "title_it": "Sono Qui Per Aiutarti Con La Grammatica E La Punteggiatura. Se Hai Domande O Hai Bisogno Di Assistenza, Non Esitare A Chiedere!",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "dark",
+                "sad"
+            ]
         },
         {
             "filename": "ocean_wave_sounds.json",
             "title_en": "Ocean Wave Sounds",
-            "title_it": "Suoni Dell'Onda Dell'Oceano"
+            "title_it": "Suoni Dell'Onda Dell'Oceano",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "melancholy",
+                "tender"
+            ]
         },
         {
             "filename": "snowcone.json",
             "title_en": "Snowcone",
-            "title_it": "Ghiacciolo"
+            "title_it": "Ghiacciolo",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "melancholy",
+                "dark"
+            ]
         },
         {
             "filename": "dearly_departed.json",
             "title_en": "Dearly Departed",
-            "title_it": "Cari Defunti"
+            "title_it": "Cari Defunti",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "loving"
+            ]
         },
         {
             "filename": "bloodlines.json",
             "title_en": "Bloodlines",
-            "title_it": "Linee Di Sangue"
+            "title_it": "Linee Di Sangue",
+            "category": "Social_commentary",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "longform"
+            ]
         },
         {
             "filename": "unyielding.json",
             "title_en": "Unyielding",
-            "title_it": "Inarrendevole"
+            "title_it": "Inarrendevole",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "extend.json",
             "title_en": "Extend",
-            "title_it": "Estendi"
+            "title_it": "Estendi",
+            "category": "Haikufeels",
+            "tags": [
+                "vss",
+                "shortform",
+                "passionate",
+                "loving"
+            ]
         },
         {
             "filename": "hidden_from_truths.json",
             "title_en": "Hidden From Truths",
-            "title_it": "Nascosto Dalle Verità"
+            "title_it": "Nascosto Dalle Verità",
+            "category": "Distillate",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "robo_tripping.json",
             "title_en": "Robo Tripping",
-            "title_it": "Robo Trippling"
+            "title_it": "Robo Trippling",
+            "category": "Short_form",
+            "tags": [
+                "shortform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "intersections.json",
             "title_en": "Intersections",
-            "title_it": "Intersezioni"
+            "title_it": "Intersezioni",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate",
+                "melancholy"
+            ]
         },
         {
             "filename": "stupid_games.json",
             "title_en": "Stupid Games",
-            "title_it": "Giochi Stupidi"
+            "title_it": "Giochi Stupidi",
+            "category": "Whimsical",
+            "tags": [
+                "dark",
+                "sad",
+                "longform"
+            ]
         },
         {
             "filename": "circumstance.json",
             "title_en": "Circumstance",
-            "title_it": "Circostanza"
+            "title_it": "Circostanza",
+            "category": "Distillate",
+            "tags": [
+                "sad",
+                "melancholy",
+                "vss",
+                "longform",
+                "rhyme"
+            ]
         },
         {
             "filename": "shark_party.json",
             "title_en": "Shark Party!",
-            "title_it": "Festa Degli Squali!"
+            "title_it": "Festa Degli Squali!",
+            "category": "Whimsical",
+            "tags": [
+                "longform",
+                "whimsical",
+                "fun"
+            ]
         }
     ],
     "20241130": [
         {
             "filename": "veiled_note.json",
             "title_en": "Veiled Note",
-            "title_it": "Nota Velata"
+            "title_it": "Nota Velata",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241108": [
         {
             "filename": "the_blade_ran_through.json",
             "title_en": "The Blade Ran Through",
-            "title_it": "La Lama Attraversò"
+            "title_it": "La Lama Attraversò",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "of_calliopes_mind.json",
             "title_en": "Of Calliope'S Mind",
-            "title_it": "Of Calliope'S Mind"
+            "title_it": "Of Calliope'S Mind",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "loving",
+                "passionate",
+                "melancholy"
+            ]
         },
         {
             "filename": "la_lupa_del_rituale.json",
             "title_en": "La Lupa Del Rituale",
-            "title_it": "La Lupa Del Rituale"
+            "title_it": "La Lupa Del Rituale",
+            "category": "Lupa",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20241101": [
         {
             "filename": "minestra.json",
             "title_en": "Minestra",
-            "title_it": "Minestra"
+            "title_it": "Minestra",
+            "category": "Spectral",
+            "tags": [
+                "fun",
+                "whimsical",
+                "loving"
+            ]
         },
         {
             "filename": "how_weak.json",
             "title_en": "How Weak",
-            "title_it": "Quanto Debole"
+            "title_it": "Quanto Debole",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longform",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         }
     ],
     "20241106": [
         {
             "filename": "the_arrow_that_questions.json",
             "title_en": "The Arrow That Questions",
-            "title_it": "La Freccia Che Interroga"
+            "title_it": "La Freccia Che Interroga",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing",
+                "passionate",
+                "vss"
+            ]
         },
         {
             "filename": "calliopes_echo.json",
             "title_en": "Calliope'S Echo",
-            "title_it": "Caliope'S Echo"
+            "title_it": "Caliope'S Echo",
+            "category": "Calliope",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "la_lupa_si_aggira.json",
             "title_en": "La Lupa Si Aggira",
-            "title_it": "La Lupa Si Aggira"
+            "title_it": "La Lupa Si Aggira",
+            "category": "Lupa",
+            "tags": [
+                "dark",
+                "sad",
+                "longing",
+                "melancholy",
+                "longform"
+            ]
         }
     ],
     "20241124": [
         {
             "filename": "the_dance_unfinished.json",
             "title_en": "The Dance Unfinished",
-            "title_it": "La Danza Incompiuta"
+            "title_it": "La Danza Incompiuta",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "dreams_of_reality.json",
             "title_en": "Dreams Of Reality",
-            "title_it": "Sogni Della Realtà"
+            "title_it": "Sogni Della Realtà",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "dark",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         }
     ],
     "20241123": [
         {
             "filename": "the_tallest_man.json",
             "title_en": "The Tallest Man",
-            "title_it": "L'Uomo Più Alto"
+            "title_it": "L'Uomo Più Alto",
+            "category": "Modern_family",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "melancholy"
+            ]
         },
         {
             "filename": "the_stray.json",
             "title_en": "The Stray",
-            "title_it": "Il Randagio"
+            "title_it": "Il Randagio",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy",
+                "vss"
+            ]
         }
     ],
     "20241115": [
         {
             "filename": "oh_sister_of_mine.json",
             "title_en": "Oh, Sister Of Mine",
-            "title_it": "Oh, Sorella Mia"
+            "title_it": "Oh, Sorella Mia",
+            "category": "Modern_family",
+            "tags": [
+                "sad",
+                "longing",
+                "dark",
+                "longform"
+            ]
         },
         {
             "filename": "skipping_me.json",
             "title_en": "Skipping Me",
-            "title_it": "Saltandomi"
+            "title_it": "Saltandomi",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "long_after.json",
             "title_en": "Long After",
-            "title_it": "Dopo Molto Tempo"
+            "title_it": "Dopo Molto Tempo",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "alone.json",
             "title_en": "Alone",
-            "title_it": "Solo"
+            "title_it": "Solo",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20241112": [
         {
             "filename": "for_calliope.json",
             "title_en": "For Calliope",
-            "title_it": "Per Calliope"
+            "title_it": "Per Calliope",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "unheard_echoes.json",
             "title_en": "Unheard Echoes",
-            "title_it": "Echi Inascoltati"
+            "title_it": "Echi Inascoltati",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         }
     ],
     "20250206": [
         {
             "filename": "bye.json",
             "title_en": "Bye",
-            "title_it": "Addio'"
+            "title_it": "Addio'",
+            "category": "Acrostic",
+            "tags": [
+                "vss",
+                "micropoem",
+                "melancholy"
+            ]
         },
         {
             "filename": "of_dancing.json",
             "title_en": "Of Dancing",
-            "title_it": "Del Ballo"
+            "title_it": "Del Ballo",
+            "category": "Philosophy",
+            "tags": [
+                "vss",
+                "shortform",
+                "whimsical"
+            ]
         },
         {
             "filename": "shame.json",
             "title_en": "Shame",
-            "title_it": "Vergogna"
+            "title_it": "Vergogna",
+            "category": "Social_commentary",
+            "tags": [
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         },
         {
             "filename": "nexus.json",
             "title_en": "Nexus",
-            "title_it": "Nesso"
+            "title_it": "Nesso",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "of_meanness.json",
             "title_en": "Of Meanness",
-            "title_it": "Della Meschinità"
+            "title_it": "Della Meschinità",
+            "category": "Philosophy",
+            "tags": [
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "selling_our_souls.json",
             "title_en": "Selling Our Souls",
-            "title_it": "Vendere Le Nostre Anime"
+            "title_it": "Vendere Le Nostre Anime",
+            "category": "Social_commentary",
+            "tags": [
+                "sad",
+                "dark"
+            ]
         }
     ],
     "20250201": [
         {
             "filename": "cryonic_cash.json",
             "title_en": "Cryonic Cash",
-            "title_it": "Contanti Criogenici"
+            "title_it": "Contanti Criogenici",
+            "category": "Social_commentary",
+            "tags": [
+                "dark",
+                "sad",
+                "rhyme"
+            ]
         },
         {
             "filename": "of_family.json",
             "title_en": "Of Family",
-            "title_it": "Della Famiglia"
+            "title_it": "Della Famiglia",
+            "category": "Philosophy",
+            "tags": [
+                "shortform",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "of_your_place_in_the_universe.json",
             "title_en": "Of Your Place In The Universe",
-            "title_it": "Del Tuo Luogo Nell'Universo"
+            "title_it": "Del Tuo Luogo Nell'Universo",
+            "category": "Philosophy",
+            "tags": [
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "of_the_heart.json",
             "title_en": "Of The Heart",
-            "title_it": "Del Cuore"
+            "title_it": "Del Cuore",
+            "category": "Philosophy",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "seven_seas.json",
             "title_en": "Seven Seas",
-            "title_it": "Sette Mari"
+            "title_it": "Sette Mari",
+            "category": "Micropoems",
+            "tags": [
+                "shortform",
+                "sad",
+                "tender",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "of_success_and_purpose.json",
             "title_en": "Of Success And Purpose",
-            "title_it": "Di Successo E Scopo"
+            "title_it": "Di Successo E Scopo",
+            "category": "Philosophy",
+            "tags": [
+                "vss",
+                "sad",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241113": [
         {
             "filename": "free_to_fall.json",
             "title_en": "Free To Fall",
-            "title_it": "Cadere Libero"
+            "title_it": "Cadere Libero",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "passionate",
+                "melancholy"
+            ]
         },
         {
             "filename": "notte_predatrice.json",
             "title_en": "Notte Predatrice",
-            "title_it": "Notte Predatrice"
+            "title_it": "Notte Predatrice",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "admiration.json",
             "title_en": "Admiration",
-            "title_it": "Ammirazione"
+            "title_it": "Ammirazione",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "tender"
+            ]
         }
     ],
     "20241114": [
         {
             "filename": "effulgence.json",
             "title_en": "Effulgence",
-            "title_it": "Effulgenza"
+            "title_it": "Effulgenza",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "for_mother.json",
             "title_en": "For Mother",
-            "title_it": "Per Madre"
+            "title_it": "Per Madre",
+            "category": "Modern_family",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "winters_embrace.json",
             "title_en": "Winter'S Embrace",
-            "title_it": "L'Abbraccio Dell'Inverno"
+            "title_it": "L'Abbraccio Dell'Inverno",
+            "category": "Personal",
+            "tags": [
+                "dark",
+                "sad",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": ".json",
             "title_en": "Мучение Без Питания",
-            "title_it": "Tormento Senza Cibo"
+            "title_it": "Tormento Senza Cibo",
+            "category": "Throwetry",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "splattered.json",
             "title_en": "Splattered",
-            "title_it": "Sparso"
+            "title_it": "Sparso",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         }
     ],
     "20241122": [
         {
             "filename": "my_unending_heart.json",
             "title_en": "My Unending Heart",
-            "title_it": "Il Mio Cuore Infinito"
+            "title_it": "Il Mio Cuore Infinito",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving"
+            ]
         },
         {
             "filename": "the_cheesiest.json",
             "title_en": "The Cheesiest",
-            "title_it": "Il Più Formaggioso"
+            "title_it": "Il Più Formaggioso",
+            "category": "Strands",
+            "tags": [
+                "sad",
+                "tender",
+                "longing",
+                "melancholy",
+                "longform"
+            ]
         }
     ],
     "20241125": [
         {
             "filename": "michelles_elegy.json",
             "title_en": "Michelle'S Elegy",
-            "title_it": "Elegia Di Michelle"
+            "title_it": "Elegia Di Michelle",
+            "category": "Modern_family",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "chim_chim_cheree.json",
             "title_en": "Chim Chim Cher-Ee",
-            "title_it": "Chim Chim Cher-Ee"
+            "title_it": "Chim Chim Cher-Ee",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "rhyme"
+            ]
         }
     ],
     "20250209": [
         {
             "filename": "sure_how_can_i_assist_you_today.json",
             "title_en": "Sure! How Can I Assist You Today?",
-            "title_it": "Certamente! Come Posso Aiutarti Oggi?"
+            "title_it": "Certamente! Come Posso Aiutarti Oggi?",
+            "category": "Vss_daily",
+            "tags": [
+                "longform",
+                "sad",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "miss_fortune.json",
             "title_en": "Miss Fortune",
-            "title_it": "Sfortuna Signorina"
+            "title_it": "Sfortuna Signorina",
+            "category": "Short_form",
+            "tags": [
+                "sad",
+                "tender",
+                "longing",
+                "loving",
+                "longform"
+            ]
         },
         {
             "filename": "but_a_dream.json",
             "title_en": "But A Dream",
-            "title_it": "Ma Un Sogno"
+            "title_it": "Ma Un Sogno",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "melancholy"
+            ]
         },
         {
             "filename": "the_doe.json",
             "title_en": "The Doe",
-            "title_it": "La Cerva"
+            "title_it": "La Cerva",
+            "category": "Short_form",
+            "tags": [
+                "haiku",
+                "tender",
+                "loving"
+            ]
         },
         {
             "filename": "undertow.json",
             "title_en": "Undertow",
-            "title_it": "Mareggiata"
+            "title_it": "Mareggiata",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "cowtow.json",
             "title_en": "Cowtow",
-            "title_it": "Riverenza"
+            "title_it": "Riverenza",
+            "category": "Haikufeels",
+            "tags": [
+                "micropoem",
+                "dark",
+                "longing"
+            ]
         },
         {
             "filename": "it_doesnt_have_to_make_sense.json",
             "title_en": "It Doesn'T Have To Make Sense",
-            "title_it": "Non Deve Avere Senso"
+            "title_it": "Non Deve Avere Senso",
+            "category": "Short_form",
+            "tags": [
+                "haiku",
+                "sad",
+                "longing",
+                "tender"
+            ]
         },
         {
             "filename": "of_shelter.json",
             "title_en": "Of Shelter",
-            "title_it": "Di Riparo"
+            "title_it": "Di Riparo",
+            "category": "Philosophy",
+            "tags": [
+                "tender",
+                "loving",
+                "longing",
+                "passionate",
+                "vss"
+            ]
         },
         {
             "filename": "tendered_tender.json",
             "title_en": "Tendered Tender",
-            "title_it": "Tenero Tedio"
+            "title_it": "Tenero Tedio",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "longform"
+            ]
         }
     ],
     "20250207": [
         {
             "filename": "population_control.json",
             "title_en": "Population Control",
-            "title_it": "Controllo Della Popolazione"
+            "title_it": "Controllo Della Popolazione",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "a_true_visionary.json",
             "title_en": "A True Visionary",
-            "title_it": "Un Vero Visionario"
+            "title_it": "Un Vero Visionario",
+            "category": "Whimsical",
+            "tags": [
+                "rhyme",
+                "whimsical",
+                "fun"
+            ]
         },
         {
             "filename": "pardon_my_french.json",
             "title_en": "Pardon My French!",
-            "title_it": "Perdono Il Mio Francese!"
+            "title_it": "Perdono Il Mio Francese!",
+            "category": "Social_commentary",
+            "tags": [
+                "dark",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "axels.json",
             "title_en": "Axels",
-            "title_it": "Assi"
+            "title_it": "Assi",
+            "category": "Haikus",
+            "tags": [
+                "haiku",
+                "dark",
+                "whimsical"
+            ]
         },
         {
             "filename": "beautiful_monsters.json",
             "title_en": "Beautiful Monsters",
-            "title_it": "Bellissimi Mostri"
+            "title_it": "Bellissimi Mostri",
+            "category": "Short_form",
+            "tags": [
+                "longform",
+                "dark",
+                "passionate"
+            ]
         },
         {
             "filename": "armed_armistice.json",
             "title_en": "Armed Armistice",
-            "title_it": "Armistizio Armato"
+            "title_it": "Armistizio Armato",
+            "category": "Haikus",
+            "tags": [
+                "shortform",
+                "haiku",
+                "whimsical",
+                "tender"
+            ]
         },
         {
             "filename": "whoops.json",
             "title_en": "Whoops!",
-            "title_it": "Ops!"
+            "title_it": "Ops!",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "monoku"
+            ]
         },
         {
             "filename": "of_singing.json",
             "title_en": "Of Singing",
-            "title_it": "Del Canto"
+            "title_it": "Del Canto",
+            "category": "Philosophy",
+            "tags": [
+                "vss",
+                "shortform"
+            ]
         },
         {
             "filename": "spotless.json",
             "title_en": "Spotless",
-            "title_it": "Immacolato"
+            "title_it": "Immacolato",
+            "category": "Short_form",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "stair_climbs.json",
             "title_en": "Stair Climbs",
-            "title_it": "Salite Di Scale"
+            "title_it": "Salite Di Scale",
+            "category": "Half_baked_prompts",
+            "tags": [
+                "longform",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "donuts_are_messy.json",
             "title_en": "Donuts Are Messy",
-            "title_it": "I Ciambelle Sono Disordinate"
+            "title_it": "I Ciambelle Sono Disordinate",
+            "category": "Whimsical",
+            "tags": [
+                "whimsical",
+                "fun",
+                "sad",
+                "rhyme"
+            ]
         },
         {
             "filename": "prompted_by_weather.json",
             "title_en": "Prompted By Weather",
-            "title_it": "Ispirato Dal Tempo"
+            "title_it": "Ispirato Dal Tempo",
+            "category": "Vss_daily",
+            "tags": [
+                "rhyme",
+                "whimsical",
+                "fun",
+                "longform"
+            ]
         },
         {
             "filename": "better_not_be_thoreau.json",
             "title_en": "Better Not Be Thoreau",
-            "title_it": "Meglio Non Essere Thoreau"
+            "title_it": "Meglio Non Essere Thoreau",
+            "category": "Vss_daily",
+            "tags": [
+                "dark",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "beautiful_inability.json",
             "title_en": "Beautiful Inability",
-            "title_it": "Bella Incapacità"
+            "title_it": "Bella Incapacità",
+            "category": "Micropoems",
+            "tags": [
+                "sad",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "barren_bears.json",
             "title_en": "Barren Bears",
-            "title_it": "Orsi Sterili"
+            "title_it": "Orsi Sterili",
+            "category": "Haikus",
+            "tags": [
+                "vss",
+                "sad",
+                "tender",
+                "longing"
+            ]
         }
     ],
     "20241207": [
         {
             "filename": "gratitude.json",
             "title_en": "Gratitude",
-            "title_it": "Gratitudine"
+            "title_it": "Gratitudine",
+            "category": "Spectral",
+            "tags": [
+                "sad",
+                "melancholy",
+                "loving",
+                "longing",
+                "tender"
+            ]
         }
     ],
     "20241010": [
         {
             "filename": "la_lupa_astuta.json",
             "title_en": "La Lupa Astuta",
-            "title_it": "La Lupa Astuta"
+            "title_it": "La Lupa Astuta",
+            "category": "Lupa",
+            "tags": [
+                "longform",
+                "passionate",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241209": [
         {
             "filename": "above_the_abyss.json",
             "title_en": "Above The Abyss",
-            "title_it": "Sopra L'Abisso"
+            "title_it": "Sopra L'Abisso",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "passionate",
+                "dark",
+                "longing",
+                "melancholy"
+            ]
         }
     ],
     "20241231": [
         {
             "filename": "new_years_wish.json",
             "title_en": "New Year'S Wish",
-            "title_it": "Augurio Di Anno Nuovo"
+            "title_it": "Augurio Di Anno Nuovo",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "loving",
+                "melancholy",
+                "passionate"
+            ]
         },
         {
             "filename": "heroes.json",
             "title_en": "Heroes",
-            "title_it": "Eroi"
+            "title_it": "Eroi",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "tender",
+                "passionate"
+            ]
         },
         {
             "filename": "rubbish.json",
             "title_en": "Rubbish",
-            "title_it": "Rifiuti"
+            "title_it": "Rifiuti",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy"
+            ]
         },
         {
             "filename": "crayola.json",
             "title_en": "Crayola",
-            "title_it": "Crayola"
+            "title_it": "Crayola",
+            "category": "Throwetry",
+            "tags": [
+                "sad",
+                "happy",
+                "loving",
+                "longing",
+                "tender"
+            ]
         }
     ],
     "20250122": [
         {
             "filename": "uncut.json",
             "title_en": "Uncut",
-            "title_it": "Intatto"
+            "title_it": "Intatto",
+            "category": "Haikus",
+            "tags": [
+                "shortform",
+                "haiku",
+                "sad"
+            ]
         },
         {
             "filename": "robbed_of_identity.json",
             "title_en": "Robbed Of Identity",
-            "title_it": "Privato Dell'Identità"
+            "title_it": "Privato Dell'Identità",
+            "category": "Social_commentary",
+            "tags": [
+                "sad",
+                "dark",
+                "longing",
+                "longform"
+            ]
         },
         {
             "filename": "reason_is_losing.json",
             "title_en": "Reason Is Losing",
-            "title_it": "La Ragione Sta Perdendo"
+            "title_it": "La Ragione Sta Perdendo",
+            "category": "Social_commentary",
+            "tags": [
+                "dark",
+                "melancholy",
+                "vss",
+                "longform"
+            ]
         }
     ],
     "20250114": [
         {
             "filename": "lithic_conservator.json",
             "title_en": "Lithic Conservator",
-            "title_it": "Conservatore Litico"
+            "title_it": "Conservatore Litico",
+            "category": "Science",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy"
+            ]
         },
         {
             "filename": "untested_hypothesis.json",
             "title_en": "Untested Hypothesis",
-            "title_it": "Ipotesi Non Testata"
+            "title_it": "Ipotesi Non Testata",
+            "category": "Science",
+            "tags": [
+                "longform",
+                "sad",
+                "loving"
+            ]
         }
     ],
     "20250113": [
         {
             "filename": "piercing.json",
             "title_en": "Piercing",
-            "title_it": "Trafiggente"
+            "title_it": "Trafiggente",
+            "category": "Bluesky",
+            "tags": [
+                "sad",
+                "dark",
+                "melancholy",
+                "longform"
+            ]
         },
         {
             "filename": "you_dont_know_me_but.json",
             "title_en": "You Don'T Know Me, But",
-            "title_it": "Non Mi Conosci, Ma"
+            "title_it": "Non Mi Conosci, Ma",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "tender",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "miles_afloat.json",
             "title_en": "Miles Afloat",
-            "title_it": "Miglia Alla Deriva"
+            "title_it": "Miglia Alla Deriva",
+            "category": "Bluesky",
+            "tags": [
+                "vss",
+                "sad",
+                "longing"
+            ]
         },
         {
             "filename": "cardiac_condition.json",
             "title_en": "Cardiac Condition",
-            "title_it": "Condizione Cardiaca"
+            "title_it": "Condizione Cardiaca",
+            "category": "Whimsical",
+            "tags": [
+                "fun",
+                "whimsical",
+                "tender"
+            ]
         },
         {
             "filename": "last_bastion.json",
             "title_en": "Last Bastion",
-            "title_it": "Ultimo Bastione"
+            "title_it": "Ultimo Bastione",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "figurative_greetings.json",
             "title_en": "Figurative Greetings",
-            "title_it": "Saluti Figurativi"
+            "title_it": "Saluti Figurativi",
+            "category": "Bluesky",
+            "tags": [
+                "longform",
+                "tender"
+            ]
         }
     ],
     "20241230": [
         {
             "filename": "soup_for_the_soul.json",
             "title_en": "Soup For The Soul",
-            "title_it": "Zuppa Per L'Anima"
+            "title_it": "Zuppa Per L'Anima",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy"
+            ]
         },
         {
             "filename": "odd_man_out.json",
             "title_en": "Odd Man Out",
-            "title_it": "Uomo Fuori Posto"
+            "title_it": "Uomo Fuori Posto",
+            "category": "Throwetry",
+            "tags": [
+                "vss",
+                "shortform",
+                "whimsical"
+            ]
         },
         {
             "filename": "reflection.json",
             "title_en": "Reflection",
-            "title_it": "Riflessione"
+            "title_it": "Riflessione",
+            "category": "Throwetry",
+            "tags": [
+                "sad",
+                "melancholy",
+                "longing",
+                "dark"
+            ]
         }
     ],
     "20241208": [
         {
             "filename": "into_the_abyss.json",
             "title_en": "Into The Abyss",
-            "title_it": "Nell'Abisso"
+            "title_it": "Nell'Abisso",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "passionate"
+            ]
         }
     ],
     "20241201": [
         {
             "filename": "you_are_my_sky.json",
             "title_en": "You Are My Sky",
-            "title_it": "Tu Sei Il Mio Cielo"
+            "title_it": "Tu Sei Il Mio Cielo",
+            "category": "Personal",
+            "tags": [
+                "longform",
+                "loving",
+                "tender",
+                "passionate"
+            ]
         },
         {
             "filename": "a_tapestry_for_calliope.json",
             "title_en": "A Tapestry For Calliope",
-            "title_it": "Un Arazzo Per Calliope"
+            "title_it": "Un Arazzo Per Calliope",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "melancholy",
+                "loving",
+                "passionate"
+            ]
         },
         {
             "filename": "tucked_away.json",
             "title_en": "Tucked Away",
-            "title_it": "Nascosto"
+            "title_it": "Nascosto",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "loving",
+                "melancholy",
+                "longing"
+            ]
         },
         {
             "filename": "obsolescence.json",
             "title_en": "Obsolescence",
-            "title_it": "Obsolescenza"
+            "title_it": "Obsolescenza",
+            "category": "Throwetry",
+            "tags": [
+                "longform",
+                "dark",
+                "sad"
+            ]
         }
     ],
     "20241206": [
         {
             "filename": "resurgence.json",
             "title_en": "Resurgence",
-            "title_it": "Rinascita"
+            "title_it": "Rinascita",
+            "category": "Spectral",
+            "tags": [
+                "longform",
+                "sad",
+                "melancholy",
+                "loving",
+                "longing"
+            ]
         },
         {
             "filename": "la_lupa_e_la_brama.json",
             "title_en": "La Lupa E La Brama",
-            "title_it": "La Lupa E La Brama"
+            "title_it": "La Lupa E La Brama",
+            "category": "Lupa",
+            "tags": [
+                "longform",
+                "dark",
+                "melancholy",
+                "longing",
+                "passionate"
+            ]
         },
         {
             "filename": "red_on_white.json",
             "title_en": "Red On White",
-            "title_it": "Rosso Sul Bianco"
+            "title_it": "Rosso Sul Bianco",
+            "category": "Dark",
+            "tags": [
+                "longform",
+                "sad",
+                "dark",
+                "loving",
+                "passionate"
+            ]
         }
     ]
 }

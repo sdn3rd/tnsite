@@ -191,8 +191,9 @@ body.menu-open .side-menu {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Desktop: icon + text side by side */
     align-items: center;
+    justify-content: center;
     padding: 10px 0;
     border-radius: 5px;
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
@@ -215,6 +216,23 @@ body.menu-open .side-menu {
     font-size: 1em;
     white-space: nowrap;
     font-weight: 500;
+}
+
+/* Mobile: put text below icon and scale down */
+@media (max-width: 768px) {
+    .side-menu a {
+        flex-direction: column; /* icon above, text below */
+    }
+    .side-menu-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 0;
+    }
+    .menu-text {
+        margin-top: 5px;
+        font-size: 0.8em;
+        white-space: normal;
+    }
 }
 
 /* ------------------------------------------------------------------
@@ -256,8 +274,8 @@ body.menu-open .side-menu {
    CALENDAR STYLES
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 20px auto;
-  max-width: 600px; /* Keep max-width if you like to limit horizontal size */
+  margin: 30px auto; /* was 20px; +10px per your request */
+  max-width: 600px; 
   padding: 20px;
   border: 1px solid var(--line-color);
   width: 100%;
