@@ -98,6 +98,31 @@ body {
 }
 
 /* ------------------------------------------------------------------
+   POETRY CATEGORIES (TOP BAR, to the right of Hamburger)
+   Show/hide programmatically
+------------------------------------------------------------------ */
+#poetry-categories {
+    position: fixed;
+    top: 10px;
+    left: 70px; /* So it doesn't overlap with hamburger (adjust as needed) */
+    z-index: 1006;
+    display: none; /* hidden by default; shown only in poetry mode */
+    gap: 10px;
+}
+
+#poetry-categories .category-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: transform var(--transition-speed) ease;
+}
+
+#poetry-categories .category-icon:hover {
+    transform: scale(1.1);
+}
+
+/* ------------------------------------------------------------------
    LANGUAGE TOGGLE (TOP-RIGHT)
 ------------------------------------------------------------------ */
 #language-toggle {
@@ -184,6 +209,14 @@ body.menu-open .side-menu {
     font-size: 1em;
     white-space: nowrap;
     font-weight: 500;
+    margin-left: 8px;
+}
+
+/* Icons in side menu */
+.menu-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
 }
 
 /* ------------------------------------------------------------------
@@ -243,13 +276,8 @@ body.menu-open .side-menu {
 .calendar-table th,
 .calendar-table td {
   border: 1px solid var(--line-color);
-  padding: 0.8em 0.5em; /* Increased vertical padding (top/bottom) */
-  /* padding: 1em 0.5em; /* Even more vertical padding - try this if 0.8em isn't enough */
-  /* line-height: 1.4em; /* Optional: if text is too close to borders */
-}
-
-.calendar-weekdays th {
-  font-weight: normal;
+  padding: 0.8em 0.5em; /* vertical x horizontal */
+  text-align: center;
 }
 
 /* ------------------------------------------------------------------
@@ -275,9 +303,7 @@ body.menu-open .side-menu {
   opacity: 1;
 }
 
-/* Container for the wheel in the center
-   IMPORTANT for mobile: 'touch-action: none;' so pointer events
-   can fully handle swipes without the browser trying to scroll. */
+/* Container for the wheel in the center */
 #wheel-inner {
   position: absolute;
   top: 50%;
@@ -290,7 +316,7 @@ body.menu-open .side-menu {
   background: var(--background-color);
   overflow: hidden;
   border: 1px solid var(--line-color);
-  touch-action: none; /* THIS is crucial for mobile drags */
+  touch-action: none; /* crucial for mobile drags */
 }
 
 /* Track that scrolls vertically */
@@ -299,16 +325,15 @@ body.menu-open .side-menu {
   top: 0;
   left: 0;
   width: 100%;
-  /* We'll do smooth transitions for snapping */
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease; /* For snapping */
 }
 
 /* Styles for each poem item in the wheel */
 .wheel-item {
-  display: block; /* stacked vertically */
+  display: block;
   width: 100%;
   height: var(--wheel-item-height);
-  line-height: var(--wheel-item-height); /* center text vertically */
+  line-height: var(--wheel-item-height);
   text-align: center;
   border-bottom: 1px solid var(--line-color);
   cursor: pointer;

@@ -18,14 +18,33 @@
     <img src="icons/menu.png" alt="Menu"/>
   </div>
 
+  <!-- Poetry Categories (hidden by default, shown only if user is in "Poetry" section) -->
+  <div id="poetry-categories">
+    <img src="icons/spectral.png" alt="Spectral" data-category="spectral" class="category-icon" />
+    <img src="icons/lupa.png" alt="Lupa" data-category="lupa" class="category-icon" />
+    <img src="icons/calliope.png" alt="Calliope" data-category="calliope" class="category-icon" />
+    <img src="icons/strands.png" alt="Strands" data-category="strands" class="category-icon" />
+    <img src="icons/experiments.png" alt="Experiments" data-category="experiments" class="category-icon" />
+  </div>
+
   <!-- Language Toggle Button -->
   <div id="language-toggle" tabindex="0">ENG</div>
 
   <!-- Side Menu -->
   <nav class="side-menu" id="side-menu">
     <ul>
-      <li><a href="#" data-section="about">About</a></li>
-      <li><a href="#" data-section="poetry">Poetry</a></li>
+      <li>
+        <a href="#" data-section="about">
+          <img src="icons/about.png" alt="About" class="menu-icon"/>
+          <span class="menu-text">About</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-section="poetry">
+          <img src="icons/poetry.png" alt="Poetry" class="menu-icon"/>
+          <span class="menu-text">Poetry</span>
+        </a>
+      </li>
     </ul>
   </nav>
 

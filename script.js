@@ -10,9 +10,11 @@ let guiData = null;
 
 /**
  * For the poem index
- * The new file is "poetry/index.json".
+ * The file is "poetry/index.json".
  * Keys: date in YYYYMMDD form (e.g. "20241211")
  * Value: array of poem metadata objects
+ *    each poem metadata can have fields like:
+ *      { filename, title_en, title_it, category, ... }
  */
 let poemIndex = {}; // Will hold data from poetry/index.json
 
@@ -31,7 +33,7 @@ const today = new Date();
 /**
  * For the infinite vertical spinner with fling
  */
-let poemsForWheel = [];          // Array of poem metadata for a given date
+let poemsForWheel = [];          // Array of poem metadata for a given selection
 const WHEEL_REPEAT_COUNT = 7;    // Replicate items for smooth looping
 const WHEEL_ITEM_HEIGHT = 60;    // px, must match CSS
 let wheelTrackOffsetY = 0;       // Track's vertical offset
@@ -62,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initializePage();
   setupSideMenu();
   setupLanguageToggle();
+  setupCategoryIcons(); // for the top bar icons
 });
 
 /* ------------------------------------------------------------------
@@ -263,6 +266,7 @@ function updateLanguageToggle() {
    ABOUT SECTION
 ------------------------------------------------------------------ */
 function loadAboutSection() {
+  hidePoetryCategories(); // Hide top category icons
   const main = document.getElementById("main-content");
   if (!main) return;
   main.innerHTML = `<div>${t("aboutSection") || "<p>About content here.</p>"}</div>`;
@@ -272,6 +276,7 @@ function loadAboutSection() {
    POETRY SECTION => CALENDAR
 ------------------------------------------------------------------ */
 function loadPoetrySection() {
+  showPoetryCategories(); // Show top category icons
   const main = document.getElementById("main-content");
   if (!main) return;
   main.innerHTML = "";
@@ -435,8 +440,7 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS => SHOW INFINITE WHEEL (OR single poem)
-   Using poemIndex => each dateKey has array of metadata objects
+   LOAD POEMS (BY DATE)
 ------------------------------------------------------------------ */
 async function loadPoemsByDate(dateStr) {
   // dateStr = "YYYY-MM-DD"
@@ -474,9 +478,44 @@ async function loadPoemsByDate(dateStr) {
   showInfiniteWheelOverlay();
 }
 
-/**
- * Fetch the poem's full JSON *on demand*, display in overlay
- */
+/* ------------------------------------------------------------------
+   LOAD POEMS BY CATEGORY (for the top icons)
+------------------------------------------------------------------ */
+function loadPoemsByCategory(category) {
+  console.log("loadPoemsByCategory:", category);
+
+  // We'll gather all poems in poemIndex that match the given category
+  let allMetadata = [];
+  for (const dateKey in poemIndex) {
+    if (!Array.isArray(poemIndex[dateKey])) continue;
+    // Filter by matching category (if present)
+    const found = poemIndex[dateKey].filter(md => md.category === category);
+    // Append folderName for each
+    found.forEach(md => {
+      md._folderName = dateKey; // e.g. "20241211"
+    });
+    allMetadata.push(...found);
+  }
+
+  if (allMetadata.length === 0) {
+    alert(`No poems found for category: ${category}`);
+    return;
+  }
+
+  // If only one poem => fetch & show
+  if (allMetadata.length === 1) {
+    fetchAndDisplayPoem(allMetadata[0]._folderName, allMetadata[0]);
+    return;
+  }
+
+  // Otherwise => show them in the wheel
+  poemsForWheel = allMetadata;
+  showInfiniteWheelOverlay();
+}
+
+/* ------------------------------------------------------------------
+   FETCH & DISPLAY SINGLE POEM
+------------------------------------------------------------------ */
 async function fetchAndDisplayPoem(folderName, poemMeta) {
   const poemUrl = `poetry/${folderName}/${poemMeta.filename}`;
   console.log("Fetching poem:", poemUrl);
@@ -508,7 +547,6 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
 
 /* ------------------------------------------------------------------
    INFINITE WHEEL (MARQUEE) + FLING
-   Build from the metadata. Do NOT fetch poems up front.
 ------------------------------------------------------------------ */
 function showInfiniteWheelOverlay() {
   let overlay = document.getElementById("poem-wheel-overlay");
@@ -558,7 +596,7 @@ function showInfiniteWheelOverlay() {
     wheelTrack.appendChild(item);
   });
 
-  // Re-bind pointer events (avoid double-binding)
+  // Re-bind pointer events
   const newWheelTrack = wheelTrack.cloneNode(true);
   wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
 
@@ -582,15 +620,8 @@ function showInfiniteWheelOverlay() {
   }, 50);
 }
 
-/**
- * Build an extended repeated list for smooth looping.
- * We'll pick the language-specific "displayTitle" from the metadata.
- */
 function buildInfiniteList(poemsMetadata, repeatCount) {
-  // Each metadata in poemsMetadata has: { filename, title_en, title_it, _folderName, etc. }
-  // We'll store a final object with { folderName, filename, displayTitle }
-
-  // Precompute the displayTitle for each
+  // Precompute displayTitle for each
   poemsMetadata.forEach(p => {
     p._displayTitle = (currentLanguage === "en")
       ? (p.title_en || "Untitled")
@@ -765,10 +796,6 @@ function onWheelPointerUp(e) {
   flingVelocity = 0;
 }
 
-/**
- * Called when user taps the center item in the wheel
- * => fetch the actual poem JSON and display it
- */
 function openPoemFromCenterItem(itemEl) {
   const folderName = itemEl.dataset.folderName;
   const filename = itemEl.dataset.filename;
@@ -895,4 +922,37 @@ function showReadingOverlay(title, text) {
 
   overlay.style.display = "flex";
   setTimeout(() => overlay.classList.add("show"), 50);
+}
+
+/* ------------------------------------------------------------------
+   CATEGORY ICON SETUP (TOP BAR)
+------------------------------------------------------------------ */
+function setupCategoryIcons() {
+  const catContainer = document.getElementById("poetry-categories");
+  if (!catContainer) return;
+
+  // Attach click for each .category-icon
+  const icons = catContainer.querySelectorAll(".category-icon");
+  icons.forEach(icon => {
+    icon.addEventListener("click", () => {
+      const category = icon.getAttribute("data-category");
+      if (category) {
+        loadPoemsByCategory(category);
+      }
+    });
+  });
+}
+
+function showPoetryCategories() {
+  const catContainer = document.getElementById("poetry-categories");
+  if (catContainer) {
+    catContainer.style.display = "flex";
+  }
+}
+
+function hidePoetryCategories() {
+  const catContainer = document.getElementById("poetry-categories");
+  if (catContainer) {
+    catContainer.style.display = "none";
+  }
 }
