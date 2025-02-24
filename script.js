@@ -285,7 +285,7 @@ function toggleLanguage() {
 function updateLanguageToggle() {
   const langToggle = document.getElementById("language-toggle");
   if (!langToggle) return;
-  langToggle.textContent = (currentLanguage === "en") ? "ENG" : "ITA";
+  langToggle.textContent = (currentLanguage === "en") ? "ITA" : "ENG";
 }
 
 /* ------------------------------------------------------------------
