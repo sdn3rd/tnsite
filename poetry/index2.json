@@ -1,121 +1,99 @@
 {
-    "20241014": [
+    "20241023": [
         {
-            "filename": "calliope.json",
-            "title_en": "Calliope.",
-            "title_it": "Calliope",
-            "category": "Calliope",
+            "filename": "pi_di_un_lupa.json",
+            "title_en": "Più Di Un Lupa",
+            "title_it": "Più Di Un Lupa",
+            "category": "Lupa",
             "tags": [
                 "longform",
-                "tender",
-                "loving",
-                "passionate",
-                "whimsical"
-            ]
-        }
-    ],
-    "20241127": [
-        {
-            "filename": "monuments_to_calliope.json",
-            "title_en": "Monuments To Calliope.",
-            "title_it": "Monumenti A Calliope",
-            "category": "Calliope",
-            "tags": [
-                "longform",
+                "dark",
                 "melancholy",
                 "passionate"
             ]
         }
     ],
-    "20241119": [
+    "20241121": [
         {
-            "filename": "calliopes_resonance.json",
-            "title_en": "Calliope'S Resonance.",
-            "title_it": "Calliope'S Resonance",
-            "category": "Calliope",
+            "filename": "il_lamento_della_lupa.json",
+            "title_en": "Il Lamento Della Lupa",
+            "title_it": "Il Lamento Della Lupa",
+            "category": "Lupa",
             "tags": [
-                "longform",
+                "sad",
+                "longing",
                 "melancholy",
-                "loving"
+                "dark"
             ]
         }
     ],
     "20241107": [
         {
-            "filename": "calls_to_calliope.json",
-            "title_en": "Calls To Calliope.",
-            "title_it": "Calls To Calliope",
-            "category": "Calliope",
+            "filename": "consumato_dalla_lupa.json",
+            "title_en": "Consumato Dalla Lupa",
+            "title_it": "Consumato Dalla Lupa",
+            "category": "Lupa",
             "tags": [
-                "longform",
-                "loving",
-                "passionate",
-                "melancholy"
-            ]
-        },
-        {
-            "filename": "calliope_dissected.json",
-            "title_en": "Calliope Dissected.",
-            "title_it": "Calliope Dissected",
-            "category": "Calliope",
-            "tags": [
-                "longform",
-                "melancholy"
+                "dark",
+                "sad",
+                "melancholy",
+                "passionate"
             ]
         }
     ],
     "20241108": [
         {
-            "filename": "of_calliopes_mind.json",
-            "title_en": "Of Calliope'S Mind.",
-            "title_it": "Of Calliope'S Mind",
-            "category": "Calliope",
+            "filename": "la_lupa_del_rituale.json",
+            "title_en": "La Lupa Del Rituale",
+            "title_it": "La Lupa Del Rituale",
+            "category": "Lupa",
             "tags": [
-                "longform",
-                "loving",
-                "passionate",
-                "melancholy"
+                "dark",
+                "melancholy",
+                "longing"
             ]
         }
     ],
     "20241106": [
         {
-            "filename": "calliopes_echo.json",
-            "title_en": "Calliope'S Echo.",
-            "title_it": "Caliope'S Echo",
-            "category": "Calliope",
+            "filename": "la_lupa_si_aggira.json",
+            "title_en": "La Lupa Si Aggira",
+            "title_it": "La Lupa Si Aggira",
+            "category": "Lupa",
+            "tags": [
+                "dark",
+                "sad",
+                "longing",
+                "melancholy",
+                "longform"
+            ]
+        }
+    ],
+    "20240910": [
+        {
+            "filename": "la_lupa_astuta.json",
+            "title_en": "La Lupa Astuta",
+            "title_it": "La Lupa Astuta",
+            "category": "Lupa",
             "tags": [
                 "longform",
+                "dark",
                 "melancholy",
-                "loving",
                 "passionate"
             ]
         }
     ],
-    "20241112": [
+    "20241206": [
         {
-            "filename": "for_calliope.json",
-            "title_en": "For Calliope.",
-            "title_it": "Per Calliope",
-            "category": "Calliope",
+            "filename": "la_lupa_e_la_brama.json",
+            "title_en": "La Lupa E La Brama",
+            "title_it": "La Lupa E La Brama",
+            "category": "Lupa",
             "tags": [
                 "longform",
-                "sad",
-                "loving",
-                "melancholy"
-            ]
-        }
-    ],
-    "20241201": [
-        {
-            "filename": "a_tapestry_for_calliope.json",
-            "title_en": "A Tapestry For Calliope.",
-            "title_it": "Un Arazzo Per Calliope",
-            "category": "Calliope",
-            "tags": [
-                "longform",
+                "dark",
                 "melancholy",
-                "loving",
+                "longing",
                 "passionate"
             ]
         }
