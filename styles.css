@@ -106,7 +106,7 @@ body {
     left: 70px; /* space after hamburger icon */
     z-index: 1006;
     display: none; /* show only in Poetry section */
-    gap: 10px;
+    gap: 5px;
 }
 
 #poetry-icons img {
