@@ -526,7 +526,8 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
-   - Trademark and social icons centered
+   - Social icons (Bluesky, Instagram) left-justified
+   - Trademark centered
    - ITA button right-justified
 ------------------------------------------------------------------ */
 #main-footer {
@@ -539,26 +540,29 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Changed to space-between to allow right alignment */
+    justify-content: space-between;
     z-index: 1004;
-    padding: 0 20px 5px 20px; /* Added horizontal padding */
+    padding: 0 20px 5px 20px;
 }
 
-/* New container for centered elements */
+/* Left section for social media icons */
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Center section for trademark */
 .footer-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    flex-grow: 1; /* Allow it to take available space */
 }
 
-/* Empty div to balance the space on the left if needed */
-.footer-left {
-    width: 50px; /* Approximate width to balance the right element */
-}
-
-/* Container for right-aligned element(s) */
+/* Right section for ITA button */
 .footer-right {
     display: flex;
     align-items: center;
@@ -578,7 +582,6 @@ body.menu-open .side-menu {
 
 #main-footer span {
     font-size: 0.9rem;
-    margin-left: 10px;
 }
 
 /* Mobile tweaks for footer */
@@ -588,10 +591,12 @@ body.menu-open .side-menu {
     }
     
     .footer-left {
-        width: 30px; /* Smaller width on mobile */
+        gap: 10px; /* Smaller gap between social icons on mobile */
     }
     
+    /* Ensure trademark stays centered on small screens */
     .footer-center {
-        gap: 15px; /* Smaller gap between icons on mobile */
+        width: auto;
+        text-align: center;
     }
 }
