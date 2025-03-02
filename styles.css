@@ -19,7 +19,7 @@
     /* Desktop side menu width */
     --side-menu-width-desktop: 15%;
 
-    /* Narrower side menu on mobile (aligned to hamburger size) */
+    /* Narrow side menu on mobile (aligned to hamburger width) */
     --side-menu-width-mobile: 50px;
 
     --section-text-align-desktop: left;
@@ -74,7 +74,7 @@ body {
 
 /* ------------------------------------------------------------------
    HAMBURGER MENU (TOP-LEFT)
-   - Align top: 20px so it matches the other icons
+   - Align top: 20px so it matches the other top icons
 ------------------------------------------------------------------ */
 #menu-icon-container {
     position: fixed;
@@ -98,33 +98,57 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   POETRY ICONS (TOP, NEXT TO HAMBURGER)
-   - Also top: 20px, so they line up horizontally
+   POETRY ICONS
+   - Centered on DESKTOP, bigger than hamburger, grow on hover
+   - On MOBILE, revert to old position (next to hamburger, smaller)
 ------------------------------------------------------------------ */
 #poetry-icons {
     position: fixed;
     top: 20px;
-    left: 70px; /* space after hamburger icon */
     z-index: 1006;
-    display: none; /* show only in Poetry section */
+    display: none; /* shown only in Poetry section by script */
     gap: 5px;
 }
 
-#poetry-icons img {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    margin-right: 8px;
-    transition: transform var(--transition-speed) ease, opacity var(--transition-speed) ease;
+/* Desktop: horizontally center at the top, bigger icons, scale on hover */
+@media (min-width: 769px) {
+    #poetry-icons {
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+    }
+    #poetry-icons img {
+        width: 60px;
+        height: 60px;
+        transition: transform var(--transition-speed) ease, opacity var(--transition-speed) ease;
+    }
+    #poetry-icons img:hover {
+        transform: scale(1.2);
+        opacity: 0.9;
+    }
 }
 
-#poetry-icons img:hover {
-    transform: scale(1.1);
-    opacity: 0.9;
+/* Mobile: place next to hamburger, smaller icons (40x40) */
+@media (max-width: 768px) {
+    #poetry-icons {
+        display: flex;
+        left: 70px; /* old offset next to hamburger */
+        transform: none;
+    }
+    #poetry-icons img {
+        width: 40px;
+        height: 40px;
+        transition: transform var(--transition-speed) ease, opacity var(--transition-speed) ease;
+    }
+    #poetry-icons img:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
 }
 
 /* ------------------------------------------------------------------
    LANGUAGE TOGGLE (BOTTOM-RIGHT)
+   - Remains fixed, separate from footer, so that footer can center
 ------------------------------------------------------------------ */
 #language-toggle {
     position: fixed;
@@ -152,8 +176,8 @@ body {
 
 /* ------------------------------------------------------------------
    SIDE MENU
-   - On mobile (max-width: 768px), we use side-menu-width-mobile: 50px.
-   - We'll apply a "Mac bar" type effect on desktop hover, with bigger icons.
+   - On mobile (max-width: 768px), uses side-menu-width-mobile: 50px.
+   - No "Mac bar" effect here (unchanged).
 ------------------------------------------------------------------ */
 .side-menu {
     position: fixed;
@@ -196,7 +220,7 @@ body.menu-open .side-menu {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center; /* horizontally center on desktop by default */
+    justify-content: center;
     padding: 10px 0;
     border-radius: 5px;
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
@@ -206,14 +230,13 @@ body.menu-open .side-menu {
 
 .side-menu a:hover {
     background-color: var(--highlight-color);
-    /* We'll do the 'Mac bar' icon growth in a separate rule below */
 }
 
 .side-menu-icon {
     width: 32px;
     height: 32px;
     margin-right: 8px;
-    transition: transform var(--transition-speed) ease; /* for scaling */
+    transition: transform var(--transition-speed) ease;
 }
 
 .menu-text {
@@ -222,32 +245,18 @@ body.menu-open .side-menu {
     font-weight: 500;
 }
 
-/* Mac Bar Hover & Larger Icons on Desktop Only */
-@media (min-width: 769px) {
-    /* Increase icon size so they're bigger than hamburger (50px) */
-    .side-menu-icon {
-        width: 60px;
-        height: 60px;
-    }
-    /* On hover, scale them further like a Mac bar */
-    .side-menu a:hover .side-menu-icon {
-        transform: scale(1.2);
-    }
-}
-
-/* Mobile adjustments to keep side menu from going further
-   than the hamburger's width, and to center icons in that column. */
+/* Mobile side menu */
 @media (max-width: 768px) {
     .side-menu {
         width: var(--side-menu-width-mobile); /* 50px */
         padding-left: 0;
-        padding-top: 70px; /* so the top item isn't hidden behind hamburger */
+        padding-top: 70px; /* so top item isn't behind hamburger */
     }
     .side-menu a {
         flex-direction: column;
     }
     .side-menu-icon {
-        margin: 0 auto 5px auto; /* center the icon, small gap below */
+        margin: 0 auto 5px auto; /* center icon */
     }
     .menu-text {
         margin-top: 0;
@@ -510,9 +519,8 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
-   - Ensure footer items are centered horizontally.
-   - We'll wrap them in an optional .footer-content container
-     so that on mobile they remain visually centered.
+   - The icons/text in the footer itself are fully centered.
+   - #language-toggle is fixed at bottom-right, so it doesn't interfere.
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
