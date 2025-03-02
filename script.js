@@ -29,30 +29,9 @@ let calendarMonth = 0; // 0-based
 const today = new Date();
 
 /**
- * For the infinite vertical spinner with fling
+ * For the overlay that lists poem titles
  */
-let poemsForWheel = [];
-const WHEEL_REPEAT_COUNT = 7;
-const WHEEL_ITEM_HEIGHT = 60;
-let wheelTrackOffsetY = 0;
-let wheelSnapTimeout = null;
-
-// Pointer/touch detection
-let isPointerDown = false;
-let hasDragged = false;
-let pointerDownX = 0;
-let pointerDownY = 0;
-let startPointerY = 0;
-let pointerDownItem = null;
-const TAP_THRESHOLD = 6;
-const snapEnabled = true;
-
-// Fling velocity
-let lastPointerY = 0;
-let lastMoveTime = 0;
-let flingVelocity = 0;
-const decelerationFactor = 0.95;
-let animationFrameID = null;
+let currentPoemsList = [];
 
 /** On DOM Ready **/
 document.addEventListener("DOMContentLoaded", async () => {
@@ -233,12 +212,12 @@ function closeMenu() {
    Update Side Menu Text from gui.json
 ------------------------------------------------------------------ */
 function updateMenuTexts() {
-    const aboutTextEl = document.getElementById("menu-about-text");
-    const poetryTextEl = document.getElementById("menu-poetry-text");
-    if (aboutTextEl) aboutTextEl.textContent = t("menu.about");
-    if (poetryTextEl) poetryTextEl.textContent = t("menu.poetry");
+  const aboutTextEl = document.getElementById("menu-about-text");
+  const poetryTextEl = document.getElementById("menu-poetry-text");
+  if (aboutTextEl) aboutTextEl.textContent = t("menu.about");
+  if (poetryTextEl) poetryTextEl.textContent = t("menu.poetry");
 }
-  
+
 /* ------------------------------------------------------------------
    LANGUAGE DETECTION & TOGGLE
 ------------------------------------------------------------------ */
@@ -478,7 +457,7 @@ function getDayNames() {
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS BY DATE => Show infinite wheel
+   LOAD POEMS BY DATE => Show list overlay if multiple
 ------------------------------------------------------------------ */
 function loadPoemsByDate(dateStr) {
   const folderName = dateStr.replace(/-/g, "");
@@ -495,21 +474,28 @@ function loadPoemsByDate(dateStr) {
     return;
   }
 
+  // Tag each with the folderName
   poemMetadataArr.forEach(m => {
     m._folderName = folderName;
   });
 
+  // If only one poem, fetch directly; otherwise, show the listing overlay
   if (poemMetadataArr.length === 1) {
     fetchAndDisplayPoem(folderName, poemMetadataArr[0]);
-    return;
+  } else {
+    currentPoemsList = poemMetadataArr.slice();
+    // Build displayTitle for each
+    currentPoemsList.forEach(p => {
+      p._displayTitle = (currentLanguage === "en")
+        ? (p.title_en || "Untitled")
+        : (p.title_it || p.title_en || "Untitled");
+    });
+    showPoemListOverlay();
   }
-
-  poemsForWheel = poemMetadataArr.slice();
-  showInfiniteWheelOverlay();
 }
 
 /* ------------------------------------------------------------------
-   LOAD POEMS BY CATEGORY
+   LOAD POEMS BY CATEGORY => Show list overlay
 ------------------------------------------------------------------ */
 function loadPoemsByCategory(categoryName) {
   console.log("loadPoemsByCategory:", categoryName);
@@ -520,7 +506,10 @@ function loadPoemsByCategory(categoryName) {
     const arr = poemIndex[dateKey];
     if (Array.isArray(arr)) {
       arr.forEach(poemMeta => {
-        if (poemMeta.category && poemMeta.category.toLowerCase() === categoryName.toLowerCase()) {
+        if (
+          poemMeta.category &&
+          poemMeta.category.toLowerCase() === categoryName.toLowerCase()
+        ) {
           poemMeta._folderName = dateKey;
           result.push(poemMeta);
         }
@@ -533,8 +522,14 @@ function loadPoemsByCategory(categoryName) {
     return;
   }
 
-  poemsForWheel = result;
-  showInfiniteWheelOverlay();
+  currentPoemsList = result;
+  // Build displayTitle for each
+  currentPoemsList.forEach(p => {
+    p._displayTitle = (currentLanguage === "en")
+      ? (p.title_en || "Untitled")
+      : (p.title_it || p.title_en || "Untitled");
+  });
+  showPoemListOverlay();
 }
 
 /* ------------------------------------------------------------------
@@ -569,317 +564,48 @@ async function fetchAndDisplayPoem(folderName, poemMeta) {
 }
 
 /* ------------------------------------------------------------------
-   INFINITE WHEEL
+   OVERLAY THAT LISTS POEM TITLES (instead of infinite wheel)
 ------------------------------------------------------------------ */
-function showInfiniteWheelOverlay() {
-  let overlay = document.getElementById("poem-wheel-overlay");
+function showPoemListOverlay() {
+  let overlay = document.getElementById("poem-list-overlay");
   if (!overlay) {
     overlay = document.createElement("div");
-    overlay.id = "poem-wheel-overlay";
+    overlay.id = "poem-list-overlay";
     overlay.innerHTML = `
-      <button id="wheel-close-btn">×</button>
-      <div id="wheel-inner">
-        <div id="wheel-track"></div>
-      </div>
+      <button id="poem-list-close-btn">×</button>
+      <div id="poem-list-container"></div>
     `;
     document.body.appendChild(overlay);
   }
 
-  overlay.addEventListener("click", e => e.stopPropagation());
-
-  const closeBtn = overlay.querySelector("#wheel-close-btn");
-  closeBtn.onclick = () => {
-    overlay.classList.remove("show");
-    clearTimeout(wheelSnapTimeout);
-    stopFlingAnimation();
-    setTimeout(() => {
-      overlay.style.display = "none";
-      wheelTrackOffsetY = 0;
-      flingVelocity = 0;
-    }, 400);
-  };
-
-  const extendedPoems = buildInfiniteList(poemsForWheel, WHEEL_REPEAT_COUNT);
-  const wheelTrack = overlay.querySelector("#wheel-track");
-  wheelTrack.innerHTML = "";
-  wheelTrack.style.transform = "translateY(0px)";
-  wheelTrackOffsetY = 0;
-  flingVelocity = 0;
-
-  extendedPoems.forEach((info, idx) => {
-    const item = document.createElement("div");
-    item.classList.add("wheel-item");
-    item.dataset.index = String(idx);
-    item.dataset.folderName = info.folderName;
-    item.dataset.filename = info.filename;
-    item.textContent = info.displayTitle;
-    wheelTrack.appendChild(item);
-  });
-
-  const newWheelTrack = wheelTrack.cloneNode(true);
-  wheelTrack.parentNode.replaceChild(newWheelTrack, wheelTrack);
-
-  newWheelTrack.addEventListener("pointerdown", onWheelPointerDown);
-  newWheelTrack.addEventListener("pointermove", onWheelPointerMove);
-  newWheelTrack.addEventListener("pointerup", onWheelPointerUp);
-  newWheelTrack.addEventListener("pointercancel", onWheelPointerUp);
-  newWheelTrack.addEventListener("pointerleave", onWheelPointerUp);
-  newWheelTrack.style.userSelect = "none";
-
-  const wheelInner = overlay.querySelector("#wheel-inner");
-  wheelInner.addEventListener("wheel", onMouseWheelScroll, { passive: false });
-
+  // Show the overlay
   overlay.style.display = "block";
   setTimeout(() => {
     overlay.classList.add("show");
-    centerScrollAtMiddle(newWheelTrack, extendedPoems.length);
-    updateWheelLayout(newWheelTrack, extendedPoems.length);
   }, 50);
-}
 
-function buildInfiniteList(poemsMetadata, repeatCount) {
-  poemsMetadata.forEach(p => {
-    p._displayTitle = (currentLanguage === "en")
-      ? (p.title_en || "Untitled")
-      : (p.title_it || p.title_en || "Untitled");
-  });
-  const out = [];
-  for (let r = 0; r < repeatCount; r++) {
-    poemsMetadata.forEach(p => {
-      out.push({
-        folderName: p._folderName,
-        filename: p.filename,
-        displayTitle: p._displayTitle
-      });
+  // Populate the container with poem titles
+  const container = overlay.querySelector("#poem-list-container");
+  container.innerHTML = "";
+
+  currentPoemsList.forEach(poemMeta => {
+    const item = document.createElement("div");
+    item.classList.add("poem-list-item");
+    item.textContent = poemMeta._displayTitle;
+    item.addEventListener("click", () => {
+      fetchAndDisplayPoem(poemMeta._folderName, poemMeta);
     });
-  }
-  return out;
-}
-
-function centerScrollAtMiddle(wheelTrack, totalCount) {
-  const middleIndex = Math.floor(totalCount / 2);
-  wheelTrackOffsetY = -middleIndex * WHEEL_ITEM_HEIGHT;
-  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-}
-
-function checkLoopEdges(wheelTrack, totalCount) {
-  const fullHeight = totalCount * WHEEL_ITEM_HEIGHT;
-  const halfHeight = fullHeight / 2;
-
-  if (wheelTrackOffsetY > halfHeight) {
-    wheelTrackOffsetY -= fullHeight;
-    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  } else if (wheelTrackOffsetY < -halfHeight) {
-    wheelTrackOffsetY += fullHeight;
-    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  }
-}
-
-function findCenterIndex(wheelTrack, totalCount) {
-  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
-  const cy = wheelInnerRect.height / 2;
-  let minDist = Infinity;
-  let centerI = -1;
-  for (let i = 0; i < totalCount; i++) {
-    const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
-    const dist = Math.abs(itemCenterY - cy);
-    if (dist < minDist) {
-      minDist = dist;
-      centerI = i;
-    }
-  }
-  return centerI;
-}
-
-function updateWheelLayout(wheelTrack, totalCount) {
-  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
-  const cy = wheelInnerRect.height / 2;
-  const items = wheelTrack.children;
-
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const itemYPos = wheelTrackOffsetY + i * WHEEL_ITEM_HEIGHT;
-    const itemCenterY = itemYPos + WHEEL_ITEM_HEIGHT / 2;
-    const dist = Math.abs(itemCenterY - cy);
-
-    const maxScale = 1.3;
-    const minScale = 0.8;
-    let scale = maxScale - (dist / cy) * 0.5;
-    scale = Math.max(minScale, Math.min(scale, maxScale));
-
-    item.style.transform = `scale(${scale})`;
-    item.style.opacity = String(0.5 + (scale - minScale));
-    item.classList.remove("active");
-  }
-
-  const cIndex = findCenterIndex(wheelTrack, totalCount);
-  if (cIndex >= 0 && items[cIndex]) {
-    items[cIndex].classList.add("active");
-  }
-}
-
-/* pointer/drag */
-function onWheelPointerDown(e) {
-  if (e.pointerType === 'mouse' && e.button !== 0) return;
-  isPointerDown = true;
-  hasDragged = false;
-
-  pointerDownX = e.clientX;
-  pointerDownY = e.clientY;
-  startPointerY = e.clientY;
-
-  lastPointerY = e.clientY;
-  lastMoveTime = performance.now();
-  flingVelocity = 0;
-  stopFlingAnimation();
-
-  pointerDownItem = e.target.closest(".wheel-item") || null;
-
-  clearTimeout(wheelSnapTimeout);
-  e.target.setPointerCapture(e.pointerId);
-}
-
-function onWheelPointerMove(e) {
-  if (!isPointerDown) return;
-
-  const now = performance.now();
-  const deltaTime = now - lastMoveTime;
-  lastMoveTime = now;
-
-  const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
-  if (!hasDragged && moveDist > TAP_THRESHOLD) {
-    hasDragged = true;
-  }
-
-  if (hasDragged) {
-    const deltaY = e.clientY - startPointerY;
-    startPointerY = e.clientY;
-
-    const wheelTrack = e.currentTarget;
-    wheelTrackOffsetY += deltaY;
-    wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-
-    updateWheelLayout(wheelTrack, wheelTrack.children.length);
-    checkLoopEdges(wheelTrack, wheelTrack.children.length);
-
-    const speedY = (e.clientY - lastPointerY) / (deltaTime || 1);
-    flingVelocity = speedY;
-    lastPointerY = e.clientY;
-  }
-}
-
-function onWheelPointerUp(e) {
-  if (!isPointerDown) return;
-  isPointerDown = false;
-  e.target.releasePointerCapture(e.pointerId);
-
-  const wheelTrack = e.currentTarget;
-  if (!hasDragged) {
-    // Tapped
-    const totalCount = wheelTrack.children.length;
-    const centerIdx = findCenterIndex(wheelTrack, totalCount);
-    const centerItem = wheelTrack.children[centerIdx];
-    if (centerItem && pointerDownItem && centerItem === pointerDownItem) {
-      openPoemFromCenterItem(centerItem);
-    }
-  } else {
-    // Possibly fling
-    if (snapEnabled) {
-      if (Math.abs(flingVelocity) > 0.1) {
-        startFlingAnimation();
-      } else {
-        wheelSnapTimeout = setTimeout(() => {
-          snapToClosestRow(wheelTrack);
-        }, 80);
-      }
-    }
-  }
-  flingVelocity = 0;
-}
-
-function openPoemFromCenterItem(itemEl) {
-  const folderName = itemEl.dataset.folderName;
-  const filename = itemEl.dataset.filename;
-  if (!folderName || !filename) {
-    console.error("No folderName or filename found", itemEl);
-    return;
-  }
-  const meta = poemsForWheel.find(m => m.filename === filename && m._folderName === folderName);
-  if (!meta) {
-    console.error("No matching metadata found for filename:", filename);
-    return;
-  }
-  fetchAndDisplayPoem(folderName, meta);
-}
-
-function snapToClosestRow(wheelTrack) {
-  const totalCount = wheelTrack.children.length;
-  const centerIndex = findCenterIndex(wheelTrack, totalCount);
-  if (centerIndex < 0) return;
-
-  const wheelInnerRect = wheelTrack.parentElement.getBoundingClientRect();
-  const cy = wheelInnerRect.height / 2;
-  const targetOffsetY = cy - (WHEEL_ITEM_HEIGHT / 2) - (centerIndex * WHEEL_ITEM_HEIGHT);
-  const distToCenter = targetOffsetY - wheelTrackOffsetY;
-
-  wheelTrackOffsetY += distToCenter;
-  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  updateWheelLayout(wheelTrack, totalCount);
-}
-
-/* mouse wheel */
-function onMouseWheelScroll(e) {
-  e.preventDefault();
-  const wheelTrack = this.querySelector("#wheel-track");
-  if (!wheelTrack) return;
-
-  const delta = Math.max(-1, Math.min(1, e.deltaY));
-  wheelTrackOffsetY += delta * -WHEEL_ITEM_HEIGHT;
-
-  wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-  updateWheelLayout(wheelTrack, wheelTrack.children.length);
-  checkLoopEdges(wheelTrack, wheelTrack.children.length);
-
-  if (!isPointerDown && snapEnabled) {
-    clearTimeout(wheelSnapTimeout);
-    stopFlingAnimation();
-    wheelSnapTimeout = setTimeout(() => {
-      snapToClosestRow(wheelTrack);
-    }, 80);
-  }
-}
-
-/* fling animation */
-function startFlingAnimation() {
-  stopFlingAnimation();
-  animationFrameID = requestAnimationFrame(function animate() {
-    wheelTrackOffsetY += flingVelocity;
-    flingVelocity *= decelerationFactor;
-
-    const wheelTrack = document.querySelector("#wheel-track");
-    if (wheelTrack) {
-      wheelTrack.style.transform = `translateY(${wheelTrackOffsetY}px)`;
-      updateWheelLayout(wheelTrack, wheelTrack.children.length);
-      checkLoopEdges(wheelTrack, wheelTrack.children.length);
-    }
-
-    if (Math.abs(flingVelocity) > 0.1) {
-      animationFrameID = requestAnimationFrame(animate);
-    } else {
-      stopFlingAnimation();
-      if (wheelTrack && snapEnabled) {
-        snapToClosestRow(wheelTrack);
-      }
-    }
+    container.appendChild(item);
   });
-}
 
-function stopFlingAnimation() {
-  if (animationFrameID) {
-    cancelAnimationFrame(animationFrameID);
-    animationFrameID = null;
-  }
+  // Close button logic
+  const closeBtn = overlay.querySelector("#poem-list-close-btn");
+  closeBtn.onclick = () => {
+    overlay.classList.remove("show");
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 400);
+  };
 }
 
 /* ------------------------------------------------------------------

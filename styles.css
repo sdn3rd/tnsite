@@ -24,11 +24,6 @@
 
     --menu-icon-size-desktop: 50px;
     --menu-icon-size-mobile: 40px;
-
-    /* Wheel Variables */
-    --wheel-item-height: 60px; /* Fixed height per poem line */
-    --wheel-marquee-min-height: 180px; /* 3 items * 60px */
-    --wheel-marquee-max-height: 70vh;   /* 70% of viewport */
 }
 
 /* Light Theme Variables */
@@ -274,7 +269,7 @@ body.menu-open .side-menu {
    CALENDAR STYLES
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 40px auto; /* 10px more (example) to push further down */
+  margin: 40px auto; /* push further down */
   max-width: 600px;
   padding: 20px;
   border: 1px solid var(--line-color);
@@ -297,9 +292,9 @@ body.menu-open .side-menu {
 }
 
 /* ------------------------------------------------------------------
-   INFINITE VERTICAL WHEEL OVERLAY
+   POEM LIST OVERLAY (FULL SCREEN, VERTICAL SCROLL IF NEEDED)
 ------------------------------------------------------------------ */
-#poem-wheel-overlay {
+#poem-list-overlay {
   display: none; /* hidden by default, .show => visible */
   position: fixed;
   top: 0;
@@ -311,67 +306,16 @@ body.menu-open .side-menu {
   z-index: 9998;
   opacity: 0;
   transition: opacity 0.4s ease;
-  overflow: hidden; /* no horizontal scroll visible */
+  overflow: hidden; /* We'll manage scroll in container */
 }
 
-#poem-wheel-overlay.show {
+#poem-list-overlay.show {
   display: block;
   opacity: 1;
 }
 
-/* Container for the wheel in the center */
-#wheel-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  max-width: 400px;
-  min-height: var(--wheel-marquee-min-height);
-  max-height: var(--wheel-marquee-max-height);
-  background: var(--background-color);
-  overflow: hidden;
-  border: 1px solid var(--line-color);
-  touch-action: none; /* crucial for mobile drags */
-}
-
-/* Track that scrolls vertically */
-#wheel-track {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transition: transform 0.2s ease; /* for snapping */
-}
-
-/* Styles for each poem item in the wheel */
-.wheel-item {
-  display: block; /* stacked vertically */
-  width: 100%;
-  height: var(--wheel-item-height);
-  line-height: var(--wheel-item-height);
-  text-align: center;
-  border-bottom: 1px solid var(--line-color);
-  cursor: pointer;
-  user-select: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 1rem;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  color: var(--text-color);
-}
-
-/* Visually highlight the item at center */
-.wheel-item.active {
-  font-weight: 900; /* Very Bold */
-  color: var(--text-color);
-  font-size: 1.3rem; /* Slightly larger */
-  background-color: #222; /* Subtle highlight */
-}
-
 /* Close Button */
-#wheel-close-btn {
+#poem-list-close-btn {
   position: absolute;
   top: 10px;
   right: 15px;
@@ -381,6 +325,35 @@ body.menu-open .side-menu {
   font-size: 1.5em;
   cursor: pointer;
   z-index: 10000;
+}
+
+/* Container that holds the list, centered if smaller than screen */
+#poem-list-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 80vh; /* allow some space */
+  width: 80%;
+  overflow-y: auto; /* scroll if too many items */
+  background-color: var(--background-color);
+  border: 1px solid var(--line-color);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Each poem title item */
+.poem-list-item {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--line-color);
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+  text-align: center;
+}
+
+.poem-list-item:hover {
+  background-color: var(--highlight-color);
 }
 
 /* ------------------------------------------------------------------
@@ -460,7 +433,7 @@ body.menu-open .side-menu {
     #poem-overlay-content {
         font-size: 1.2rem;
         max-width: 95%;
-        margin-top: 50px; /* Space from the top, adjust as needed */
+        margin-top: 50px; /* Space from the top */
     }
     #poem-overlay-title {
         margin-top: 50px;
@@ -503,7 +476,7 @@ body.menu-open .side-menu {
 }
 
 /* ------------------------------------------------------------------
-   FOOTER - center items except language button
+   FOOTER
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
