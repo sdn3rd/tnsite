@@ -55,14 +55,14 @@ body {
       background-color var(--transition-speed) ease,
       color var(--transition-speed) ease;
 
-    /* This margin-top helps on desktop, but we override on mobile below. */
+    /* Default margin-top for desktop */
     margin-top: 60px; 
 }
 
 @media (max-width: 768px) {
     body {
         font-size: 14px;
-        margin-top: 50px; /* on mobile, a bit less top margin */
+        margin-top: 50px; /* On mobile, a bit less top margin */
     }
 }
 
@@ -78,7 +78,7 @@ body {
 ------------------------------------------------------------------ */
 #menu-icon-container {
     position: fixed;
-    top: 20px;   /* Aligned with other top icons */
+    top: 20px;   
     left: 10px;
     z-index: 1006;
     cursor: pointer;
@@ -98,7 +98,7 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   POETRY ICONS
+   POETRY ICONS (TOP)
    - Centered on DESKTOP, bigger than hamburger, grow on hover
    - On MOBILE, revert to old position (next to hamburger, smaller)
 ------------------------------------------------------------------ */
@@ -106,7 +106,7 @@ body {
     position: fixed;
     top: 20px;
     z-index: 1006;
-    display: none; /* shown only in Poetry section by script */
+    display: none; /* Shown only in Poetry section by script */
     gap: 5px;
 }
 
@@ -132,7 +132,7 @@ body {
 @media (max-width: 768px) {
     #poetry-icons {
         display: flex;
-        left: 70px; /* old offset next to hamburger */
+        left: 70px;
         transform: none;
     }
     #poetry-icons img {
@@ -148,7 +148,7 @@ body {
 
 /* ------------------------------------------------------------------
    LANGUAGE TOGGLE (BOTTOM-RIGHT)
-   - Remains fixed, separate from footer, so that footer can be centered
+   - Remains fixed, separate from footer
 ------------------------------------------------------------------ */
 #language-toggle {
     position: fixed;
@@ -176,8 +176,9 @@ body {
 
 /* ------------------------------------------------------------------
    SIDE MENU (LEFT)
-   - On mobile (max-width: 768px), uses side-menu-width-mobile: 50px.
-   - No changes from your previous side menu, no Mac bar effect here.
+   - On mobile, 50px wide with icons+text stacked
+   - On desktop, 15% wide. Now we also stack icon+text (like mobile),
+     but with BIGGER icons (60px). 
 ------------------------------------------------------------------ */
 .side-menu {
     position: fixed;
@@ -218,50 +219,50 @@ body.menu-open .side-menu {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* icon above text */
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
     border-radius: 5px;
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
     width: 100%;
     box-sizing: border-box;
+    padding: 10px 0;
 }
 
+/* Hover highlight for side menu items */
 .side-menu a:hover {
     background-color: var(--highlight-color);
 }
 
+/* Base icon size for mobile */
 .side-menu-icon {
     width: 32px;
     height: 32px;
-    margin-right: 8px;
     transition: transform var(--transition-speed) ease;
+    margin: 0 auto 5px auto; /* center the icon, small gap below */
 }
 
 .menu-text {
-    font-size: 1em;
-    white-space: nowrap;
+    font-size: 0.9em; 
+    white-space: normal;
     font-weight: 500;
+    margin: 0; /* no extra margin above/below */
 }
 
-/* Mobile side menu */
+/* MOBILE side menu: 50px wide, icons 32x32, text below icon */
 @media (max-width: 768px) {
     .side-menu {
         width: var(--side-menu-width-mobile); /* 50px */
         padding-left: 0;
         padding-top: 70px; /* so top item isn't behind hamburger */
     }
-    .side-menu a {
-        flex-direction: column;
-    }
+}
+
+/* DESKTOP side menu: icons bigger, e.g. 60x60, text below icon */
+@media (min-width: 769px) {
     .side-menu-icon {
-        margin: 0 auto 5px auto; /* center icon */
-    }
-    .menu-text {
-        margin-top: 0;
-        font-size: 0.8em;
-        white-space: normal;
+        width: 60px;
+        height: 60px;
     }
 }
 
@@ -302,12 +303,10 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    CALENDAR STYLES
-   - On DESKTOP, push the calendar further down to avoid overlapping
-     with the new center-top icons.
-   - On MOBILE, a smaller margin to avoid collisions with the hamburger/icons.
+   - Enough top margin so the calendar is below the top icons
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 40px auto; /* base margin on desktop, overridden below */
+  margin: 40px auto; /* base margin, overridden by breakpoints */
   max-width: 600px;
   padding: 20px;
   border: 1px solid var(--line-color);
@@ -318,13 +317,13 @@ body.menu-open .side-menu {
 
 @media (max-width: 768px) {
   .calendar-container {
-    margin-top: 90px; /* Enough space to clear hamburger + icons on mobile */
+    margin-top: 90px; /* Enough space to clear hamburger & icons on mobile */
   }
 }
 
 @media (min-width: 769px) {
   .calendar-container {
-    margin-top: 150px; /* Large top margin so it sits well below top icons */
+    margin-top: 150px; /* Larger margin on desktop for big top icons */
   }
 }
 
@@ -345,7 +344,7 @@ body.menu-open .side-menu {
    POEM LIST OVERLAY (FULL SCREEN, VERTICAL SCROLL IF NEEDED)
 ------------------------------------------------------------------ */
 #poem-list-overlay {
-  display: none; /* hidden by default, .show => visible */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -383,9 +382,9 @@ body.menu-open .side-menu {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: 80vh; /* allow some space */
+  max-height: 80vh;
   width: 80%;
-  overflow-y: auto; /* scroll if too many items */
+  overflow-y: auto;
   background-color: var(--background-color);
   border: 1px solid var(--line-color);
   padding: 20px;
@@ -478,12 +477,12 @@ body.menu-open .side-menu {
         max-height: none;
         border-radius: 0;
         box-shadow: none;
-        justify-content: flex-start; /* Align content to the top */
+        justify-content: flex-start;
     }
     #poem-overlay-content {
         font-size: 1.2rem;
         max-width: 95%;
-        margin-top: 50px; /* Space from the top */
+        margin-top: 50px;
     }
     #poem-overlay-title {
         margin-top: 50px;
@@ -494,7 +493,7 @@ body.menu-open .side-menu {
     }
 }
 
-/* Landscape Orientation Styles (Desktop and Landscape Mobile) */
+/* Landscape Orientation Styles */
 @media (orientation: landscape) {
     #poem-reading-overlay {
         position: fixed;
@@ -506,7 +505,6 @@ body.menu-open .side-menu {
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-        /* Center in landscape mode */
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -527,8 +525,8 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
-   - The icons/text in the footer are fully centered horizontally
-     on ALL devices. The #language-toggle is separate at bottom-right.
+   - The icons/text in the footer are fully centered horizontally.
+   - #language-toggle is pinned at bottom-right, separate.
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
@@ -540,7 +538,7 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: center; /* center contents horizontally */
+    justify-content: center; /* center the contents horizontally */
     z-index: 1004;
     gap: 20px;
     padding-bottom: 5px;
