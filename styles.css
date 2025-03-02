@@ -110,7 +110,7 @@ body {
     top: 20px;
     z-index: 1006;
     display: none; /* Shown only in Poetry section by script */
-    gap: 5px;
+    gap: 20px; /* Increased spacing between icons */
 }
 
 /* Desktop: horizontally center at the top, bigger icons, scale on hover */
@@ -137,6 +137,7 @@ body {
         display: flex;
         left: 70px;
         transform: none;
+        gap: 15px; /* Slightly smaller gap on mobile but still noticeable */
     }
     #poetry-icons img {
         width: 40px;
@@ -525,8 +526,8 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
-   - The icons/text in the footer are fully centered horizontally.
-   - #language-toggle is pinned at bottom-right, separate.
+   - Trademark and social icons centered
+   - ITA button right-justified
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
@@ -538,10 +539,29 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: center; /* center the contents horizontally */
+    justify-content: space-between; /* Changed to space-between to allow right alignment */
     z-index: 1004;
+    padding: 0 20px 5px 20px; /* Added horizontal padding */
+}
+
+/* New container for centered elements */
+.footer-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
-    padding-bottom: 5px;
+    flex-grow: 1; /* Allow it to take available space */
+}
+
+/* Empty div to balance the space on the left if needed */
+.footer-left {
+    width: 50px; /* Approximate width to balance the right element */
+}
+
+/* Container for right-aligned element(s) */
+.footer-right {
+    display: flex;
+    align-items: center;
 }
 
 #main-footer img {
@@ -559,4 +579,19 @@ body.menu-open .side-menu {
 #main-footer span {
     font-size: 0.9rem;
     margin-left: 10px;
+}
+
+/* Mobile tweaks for footer */
+@media (max-width: 768px) {
+    #main-footer {
+        padding: 0 10px 5px 10px; /* Smaller padding on mobile */
+    }
+    
+    .footer-left {
+        width: 30px; /* Smaller width on mobile */
+    }
+    
+    .footer-center {
+        gap: 15px; /* Smaller gap between icons on mobile */
+    }
 }
