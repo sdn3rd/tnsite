@@ -55,14 +55,14 @@ body {
       background-color var(--transition-speed) ease,
       color var(--transition-speed) ease;
 
-    /* Keep top space for hamburger & icons on desktop. */
+    /* This margin-top helps on desktop, but we override on mobile below. */
     margin-top: 60px; 
 }
 
 @media (max-width: 768px) {
     body {
         font-size: 14px;
-        margin-top: 50px; /* On mobile, a bit less top margin. */
+        margin-top: 50px; /* on mobile, a bit less top margin */
     }
 }
 
@@ -148,7 +148,7 @@ body {
 
 /* ------------------------------------------------------------------
    LANGUAGE TOGGLE (BOTTOM-RIGHT)
-   - Remains fixed, separate from footer, so that footer can center
+   - Remains fixed, separate from footer, so that footer can be centered
 ------------------------------------------------------------------ */
 #language-toggle {
     position: fixed;
@@ -175,9 +175,9 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   SIDE MENU
+   SIDE MENU (LEFT)
    - On mobile (max-width: 768px), uses side-menu-width-mobile: 50px.
-   - No "Mac bar" effect here (unchanged).
+   - No changes from your previous side menu, no Mac bar effect here.
 ------------------------------------------------------------------ */
 .side-menu {
     position: fixed;
@@ -302,9 +302,12 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    CALENDAR STYLES
+   - On DESKTOP, push the calendar further down to avoid overlapping
+     with the new center-top icons.
+   - On MOBILE, a smaller margin to avoid collisions with the hamburger/icons.
 ------------------------------------------------------------------ */
 .calendar-container {
-  margin: 40px auto; /* base margin on desktop */
+  margin: 40px auto; /* base margin on desktop, overridden below */
   max-width: 600px;
   padding: 20px;
   border: 1px solid var(--line-color);
@@ -313,10 +316,15 @@ body.menu-open .side-menu {
   text-align: center;
 }
 
-/* Extra margin on mobile so it doesn't collide with top icons */
 @media (max-width: 768px) {
   .calendar-container {
-    margin-top: 80px; /* increase if you need more space from top icons */
+    margin-top: 90px; /* Enough space to clear hamburger + icons on mobile */
+  }
+}
+
+@media (min-width: 769px) {
+  .calendar-container {
+    margin-top: 150px; /* Large top margin so it sits well below top icons */
   }
 }
 
@@ -519,8 +527,8 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
-   - The icons/text in the footer itself are fully centered.
-   - #language-toggle is fixed at bottom-right, so it doesn't interfere.
+   - The icons/text in the footer are fully centered horizontally
+     on ALL devices. The #language-toggle is separate at bottom-right.
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
