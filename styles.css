@@ -20,14 +20,14 @@
     --side-menu-width-desktop: 15%;
 
     /*
-      Increased default mobile width for the side menu
-      so icons can be horizontally centered more comfortably.
+      Narrower side menu on mobile, aligned with the hamburger button's width
     */
-    --side-menu-width-mobile: 80px;
+    --side-menu-width-mobile: 50px;
 
     --section-text-align-desktop: left;
     --section-text-align-mobile: left;
 
+    /* Sizes for the hamburger and top icons */
     --menu-icon-size-desktop: 50px;
     --menu-icon-size-mobile: 40px;
 }
@@ -57,14 +57,16 @@ body {
       background-color var(--transition-speed) ease,
       color var(--transition-speed) ease;
 
-    /* Keep top space for the hamburger. Adjust if you want more on desktop. */
+    /* Keep top space for hamburger & icons on desktop. */
     margin-top: 60px; 
 }
 
 @media (max-width: 768px) {
     body {
         font-size: 14px;
-        margin-top: 50px; /* You can raise this if you want more top space on mobile */
+        /* Keep some margin-top for the hamburger on mobile, but
+           we will manually position it further down to align. */
+        margin-top: 50px;
     }
 }
 
@@ -76,10 +78,11 @@ body {
 
 /* ------------------------------------------------------------------
    HAMBURGER MENU (TOP-LEFT)
+   - Align top: 20px so it matches the other icons
 ------------------------------------------------------------------ */
 #menu-icon-container {
     position: fixed;
-    top: 10px;
+    top: 20px;   /* Aligned with other top icons */
     left: 10px;
     z-index: 1006;
     cursor: pointer;
@@ -100,11 +103,11 @@ body {
 
 /* ------------------------------------------------------------------
    POETRY ICONS (TOP, NEXT TO HAMBURGER)
-   We'll add extra spacing in mobile so they aren't too close to the calendar.
+   - Also top: 20px, so they line up horizontally
 ------------------------------------------------------------------ */
 #poetry-icons {
     position: fixed;
-    top: 10px;
+    top: 20px;
     left: 70px; /* space after hamburger icon */
     z-index: 1006;
     display: none; /* show only in Poetry section */
@@ -122,13 +125,6 @@ body {
 #poetry-icons img:hover {
     transform: scale(1.1);
     opacity: 0.9;
-}
-
-@media (max-width: 768px) {
-    /* Move icons a bit further down on mobile */
-    #poetry-icons {
-        top: 20px;
-    }
 }
 
 /* ------------------------------------------------------------------
@@ -160,6 +156,8 @@ body {
 
 /* ------------------------------------------------------------------
    SIDE MENU
+   - On mobile (max-width: 768px), we use side-menu-width-mobile: 50px.
+   - Center icons in that narrow column.
 ------------------------------------------------------------------ */
 .side-menu {
     position: fixed;
@@ -227,10 +225,13 @@ body.menu-open .side-menu {
     font-weight: 500;
 }
 
-/* Mobile adjustments to center icons in the side menu more nicely */
+/* Mobile adjustments to keep side menu from going further
+   than the hamburger's width, and center icons. */
 @media (max-width: 768px) {
     .side-menu {
-        width: var(--side-menu-width-mobile);
+        width: var(--side-menu-width-mobile); /* 50px */
+        padding-left: 0;
+        padding-top: 70px; /* so the top item isn't hidden behind hamburger */
     }
     .side-menu a {
         flex-direction: column;
@@ -238,7 +239,7 @@ body.menu-open .side-menu {
         align-items: center;
     }
     .side-menu-icon {
-        margin: 0 auto 5px auto; /* center the icon, small bottom gap */
+        margin: 0 auto 5px auto; /* center the icon, small gap below */
     }
     .menu-text {
         margin-top: 0;
@@ -295,10 +296,10 @@ body.menu-open .side-menu {
   text-align: center;
 }
 
-/* Add extra margin on mobile so it doesn't collide with top icons */
+/* Extra margin on mobile so it doesn't collide with top icons */
 @media (max-width: 768px) {
   .calendar-container {
-    margin-top: 80px; /* increase as desired */
+    margin-top: 80px; /* increase if you need more space from top icons */
   }
 }
 
