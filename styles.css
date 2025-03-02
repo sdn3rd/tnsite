@@ -19,9 +19,7 @@
     /* Desktop side menu width */
     --side-menu-width-desktop: 15%;
 
-    /*
-      Narrower side menu on mobile, aligned with the hamburger button's width
-    */
+    /* Narrower side menu on mobile (aligned to hamburger size) */
     --side-menu-width-mobile: 50px;
 
     --section-text-align-desktop: left;
@@ -64,9 +62,7 @@ body {
 @media (max-width: 768px) {
     body {
         font-size: 14px;
-        /* Keep some margin-top for the hamburger on mobile, but
-           we will manually position it further down to align. */
-        margin-top: 50px;
+        margin-top: 50px; /* On mobile, a bit less top margin. */
     }
 }
 
@@ -157,7 +153,7 @@ body {
 /* ------------------------------------------------------------------
    SIDE MENU
    - On mobile (max-width: 768px), we use side-menu-width-mobile: 50px.
-   - Center icons in that narrow column.
+   - We'll apply a "Mac bar" type effect on desktop hover, with bigger icons.
 ------------------------------------------------------------------ */
 .side-menu {
     position: fixed;
@@ -198,9 +194,9 @@ body.menu-open .side-menu {
     color: var(--text-color);
     text-decoration: none;
     display: flex;
-    flex-direction: row; /* icon + text side by side (desktop) */
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* horizontally center on desktop by default */
     padding: 10px 0;
     border-radius: 5px;
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
@@ -210,13 +206,14 @@ body.menu-open .side-menu {
 
 .side-menu a:hover {
     background-color: var(--highlight-color);
-    transform: scale(1.05);
+    /* We'll do the 'Mac bar' icon growth in a separate rule below */
 }
 
 .side-menu-icon {
     width: 32px;
     height: 32px;
     margin-right: 8px;
+    transition: transform var(--transition-speed) ease; /* for scaling */
 }
 
 .menu-text {
@@ -225,8 +222,21 @@ body.menu-open .side-menu {
     font-weight: 500;
 }
 
+/* Mac Bar Hover & Larger Icons on Desktop Only */
+@media (min-width: 769px) {
+    /* Increase icon size so they're bigger than hamburger (50px) */
+    .side-menu-icon {
+        width: 60px;
+        height: 60px;
+    }
+    /* On hover, scale them further like a Mac bar */
+    .side-menu a:hover .side-menu-icon {
+        transform: scale(1.2);
+    }
+}
+
 /* Mobile adjustments to keep side menu from going further
-   than the hamburger's width, and center icons. */
+   than the hamburger's width, and to center icons in that column. */
 @media (max-width: 768px) {
     .side-menu {
         width: var(--side-menu-width-mobile); /* 50px */
@@ -235,8 +245,6 @@ body.menu-open .side-menu {
     }
     .side-menu a {
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
     .side-menu-icon {
         margin: 0 auto 5px auto; /* center the icon, small gap below */
@@ -502,6 +510,9 @@ body.menu-open .side-menu {
 
 /* ------------------------------------------------------------------
    FOOTER
+   - Ensure footer items are centered horizontally.
+   - We'll wrap them in an optional .footer-content container
+     so that on mobile they remain visually centered.
 ------------------------------------------------------------------ */
 #main-footer {
     position: fixed;
@@ -513,7 +524,7 @@ body.menu-open .side-menu {
     border-top: 1px solid var(--line-color);
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the icons & text */
+    justify-content: center; /* center contents horizontally */
     z-index: 1004;
     gap: 20px;
     padding-bottom: 5px;
